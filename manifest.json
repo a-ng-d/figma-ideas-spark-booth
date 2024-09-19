@@ -1,0 +1,39 @@
+{
+  "name": "Ideas Brainstorming Booth",
+  "id": "1390404737632443408",
+  "api": "1.0.0",
+  "editorType": [
+    "figjam"
+  ],
+  "relaunchButtons": [
+  ],
+  "permissions": [
+    "payments",
+    "currentuser"
+  ],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://figma.com",
+      "https://*.figma.com",
+      "https://rsms.me",
+      "https://www.gravatar.com",
+      "https://*.wp.com",
+      "https://tally.so",
+      "https://corsproxy.io",
+      "https://zclweepgvqkrelyfwhma.supabase.co",
+      "https://*.yelbolt.workers.dev",
+      "https://*.mixpanel.com",
+      "https://asset.brandfetch.io",
+      "https://*.sentry.io",
+      "https://*.amazonaws.com"
+    ],
+    "devAllowedDomains": [
+      "http://localhost:3000",
+      "http://localhost:8787",
+      "http://localhost:8888"
+    ]
+  },
+  "main": "dist/code.js",
+  "ui": "dist/ui.html"
+}
