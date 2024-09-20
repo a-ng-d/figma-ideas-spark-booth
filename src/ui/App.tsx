@@ -53,7 +53,6 @@ export interface AppStates {
   userConsent: Array<ConsentConfiguration>
   priorityContainerContext: PriorityContext
   lang: Language
-  figmaUserId: string
   mustUserConsent: boolean
   highlight: HighlightDigest
   isLoaded: boolean
@@ -101,9 +100,9 @@ class App extends React.Component<Record<string, never>, AppStates> {
         isShared: false,
       },
       userIdentity: {
-        userFullName: '',
-        userAvatar: '',
-        userId: '',
+        fullName: '',
+        avatar: '',
+        id: '',
       },
       priorityContainerContext: 'EMPTY',
       lang: 'en-US',
@@ -116,7 +115,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
         refreshToken: undefined,
       },
       userConsent: userConsent,
-      figmaUserId: '',
       mustUserConsent: true,
       highlight: {
         version: '',
@@ -218,9 +216,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
             e.data.pluginMessage.data.accessToken,
             e.data.pluginMessage.data.refreshToken
           )
-          this.setState({
-            figmaUserId: e.data.pluginMessage.id,
-          })
         }
 
         const checkUserConsent = () =>
@@ -257,9 +252,9 @@ class App extends React.Component<Record<string, never>, AppStates> {
         const getUserIdentity = () =>
           this.setState({
             userIdentity: {
-              userFullName: e.data.pluginMessage.data.userFullName,
-              userId: e.data.pluginMessage.data.userId,
-              userAvatar: e.data.pluginMessage.data.userAvatar,
+              fullName: e.data.pluginMessage.data.userFullName,
+              avatar: e.data.pluginMessage.data.userAvatar,
+              id: e.data.pluginMessage.data.userId,
             },
           })
 

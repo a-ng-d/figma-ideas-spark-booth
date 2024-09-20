@@ -12,6 +12,7 @@ import React from 'react'
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
+import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
@@ -22,10 +23,10 @@ interface ShortcutsProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
+  userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   lang: Language
-  figmaUserId: string
   onReOpenFeedback: () => void
   onReOpenTrialFeedback: () => void
   onReOpenHighlight: () => void
@@ -183,7 +184,7 @@ export default class Shortcuts extends React.Component<
                                   '*'
                                 )
                                 trackSignOutEvent(
-                                  this.props.figmaUserId,
+                                  this.props.userIdentity.id,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'
                                   )?.isConsented ?? false
@@ -241,7 +242,7 @@ export default class Shortcuts extends React.Component<
                             signIn()
                               .then(() => {
                                 trackSignInEvent(
-                                  this.props.figmaUserId,
+                                  this.props.userIdentity.id,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'
                                   )?.isConsented ?? false

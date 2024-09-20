@@ -21,6 +21,7 @@ import {
   PriorityContext,
   TrialStatus,
 } from '../../types/app'
+import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
@@ -35,10 +36,10 @@ interface PriorityContainerProps {
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   trialStatus: TrialStatus
+  userIdentity: UserConfiguration
   userSession: UserSession
   highlight: HighlightDigest
   lang: Language
-  figmaUserId: string
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler & (() => void)
 }

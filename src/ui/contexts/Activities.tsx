@@ -1,5 +1,4 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import { remove } from 'jszip'
 import React from 'react'
 import { uid } from 'uid'
 

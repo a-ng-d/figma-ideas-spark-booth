@@ -51,14 +51,26 @@ export interface PublicationConfiguration {
 }
 
 export interface UserConfiguration {
-  userFullName: string
-  userAvatar: string
-  userId: string
+  fullName: string
+  avatar: string
+  id: string
+}
+
+export interface AnimatorConfiguration {
+  fullName: string
+  avatar: string
+  id: string
+}
+
+export interface CreatorConfiguration {
+  fullName: string
+  avatar: string
+  id: string
 }
 
 export interface MetaConfiguration {
   id: string
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
-  creatorIdentity: UserConfiguration
+  creatorIdentity: CreatorConfiguration
 }
