@@ -53,7 +53,7 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
             (activity: ActivityConfiguration, index) => (
               <ActionsItem
                 key={index}
-                id={activity.id}
+                id={activity.meta.id}
                 name={activity.name}
                 description={activity.description}
                 complement={
@@ -92,7 +92,7 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
                       icon="adjust"
                       feature="CONFIGURE_ACTIVITY"
                       action={() =>
-                        this.props.onOpenActivitySettings(activity.id)
+                        this.props.onOpenActivitySettings(activity.meta.id)
                       }
                     />
                   </>

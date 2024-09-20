@@ -61,7 +61,6 @@ export default class Activities extends React.Component<
       this.activitiesMessage.data = this.props.activities
       this.activitiesMessage.data.push({
         name: `${locals[this.props.lang].activities.newActivity} ${hasAlreadyNewActivity.length + 1}`,
-        id: uid(),
         description: '',
         instructions: '',
         groupedBy: 'PARTICIPANT',
@@ -77,29 +76,31 @@ export default class Activities extends React.Component<
             id: uid(),
           },
         ],
-        isEnabled: false,
-        publicationStatus: {
-          isPublished: false,
-          isShared: false,
+        meta: {
+          id: uid(),
+          publicationStatus: {
+            isPublished: false,
+            isShared: false,
+          },
+          dates: {
+            createdAt: new Date().toISOString(),
+            updatedAt: '',
+            publishedAt: '',
+          },
+          creatorIdentity: {
+            fullName: '',
+            avatar: '',
+            id: '',
+          },
         },
-        date: {
-          createdAt: new Date().toISOString(),
-          updatedAt: '',
-          publishedAt: '',
-        },
-        creatorIdentity: {
-          userFullName: '',
-          userId: '',
-          userAvatar: '',
-        },
-      })
+      } as ActivityConfiguration)
 
       return sendData()
     }
 
     const removeActivity = () => {
       this.activitiesMessage.data = this.props.activities.filter(
-        (activity) => activity.id !== this.state.openedActivity
+        (activity) => activity.meta.id !== this.state.openedActivity
       )
 
       this.setState({
@@ -116,7 +117,7 @@ export default class Activities extends React.Component<
       )
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity)
           item.name =
             hasSameName.length > 1
               ? currentElement.value + ' 2'
@@ -129,7 +130,7 @@ export default class Activities extends React.Component<
 
     const updateDescription = () => {
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity)
           item.description = currentElement.value
         return item
       })
@@ -139,7 +140,7 @@ export default class Activities extends React.Component<
 
     const updateInstructions = () => {
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity)
           item.instructions = currentElement.value
         return item
       })
@@ -149,7 +150,7 @@ export default class Activities extends React.Component<
 
     const updateGroupedBy = () => {
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity)
           item.groupedBy = currentElement.dataset.value as
             | 'PARTICIPANT'
             | 'NOTE_TYPE'
@@ -166,7 +167,8 @@ export default class Activities extends React.Component<
       Number.isNaN(minutes) ? (minutes = 0) : minutes
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.id === this.state.openedActivity) item.timer.minutes = minutes
+        if (item.meta.id === this.state.openedActivity)
+          item.timer.minutes = minutes
         return item
       })
 
@@ -180,7 +182,7 @@ export default class Activities extends React.Component<
       Number.isNaN(secondes) ? (secondes = 0) : secondes
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.id === this.state.openedActivity) {
+        if (item.meta.id === this.state.openedActivity) {
           item.timer.seconds = secondes
           item.timer.minutes === 0
             ? (item.timer.seconds = 30)
@@ -219,7 +221,7 @@ export default class Activities extends React.Component<
 
   noteTypesHandler = (noteTypes: Array<NoteConfiguration>) => {
     this.activitiesMessage.data = this.props.activities.map((activity) => {
-      if (activity.id === this.state.openedActivity)
+      if (activity.meta.id === this.state.openedActivity)
         activity.noteTypes = noteTypes
       return activity
     })
@@ -257,7 +259,7 @@ export default class Activities extends React.Component<
           <Settings
             activity={
               this.props.activities.find(
-                (activity) => activity.id === this.state.openedActivity
+                (activity) => activity.meta.id === this.state.openedActivity
               ) as ActivityConfiguration
             }
             {...this.props}

@@ -2,16 +2,12 @@ import { HexModel } from '@a_ng_d/figmug-ui'
 
 export interface ActivityConfiguration {
   name: string
-  id: string
   description: string
   instructions: string
   groupedBy: GroupedBy
   timer: TimerConfiguration
   noteTypes: Array<NoteConfiguration>
-  isEnabled: boolean
-  date: DatesConfiguration
-  publicationStatus: PublicationConfiguration
-  creatorIdentity: UserConfiguration
+  meta: MetaConfiguration
 }
 
 export type GroupedBy = 'PARTICIPANT' | 'NOTE_TYPE'

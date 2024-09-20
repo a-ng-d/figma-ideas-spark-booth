@@ -1,11 +1,11 @@
 import { uid } from 'uid'
 
 import { lang, locals } from '../content/locals'
+import { ActivityConfiguration } from '../types/configurations'
 import { yellowColor } from './config'
 
-export const defaultActivity = {
+export const defaultActivity: ActivityConfiguration = {
   name: 'Classic Brainstorming',
-  id: uid(),
   description: 'A classic session with a batch of yellow notes',
   instructions:
     'Write down your ideas and feedback on the following yellow note',
@@ -22,19 +22,21 @@ export const defaultActivity = {
       id: uid(),
     },
   ],
-  isEnabled: false,
-  publicationStatus: {
-    isPublished: false,
-    isShared: false,
-  },
-  date: {
-    createdAt: new Date().toISOString(),
-    updatedAt: '',
-    publishedAt: '',
-  },
-  creatorIdentity: {
-    creatorFullName: 'Ideas Brainstorming Booth',
-    creatorId: uid(),
-    creatorAvatar: '',
+  meta: {
+    id: uid(),
+    publicationStatus: {
+      isPublished: false,
+      isShared: false,
+    },
+    dates: {
+      createdAt: new Date().toISOString(),
+      updatedAt: '',
+      publishedAt: '',
+    },
+    creatorIdentity: {
+      fullName: '',
+      id: '',
+      avatar: '',
+    },
   },
 }
