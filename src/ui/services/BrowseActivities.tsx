@@ -66,7 +66,7 @@ export default class BrowseActivities extends React.Component<
     return (
       <>
         <Bar
-          leftPart={
+          leftPartSlot={
             <Tabs
               tabs={this.contexts}
               active={this.state.context ?? ''}

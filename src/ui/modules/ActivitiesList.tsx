@@ -56,7 +56,7 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
                 id={activity.meta.id}
                 name={activity.name}
                 description={activity.description}
-                complement={
+                complementSlot={
                   <div
                     style={{
                       display: 'flex',
@@ -78,7 +78,7 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
                     ))}
                   </div>
                 }
-                actions={
+                actionsSlot={
                   <>
                     <span
                       className={`${texts.type} ${texts['type--secondary']} type`}

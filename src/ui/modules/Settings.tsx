@@ -5,8 +5,8 @@ import {
   FormItem,
   Input,
   SectionTitle,
+  SortableList,
   layouts,
-  texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
@@ -37,7 +37,6 @@ import features, {
 } from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
-import NoteTypeItem from '../components/NoteTypeItem'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -109,7 +108,7 @@ export default class Settings extends React.Component<
   noteTypeHandler = (e: any) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
-        '.list__item'
+        '.draggable-item'
       ),
       currentElement: HTMLInputElement = e.currentTarget
 
@@ -126,13 +125,6 @@ export default class Settings extends React.Component<
         color: 'YELLOW',
         hex: yellowColor,
         id: uid(),
-      })
-      this.props.onChangeNoteTypes(noteTypes)
-    }
-
-    const removeNoteType = () => {
-      const noteTypes = this.props.activity.noteTypes.filter((noteType) => {
-        return noteType.id !== id
       })
       this.props.onChangeNoteTypes(noteTypes)
     }
@@ -175,7 +167,6 @@ export default class Settings extends React.Component<
 
     const actions: ActionsList = {
       ADD_NOTE_TYPE: () => addNoteType(),
-      REMOVE_NOTE_TYPE: () => removeNoteType(),
       RENAME_NOTE_TYPE: () => renameNoteType(),
       UPDATE_NOTE_TYPE_COLOR: () => updateNoteTypeColor(),
       NULL: () => null,
@@ -184,75 +175,8 @@ export default class Settings extends React.Component<
     return actions[currentElement.dataset.feature ?? 'NULL']?.()
   }
 
-  orderHandler = () => {
-    const source: SelectedColor = this.state.selectedElement,
-      target: HoveredColor = this.state.hoveredElement,
-      noteTypes = this.props.activity.noteTypes.map((el) => el)
-
-    let position: number
-
-    const noteTypesWithoutSource = noteTypes.splice(source.position, 1)[0]
-
-    if (target.hasGuideAbove && target.position > source.position)
-      position = target.position - 1
-    else if (target.hasGuideBelow && target.position > source.position)
-      position = target.position
-    else if (target.hasGuideAbove && target.position < source.position)
-      position = target.position
-    else if (target.hasGuideBelow && target.position < source.position)
-      position = target.position + 1
-    else position = target.position
-
-    noteTypes.splice(position, 0, noteTypesWithoutSource)
+  onChangeOrder = (noteTypes: Array<NoteConfiguration>) => {
     this.props.onChangeNoteTypes(noteTypes)
-  }
-
-  selectionHandler: React.MouseEventHandler<HTMLLIElement> &
-    React.MouseEventHandler<Element> &
-    React.FocusEventHandler<HTMLInputElement> = (e) => {
-    const target = e.currentTarget as HTMLElement
-    const targetChildren = e.target as HTMLElement
-    if (
-      targetChildren.dataset.feature !== undefined ||
-      targetChildren.getAttribute('role') === 'dropdown-button'
-    )
-      return
-    this.setState({
-      selectedElement: {
-        id: target.dataset.id,
-        position: parseFloat(target.dataset.position ?? '0'),
-      },
-    })
-  }
-
-  dragHandler = (
-    id: string | undefined,
-    hasGuideAbove: boolean,
-    hasGuideBelow: boolean,
-    position: number
-  ) => {
-    this.setState({
-      hoveredElement: {
-        id: id,
-        hasGuideAbove: hasGuideAbove,
-        hasGuideBelow: hasGuideBelow,
-        position: position,
-      },
-    })
-  }
-
-  dropOutsideHandler = (e: React.DragEvent<HTMLLIElement>) => {
-    const target = e.target,
-      parent: ParentNode =
-        (target as HTMLElement).parentNode ?? (target as HTMLElement),
-      scrollY: number = (parent.parentNode?.parentNode as HTMLElement)
-        .scrollTop,
-      parentRefTop: number = (parent as HTMLElement).offsetTop,
-      parentRefBottom: number =
-        parentRefTop + (parent as HTMLElement).clientHeight
-
-    if (e.pageY + scrollY < parentRefTop) this.orderHandler()
-    else if (e.pageY + scrollY > parentRefBottom) this.orderHandler()
   }
 
   // Templates
@@ -657,38 +581,182 @@ export default class Settings extends React.Component<
               />
             </div>
           </div>
-          <ul
-            className={[layouts['stackbar']].filter((n) => n).join(' ')}
-            ref={this.listRef}
-          >
-            {this.props.activity.noteTypes.map((noteType, index) => (
-              <NoteTypeItem
-                key={index}
-                index={index}
-                noteType={noteType}
-                {...this.props}
-                selected={
-                  this.state.selectedElement.id === noteType.id ? true : false
-                }
-                guideAbove={
-                  this.state.hoveredElement.id === noteType.id
-                    ? this.state.hoveredElement.hasGuideAbove
-                    : false
-                }
-                guideBelow={
-                  this.state.hoveredElement.id === noteType.id
-                    ? this.state.hoveredElement.hasGuideBelow
-                    : false
-                }
-                onChangeNoteType={this.noteTypeHandler}
-                onChangeSelection={this.selectionHandler}
-                onCancellationSelection={this.selectionHandler}
-                onDragChange={this.dragHandler}
-                onDropOutside={(e) => this.dropOutsideHandler(e)}
-                onChangeOrder={this.orderHandler}
-              />
-            ))}
-          </ul>
+          <SortableList
+            data={this.props.activity.noteTypes as Array<NoteConfiguration>}
+            primarySlot={this.props.activity.noteTypes.map(
+              (noteType, index) => (
+                <>
+                  <Feature
+                    isActive={
+                      features.find(
+                        (feature) =>
+                          feature.name === 'SETTINGS_NOTE_TYPES_RENAME'
+                      )?.isActive
+                    }
+                  >
+                    <div className="list__item__param--compact">
+                      <Input
+                        type="TEXT"
+                        value={noteType.name}
+                        charactersLimit={24}
+                        feature="RENAME_NOTE_TYPE"
+                        onBlur={this.noteTypeHandler}
+                        onConfirm={this.noteTypeHandler}
+                      />
+                    </div>
+                  </Feature>
+                  <Feature
+                    isActive={
+                      features.find(
+                        (feature) =>
+                          feature.name === 'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
+                      )?.isActive
+                    }
+                  >
+                    <>
+                      <div className="list__item__param--square">
+                        <div
+                          style={{
+                            width: 'var(--size-xsmall)',
+                            height: 'var(--size-xsmall)',
+                            borderRadius: '2px',
+                            outline: '1px solid rgba(0, 0, 0, 0.1)',
+                            outlineOffset: '-1px',
+                            backgroundColor: noteType.hex,
+                          }}
+                        />
+                      </div>
+                      <div className="list__item__param--compact">
+                        <Dropdown
+                          id="update-note-type-color"
+                          options={[
+                            {
+                              label: 'Gray',
+                              value: 'GRAY',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 0,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Red',
+                              value: 'RED',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 1,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Orange',
+                              value: 'ORANGE',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 2,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Yellow',
+                              value: 'YELLOW',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 3,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Green',
+                              value: 'GREEN',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 4,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Blue',
+                              value: 'BLUE',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 5,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Violet',
+                              value: 'VIOLET',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 6,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Pink',
+                              value: 'PINK',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 7,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                            {
+                              label: 'Light gray',
+                              value: 'LIGHT_GRAY',
+                              feature: 'UPDATE_NOTE_TYPE_COLOR',
+                              position: 8,
+                              type: 'OPTION',
+                              isActive: true,
+                              isBlocked: false,
+                              isNew: false,
+                              children: [],
+                              action: this.noteTypeHandler,
+                            },
+                          ]}
+                          selected={noteType.color}
+                          alignment="FILL"
+                          isNew={
+                            features.find(
+                              (feature) =>
+                                feature.name ===
+                                'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
+                            )?.isNew
+                          }
+                        />
+                      </div>
+                    </>
+                  </Feature>
+                </>
+              )
+            )}
+            onChangeSortableList={this.onChangeOrder}
+          />
         </div>
       </Feature>
     )
@@ -698,7 +766,7 @@ export default class Settings extends React.Component<
     return (
       <div className="controls__control">
         <Bar
-          leftPart={
+          leftPartSlot={
             <div className={layouts['snackbar--tight']}>
               <Button
                 type="icon"
@@ -709,7 +777,7 @@ export default class Settings extends React.Component<
               <span className="type">{this.props.activity.name}</span>
             </div>
           }
-          rightPart={
+          rightPartSlot={
             <div className={layouts['snackbar--tight']}>
               <Feature
                 isActive={
