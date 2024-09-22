@@ -559,7 +559,7 @@ export default class Settings extends React.Component<
                     )?.isActive
                   }
                 >
-                  <div className="list__item__param--compact">
+                  <div className="draggable-item__param--compact">
                     <Input
                       type="TEXT"
                       value={noteType.name}
@@ -579,7 +579,7 @@ export default class Settings extends React.Component<
                   }
                 >
                   <>
-                    <div className="list__item__param--square">
+                    <div className="draggable-item__param--square">
                       <div
                         style={{
                           width: 'var(--size-xsmall)',
@@ -591,7 +591,7 @@ export default class Settings extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="list__item__param--compact">
+                    <div className="draggable-item__param--compact">
                       <Dropdown
                         id="update-note-type-color"
                         options={[
