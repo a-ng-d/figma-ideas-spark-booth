@@ -12,12 +12,7 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
-import {
-  HoveredColor,
-  Language,
-  PlanStatus,
-  SelectedColor,
-} from '../../types/app'
+import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   ColorConfiguration,
@@ -54,15 +49,7 @@ interface SettingsProps {
   onCloseActivitySettings: () => void
 }
 
-interface SettingsStates {
-  selectedElement: SelectedColor
-  hoveredElement: HoveredColor
-}
-
-export default class Settings extends React.Component<
-  SettingsProps,
-  SettingsStates
-> {
+export default class Settings extends React.Component<SettingsProps> {
   // Handlers
   noteTypeHandler = (e: any) => {
     let id: string | null
