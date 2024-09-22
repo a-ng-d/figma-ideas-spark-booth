@@ -63,47 +63,6 @@ export default class Settings extends React.Component<
   SettingsProps,
   SettingsStates
 > {
-  listRef: React.RefObject<HTMLUListElement>
-
-  constructor(props: SettingsProps) {
-    super(props)
-    this.state = {
-      selectedElement: {
-        id: undefined,
-        position: 0,
-      },
-      hoveredElement: {
-        id: undefined,
-        hasGuideAbove: false,
-        hasGuideBelow: false,
-        position: 0,
-      },
-    }
-    this.listRef = React.createRef()
-    this.handleClickOutside = this.handleClickOutside.bind(this)
-  }
-
-  // Lifecycle
-  componentDidMount = () =>
-    document.addEventListener('mousedown', this.handleClickOutside)
-
-  componentWillUnmount = () =>
-    document.removeEventListener('mousedown', this.handleClickOutside)
-
-  handleClickOutside = (e: Event) => {
-    if (this.listRef.current !== null)
-      if (
-        this.listRef &&
-        !this.listRef.current.contains(e.target as HTMLElement)
-      )
-        this.setState({
-          selectedElement: {
-            id: undefined,
-            position: 0,
-          },
-        })
-  }
-
   // Handlers
   noteTypeHandler = (e: any) => {
     let id: string | null
@@ -165,10 +124,18 @@ export default class Settings extends React.Component<
       this.props.onChangeNoteTypes(noteTypes)
     }
 
+    const removeNoteType = () => {
+      const noteTypes = this.props.activity.noteTypes.filter((noteType) => {
+        return noteType.id !== id
+      })
+      this.props.onChangeNoteTypes(noteTypes)
+    }
+
     const actions: ActionsList = {
       ADD_NOTE_TYPE: () => addNoteType(),
       RENAME_NOTE_TYPE: () => renameNoteType(),
       UPDATE_NOTE_TYPE_COLOR: () => updateNoteTypeColor(),
+      REMOVE_ITEM: () => removeNoteType(),
       NULL: () => null,
     }
 
@@ -583,179 +550,177 @@ export default class Settings extends React.Component<
           </div>
           <SortableList
             data={this.props.activity.noteTypes as Array<NoteConfiguration>}
-            primarySlot={this.props.activity.noteTypes.map(
-              (noteType, index) => (
-                <>
-                  <Feature
-                    isActive={
-                      features.find(
-                        (feature) =>
-                          feature.name === 'SETTINGS_NOTE_TYPES_RENAME'
-                      )?.isActive
-                    }
-                  >
-                    <div className="list__item__param--compact">
-                      <Input
-                        type="TEXT"
-                        value={noteType.name}
-                        charactersLimit={24}
-                        feature="RENAME_NOTE_TYPE"
-                        onBlur={this.noteTypeHandler}
-                        onConfirm={this.noteTypeHandler}
+            primarySlot={this.props.activity.noteTypes.map((noteType) => (
+              <>
+                <Feature
+                  isActive={
+                    features.find(
+                      (feature) => feature.name === 'SETTINGS_NOTE_TYPES_RENAME'
+                    )?.isActive
+                  }
+                >
+                  <div className="list__item__param--compact">
+                    <Input
+                      type="TEXT"
+                      value={noteType.name}
+                      charactersLimit={24}
+                      feature="RENAME_NOTE_TYPE"
+                      onBlur={this.noteTypeHandler}
+                      onConfirm={this.noteTypeHandler}
+                    />
+                  </div>
+                </Feature>
+                <Feature
+                  isActive={
+                    features.find(
+                      (feature) =>
+                        feature.name === 'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
+                    )?.isActive
+                  }
+                >
+                  <>
+                    <div className="list__item__param--square">
+                      <div
+                        style={{
+                          width: 'var(--size-xsmall)',
+                          height: 'var(--size-xsmall)',
+                          borderRadius: '2px',
+                          outline: '1px solid rgba(0, 0, 0, 0.1)',
+                          outlineOffset: '-1px',
+                          backgroundColor: noteType.hex,
+                        }}
                       />
                     </div>
-                  </Feature>
-                  <Feature
-                    isActive={
-                      features.find(
-                        (feature) =>
-                          feature.name === 'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
-                      )?.isActive
-                    }
-                  >
-                    <>
-                      <div className="list__item__param--square">
-                        <div
-                          style={{
-                            width: 'var(--size-xsmall)',
-                            height: 'var(--size-xsmall)',
-                            borderRadius: '2px',
-                            outline: '1px solid rgba(0, 0, 0, 0.1)',
-                            outlineOffset: '-1px',
-                            backgroundColor: noteType.hex,
-                          }}
-                        />
-                      </div>
-                      <div className="list__item__param--compact">
-                        <Dropdown
-                          id="update-note-type-color"
-                          options={[
-                            {
-                              label: 'Gray',
-                              value: 'GRAY',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 0,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Red',
-                              value: 'RED',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 1,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Orange',
-                              value: 'ORANGE',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 2,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Yellow',
-                              value: 'YELLOW',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 3,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Green',
-                              value: 'GREEN',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 4,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Blue',
-                              value: 'BLUE',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 5,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Violet',
-                              value: 'VIOLET',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 6,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Pink',
-                              value: 'PINK',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 7,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                            {
-                              label: 'Light gray',
-                              value: 'LIGHT_GRAY',
-                              feature: 'UPDATE_NOTE_TYPE_COLOR',
-                              position: 8,
-                              type: 'OPTION',
-                              isActive: true,
-                              isBlocked: false,
-                              isNew: false,
-                              children: [],
-                              action: this.noteTypeHandler,
-                            },
-                          ]}
-                          selected={noteType.color}
-                          alignment="FILL"
-                          isNew={
-                            features.find(
-                              (feature) =>
-                                feature.name ===
-                                'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
-                            )?.isNew
-                          }
-                        />
-                      </div>
-                    </>
-                  </Feature>
-                </>
-              )
-            )}
+                    <div className="list__item__param--compact">
+                      <Dropdown
+                        id="update-note-type-color"
+                        options={[
+                          {
+                            label: 'Gray',
+                            value: 'GRAY',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 0,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Red',
+                            value: 'RED',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 1,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Orange',
+                            value: 'ORANGE',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 2,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Yellow',
+                            value: 'YELLOW',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 3,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Green',
+                            value: 'GREEN',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 4,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Blue',
+                            value: 'BLUE',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 5,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Violet',
+                            value: 'VIOLET',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 6,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Pink',
+                            value: 'PINK',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 7,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                          {
+                            label: 'Light gray',
+                            value: 'LIGHT_GRAY',
+                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            position: 8,
+                            type: 'OPTION',
+                            isActive: true,
+                            isBlocked: false,
+                            isNew: false,
+                            children: [],
+                            action: this.noteTypeHandler,
+                          },
+                        ]}
+                        selected={noteType.color}
+                        alignment="FILL"
+                        isNew={
+                          features.find(
+                            (feature) =>
+                              feature.name ===
+                              'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
+                          )?.isNew
+                        }
+                      />
+                    </div>
+                  </>
+                </Feature>
+              </>
+            ))}
             onChangeSortableList={this.onChangeOrder}
+            onRemoveItem={this.noteTypeHandler}
           />
         </div>
       </Feature>
