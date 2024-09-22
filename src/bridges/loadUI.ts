@@ -1,7 +1,6 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
 import { ActionsList } from '../types/models'
-import { defaultActivity } from '../utils/defaultActivity'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
@@ -36,12 +35,14 @@ const loadUI = async () => {
     },
   })
 
-  if (figma.root.getPluginData('activities') === '')
-    figma.root.setPluginData('activities', JSON.stringify([defaultActivity]))
-
   figma.ui.postMessage({
     type: 'GET_ACTIVITIES',
     data: JSON.parse(figma.root.getPluginData('activities')),
+  })
+
+  figma.ui.postMessage({
+    type: 'GET_SESSIONS',
+    data: JSON.parse(figma.root.getPluginData('sessions')),
   })
 
   figma.ui.postMessage({
