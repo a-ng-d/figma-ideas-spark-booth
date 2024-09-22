@@ -19,6 +19,7 @@ import {
   ActivityConfiguration,
   DatesConfiguration,
   PublicationConfiguration,
+  SessionConfiguration,
   UserConfiguration,
 } from '../types/configurations'
 import { ActionsList } from '../types/models'
@@ -44,6 +45,7 @@ import './stylesheets/app.css'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
+  sessions: Array<SessionConfiguration>
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
@@ -92,6 +94,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
     super(props)
     this.state = {
       activities: [],
+      sessions: [],
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: trialTime,
@@ -249,6 +252,11 @@ class App extends React.Component<Record<string, never>, AppStates> {
             activities: e.data.pluginMessage.data,
           })
 
+        const getSessions = () =>
+          this.setState({
+            sessions: e.data.pluginMessage.data,
+          })
+
         const getUserIdentity = () =>
           this.setState({
             userIdentity: {
@@ -298,6 +306,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
           GET_ACTIVITIES: () => getActivities(),
+          GET_SESSIONS: () => getSessions(),
           GET_USER_IDENTITY: () => getUserIdentity(),
           GET_PRO_PLAN: () => getProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
@@ -355,18 +364,23 @@ class App extends React.Component<Record<string, never>, AppStates> {
         <main className="ui">
           <Feature
             isActive={
-              features.find((feature) => feature.name === 'BROWSE')?.isActive
+              features.find((feature) => feature.name === 'BROWSE')?.isActive &&
+              this.state.sessions?.find((session) => session.isOngoing) ===
+                undefined
             }
           >
             <BrowseActivities
               {...this.state}
               onChangeActivities={(e) => this.setState({ ...this.state, ...e })}
+              onRunSession={(e) => this.setState({ ...this.state, ...e })}
             />
           </Feature>
           <Feature
             isActive={
               features.find((feature) => feature.name === 'PARTICIPATE')
-                ?.isActive
+                ?.isActive &&
+              this.state.sessions?.find((session) => session.isOngoing) !==
+                undefined
             }
           >
             <div></div>

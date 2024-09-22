@@ -25,6 +25,7 @@ interface ActivitiesListProps {
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onOpenActivitySettings: (id: string) => void
+  onRunSession: (id: string) => void
 }
 
 export default class ActivitiesList extends React.Component<ActivitiesListProps> {
@@ -94,6 +95,12 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
                       action={() =>
                         this.props.onOpenActivitySettings(activity.meta.id)
                       }
+                    />
+                    <Button
+                      type="icon"
+                      icon="play"
+                      feature="RUN_ACTIVITY"
+                      action={() => this.props.onRunSession(activity.meta.id)}
                     />
                   </>
                 }

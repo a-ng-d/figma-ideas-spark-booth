@@ -6,6 +6,7 @@ import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
 import getProPlan from './getProPlan'
+import startSession from './startSession'
 
 const loadUI = async () => {
   const windowSize: windowSize = {
@@ -75,6 +76,7 @@ const loadUI = async () => {
       //
       UPDATE_ACTIVITIES: () =>
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
+      START_SESSION: () => startSession(msg.data),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),

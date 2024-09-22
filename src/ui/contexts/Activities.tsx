@@ -7,6 +7,7 @@ import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   NoteConfiguration,
+  SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { ActivitiesMessage } from '../../types/messages'
@@ -18,12 +19,14 @@ import Settings from '../modules/Settings'
 
 interface ActivitiesProps {
   activities: Array<ActivityConfiguration>
+  sessions: Array<SessionConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
   planStatus: PlanStatus
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
+  onRunSession: React.Dispatch<Partial<AppStates>>
 }
 
 interface ActivitiesStates {
@@ -234,6 +237,42 @@ export default class Activities extends React.Component<
     parent.postMessage({ pluginMessage: this.activitiesMessage }, '*')
   }
 
+  // Direct actions
+  onRunSession = (activityId: string) => {
+    const newSession: SessionConfiguration = {
+      activityId: activityId,
+      sessionId: uid(),
+      animator: {
+        fullName: this.props.userIdentity.fullName,
+        avatar: this.props.userIdentity.avatar,
+        id: this.props.userIdentity.id,
+      },
+      metrics: {
+        notes: 0,
+        participants: [],
+      },
+      date: new Date().toISOString(),
+      isOngoing: true,
+    }
+
+    const sessions = [...this.props.sessions, newSession]
+
+    this.props.onRunSession({
+      sessions: sessions,
+      onGoingStep: 'session run',
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'START_SESSION',
+          data: sessions,
+        },
+      },
+      '*'
+    )
+  }
+
   // Render
   render() {
     let fragment
@@ -250,6 +289,7 @@ export default class Activities extends React.Component<
                 openedActivity: e,
               })
             }
+            onRunSession={this.onRunSession}
           />
         )
         break

@@ -35,6 +35,18 @@ export type ColorConfiguration =
   | 'PINK'
   | 'LIGHT_GRAY'
 
+export interface SessionConfiguration {
+  activityId: string
+  sessionId: string
+  animator: AnimatorConfiguration
+  metrics: {
+    notes: number
+    participants: Array<UserConfiguration>
+  }
+  date: Date | string
+  isOngoing: boolean
+}
+
 export interface DatesConfiguration {
   createdAt: Date | string
   updatedAt: Date | string

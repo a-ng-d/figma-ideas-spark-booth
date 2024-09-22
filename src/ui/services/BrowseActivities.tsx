@@ -5,6 +5,7 @@ import { Language, PlanStatus } from '../../types/app'
 import { ContextItem } from '../../types/app'
 import {
   ActivityConfiguration,
+  SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -14,12 +15,14 @@ import Activities from '../contexts/Activities'
 
 interface BrowseActivitiesProps {
   activities: Array<ActivityConfiguration>
+  sessions: Array<SessionConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
   planStatus: PlanStatus
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
+  onRunSession: React.Dispatch<Partial<AppStates>>
 }
 
 interface BrowseActivitiesStates {

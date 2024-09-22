@@ -1,5 +1,6 @@
 import checkPlanStatus from './bridges/checks/checkPlanStatus'
 import loadUI from './bridges/loadUI'
+import setMigration from './utils/setMigration'
 
 // Fonts
 figma.loadFontAsync({ family: 'Inter', style: 'Regular' })
@@ -10,6 +11,7 @@ figma.loadFontAsync({ family: 'Red Hat Mono', style: 'Medium' })
 figma.on('run', () => loadUI())
 
 // Migration
+figma.on('run', () => setMigration())
 
 // Selection
 figma.on('selectionchange', async () => await checkPlanStatus())
