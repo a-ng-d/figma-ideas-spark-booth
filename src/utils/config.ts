@@ -295,6 +295,15 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
+          name: 'PARTICIPATE_UPDATE_NOTE_TYPE',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'ACTION',
+          service: ['PARTICIPATE'],
+        },
+        {
           name: 'SHORTCUTS',
           description: 'Quick useful links',
           isActive: true,

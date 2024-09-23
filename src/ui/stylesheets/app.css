@@ -45,27 +45,24 @@ main {
   flex-direction: column;
 }
 
-/* Actions */
-div.actions {
+/* Idea Edit */
+div.idea-edit {
   width: 100%;
-  height: var(--size-xxlarge);
-  padding: var(--size-xsmall);
+  min-height: var(--size-xxlarge);
+  padding: var(--size-xxsmall) var(--size-xsmall);
   border-top: 1px solid var(--figma-color-border);
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-between;
+  align-items: flex-start;
   gap: var(--size-xxsmall);
 }
 
-div.actions__right {
-  display: flex;
-  gap: var(--size-xxsmall);
+div.idea-edit__text {
+  flex: 1;
 }
 
-div.actions__left {
-  display: flex;
-  align-items: center;
-  gap: var(--size-xxsmall);
+div.idea-edit__note-type {
+  flex: 0 1 160px;
 }
 
 /* Layout */

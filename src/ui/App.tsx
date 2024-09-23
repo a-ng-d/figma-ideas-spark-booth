@@ -18,6 +18,7 @@ import { PriorityContext } from '../types/app'
 import {
   ActivityConfiguration,
   DatesConfiguration,
+  IdeaConfiguration,
   PublicationConfiguration,
   SessionConfiguration,
   UserConfiguration,
@@ -40,12 +41,14 @@ import Feature from './components/Feature'
 import PriorityContainer from './modules/PriorityContainer'
 import Shortcuts from './modules/Shortcuts'
 import BrowseActivities from './services/BrowseActivities'
+import Participate from './services/Participate'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
+  ideas: Array<IdeaConfiguration>
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
@@ -95,6 +98,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
     this.state = {
       activities: [],
       sessions: [],
+      ideas: [],
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: trialTime,
@@ -257,6 +261,11 @@ class App extends React.Component<Record<string, never>, AppStates> {
             sessions: e.data.pluginMessage.data,
           })
 
+        const getIdeas = () =>
+          this.setState({
+            ideas: e.data.pluginMessage.data,
+          })
+
         const getUserIdentity = () =>
           this.setState({
             userIdentity: {
@@ -308,6 +317,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           GET_ACTIVITIES: () => getActivities(),
           GET_SESSIONS: () => getSessions(),
           GET_USER_IDENTITY: () => getUserIdentity(),
+          GET_IDEAS: () => getIdeas(),
           GET_PRO_PLAN: () => getProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
           SIGN_OUT: () => signOut(e.data.pluginMessage?.data),
@@ -359,6 +369,12 @@ class App extends React.Component<Record<string, never>, AppStates> {
 
   // Render
   render() {
+    const onGoingSession = this.state.sessions?.find(
+        (session) => session.isOngoing
+      ),
+      onGoingSessionActivity = this.state.activities.find(
+        (activity) => activity.meta.id === onGoingSession?.activityId
+      )
     if (this.state.isLoaded)
       return (
         <main className="ui">
@@ -383,7 +399,12 @@ class App extends React.Component<Record<string, never>, AppStates> {
                 undefined
             }
           >
-            <div></div>
+            <Participate
+              {...this.state}
+              activity={onGoingSessionActivity ?? ({} as ActivityConfiguration)}
+              session={onGoingSession ?? ({} as SessionConfiguration)}
+              onPushIdea={(e) => this.setState({ ...this.state, ...e })}
+            />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
             <PriorityContainer

@@ -44,6 +44,16 @@ export interface SessionConfiguration {
   }
   date: Date | string
   isOngoing: boolean
+  activityId: string
+}
+
+export interface IdeaConfiguration {
+  id: string
+  text: string
+  noteType: NoteConfiguration
+  userIdentity: UserConfiguration
+  sessionId: string
+  activityId: string
 }
 
 export interface DatesConfiguration {
