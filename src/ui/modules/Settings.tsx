@@ -141,7 +141,7 @@ export default class Settings extends React.Component<SettingsProps> {
           features.find((feature) => feature.name === 'SETTINGS_NAME')?.isActive
         }
       >
-        <div className="settings__item">
+        <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.global.name.label}
             id="update-activity-name"
@@ -189,7 +189,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__item">
+        <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.global.description.label}
             id="update-activity-description"
@@ -236,7 +236,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__item">
+        <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.global.instructions.label}
             id="update-activity-instructions"
@@ -286,7 +286,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__item">
+        <div className="group__item">
           <FormItem
             id="update-grouped-by"
             label={locals[this.props.lang].settings.global.groupedBy.label}
@@ -361,7 +361,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__item">
+        <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.timer.minutes.label}
             id="update-timer-minutes"
@@ -416,7 +416,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__item">
+        <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.timer.seconds.label}
             id="update-timer-seconds"
@@ -471,7 +471,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__group">
+        <div className="group">
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle
@@ -496,7 +496,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__group">
+        <div className="group">
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle
@@ -519,7 +519,7 @@ export default class Settings extends React.Component<SettingsProps> {
             ?.isActive
         }
       >
-        <div className="settings__group">
+        <div className="group">
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle
