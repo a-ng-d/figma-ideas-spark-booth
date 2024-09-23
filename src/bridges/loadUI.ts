@@ -21,10 +21,11 @@ const loadUI = async () => {
     themeColors: true,
   })
 
+  // Checks
   checkUserConsent()
-
   await checkPlanStatus()
 
+  // Canvas > UI
   figma.ui.postMessage({
     type: 'CHECK_USER_AUTHENTICATION',
     id: figma.currentUser?.id,
@@ -57,6 +58,7 @@ const loadUI = async () => {
     },
   })
 
+  // UI > Canvas
   figma.ui.onmessage = async (msg) => {
     const actions: ActionsList = {
       RESIZE_UI: async () => {
