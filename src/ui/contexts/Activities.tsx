@@ -240,8 +240,7 @@ export default class Activities extends React.Component<
   // Direct actions
   onRunSession = (activityId: string) => {
     const newSession: SessionConfiguration = {
-      activityId: activityId,
-      sessionId: uid(),
+      id: uid(),
       animator: {
         fullName: this.props.userIdentity.fullName,
         avatar: this.props.userIdentity.avatar,
@@ -253,6 +252,7 @@ export default class Activities extends React.Component<
       },
       date: new Date().toISOString(),
       isOngoing: true,
+      activityId: activityId,
     }
 
     const sessions = [...this.props.sessions, newSession]

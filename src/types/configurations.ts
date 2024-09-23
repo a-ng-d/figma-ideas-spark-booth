@@ -36,8 +36,7 @@ export type ColorConfiguration =
   | 'LIGHT_GRAY'
 
 export interface SessionConfiguration {
-  activityId: string
-  sessionId: string
+  id: string
   animator: AnimatorConfiguration
   metrics: {
     notes: number
