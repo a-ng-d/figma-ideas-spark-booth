@@ -54,7 +54,7 @@ export default class Participate extends React.Component<
   ParticipateStates
 > {
   ideasMessage: IdeasMessage
-  ideaRef: React.RefObject<Input>
+  textRef: React.RefObject<Input>
 
   constructor(props: ParticipateProps) {
     super(props)
@@ -77,7 +77,7 @@ export default class Participate extends React.Component<
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         ),
     }
-    this.ideaRef = React.createRef()
+    this.textRef = React.createRef()
   }
 
   componentDidMount = () => {
@@ -195,8 +195,8 @@ export default class Participate extends React.Component<
     }
 
     if (this.state.canBeSubmitted) {
-      this.ideaRef.current?.doClear()
-      setTimeout(() => this.ideaRef.current?.textareaRef.current?.focus(), 100)
+      this.textRef.current?.doClear()
+      setTimeout(() => this.textRef.current?.textareaRef.current?.focus(), 100)
       this.setState({ canBeSubmitted: false })
 
       this.props.onPushIdea({
@@ -461,7 +461,7 @@ export default class Participate extends React.Component<
             >
               <div className="idea-edit__text">
                 <Input
-                  ref={this.ideaRef}
+                  ref={this.textRef}
                   id="update-idea"
                   type="LONG_TEXT"
                   placeholder="Type your idea here"
