@@ -67,11 +67,15 @@ export default class Participate extends React.Component<
       canBeSubmitted: false,
       currentType: this.props.activity.types[0],
       currentText: '',
-      selfIdeas: this.props.ideas.filter(
-        (idea) =>
-          idea.userIdentity.id === this.props.userIdentity.id &&
-          idea.sessionId === this.props.session.id
-      ),
+      selfIdeas: this.props.ideas
+        .filter(
+          (idea) =>
+            idea.userIdentity.id === this.props.userIdentity.id &&
+            idea.sessionId === this.props.session.id
+        )
+        .sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        ),
     }
     this.ideaRef = React.createRef()
   }
@@ -87,11 +91,15 @@ export default class Participate extends React.Component<
   componentDidUpdate(prevProps: Readonly<ParticipateProps>): void {
     if (prevProps.ideas !== this.props.ideas) {
       this.setState({
-        selfIdeas: this.props.ideas.filter(
-          (idea) =>
-            idea.userIdentity.id === this.props.userIdentity.id &&
-            idea.sessionId === this.props.session.id
-        ),
+        selfIdeas: this.props.ideas
+          .filter(
+            (idea) =>
+              idea.userIdentity.id === this.props.userIdentity.id &&
+              idea.sessionId === this.props.session.id
+          )
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          ),
       })
     }
   }
@@ -181,6 +189,7 @@ export default class Participate extends React.Component<
         fullName: this.props.userIdentity.fullName,
         avatar: this.props.userIdentity.avatar,
       },
+      date: new Date().toISOString(),
       sessionId: this.props.session.id,
       activityId: this.props.activity.meta.id,
     }
