@@ -444,22 +444,36 @@ export default class Participate extends React.Component<
                   />
                   <div className="group__item"></div>
                 </div>
-                <div className="group">
-                  <SimpleItem
-                    leftPartSlot={<SectionTitle label={'Description'} />}
-                  />
-                  <div className="group__item">
-                    <p className="type">{this.props.activity.description}</p>
+                {this.props.activity.description && (
+                  <div className="group">
+                    <SimpleItem
+                      leftPartSlot={<SectionTitle label={'Description'} />}
+                    />
+                    <div className="group__item">
+                      <div
+                        style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                        className="type"
+                      >
+                        {this.props.activity.description}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="group">
-                  <SimpleItem
-                    leftPartSlot={<SectionTitle label={'Instructions'} />}
-                  />
-                  <div className="group__item">
-                    <p className="type">{this.props.activity.instructions}</p>
+                )}
+                {this.props.activity.instructions && (
+                  <div className="group">
+                    <SimpleItem
+                      leftPartSlot={<SectionTitle label={'Instructions'} />}
+                    />
+                    <div className="group__item">
+                      <div
+                        style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                        className="type"
+                      >
+                        {this.props.activity.instructions}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
