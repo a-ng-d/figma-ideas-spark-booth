@@ -410,6 +410,41 @@ export default class Participate extends React.Component<
             <Feature
               isActive={
                 features.find(
+                  (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
+                )?.isActive
+              }
+            >
+              <div className="idea-edit__type">
+                <Menu
+                  id={'update-type'}
+                  type="ICON"
+                  customIcon={
+                    <div
+                      className="color-chip"
+                      style={{
+                        backgroundColor: this.state.currentType.hex,
+                      }}
+                    />
+                  }
+                  options={this.typesHandler('CREATE')}
+                  selected={this.state.currentType.color}
+                  state={
+                    isBlocked('PARTICIPATE_CREATE_TYPE', this.props.planStatus)
+                      ? 'DISABLED'
+                      : 'DEFAULT'
+                  }
+                  alignment="TOP_LEFT"
+                  isNew={
+                    features.find(
+                      (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
+                    )?.isNew
+                  }
+                />
+              </div>
+            </Feature>
+            <Feature
+              isActive={
+                features.find(
                   (feature) => feature.name === 'PARTICIPATE_CREATE_IDEA'
                 )?.isActive
               }
@@ -461,41 +496,6 @@ export default class Participate extends React.Component<
                       'PARTICIPATE_CREATE_IDEA',
                       this.props.planStatus
                     ) && this.onPushIdea()
-                  }
-                />
-              </div>
-            </Feature>
-            <Feature
-              isActive={
-                features.find(
-                  (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
-                )?.isActive
-              }
-            >
-              <div className="idea-edit__type">
-                <Menu
-                  id={'update-type'}
-                  type="ICON"
-                  customIcon={
-                    <div
-                      className="color-chip"
-                      style={{
-                        backgroundColor: this.state.currentType.hex,
-                      }}
-                    />
-                  }
-                  options={this.typesHandler('CREATE')}
-                  selected={this.state.currentType.color}
-                  state={
-                    isBlocked('PARTICIPATE_CREATE_TYPE', this.props.planStatus)
-                      ? 'DISABLED'
-                      : 'DEFAULT'
-                  }
-                  alignment="TOP_LEFT"
-                  isNew={
-                    features.find(
-                      (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
-                    )?.isNew
                   }
                 />
               </div>
