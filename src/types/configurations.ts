@@ -18,10 +18,11 @@ export interface TimerConfiguration {
 }
 
 export interface TypeConfiguration {
+  id: string
   name: string
   color: ColorConfiguration
   hex: HexModel
-  id: string
+  description: string
 }
 
 export type ColorConfiguration =
@@ -69,21 +70,21 @@ export interface PublicationConfiguration {
 }
 
 export interface UserConfiguration {
+  id: string
   fullName: string
   avatar: string
-  id: string
 }
 
 export interface AnimatorConfiguration {
+  id: string
   fullName: string
   avatar: string
-  id: string
 }
 
 export interface CreatorConfiguration {
+  id: string
   fullName: string
   avatar: string
-  id: string
 }
 
 export interface MetaConfiguration {

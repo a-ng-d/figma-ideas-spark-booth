@@ -72,6 +72,7 @@ export default class Settings extends React.Component<SettingsProps> {
         color: 'YELLOW',
         hex: yellowColor,
         id: uid(),
+        description: '',
       })
       this.props.onChangeTypes(types)
     }
@@ -107,6 +108,14 @@ export default class Settings extends React.Component<SettingsProps> {
       this.props.onChangeTypes(types)
     }
 
+    const updateTypeDescription = () => {
+      const types = this.props.activity.types.map((type) => {
+        if (type.id === id) type.description = currentElement.value
+        return type
+      })
+      this.props.onChangeTypes(types)
+    }
+
     const removeType = () => {
       const types = this.props.activity.types.filter((type) => {
         return type.id !== id
@@ -118,6 +127,7 @@ export default class Settings extends React.Component<SettingsProps> {
       ADD_TYPE: () => addType(),
       RENAME_TYPE: () => renameType(),
       UPDATE_COLOR: () => updateTypeColor(),
+      UPDATE_DESCRIPTION: () => updateTypeDescription(),
       REMOVE_ITEM: () => removeType(),
       NULL: () => null,
     }
@@ -535,7 +545,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 <Feature
                   isActive={
                     features.find(
-                      (feature) => feature.name === 'SETTINGS_TYPES_RENAME'
+                      (feature) => feature.name === 'SETTINGS_TYPES_NAME'
                     )?.isActive
                   }
                 >
@@ -553,8 +563,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 <Feature
                   isActive={
                     features.find(
-                      (feature) =>
-                        feature.name === 'SETTINGS_TYPES_UPDATE_COLOR'
+                      (feature) => feature.name === 'SETTINGS_TYPES_COLOR'
                     )?.isActive
                   }
                 >
@@ -684,8 +693,7 @@ export default class Settings extends React.Component<SettingsProps> {
                         alignment="FILL"
                         isNew={
                           features.find(
-                            (feature) =>
-                              feature.name === 'SETTINGS_TYPES_UPDATE_COLOR'
+                            (feature) => feature.name === 'SETTINGS_TYPES_COLOR'
                           )?.isNew
                         }
                       />
@@ -693,6 +701,39 @@ export default class Settings extends React.Component<SettingsProps> {
                   </>
                 </Feature>
               </>
+            ))}
+            secondarySlot={this.props.activity.types.map((type, index) => (
+              <Feature
+                key={index}
+                isActive={
+                  features.find(
+                    (feature) => feature.name === 'SETTINGS_TYPES_DESCRIPTION'
+                  )?.isActive
+                }
+              >
+                <div className="draggable-list__param">
+                  <FormItem
+                    id="type-description"
+                    label={
+                      locals[this.props.lang].settings.types.description.label
+                    }
+                  >
+                    <Input
+                      id="color-description"
+                      type="LONG_TEXT"
+                      value={type.description}
+                      placeholder={
+                        locals[this.props.lang].settings.types.description
+                          .placeholder
+                      }
+                      feature="UPDATE_DESCRIPTION"
+                      isGrowing={true}
+                      onBlur={this.typeHandler}
+                      onConfirm={this.typeHandler}
+                    />
+                  </FormItem>
+                </div>
+              </Feature>
             ))}
             onChangeSortableList={this.onChangeOrder}
             onRemoveItem={this.typeHandler}

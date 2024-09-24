@@ -20,6 +20,7 @@ export const defaultActivity: ActivityConfiguration = {
       color: 'YELLOW',
       hex: yellowColor,
       id: uid(),
+      description: '',
     },
   ],
   meta: {

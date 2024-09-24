@@ -71,6 +71,10 @@ export const locals: { [key: string]: any } = {
       },
       types: {
         title: 'Types',
+        description: {
+          label: 'Description',
+          placeholder: "What's it for?",
+        },
         newType: 'New type',
         defaultType: 'Classic yellow',
       },

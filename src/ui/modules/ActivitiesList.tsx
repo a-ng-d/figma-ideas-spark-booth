@@ -3,6 +3,7 @@ import {
   Button,
   ConsentConfiguration,
   SectionTitle,
+  SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
@@ -33,22 +34,22 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
   render() {
     return (
       <div className="control__block control__block--list">
-        <div className="section-controls">
-          <div className="section-controls__left-part">
+        <SimpleItem
+          leftPartSlot={
             <SectionTitle
               label={locals[this.props.lang].activities.title}
               indicator={this.props.activities.length}
             />
-          </div>
-          <div className="section-controls__right-part">
+          }
+          rightPartSlot={
             <Button
               type="icon"
               icon="plus"
               feature="ADD_ACTIVITY"
               action={this.props.onChangeActivities}
             />
-          </div>
-        </div>
+          }
+        />
         <ul className="rich-list">
           {this.props.activities.map(
             (activity: ActivityConfiguration, index) => (

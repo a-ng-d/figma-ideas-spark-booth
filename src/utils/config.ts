@@ -232,7 +232,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_TYPES_RENAME',
+          name: 'SETTINGS_TYPES_NAME',
           description: '',
           isActive: true,
           isPro: false,
@@ -241,7 +241,16 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_TYPES_UPDATE_COLOR',
+          name: 'SETTINGS_TYPES_COLOR',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'ACTION',
+          service: ['BROWSE'],
+        },
+        {
+          name: 'SETTINGS_TYPES_DESCRIPTION',
           description: '',
           isActive: true,
           isPro: false,
