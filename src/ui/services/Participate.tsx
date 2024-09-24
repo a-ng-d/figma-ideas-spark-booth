@@ -196,6 +196,7 @@ export default class Participate extends React.Component<
 
     if (this.state.canBeSubmitted) {
       this.ideaRef.current?.doClear()
+      setTimeout(() => this.ideaRef.current?.textareaRef.current?.focus(), 100)
       this.setState({ canBeSubmitted: false })
 
       this.props.onPushIdea({
