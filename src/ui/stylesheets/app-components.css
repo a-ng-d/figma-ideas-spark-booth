@@ -39,6 +39,10 @@ ul.rich-list--message {
   align-items: center;
 }
 
+ul.list--fill {
+  flex: 1;
+}
+
 div.list-control {
   display: flex;
   padding: var(--size-xsmall);
