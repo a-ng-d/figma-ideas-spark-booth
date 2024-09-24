@@ -25,6 +25,7 @@ import { IdeasMessage } from '../../types/messages'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
+import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 
@@ -255,6 +256,11 @@ export default class Participate extends React.Component<
                                   }
                                   options={this.noteTypeHandler('UPDATE')}
                                   selected={idea.noteType.color}
+                                  state={
+                                    isBlocked(
+                                      'PARTICIPATE_UPDATE_TYPE',
+                                      this.props.planStatus
+                                    ) ? 'DISABLED' : 'DEFAULT'}
                                   isNew={
                                     features.find(
                                       (feature) =>
@@ -278,22 +284,50 @@ export default class Participate extends React.Component<
                                   id={`idea-${index}`}
                                   type="LONG_TEXT"
                                   value={idea.text}
+                                  feature="UPDATE_IDEA"
                                   isGrowing={true}
                                   isFlex={true}
-                                  feature="UPDATE_IDEA"
-                                  onConfirm={this.ideasHandler}
+                                  isBlocked={isBlocked(
+                                    'PARTICIPATE_UPDATE_IDEA',
+                                    this.props.planStatus
+                                  )}
+                                  isNew={features.find(
+                                    (feature) =>
+                                      feature.name === 'PARTICIPATE_UPDATE_IDEA'
+                                  )?.isNew}
+                                  onConfirm={(e) => !isBlocked(
+                                    'PARTICIPATE_UPDATE_IDEA',
+                                    this.props.planStatus
+                                  ) && this.ideasHandler(e)}
                                 />
                               </div>
                             </Feature>
                           </>
                         }
                         rightPartSlot={
-                          <Button
-                            type="icon"
-                            icon="trash"
-                            feature="REMOVE_IDEA"
-                            action={this.ideasHandler}
-                          />
+                          <Feature
+                            isActive={
+                              features.find(
+                                (feature) =>
+                                  feature.name === 'PARTICIPATE_UPDATE_REMOVE'
+                              )?.isActive
+                            }
+                          >
+                            <Button
+                              type="icon"
+                              icon="trash"
+                              feature="REMOVE_IDEA"
+                              isBlocked={isBlocked(
+                                'PARTICIPATE_UPDATE_REMOVE',
+                                this.props.planStatus
+                              )}
+                              action={(e) => !isBlocked(
+                                'PARTICIPATE_UPDATE_REMOVE',
+                                this.props.planStatus
+                              ) && this.ideasHandler(e)}
+                            />
+                          </Feature>
+                          
                         }
                       />
                     ))}
@@ -356,12 +390,41 @@ export default class Participate extends React.Component<
                   type="LONG_TEXT"
                   placeholder="Type your idea here"
                   isGrowing={true}
-                  onConfirm={(e) => this.onPushIdea(e)}
+                  isBlocked={isBlocked(
+                    'PARTICIPATE_CREATE_IDEA',
+                    this.props.planStatus
+                  )}
+                  isNew={
+                    features.find(
+                      (feature) => feature.name === 'PARTICIPATE_CREATE_IDEA'
+                    )?.isNew
+                  }
+                  onChange={(e) =>
+                    e.target.value.length > 0
+                      ? this.setState({ canBeSubmitted: true })
+                      : this.setState({ canBeSubmitted: false })
+                  }
+                  onConfirm={(e) =>
+                    !isBlocked(
+                      'PARTICIPATE_CREATE_IDEA',
+                      this.props.planStatus
+                    ) && this.onPushIdea(e)
+                  }
                 />
                 <Button
                   type="icon"
                   icon="plus"
-                  action={(e) => this.onPushIdea(e)}
+                  isBlocked={isBlocked(
+                    'PARTICIPATE_CREATE_IDEA',
+                    this.props.planStatus
+                  )}
+                  isDisabled={!this.state.canBeSubmitted}
+                  action={(e) =>
+                    !isBlocked(
+                      'PARTICIPATE_CREATE_IDEA',
+                      this.props.planStatus
+                    ) && this.onPushIdea(e)
+                  }
                 />
               </div>
             </Feature>
@@ -384,6 +447,12 @@ export default class Participate extends React.Component<
                   options={this.noteTypeHandler('CREATE')}
                   selected={this.state.currentNoteType.color}
                   alignment="FILL"
+                  isDisabled={
+                    isBlocked(
+                      'PARTICIPATE_CREATE_TYPE',
+                      this.props.planStatus
+                    )
+                  }
                   isNew={
                     features.find(
                       (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
