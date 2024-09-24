@@ -63,13 +63,6 @@ div.idea-edit__text {
   align-items: flex-start;
 }
 
-div.idea-edit__type {
-  flex: 0 1 160px;
-  display: flex;
-  align-items: center;
-  gap: var(--size-xxxsmall);
-}
-
 div.idea-edit__text .input,
 div.idea-edit__type .select-menu {
   flex: 1;

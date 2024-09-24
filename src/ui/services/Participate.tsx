@@ -93,13 +93,13 @@ export default class Participate extends React.Component<
         action: (e) => {
           action === 'CREATE'
             ? this.setState({ currentType: type })
-            : this.ideasHandler(e)
+            : this.ideasHandler(e, type)
         },
       } as DropdownOption
     })
   }
 
-  ideasHandler = (e: any) => {
+  ideasHandler = (e: any, type: TypeConfiguration = this.state.currentType) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
         '.simple-item'
@@ -125,7 +125,7 @@ export default class Participate extends React.Component<
 
     const updateIdeaType = () => {
       this.ideasMessage.data = this.props.ideas.map((item) => {
-        if (item.id === id) item.type = this.state.currentType
+        if (item.id === id) item.type = type
         return item
       })
 
@@ -168,10 +168,9 @@ export default class Participate extends React.Component<
       activityId: this.props.activity.meta.id,
     }
 
-    ;(e.target as HTMLTextAreaElement).value = ''
-
     if (this.state.canBeSubmitted) {
       this.ideaRef.current?.doClear()
+      this.setState({ canBeSubmitted: false })
 
       this.props.onPushIdea({
         ideas: [...this.props.ideas, idea],
@@ -244,7 +243,7 @@ export default class Participate extends React.Component<
                             >
                               <div className="simple-item__param">
                                 <Menu
-                                  id={`idea-${index}`}
+                                  id={`update-type-${index}`}
                                   type="ICON"
                                   customIcon={
                                     <div
@@ -284,7 +283,7 @@ export default class Participate extends React.Component<
                             >
                               <div className="simple-item__param simple-item__param--fill">
                                 <Input
-                                  id={`idea-${index}`}
+                                  id={`update-text-${index}`}
                                   type="LONG_TEXT"
                                   value={idea.text}
                                   feature="UPDATE_IDEA"
@@ -445,21 +444,25 @@ export default class Participate extends React.Component<
               }
             >
               <div className="idea-edit__type">
-                <div
-                  className="color-chip"
-                  style={{
-                    backgroundColor: this.state.currentType.hex,
-                  }}
-                />
-                <Dropdown
-                  id="update-type-color"
+                <Menu
+                  id={'update-type'}
+                  type="ICON"
+                  customIcon={
+                    <div
+                      className="color-chip"
+                      style={{
+                        backgroundColor: this.state.currentType.hex,
+                      }}
+                    />
+                  }
                   options={this.typesHandler('CREATE')}
                   selected={this.state.currentType.color}
-                  alignment="FILL"
-                  isDisabled={isBlocked(
-                    'PARTICIPATE_CREATE_TYPE',
-                    this.props.planStatus
-                  )}
+                  state={
+                    isBlocked('PARTICIPATE_CREATE_TYPE', this.props.planStatus)
+                      ? 'DISABLED'
+                      : 'DEFAULT'
+                  }
+                  alignment="TOP_LEFT"
                   isNew={
                     features.find(
                       (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
