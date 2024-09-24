@@ -67,12 +67,8 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
                     {activity.noteTypes.map((noteType, index) => (
                       <div
                         key={index}
+                        className="color-chip"
                         style={{
-                          width: 'var(--size-xsmall)',
-                          height: 'var(--size-xsmall)',
-                          borderRadius: '2px',
-                          outline: '1px solid rgba(0, 0, 0, 0.1)',
-                          outlineOffset: '-1px',
                           backgroundColor: noteType.hex,
                         }}
                       />

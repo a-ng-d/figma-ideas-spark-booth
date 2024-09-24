@@ -117,3 +117,12 @@ div.group + div.group {
 div.group__item {
   padding: 0 var(--size-xsmall);
 }
+
+/* Color Chip */
+.color-chip {
+  width: var(--size-xsmall);
+  height: var(--size-xsmall);
+  border-radius: 2px;
+  outline: 1px solid rgba(0, 0, 0, 0.1);
+  outline-offset: -1px;
+}

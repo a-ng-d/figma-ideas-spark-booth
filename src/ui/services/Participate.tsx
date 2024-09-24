@@ -2,7 +2,6 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
-  DraggableItem,
   Dropdown,
   DropdownOption,
   Input,
@@ -10,13 +9,11 @@ import {
   SectionTitle,
   SimpleItem,
   layouts,
-  texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
 
 import { Language, PlanStatus } from '../../types/app'
-import { ContextItem } from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -28,7 +25,6 @@ import { IdeasMessage } from '../../types/messages'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
-import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 
@@ -47,7 +43,6 @@ interface ParticipateProps {
 
 interface ParticipateStates {
   hasMoreOptions: boolean
-  currentTime: number
   currentNoteType: NoteConfiguration
 }
 
@@ -65,10 +60,8 @@ export default class Participate extends React.Component<
     }
     this.state = {
       hasMoreOptions: false,
-      currentTime: 0,
       currentNoteType: this.props.activity.noteTypes[0],
     }
-    this.timer = 0
   }
 
   componentDidMount = () => {
