@@ -219,6 +219,18 @@ export default class Participate extends React.Component<
 
   // Renders
   render() {
+    const sortedIdeas = this.props.ideas.reduce(
+      (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
+        const { type } = idea
+        if (!acc[type.name]) {
+          acc[type.name] = []
+        }
+        acc[type.name].push(idea)
+        return acc
+      },
+      {} as { [key: string]: IdeaConfiguration[] }
+    )
+
     return (
       <>
         <Bar
@@ -390,12 +402,36 @@ export default class Participate extends React.Component<
                   <SimpleItem
                     leftPartSlot={
                       <SectionTitle
-                        label={'Notes'}
-                        indicator={'3'}
+                        label={'Session ideas'}
+                        indicator={this.props.ideas.length.toString()}
                       />
                     }
                   />
-                  <div className="group__item"></div>
+                  <div className="group__item">
+                    {this.props.ideas.length === 0 ? (
+                      <Message
+                        icon="draft"
+                        messages={['No ideas yet']}
+                      />
+                    ) : (
+                      <ul>
+                        {Object.values(sortedIdeas).map((ideas, index) => (
+                          <SimpleItem
+                            key={index}
+                            leftPartSlot={
+                              <div className={layouts['snackbar--medium']}>
+                                <div
+                                  className="color-chip"
+                                  style={{ backgroundColor: ideas[0].type.hex }}
+                                />
+                                <span className="type">{`${ideas.length} ${ideas[0].type.name}`}</span>
+                              </div>
+                            }
+                          />
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
                 <div className="group">
                   <SimpleItem
