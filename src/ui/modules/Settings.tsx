@@ -5,6 +5,7 @@ import {
   FormItem,
   Input,
   SectionTitle,
+  SimpleItem,
   SortableList,
   layouts,
 } from '@a_ng_d/figmug-ui'
@@ -472,13 +473,13 @@ export default class Settings extends React.Component<SettingsProps> {
         }
       >
         <div className="group">
-          <div className="section-controls">
-            <div className="section-controls__left-part">
+          <SimpleItem
+            leftPartSlot={
               <SectionTitle
                 label={locals[this.props.lang].settings.global.title}
               />
-            </div>
-          </div>
+            }
+          />
           <this.Name />
           <this.Description />
           <this.Instructions />
@@ -497,13 +498,13 @@ export default class Settings extends React.Component<SettingsProps> {
         }
       >
         <div className="group">
-          <div className="section-controls">
-            <div className="section-controls__left-part">
+          <SimpleItem
+            leftPartSlot={
               <SectionTitle
                 label={locals[this.props.lang].settings.timer.title}
               />
-            </div>
-          </div>
+            }
+          />
           <this.Minutes />
           <this.Seconds />
         </div>
@@ -520,6 +521,7 @@ export default class Settings extends React.Component<SettingsProps> {
         }
       >
         <div className="group">
+          <SimpleItem leftPartSlot={<SectionTitle label={'Description'} />} />
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle
@@ -568,12 +570,8 @@ export default class Settings extends React.Component<SettingsProps> {
                   <>
                     <div className="draggable-item__param--square">
                       <div
+                        className="color-chip"
                         style={{
-                          width: 'var(--size-xsmall)',
-                          height: 'var(--size-xsmall)',
-                          borderRadius: '2px',
-                          outline: '1px solid rgba(0, 0, 0, 0.1)',
-                          outlineOffset: '-1px',
                           backgroundColor: noteType.hex,
                         }}
                       />

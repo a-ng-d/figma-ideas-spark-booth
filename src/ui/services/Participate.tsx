@@ -300,47 +300,39 @@ export default class Participate extends React.Component<
               </div>
               <div className="control__block control__block--no-padding">
                 <div className="group">
-                  <div className="section-controls">
-                    <div className="section-controls__left-part">
+                  <SimpleItem
+                    leftPartSlot={
                       <SectionTitle
                         label={'Notes'}
                         indicator={'3'}
                       />
-                    </div>
-                    <div className="section-controls__right-part"></div>
-                  </div>
+                    }
+                  />
                   <div className="group__item"></div>
                 </div>
                 <div className="group">
-                  <div className="section-controls">
-                    <div className="section-controls__left-part">
+                  <SimpleItem
+                    leftPartSlot={
                       <SectionTitle
                         label={'Participants'}
                         indicator={'3'}
                       />
-                    </div>
-                    <div className="section-controls__right-part"></div>
-                  </div>
+                    }
+                  />
                   <div className="group__item"></div>
                 </div>
                 <div className="group">
-                  <div className="section-controls">
-                    <div className="section-controls__left-part">
-                      <SectionTitle label={'Description'} />
-                    </div>
-                    <div className="section-controls__right-part"></div>
-                  </div>
+                  <SimpleItem
+                    leftPartSlot={<SectionTitle label={'Description'} />}
+                  />
                   <div className="group__item">
                     <p className="type">{this.props.activity.description}</p>
                   </div>
                 </div>
                 <div className="group">
-                  <div className="section-controls">
-                    <div className="section-controls__left-part">
-                      <SectionTitle label={'Instructions'} />
-                    </div>
-                    <div className="section-controls__right-part"></div>
-                  </div>
+                  <SimpleItem
+                    leftPartSlot={<SectionTitle label={'Instructions'} />}
+                  />
                   <div className="group__item">
                     <p className="type">{this.props.activity.instructions}</p>
                   </div>
