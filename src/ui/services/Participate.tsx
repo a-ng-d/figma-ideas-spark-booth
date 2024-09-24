@@ -43,6 +43,7 @@ interface ParticipateProps {
 
 interface ParticipateStates {
   hasMoreOptions: boolean
+  canBeSubmitted: boolean
   currentNoteType: NoteConfiguration
 }
 
@@ -51,6 +52,7 @@ export default class Participate extends React.Component<
   ParticipateStates
 > {
   ideasMessage: IdeasMessage
+  ideaRef: React.RefObject<Input>
 
   constructor(props: ParticipateProps) {
     super(props)
@@ -60,8 +62,10 @@ export default class Participate extends React.Component<
     }
     this.state = {
       hasMoreOptions: false,
+      canBeSubmitted: false,
       currentNoteType: this.props.activity.noteTypes[0],
     }
+    this.ideaRef = React.createRef()
   }
 
   componentDidMount = () => {
@@ -165,19 +169,23 @@ export default class Participate extends React.Component<
 
     ;(e.target as HTMLTextAreaElement).value = ''
 
-    this.props.onPushIdea({
-      ideas: [...this.props.ideas, idea],
-    })
+    if (this.state.canBeSubmitted) {
+      this.ideaRef.current?.doClear()
 
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'PUSH_IDEA',
-          data: [...this.props.ideas, idea],
+      this.props.onPushIdea({
+        ideas: [...this.props.ideas, idea],
+      })
+
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'PUSH_IDEA',
+            data: [...this.props.ideas, idea],
+          },
         },
-      },
-      '*'
-    )
+        '*'
+      )
+    }
   }
 
   // Renders
@@ -343,6 +351,7 @@ export default class Participate extends React.Component<
             >
               <div className="idea-edit__text">
                 <Input
+                  ref={this.ideaRef}
                   id="update-idea"
                   type="LONG_TEXT"
                   placeholder="Type your idea here"
