@@ -300,6 +300,12 @@ export default class Participate extends React.Component<
                                         'PARTICIPATE_UPDATE_IDEA'
                                     )?.isNew
                                   }
+                                  onBlur={(e) =>
+                                    !isBlocked(
+                                      'PARTICIPATE_UPDATE_IDEA',
+                                      this.props.planStatus
+                                    ) && this.ideasHandler(e)
+                                  }
                                   onConfirm={(e) =>
                                     !isBlocked(
                                       'PARTICIPATE_UPDATE_IDEA',
