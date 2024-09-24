@@ -260,7 +260,10 @@ export default class Participate extends React.Component<
                                     isBlocked(
                                       'PARTICIPATE_UPDATE_TYPE',
                                       this.props.planStatus
-                                    ) ? 'DISABLED' : 'DEFAULT'}
+                                    )
+                                      ? 'DISABLED'
+                                      : 'DEFAULT'
+                                  }
                                   isNew={
                                     features.find(
                                       (feature) =>
@@ -291,14 +294,19 @@ export default class Participate extends React.Component<
                                     'PARTICIPATE_UPDATE_IDEA',
                                     this.props.planStatus
                                   )}
-                                  isNew={features.find(
-                                    (feature) =>
-                                      feature.name === 'PARTICIPATE_UPDATE_IDEA'
-                                  )?.isNew}
-                                  onConfirm={(e) => !isBlocked(
-                                    'PARTICIPATE_UPDATE_IDEA',
-                                    this.props.planStatus
-                                  ) && this.ideasHandler(e)}
+                                  isNew={
+                                    features.find(
+                                      (feature) =>
+                                        feature.name ===
+                                        'PARTICIPATE_UPDATE_IDEA'
+                                    )?.isNew
+                                  }
+                                  onConfirm={(e) =>
+                                    !isBlocked(
+                                      'PARTICIPATE_UPDATE_IDEA',
+                                      this.props.planStatus
+                                    ) && this.ideasHandler(e)
+                                  }
                                 />
                               </div>
                             </Feature>
@@ -321,13 +329,14 @@ export default class Participate extends React.Component<
                                 'PARTICIPATE_UPDATE_REMOVE',
                                 this.props.planStatus
                               )}
-                              action={(e) => !isBlocked(
-                                'PARTICIPATE_UPDATE_REMOVE',
-                                this.props.planStatus
-                              ) && this.ideasHandler(e)}
+                              action={(e) =>
+                                !isBlocked(
+                                  'PARTICIPATE_UPDATE_REMOVE',
+                                  this.props.planStatus
+                                ) && this.ideasHandler(e)
+                              }
                             />
                           </Feature>
-                          
                         }
                       />
                     ))}
@@ -447,12 +456,10 @@ export default class Participate extends React.Component<
                   options={this.noteTypeHandler('CREATE')}
                   selected={this.state.currentNoteType.color}
                   alignment="FILL"
-                  isDisabled={
-                    isBlocked(
-                      'PARTICIPATE_CREATE_TYPE',
-                      this.props.planStatus
-                    )
-                  }
+                  isDisabled={isBlocked(
+                    'PARTICIPATE_CREATE_TYPE',
+                    this.props.planStatus
+                  )}
                   isNew={
                     features.find(
                       (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'

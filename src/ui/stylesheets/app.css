@@ -70,7 +70,8 @@ div.idea-edit__type {
   gap: var(--size-xxxsmall);
 }
 
-div.idea-edit__text .input, div.idea-edit__type .select-menu {
+div.idea-edit__text .input,
+div.idea-edit__type .select-menu {
   flex: 1;
 }
 
