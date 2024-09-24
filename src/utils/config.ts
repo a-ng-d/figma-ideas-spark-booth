@@ -169,7 +169,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_GROUPED_BY_NOTE_TYPE',
+          name: 'SETTINGS_GROUPED_BY_TYPE',
           description: '',
           isActive: true,
           isPro: false,
@@ -205,7 +205,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_NOTE_TYPES',
+          name: 'SETTINGS_TYPES',
           description: '',
           isActive: true,
           isPro: false,
@@ -214,7 +214,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_NOTE_TYPES_ADD',
+          name: 'SETTINGS_TYPES_ADD',
           description: '',
           isActive: true,
           isPro: false,
@@ -223,7 +223,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_NOTE_TYPES_REMOVE',
+          name: 'SETTINGS_TYPES_REMOVE',
           description: '',
           isActive: true,
           isPro: false,
@@ -232,7 +232,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_NOTE_TYPES_RENAME',
+          name: 'SETTINGS_TYPES_RENAME',
           description: '',
           isActive: true,
           isPro: false,
@@ -241,7 +241,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SETTINGS_NOTE_TYPES_UPDATE_COLOR',
+          name: 'SETTINGS_TYPES_UPDATE_COLOR',
           description: '',
           isActive: true,
           isPro: false,

@@ -17,8 +17,8 @@ import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
-  NoteConfiguration,
   SessionConfiguration,
+  TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { IdeasMessage } from '../../types/messages'
@@ -45,7 +45,7 @@ interface ParticipateProps {
 interface ParticipateStates {
   hasMoreOptions: boolean
   canBeSubmitted: boolean
-  currentNoteType: NoteConfiguration
+  currentType: TypeConfiguration
 }
 
 export default class Participate extends React.Component<
@@ -64,7 +64,7 @@ export default class Participate extends React.Component<
     this.state = {
       hasMoreOptions: false,
       canBeSubmitted: false,
-      currentNoteType: this.props.activity.noteTypes[0],
+      currentType: this.props.activity.types[0],
     }
     this.ideaRef = React.createRef()
   }
@@ -78,11 +78,11 @@ export default class Participate extends React.Component<
   }
 
   // Handlers
-  noteTypeHandler = (type: 'CREATE' | 'UPDATE') => {
-    return this.props.activity.noteTypes.map((noteType, index) => {
+  typesHandler = (action: 'CREATE' | 'UPDATE') => {
+    return this.props.activity.types.map((type, index) => {
       return {
-        label: noteType.name,
-        value: noteType.color,
+        label: type.name,
+        value: type.color,
         feature: 'UPDATE_TYPE',
         position: index,
         type: 'OPTION',
@@ -91,8 +91,8 @@ export default class Participate extends React.Component<
         isNew: false,
         children: [],
         action: (e) => {
-          type === 'CREATE'
-            ? this.setState({ currentNoteType: noteType })
+          action === 'CREATE'
+            ? this.setState({ currentType: type })
             : this.ideasHandler(e)
         },
       } as DropdownOption
@@ -125,7 +125,7 @@ export default class Participate extends React.Component<
 
     const updateIdeaType = () => {
       this.ideasMessage.data = this.props.ideas.map((item) => {
-        if (item.id === id) item.noteType = this.state.currentNoteType
+        if (item.id === id) item.type = this.state.currentType
         return item
       })
 
@@ -158,7 +158,7 @@ export default class Participate extends React.Component<
     const idea: IdeaConfiguration = {
       id: uid(),
       text: (e.target as HTMLTextAreaElement).value,
-      noteType: this.state.currentNoteType,
+      type: this.state.currentType,
       userIdentity: {
         id: this.props.userIdentity.id,
         fullName: this.props.userIdentity.fullName,
@@ -250,12 +250,12 @@ export default class Participate extends React.Component<
                                     <div
                                       className="color-chip"
                                       style={{
-                                        backgroundColor: idea.noteType.hex,
+                                        backgroundColor: idea.type.hex,
                                       }}
                                     />
                                   }
-                                  options={this.noteTypeHandler('UPDATE')}
-                                  selected={idea.noteType.color}
+                                  options={this.typesHandler('UPDATE')}
+                                  selected={idea.type.color}
                                   state={
                                     isBlocked(
                                       'PARTICIPATE_UPDATE_TYPE',
@@ -448,13 +448,13 @@ export default class Participate extends React.Component<
                 <div
                   className="color-chip"
                   style={{
-                    backgroundColor: this.state.currentNoteType.hex,
+                    backgroundColor: this.state.currentType.hex,
                   }}
                 />
                 <Dropdown
-                  id="update-note-type-color"
-                  options={this.noteTypeHandler('CREATE')}
-                  selected={this.state.currentNoteType.color}
+                  id="update-type-color"
+                  options={this.typesHandler('CREATE')}
+                  selected={this.state.currentType.color}
                   alignment="FILL"
                   isDisabled={isBlocked(
                     'PARTICIPATE_CREATE_TYPE',

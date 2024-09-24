@@ -6,18 +6,18 @@ export interface ActivityConfiguration {
   instructions: string
   groupedBy: GroupedBy
   timer: TimerConfiguration
-  noteTypes: Array<NoteConfiguration>
+  types: Array<TypeConfiguration>
   meta: MetaConfiguration
 }
 
-export type GroupedBy = 'PARTICIPANT' | 'NOTE_TYPE'
+export type GroupedBy = 'PARTICIPANT' | 'TYPE'
 
 export interface TimerConfiguration {
   minutes: number
   seconds: number
 }
 
-export interface NoteConfiguration {
+export interface TypeConfiguration {
   name: string
   color: ColorConfiguration
   hex: HexModel
@@ -39,7 +39,7 @@ export interface SessionConfiguration {
   id: string
   animator: AnimatorConfiguration
   metrics: {
-    notes: number
+    ideas: number
     participants: Array<UserConfiguration>
   }
   date: Date | string
@@ -50,7 +50,7 @@ export interface SessionConfiguration {
 export interface IdeaConfiguration {
   id: string
   text: string
-  noteType: NoteConfiguration
+  type: TypeConfiguration
   userIdentity: UserConfiguration
   sessionId: string
   activityId: string

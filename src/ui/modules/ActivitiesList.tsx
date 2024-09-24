@@ -64,12 +64,12 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
                       gap: 'var(--size-xxsmall)',
                     }}
                   >
-                    {activity.noteTypes.map((noteType, index) => (
+                    {activity.types.map((type, index) => (
                       <div
                         key={index}
                         className="color-chip"
                         style={{
-                          backgroundColor: noteType.hex,
+                          backgroundColor: type.hex,
                         }}
                       />
                     ))}

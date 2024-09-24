@@ -47,7 +47,7 @@ export const locals: { [key: string]: any } = {
           label: 'Name',
         },
         description: {
-          label: 'Instructions',
+          label: 'Description',
           placeholder: "What's it for?",
         },
         instructions: {
@@ -57,7 +57,7 @@ export const locals: { [key: string]: any } = {
         groupedBy: {
           label: 'Grouped by',
           participant: 'Participant',
-          noteType: 'Note type',
+          type: 'Type',
         },
       },
       timer: {
@@ -69,10 +69,10 @@ export const locals: { [key: string]: any } = {
           label: 'Seconds',
         },
       },
-      noteTypes: {
-        title: 'Note types',
-        newNoteType: 'New note type',
-        defaultNoteType: 'Classic yellow',
+      types: {
+        title: 'Types',
+        newType: 'New type',
+        defaultType: 'Classic yellow',
       },
     },
     report: {

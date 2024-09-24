@@ -17,7 +17,7 @@ import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   ColorConfiguration,
-  NoteConfiguration,
+  TypeConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import features, {
@@ -46,13 +46,13 @@ interface SettingsProps {
         >
       | React.MouseEvent<HTMLLIElement | Element, MouseEvent>
   ) => void
-  onChangeNoteTypes: (noteTypes: Array<NoteConfiguration>) => void
+  onChangeTypes: (types: Array<TypeConfiguration>) => void
   onCloseActivitySettings: () => void
 }
 
 export default class Settings extends React.Component<SettingsProps> {
   // Handlers
-  noteTypeHandler = (e: any) => {
+  typeHandler = (e: any) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
         '.draggable-item'
@@ -61,77 +61,72 @@ export default class Settings extends React.Component<SettingsProps> {
 
     element !== null ? (id = element.getAttribute('data-id')) : (id = null)
 
-    const addNoteType = () => {
-      const hasAlreadyNewNoteType = this.props.activity.noteTypes.filter(
-        (noteType) => noteType.name.includes('New note type')
+    const addType = () => {
+      const hasAlreadyNewType = this.props.activity.types.filter((type) =>
+        type.name.includes(locals[this.props.lang].settings.types.newType)
       )
 
-      const noteTypes = this.props.activity.noteTypes.map((el) => el)
-      noteTypes.push({
-        name: `New note type ${hasAlreadyNewNoteType.length + 1}`,
+      const types = this.props.activity.types.map((el) => el)
+      types.push({
+        name: `${locals[this.props.lang].settings.types.newType} ${hasAlreadyNewType.length + 1}`,
         color: 'YELLOW',
         hex: yellowColor,
         id: uid(),
       })
-      this.props.onChangeNoteTypes(noteTypes)
+      this.props.onChangeTypes(types)
     }
 
-    const renameNoteType = () => {
-      const noteTypes = this.props.activity.noteTypes.map((noteType) => {
-        if (noteType.id === id) noteType.name = e.target.value
-        return noteType
+    const renameType = () => {
+      const types = this.props.activity.types.map((type) => {
+        if (type.id === id) type.name = e.target.value
+        return type
       })
-      this.props.onChangeNoteTypes(noteTypes)
+      this.props.onChangeTypes(types)
     }
 
-    const updateNoteTypeColor = () => {
-      const noteTypes = this.props.activity.noteTypes.map((noteType) => {
-        if (noteType.id === id) {
-          noteType.color = currentElement.dataset.value as ColorConfiguration
-          if (currentElement.dataset.value === 'YELLOW')
-            noteType.hex = yellowColor
-          else if (currentElement.dataset.value === 'BLUE')
-            noteType.hex = blueColor
+    const updateTypeColor = () => {
+      const types = this.props.activity.types.map((type) => {
+        if (type.id === id) {
+          type.color = currentElement.dataset.value as ColorConfiguration
+          if (currentElement.dataset.value === 'YELLOW') type.hex = yellowColor
+          else if (currentElement.dataset.value === 'BLUE') type.hex = blueColor
           else if (currentElement.dataset.value === 'GREEN')
-            noteType.hex = greenColor
+            type.hex = greenColor
           else if (currentElement.dataset.value === 'VIOLET')
-            noteType.hex = violetColor
-          else if (currentElement.dataset.value === 'RED')
-            noteType.hex = redColor
+            type.hex = violetColor
+          else if (currentElement.dataset.value === 'RED') type.hex = redColor
           else if (currentElement.dataset.value === 'ORANGE')
-            noteType.hex = orangeColor
-          else if (currentElement.dataset.value === 'PINK')
-            noteType.hex = pinkColor
+            type.hex = orangeColor
+          else if (currentElement.dataset.value === 'PINK') type.hex = pinkColor
           else if (currentElement.dataset.value === 'LIGHT_GRAY')
-            noteType.hex = lightGrayColor
-          else if (currentElement.dataset.value === 'GRAY')
-            noteType.hex = grayColor
+            type.hex = lightGrayColor
+          else if (currentElement.dataset.value === 'GRAY') type.hex = grayColor
         }
-        return noteType
+        return type
       })
-      this.props.onChangeNoteTypes(noteTypes)
+      this.props.onChangeTypes(types)
     }
 
-    const removeNoteType = () => {
-      const noteTypes = this.props.activity.noteTypes.filter((noteType) => {
-        return noteType.id !== id
+    const removeType = () => {
+      const types = this.props.activity.types.filter((type) => {
+        return type.id !== id
       })
-      this.props.onChangeNoteTypes(noteTypes)
+      this.props.onChangeTypes(types)
     }
 
     const actions: ActionsList = {
-      ADD_NOTE_TYPE: () => addNoteType(),
-      RENAME_NOTE_TYPE: () => renameNoteType(),
-      UPDATE_NOTE_TYPE_COLOR: () => updateNoteTypeColor(),
-      REMOVE_ITEM: () => removeNoteType(),
+      ADD_TYPE: () => addType(),
+      RENAME_TYPE: () => renameType(),
+      UPDATE_COLOR: () => updateTypeColor(),
+      REMOVE_ITEM: () => removeType(),
       NULL: () => null,
     }
 
     return actions[currentElement.dataset.feature ?? 'NULL']?.()
   }
 
-  onChangeOrder = (noteTypes: Array<NoteConfiguration>) => {
-    this.props.onChangeNoteTypes(noteTypes)
+  onChangeOrder = (types: Array<TypeConfiguration>) => {
+    this.props.onChangeTypes(types)
   }
 
   // Templates
@@ -319,23 +314,20 @@ export default class Settings extends React.Component<SettingsProps> {
                   action: this.props.onChangeActivities,
                 },
                 {
-                  label:
-                    locals[this.props.lang].settings.global.groupedBy.noteType,
-                  value: 'NOTE_TYPE',
+                  label: locals[this.props.lang].settings.global.groupedBy.type,
+                  value: 'TYPE',
                   feature: 'UPDATE_GROUPED_BY',
                   position: 1,
                   type: 'OPTION',
                   isActive: features.find(
-                    (feature) =>
-                      feature.name === 'SETTINGS_GROUPED_BY_NOTE_TYPE'
+                    (feature) => feature.name === 'SETTINGS_GROUPED_BY_TYPE'
                   )?.isActive,
                   isBlocked: isBlocked(
-                    'SETTINGS_GROUPED_BY_NOTE_TYPE',
+                    'SETTINGS_GROUPED_BY_TYPE',
                     this.props.planStatus
                   ),
                   isNew: features.find(
-                    (feature) =>
-                      feature.name === 'SETTINGS_GROUPED_BY_NOTE_TYPE'
+                    (feature) => feature.name === 'SETTINGS_GROUPED_BY_TYPE'
                   )?.isNew,
                   children: [],
                   action: this.props.onChangeActivities,
@@ -512,50 +504,49 @@ export default class Settings extends React.Component<SettingsProps> {
     )
   }
 
-  NoteTypes = () => {
+  Types = () => {
     return (
       <Feature
         isActive={
-          features.find((feature) => feature.name === 'SETTINGS_NOTE_TYPES')
+          features.find((feature) => feature.name === 'SETTINGS_TYPES')
             ?.isActive
         }
       >
         <div className="group">
-          <SimpleItem leftPartSlot={<SectionTitle label={'Description'} />} />
-          <div className="section-controls">
-            <div className="section-controls__left-part">
+          <SimpleItem
+            leftPartSlot={
               <SectionTitle
-                label={locals[this.props.lang].settings.noteTypes.title}
+                label={locals[this.props.lang].settings.types.title}
               />
-            </div>
-            <div className="section-controls__right-part">
+            }
+            rightPartSlot={
               <Button
                 type="icon"
                 icon="plus"
-                feature="ADD_NOTE_TYPE"
-                action={this.noteTypeHandler}
+                feature="ADD_TYPE"
+                action={this.typeHandler}
               />
-            </div>
-          </div>
+            }
+          />
           <SortableList
-            data={this.props.activity.noteTypes as Array<NoteConfiguration>}
-            primarySlot={this.props.activity.noteTypes.map((noteType) => (
+            data={this.props.activity.types as Array<TypeConfiguration>}
+            primarySlot={this.props.activity.types.map((type) => (
               <>
                 <Feature
                   isActive={
                     features.find(
-                      (feature) => feature.name === 'SETTINGS_NOTE_TYPES_RENAME'
+                      (feature) => feature.name === 'SETTINGS_TYPES_RENAME'
                     )?.isActive
                   }
                 >
                   <div className="draggable-item__param--compact">
                     <Input
                       type="TEXT"
-                      value={noteType.name}
+                      value={type.name}
                       charactersLimit={24}
-                      feature="RENAME_NOTE_TYPE"
-                      onBlur={this.noteTypeHandler}
-                      onConfirm={this.noteTypeHandler}
+                      feature="RENAME_TYPE"
+                      onBlur={this.typeHandler}
+                      onConfirm={this.typeHandler}
                     />
                   </div>
                 </Feature>
@@ -563,7 +554,7 @@ export default class Settings extends React.Component<SettingsProps> {
                   isActive={
                     features.find(
                       (feature) =>
-                        feature.name === 'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
+                        feature.name === 'SETTINGS_TYPES_UPDATE_COLOR'
                     )?.isActive
                   }
                 >
@@ -572,130 +563,129 @@ export default class Settings extends React.Component<SettingsProps> {
                       <div
                         className="color-chip"
                         style={{
-                          backgroundColor: noteType.hex,
+                          backgroundColor: type.hex,
                         }}
                       />
                     </div>
                     <div className="draggable-item__param--compact">
                       <Dropdown
-                        id="update-note-type-color"
+                        id="update-type-color"
                         options={[
                           {
                             label: 'Gray',
                             value: 'GRAY',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 0,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Red',
                             value: 'RED',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 1,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Orange',
                             value: 'ORANGE',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 2,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Yellow',
                             value: 'YELLOW',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 3,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Green',
                             value: 'GREEN',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 4,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Blue',
                             value: 'BLUE',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 5,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Violet',
                             value: 'VIOLET',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 6,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Pink',
                             value: 'PINK',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 7,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                           {
                             label: 'Light gray',
                             value: 'LIGHT_GRAY',
-                            feature: 'UPDATE_NOTE_TYPE_COLOR',
+                            feature: 'UPDATE_COLOR',
                             position: 8,
                             type: 'OPTION',
                             isActive: true,
                             isBlocked: false,
                             isNew: false,
                             children: [],
-                            action: this.noteTypeHandler,
+                            action: this.typeHandler,
                           },
                         ]}
-                        selected={noteType.color}
+                        selected={type.color}
                         alignment="FILL"
                         isNew={
                           features.find(
                             (feature) =>
-                              feature.name ===
-                              'SETTINGS_NOTE_TYPES_UPDATE_COLOR'
+                              feature.name === 'SETTINGS_TYPES_UPDATE_COLOR'
                           )?.isNew
                         }
                       />
@@ -705,7 +695,7 @@ export default class Settings extends React.Component<SettingsProps> {
               </>
             ))}
             onChangeSortableList={this.onChangeOrder}
-            onRemoveItem={this.noteTypeHandler}
+            onRemoveItem={this.typeHandler}
           />
         </div>
       </Feature>
@@ -764,7 +754,7 @@ export default class Settings extends React.Component<SettingsProps> {
         <div className="control__block control__block--no-padding">
           <this.Global />
           <this.Timer />
-          <this.NoteTypes />
+          <this.Types />
         </div>
       </div>
     )

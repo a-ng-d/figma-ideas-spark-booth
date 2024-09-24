@@ -6,8 +6,8 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
-  NoteConfiguration,
   SessionConfiguration,
+  TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { ActivitiesMessage } from '../../types/messages'
@@ -71,9 +71,9 @@ export default class Activities extends React.Component<
           minutes: 10,
           seconds: 0,
         },
-        noteTypes: [
+        types: [
           {
-            name: locals[this.props.lang].settings.noteTypes.defaultNoteType,
+            name: locals[this.props.lang].settings.types.defaultType,
             color: 'YELLOW',
             hex: '#FFD966',
             id: uid(),
@@ -156,7 +156,7 @@ export default class Activities extends React.Component<
         if (item.meta.id === this.state.openedActivity)
           item.groupedBy = currentElement.dataset.value as
             | 'PARTICIPANT'
-            | 'NOTE_TYPE'
+            | 'TYPE'
         return item
       })
 
@@ -222,10 +222,9 @@ export default class Activities extends React.Component<
     return actions[currentElement.dataset.feature ?? 'NULL']?.()
   }
 
-  noteTypesHandler = (noteTypes: Array<NoteConfiguration>) => {
+  typesHandler = (types: Array<TypeConfiguration>) => {
     this.activitiesMessage.data = this.props.activities.map((activity) => {
-      if (activity.meta.id === this.state.openedActivity)
-        activity.noteTypes = noteTypes
+      if (activity.meta.id === this.state.openedActivity) activity.types = types
       return activity
     })
 
@@ -247,7 +246,7 @@ export default class Activities extends React.Component<
         id: this.props.userIdentity.id,
       },
       metrics: {
-        notes: 0,
+        ideas: 0,
         participants: [],
       },
       date: new Date().toISOString(),
@@ -304,7 +303,7 @@ export default class Activities extends React.Component<
             }
             {...this.props}
             onChangeActivities={this.activitiesHandler}
-            onChangeNoteTypes={this.noteTypesHandler}
+            onChangeTypes={this.typesHandler}
             onCloseActivitySettings={() =>
               this.setState({
                 view: 'ACTIVITIES',

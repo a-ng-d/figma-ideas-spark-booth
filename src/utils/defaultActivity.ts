@@ -14,9 +14,9 @@ export const defaultActivity: ActivityConfiguration = {
     minutes: 10,
     seconds: 0,
   },
-  noteTypes: [
+  types: [
     {
-      name: locals[lang].settings.noteTypes.defaultNoteType,
+      name: locals[lang].settings.types.defaultType,
       color: 'YELLOW',
       hex: yellowColor,
       id: uid(),
