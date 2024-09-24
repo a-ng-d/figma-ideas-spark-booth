@@ -396,7 +396,11 @@ class App extends React.Component<Record<string, never>, AppStates> {
       ),
       onGoingSessionActivity = this.state.activities.find(
         (activity) => activity.meta.id === onGoingSession?.activityId
+      ),
+      onGoingSessionIdeas = this.state.ideas.filter(
+        (idea) => idea.sessionId === onGoingSession?.id
       )
+
     if (this.state.isLoaded)
       return (
         <main className="ui">
@@ -425,6 +429,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               {...this.state}
               activity={onGoingSessionActivity ?? ({} as ActivityConfiguration)}
               session={onGoingSession ?? ({} as SessionConfiguration)}
+              ideas={onGoingSessionIdeas}
               onPushIdea={(e) => this.setState({ ...this.state, ...e })}
               onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
               onEndSession={this.onEndSession}
