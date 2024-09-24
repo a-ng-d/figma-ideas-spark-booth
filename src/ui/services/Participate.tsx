@@ -6,8 +6,9 @@ import {
   Dropdown,
   DropdownOption,
   Input,
+  Menu,
   SectionTitle,
-  Tabs,
+  SimpleItem,
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
@@ -23,12 +24,13 @@ import {
   SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
+import { IdeasMessage } from '../../types/messages'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
-import Activities from '../contexts/Activities'
+import Feature from '../components/Feature'
 
 interface ParticipateProps {
   activity: ActivityConfiguration
@@ -40,6 +42,7 @@ interface ParticipateProps {
   planStatus: PlanStatus
   lang: Language
   onPushIdea: (idea: Partial<AppStates>) => void
+  onChangeIdeas: (ideas: Partial<AppStates>) => void
 }
 
 interface ParticipateStates {
@@ -52,12 +55,14 @@ export default class Participate extends React.Component<
   ParticipateProps,
   ParticipateStates
 > {
-  contexts: Array<ContextItem>
-  timer: number
+  ideasMessage: IdeasMessage
 
   constructor(props: ParticipateProps) {
     super(props)
-    this.contexts = setContexts(['ACTIVITY', 'EXPLORE'])
+    this.ideasMessage = {
+      type: 'UPDATE_IDEAS',
+      data: this.props.ideas,
+    }
     this.state = {
       hasMoreOptions: false,
       currentTime: 0,
@@ -68,43 +73,89 @@ export default class Participate extends React.Component<
 
   componentDidMount = () => {
     onmessage = (e: MessageEvent) => {
-      const startTimer = () => {
-        this.setState({ currentTime: e.data.pluginMessage.data })
-        this.timer = setInterval(
-          () => this.setState({ currentTime: this.state.currentTime - 1 }),
-          1000
-        )
-      }
-
-      const actions: ActionsList = {
-        START_TIMER: () => startTimer(),
-      }
+      const actions: ActionsList = {}
 
       return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
     }
   }
 
   // Handlers
-  noteTypeHandler = () => {
+  noteTypeHandler = (type: 'CREATE' | 'UPDATE') => {
     return this.props.activity.noteTypes.map((noteType, index) => {
       return {
         label: noteType.name,
         value: noteType.color,
-        feature: 'UPDATE_NOTE_TYPE_COLOR',
+        feature: 'UPDATE_TYPE',
         position: index,
         type: 'OPTION',
         isActive: true,
         isBlocked: false,
         isNew: false,
         children: [],
-        action: () => this.setState({ currentNoteType: noteType }),
+        action: (e) => {
+          type === 'CREATE'
+            ? this.setState({ currentNoteType: noteType })
+            : this.ideasHandler(e)
+        },
       } as DropdownOption
     })
   }
 
+  ideasHandler = (e: any) => {
+    let id: string | null
+    const element: HTMLElement | null = (e.target as HTMLElement).closest(
+        '.simple-item'
+      ),
+      currentElement: HTMLInputElement = e.currentTarget
+
+    element !== null ? (id = element.getAttribute('data-id')) : (id = null)
+
+    const updateIdea = () => {
+      this.ideasMessage.data = this.props.ideas.map((item) => {
+        if (item.id === id) item.text = currentElement.value
+        return item
+      })
+
+      sendData()
+    }
+
+    const removeIdea = () => {
+      this.ideasMessage.data = this.props.ideas.filter((item) => item.id !== id)
+
+      sendData()
+    }
+
+    const updateIdeaType = () => {
+      this.ideasMessage.data = this.props.ideas.map((item) => {
+        if (item.id === id) item.noteType = this.state.currentNoteType
+        return item
+      })
+
+      sendData()
+    }
+
+    const sendData = () => {
+      this.props.onChangeIdeas({
+        ideas: this.ideasMessage.data,
+        onGoingStep: 'ideas changed',
+      })
+
+      parent.postMessage({ pluginMessage: this.ideasMessage }, '*')
+    }
+
+    const actions: ActionsList = {
+      UPDATE_IDEA: () => updateIdea(),
+      REMOVE_IDEA: () => removeIdea(),
+      UPDATE_TYPE: () => updateIdeaType(),
+      NULL: () => null,
+    }
+
+    return actions[currentElement.dataset.feature ?? 'NULL']?.()
+  }
+
   // Direct actions
   onPushIdea = (
-    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>
   ) => {
     const idea: IdeaConfiguration = {
       id: uid(),
@@ -118,6 +169,8 @@ export default class Participate extends React.Component<
       sessionId: this.props.session.id,
       activityId: this.props.activity.meta.id,
     }
+
+    ;(e.target as HTMLTextAreaElement).value = ''
 
     this.props.onPushIdea({
       ideas: [...this.props.ideas, idea],
@@ -166,43 +219,84 @@ export default class Participate extends React.Component<
           <div className="controls">
             <div className="controls__control controls__control--horizontal">
               <div className="control__block control__block--no-padding">
-                {this.props.ideas
-                  .filter(
-                    (idea) =>
-                      idea.sessionId === this.props.session.id &&
-                      idea.userIdentity.id === this.props.userIdentity.id
-                  )
-                  .map((idea, index) => (
-                    <div
-                      key={index}
-                      data-id={idea.id}
-                    >
-                      <Dropdown
-                        id={`idea-${index}`}
-                        options={this.noteTypeHandler()}
-                        selected={idea.noteType.color}
-                        alignment="FILL"
-                        isNew={
-                          features.find(
-                            (feature) =>
-                              feature.name === 'PARTICIPATE_UPDATE_NOTE_TYPE'
-                          )?.isNew
+                <ul className="list">
+                  {this.props.ideas
+                    .filter(
+                      (idea) =>
+                        idea.sessionId === this.props.session.id &&
+                        idea.userIdentity.id === this.props.userIdentity.id
+                    )
+                    .map((idea, index) => (
+                      <SimpleItem
+                        key={index}
+                        id={idea.id}
+                        leftPartSlot={
+                          <>
+                            <Feature
+                              isActive={
+                                features.find(
+                                  (feature) =>
+                                    feature.name === 'PARTICIPATE_UPDATE_TYPE'
+                                )?.isActive
+                              }
+                            >
+                              <div className="simple-item__param">
+                                <Menu
+                                  id={`idea-${index}`}
+                                  type="ICON"
+                                  customIcon={
+                                    <div
+                                      className="color-chip"
+                                      style={{
+                                        backgroundColor: idea.noteType.hex,
+                                      }}
+                                    />
+                                  }
+                                  options={this.noteTypeHandler('UPDATE')}
+                                  selected={idea.noteType.color}
+                                  isNew={
+                                    features.find(
+                                      (feature) =>
+                                        feature.name ===
+                                        'PARTICIPATE_UPDATE_TYPE'
+                                    )?.isNew
+                                  }
+                                />
+                              </div>
+                            </Feature>
+                            <Feature
+                              isActive={
+                                features.find(
+                                  (feature) =>
+                                    feature.name === 'PARTICIPATE_UPDATE_IDEA'
+                                )?.isActive
+                              }
+                            >
+                              <div className="simple-item__param simple-item__param--fill">
+                                <Input
+                                  id={`idea-${index}`}
+                                  type="LONG_TEXT"
+                                  value={idea.text}
+                                  isGrowing={true}
+                                  isFlex={true}
+                                  feature="UPDATE_IDEA"
+                                  onConfirm={this.ideasHandler}
+                                />
+                              </div>
+                            </Feature>
+                          </>
+                        }
+                        rightPartSlot={
+                          <Button
+                            type="icon"
+                            icon="trash"
+                            feature="REMOVE_IDEA"
+                            action={this.ideasHandler}
+                          />
                         }
                       />
-                      <Input
-                        id={`idea-${index}`}
-                        type="LONG_TEXT"
-                        value={idea.text}
-                        isGrowing={true}
-                        onConfirm={(e) => this.onPushIdea(e)}
-                      />
-                      <Button
-                        type="icon"
-                        icon="trash"
-                        action={() => null}
-                      />
-                    </div>
-                  ))}
+                    ))}
+                </ul>
               </div>
               <div className="control__block control__block--no-padding">
                 <div className="group">
@@ -255,41 +349,55 @@ export default class Participate extends React.Component<
             </div>
           </div>
           <div className="idea-edit">
-            <div className="idea-edit__text">
-              <Input
-                id="update-idea"
-                type="LONG_TEXT"
-                placeholder="Type your note here"
-                isGrowing={true}
-                onConfirm={(e) => this.onPushIdea(e)}
-              />
-            </div>
-            <div className="idea-edit__note-type">
-              <div className={layouts['snackbar--tight']}>
+            <Feature
+              isActive={
+                features.find(
+                  (feature) => feature.name === 'PARTICIPATE_CREATE_IDEA'
+                )?.isActive
+              }
+            >
+              <div className="idea-edit__text">
+                <Input
+                  id="update-idea"
+                  type="LONG_TEXT"
+                  placeholder="Type your idea here"
+                  isGrowing={true}
+                  onConfirm={(e) => this.onPushIdea(e)}
+                />
+                <Button
+                  type="icon"
+                  icon="plus"
+                  action={(e) => this.onPushIdea(e)}
+                />
+              </div>
+            </Feature>
+            <Feature
+              isActive={
+                features.find(
+                  (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
+                )?.isActive
+              }
+            >
+              <div className="idea-edit__type">
                 <div
+                  className="color-chip"
                   style={{
-                    width: 'var(--size-xsmall)',
-                    height: 'var(--size-xsmall)',
-                    borderRadius: '2px',
-                    outline: '1px solid rgba(0, 0, 0, 0.1)',
-                    outlineOffset: '-1px',
                     backgroundColor: this.state.currentNoteType.hex,
                   }}
                 />
                 <Dropdown
                   id="update-note-type-color"
-                  options={this.noteTypeHandler()}
+                  options={this.noteTypeHandler('CREATE')}
                   selected={this.state.currentNoteType.color}
                   alignment="FILL"
                   isNew={
                     features.find(
-                      (feature) =>
-                        feature.name === 'PARTICIPATE_UPDATE_NOTE_TYPE'
+                      (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
                     )?.isNew
                   }
                 />
               </div>
-            </div>
+            </Feature>
           </div>
         </section>
       </>

@@ -86,6 +86,8 @@ const loadUI = async () => {
       START_SESSION: () => startSession(msg.data),
       PUSH_IDEA: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
+      UPDATE_IDEAS: () =>
+        figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),

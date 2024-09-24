@@ -404,6 +404,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               activity={onGoingSessionActivity ?? ({} as ActivityConfiguration)}
               session={onGoingSession ?? ({} as SessionConfiguration)}
               onPushIdea={(e) => this.setState({ ...this.state, ...e })}
+              onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
             />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>

@@ -1,4 +1,4 @@
-import { ActivityConfiguration, SessionConfiguration } from './configurations'
+import { ActivityConfiguration, IdeaConfiguration, SessionConfiguration } from './configurations'
 
 export interface ActivitiesMessage {
   type: 'UPDATE_ACTIVITIES'
@@ -8,4 +8,9 @@ export interface ActivitiesMessage {
 export interface SessionsMessage {
   type: 'UPDATE_SESSIONS'
   data: Array<SessionConfiguration>
+}
+
+export interface IdeasMessage {
+  type: 'UPDATE_IDEAS'
+  data: Array<IdeaConfiguration>
 }
