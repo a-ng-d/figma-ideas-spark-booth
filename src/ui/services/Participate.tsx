@@ -5,6 +5,7 @@ import {
   DropdownOption,
   Input,
   Menu,
+  Message,
   SectionTitle,
   SimpleItem,
   layouts,
@@ -255,124 +256,133 @@ export default class Participate extends React.Component<
                     />
                   }
                 />
-                <ul className="list list--fill">
-                  {this.state.selfIdeas.map((idea, index) => (
-                    <SimpleItem
-                      key={index}
-                      id={idea.id}
-                      leftPartSlot={
-                        <>
+                {this.state.selfIdeas.length === 0 ? (
+                  <Message
+                    icon="draft"
+                    messages={['No ideas yet']}
+                  />
+                ) : (
+                  <ul className="list list--fill">
+                    {this.state.selfIdeas.map((idea, index) => (
+                      <SimpleItem
+                        key={index}
+                        id={idea.id}
+                        leftPartSlot={
+                          <>
+                            <Feature
+                              isActive={
+                                features.find(
+                                  (feature) =>
+                                    feature.name === 'PARTICIPATE_UPDATE_TYPE'
+                                )?.isActive
+                              }
+                            >
+                              <div className="simple-item__param">
+                                <Menu
+                                  id={`update-type-${index}`}
+                                  type="ICON"
+                                  customIcon={
+                                    <div
+                                      className="color-chip"
+                                      style={{
+                                        backgroundColor: idea.type.hex,
+                                      }}
+                                    />
+                                  }
+                                  options={this.typesHandler('UPDATE')}
+                                  selected={idea.type.color}
+                                  state={
+                                    isBlocked(
+                                      'PARTICIPATE_UPDATE_TYPE',
+                                      this.props.planStatus
+                                    )
+                                      ? 'DISABLED'
+                                      : 'DEFAULT'
+                                  }
+                                  isNew={
+                                    features.find(
+                                      (feature) =>
+                                        feature.name ===
+                                        'PARTICIPATE_UPDATE_TYPE'
+                                    )?.isNew
+                                  }
+                                />
+                              </div>
+                            </Feature>
+                            <Feature
+                              isActive={
+                                features.find(
+                                  (feature) =>
+                                    feature.name === 'PARTICIPATE_UPDATE_IDEA'
+                                )?.isActive
+                              }
+                            >
+                              <div className="simple-item__param simple-item__param--fill">
+                                <Input
+                                  id={`update-text-${index}`}
+                                  type="LONG_TEXT"
+                                  value={idea.text}
+                                  feature="UPDATE_IDEA"
+                                  isGrowing={true}
+                                  isFlex={true}
+                                  isBlocked={isBlocked(
+                                    'PARTICIPATE_UPDATE_IDEA',
+                                    this.props.planStatus
+                                  )}
+                                  isNew={
+                                    features.find(
+                                      (feature) =>
+                                        feature.name ===
+                                        'PARTICIPATE_UPDATE_IDEA'
+                                    )?.isNew
+                                  }
+                                  onBlur={(e) =>
+                                    !isBlocked(
+                                      'PARTICIPATE_UPDATE_IDEA',
+                                      this.props.planStatus
+                                    ) && this.ideasHandler(e)
+                                  }
+                                  onConfirm={(e) =>
+                                    !isBlocked(
+                                      'PARTICIPATE_UPDATE_IDEA',
+                                      this.props.planStatus
+                                    ) && this.ideasHandler(e)
+                                  }
+                                />
+                              </div>
+                            </Feature>
+                          </>
+                        }
+                        rightPartSlot={
                           <Feature
                             isActive={
                               features.find(
                                 (feature) =>
-                                  feature.name === 'PARTICIPATE_UPDATE_TYPE'
+                                  feature.name === 'PARTICIPATE_UPDATE_REMOVE'
                               )?.isActive
                             }
                           >
-                            <div className="simple-item__param">
-                              <Menu
-                                id={`update-type-${index}`}
-                                type="ICON"
-                                customIcon={
-                                  <div
-                                    className="color-chip"
-                                    style={{
-                                      backgroundColor: idea.type.hex,
-                                    }}
-                                  />
-                                }
-                                options={this.typesHandler('UPDATE')}
-                                selected={idea.type.color}
-                                state={
-                                  isBlocked(
-                                    'PARTICIPATE_UPDATE_TYPE',
-                                    this.props.planStatus
-                                  )
-                                    ? 'DISABLED'
-                                    : 'DEFAULT'
-                                }
-                                isNew={
-                                  features.find(
-                                    (feature) =>
-                                      feature.name === 'PARTICIPATE_UPDATE_TYPE'
-                                  )?.isNew
-                                }
-                              />
-                            </div>
-                          </Feature>
-                          <Feature
-                            isActive={
-                              features.find(
-                                (feature) =>
-                                  feature.name === 'PARTICIPATE_UPDATE_IDEA'
-                              )?.isActive
-                            }
-                          >
-                            <div className="simple-item__param simple-item__param--fill">
-                              <Input
-                                id={`update-text-${index}`}
-                                type="LONG_TEXT"
-                                value={idea.text}
-                                feature="UPDATE_IDEA"
-                                isGrowing={true}
-                                isFlex={true}
-                                isBlocked={isBlocked(
-                                  'PARTICIPATE_UPDATE_IDEA',
-                                  this.props.planStatus
-                                )}
-                                isNew={
-                                  features.find(
-                                    (feature) =>
-                                      feature.name === 'PARTICIPATE_UPDATE_IDEA'
-                                  )?.isNew
-                                }
-                                onBlur={(e) =>
-                                  !isBlocked(
-                                    'PARTICIPATE_UPDATE_IDEA',
-                                    this.props.planStatus
-                                  ) && this.ideasHandler(e)
-                                }
-                                onConfirm={(e) =>
-                                  !isBlocked(
-                                    'PARTICIPATE_UPDATE_IDEA',
-                                    this.props.planStatus
-                                  ) && this.ideasHandler(e)
-                                }
-                              />
-                            </div>
-                          </Feature>
-                        </>
-                      }
-                      rightPartSlot={
-                        <Feature
-                          isActive={
-                            features.find(
-                              (feature) =>
-                                feature.name === 'PARTICIPATE_UPDATE_REMOVE'
-                            )?.isActive
-                          }
-                        >
-                          <Button
-                            type="icon"
-                            icon="trash"
-                            feature="REMOVE_IDEA"
-                            isBlocked={isBlocked(
-                              'PARTICIPATE_UPDATE_REMOVE',
-                              this.props.planStatus
-                            )}
-                            action={(e) =>
-                              !isBlocked(
+                            <Button
+                              type="icon"
+                              icon="trash"
+                              feature="REMOVE_IDEA"
+                              isBlocked={isBlocked(
                                 'PARTICIPATE_UPDATE_REMOVE',
                                 this.props.planStatus
-                              ) && this.ideasHandler(e)
-                            }
-                          />
-                        </Feature>
-                      }
-                    />
-                  ))}
-                </ul>
+                              )}
+                              action={(e) =>
+                                !isBlocked(
+                                  'PARTICIPATE_UPDATE_REMOVE',
+                                  this.props.planStatus
+                                ) && this.ideasHandler(e)
+                              }
+                            />
+                          </Feature>
+                        }
+                      />
+                    ))}
+                  </ul>
+                )}
               </div>
               <div className="control__block control__block--no-padding">
                 <div className="group">
