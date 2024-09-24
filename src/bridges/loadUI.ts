@@ -5,6 +5,7 @@ import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
+import endSession from './endSession'
 import getProPlan from './getProPlan'
 import startSession from './startSession'
 
@@ -84,6 +85,7 @@ const loadUI = async () => {
       UPDATE_ACTIVITIES: () =>
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
       START_SESSION: () => startSession(msg.data),
+      END_SESSION: () => endSession(msg.data),
       PUSH_IDEA: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       UPDATE_IDEAS: () =>

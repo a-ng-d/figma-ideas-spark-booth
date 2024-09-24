@@ -367,6 +367,28 @@ class App extends React.Component<Record<string, never>, AppStates> {
     trackUserConsentEvent(e)
   }
 
+  // Direct actions
+  onEndSession = () => {
+    const sessions = this.state.sessions.map((session) => {
+      session.isOngoing = false
+      return session
+    })
+
+    this.setState({
+      sessions: sessions,
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'END_SESSION',
+          data: sessions,
+        },
+      },
+      '*'
+    )
+  }
+
   // Render
   render() {
     const onGoingSession = this.state.sessions?.find(
@@ -405,6 +427,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               session={onGoingSession ?? ({} as SessionConfiguration)}
               onPushIdea={(e) => this.setState({ ...this.state, ...e })}
               onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
+              onEndSession={this.onEndSession}
             />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
