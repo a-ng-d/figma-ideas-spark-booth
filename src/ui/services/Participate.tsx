@@ -40,7 +40,8 @@ interface ParticipateProps {
   lang: Language
   onPushIdea: (idea: Partial<AppStates>) => void
   onChangeIdeas: (ideas: Partial<AppStates>) => void
-  onEndSession: (session: Partial<AppStates>) => void
+  onEndSession: () => void
+  onJoinSession: (participants: Array<UserConfiguration>) => void
 }
 
 interface ParticipateStates {
@@ -83,11 +84,7 @@ export default class Participate extends React.Component<
   }
 
   componentDidMount = () => {
-    onmessage = (e: MessageEvent) => {
-      const actions: ActionsList = {}
-
-      return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
-    }
+    this.participantHandler()
   }
 
   componentDidUpdate(prevProps: Readonly<ParticipateProps>): void {
@@ -178,6 +175,19 @@ export default class Participate extends React.Component<
     }
 
     return actions[currentElement.dataset.feature ?? 'NULL']?.()
+  }
+
+  participantHandler = () => {
+    const session = this.props.session,
+      hasCurrentUser = session.activeParticipants.find(
+        (participant) => participant.id === this.props.userIdentity.id
+      )
+
+    if (hasCurrentUser === undefined) {
+      console.log('Joining session')
+      session.activeParticipants.push(this.props.userIdentity)
+      this.props.onJoinSession(session.activeParticipants)
+    }
   }
 
   // Direct actions
@@ -438,11 +448,34 @@ export default class Participate extends React.Component<
                     leftPartSlot={
                       <SectionTitle
                         label={'Participants'}
-                        indicator={'3'}
+                        indicator={this.props.session.activeParticipants.length.toString()}
                       />
                     }
                   />
-                  <div className="group__item"></div>
+                  <div className="group__item">
+                    <ul className="list list--fill">
+                      {this.props.session.activeParticipants.map(
+                        (participant, index) => (
+                          <SimpleItem
+                            key={index}
+                            leftPartSlot={
+                              <div className="user">
+                                <div className="user__avatar">
+                                  <img
+                                    src={participant.avatar}
+                                    alt={participant.fullName}
+                                  />
+                                </div>
+                                <span className="type">
+                                  {participant.fullName}
+                                </span>
+                              </div>
+                            }
+                          />
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
                 {this.props.activity.description && (
                   <div className="group">

@@ -40,10 +40,10 @@ export interface SessionConfiguration {
   id: string
   animator: AnimatorConfiguration
   metrics: {
-    ideas: number
-    participants: Array<UserConfiguration>
+    startDate: Date | string
+    endDate: Date | string
   }
-  date: Date | string
+  activeParticipants: Array<UserConfiguration>
   isOngoing: boolean
   activityId: string
 }

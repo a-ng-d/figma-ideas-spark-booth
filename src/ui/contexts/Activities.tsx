@@ -246,10 +246,10 @@ export default class Activities extends React.Component<
         id: this.props.userIdentity.id,
       },
       metrics: {
-        ideas: 0,
-        participants: [],
+        startDate: new Date().toISOString(),
+        endDate: '',
       },
-      date: new Date().toISOString(),
+      activeParticipants: [],
       isOngoing: true,
       activityId: activityId,
     }

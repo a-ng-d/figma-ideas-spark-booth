@@ -1,5 +1,6 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
+import { SessionConfiguration } from '../types/configurations'
 import { ActionsList } from '../types/models'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
@@ -38,31 +39,27 @@ const loadUI = async () => {
     },
   })
 
-  figma.ui.postMessage({
-    type: 'GET_ACTIVITIES',
-    data: JSON.parse(figma.root.getPluginData('activities')),
-  })
+  async function sendMessages() {
+    figma.ui.postMessage({
+      type: 'GET_DATA',
+      data: {
+        activities: JSON.parse(figma.root.getPluginData('activities')),
+        sessions: JSON.parse(figma.root.getPluginData('sessions')),
+        ideas: JSON.parse(figma.root.getPluginData('ideas')),
+        userIdentity: {
+          userFullName: figma.currentUser?.name ?? 'John Doe',
+          id: figma.currentUser?.id ?? '1234567890',
+          userAvatar:
+            figma.currentUser?.photoUrl ??
+            'https://www.gravatar.com/avatar/?d=retro&s=32',
+        },
+      },
+    })
 
-  figma.ui.postMessage({
-    type: 'GET_SESSIONS',
-    data: JSON.parse(figma.root.getPluginData('sessions')),
-  })
+    setTimeout(sendMessages, 1000)
+  }
 
-  figma.ui.postMessage({
-    type: 'GET_IDEAS',
-    data: JSON.parse(figma.root.getPluginData('ideas')),
-  })
-
-  figma.ui.postMessage({
-    type: 'GET_USER_IDENTITY',
-    data: {
-      userFullName: figma.currentUser?.name ?? 'John Doe',
-      id: figma.currentUser?.id ?? '1234567890',
-      userAvatar:
-        figma.currentUser?.photoUrl ??
-        'https://www.gravatar.com/avatar/?d=retro&s=32',
-    },
-  })
+  sendMessages()
 
   // UI > Canvas
   figma.ui.onmessage = async (msg) => {
@@ -84,6 +81,8 @@ const loadUI = async () => {
       //
       UPDATE_ACTIVITIES: () =>
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
+      UPDATE_SESSIONS: () =>
+        figma.root.setPluginData('sessions', JSON.stringify(msg.data)),
       START_SESSION: () => startSession(msg.data),
       END_SESSION: () => endSession(msg.data),
       PUSH_IDEA: () =>
@@ -130,6 +129,23 @@ const loadUI = async () => {
 
     return actions[msg.type]?.()
   }
+
+  // Listeners
+  figma.on('close', () => {
+    const sessions: Array<SessionConfiguration> = JSON.parse(
+      figma.root.getPluginData('sessions')
+    )
+
+    const updatedSessions = sessions.map((session) => {
+      if (session.isOngoing) {
+        session.activeParticipants = session.activeParticipants.filter(
+          (participant) => participant.id !== figma.currentUser?.id
+        )
+      }
+      return session
+    })
+    figma.root.setPluginData('sessions', JSON.stringify(updatedSessions))
+  })
 }
 
 export default loadUI

@@ -2,9 +2,9 @@ export type ConnectionStatus = 'CONNECTED' | 'UNCONNECTED'
 
 export interface UserSession {
   connectionStatus: ConnectionStatus
+  userId: string | undefined
   userFullName: string
   userAvatar: string
-  userId: string | undefined
   accessToken: string | undefined
   refreshToken: string | undefined
 }

@@ -107,17 +107,17 @@ class App extends React.Component<Record<string, never>, AppStates> {
         isShared: false,
       },
       userIdentity: {
+        id: '',
         fullName: '',
         avatar: '',
-        id: '',
       },
       priorityContainerContext: 'EMPTY',
       lang: 'en-US',
       userSession: {
         connectionStatus: 'UNCONNECTED',
+        userId: undefined,
         userFullName: '',
         userAvatar: '',
-        userId: undefined,
         accessToken: undefined,
         refreshToken: undefined,
       },
@@ -251,29 +251,18 @@ class App extends React.Component<Record<string, never>, AppStates> {
             trialRemainingTime: e.data.pluginMessage.data.trialRemainingTime,
           })
 
-        const getActivities = () =>
+        const getData = () => {
           this.setState({
-            activities: e.data.pluginMessage.data,
-          })
-
-        const getSessions = () =>
-          this.setState({
-            sessions: e.data.pluginMessage.data,
-          })
-
-        const getIdeas = () =>
-          this.setState({
-            ideas: e.data.pluginMessage.data,
-          })
-
-        const getUserIdentity = () =>
-          this.setState({
+            activities: e.data.pluginMessage.data.activities,
+            sessions: e.data.pluginMessage.data.sessions,
+            ideas: e.data.pluginMessage.data.ideas,
             userIdentity: {
-              fullName: e.data.pluginMessage.data.userFullName,
-              avatar: e.data.pluginMessage.data.userAvatar,
-              id: e.data.pluginMessage.data.userId,
-            },
+              id: e.data.pluginMessage.data.userIdentity.id,
+              fullName: e.data.pluginMessage.data.userIdentity.userFullName,
+              avatar: e.data.pluginMessage.data.userIdentity.userAvatar,
+            }
           })
+        }
 
         const getProPlan = () => {
           this.setState({
@@ -314,10 +303,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           CHECK_USER_CONSENT: () => checkUserConsent(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
-          GET_ACTIVITIES: () => getActivities(),
-          GET_SESSIONS: () => getSessions(),
-          GET_USER_IDENTITY: () => getUserIdentity(),
-          GET_IDEAS: () => getIdeas(),
+          GET_DATA: () => getData(),
           GET_PRO_PLAN: () => getProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
           SIGN_OUT: () => signOut(e.data.pluginMessage?.data),
@@ -371,6 +357,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
   onEndSession = () => {
     const sessions = this.state.sessions.map((session) => {
       session.isOngoing = false
+      session.metrics.endDate = new Date().toISOString()
       return session
     })
 
@@ -385,6 +372,24 @@ class App extends React.Component<Record<string, never>, AppStates> {
           data: sessions,
         },
       },
+      '*'
+    )
+  }
+
+  onJoinSession = (participants: Array<UserConfiguration>) => {
+    const sessions = this.state.sessions.map((session) => {
+      if (session.isOngoing)
+        session.activeParticipants = participants
+      
+      return session
+    })
+
+    this.setState({
+      sessions: sessions,
+    })
+
+    parent.postMessage(
+      { pluginMessage: { type: 'UPDATE_SESSIONS', data: sessions } },
       '*'
     )
   }
@@ -433,6 +438,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               onPushIdea={(e) => this.setState({ ...this.state, ...e })}
               onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
               onEndSession={this.onEndSession}
+              onJoinSession={(e) => this.onJoinSession(e)}
             />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
