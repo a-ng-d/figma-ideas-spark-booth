@@ -49,6 +49,7 @@ export interface AppStates {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
+  activeParticipants: Array<UserConfiguration>
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
@@ -99,6 +100,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
       activities: [],
       sessions: [],
       ideas: [],
+      activeParticipants: [],
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: trialTime,
@@ -372,7 +374,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
   // Direct actions
   onEndSession = () => {
     const sessions = this.state.sessions.map((session) => {
-      session.isOngoing = false
+      session.isRunning = false
       session.metrics.endDate = new Date().toISOString()
       return session
     })
@@ -388,24 +390,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
           data: sessions,
         },
       },
-      '*'
-    )
-  }
-
-  onJoinSession = (participants: Array<UserConfiguration>) => {
-    const sessions = this.state.sessions.map((session) => {
-      if (session.isOngoing)
-        session.activeParticipants = participants
-      
-      return session
-    })
-
-    this.setState({
-      sessions: sessions,
-    })
-
-    parent.postMessage(
-      { pluginMessage: { type: 'UPDATE_SESSIONS', data: sessions } },
       '*'
     )
   }
@@ -454,7 +438,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
               onPushIdea={(e) => this.setState({ ...this.state, ...e })}
               onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
               onEndSession={this.onEndSession}
-              onJoinSession={(e) => this.onJoinSession(e)}
             />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>

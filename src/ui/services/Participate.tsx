@@ -33,6 +33,7 @@ interface ParticipateProps {
   activity: ActivityConfiguration
   session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
+  activeParticipants: Array<UserConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -41,7 +42,6 @@ interface ParticipateProps {
   onPushIdea: (idea: Partial<AppStates>) => void
   onChangeIdeas: (ideas: Partial<AppStates>) => void
   onEndSession: () => void
-  onJoinSession: (participants: Array<UserConfiguration>) => void
 }
 
 interface ParticipateStates {
@@ -81,10 +81,6 @@ export default class Participate extends React.Component<
         ),
     }
     this.textRef = React.createRef()
-  }
-
-  componentDidMount = () => {
-    this.participantHandler()
   }
 
   componentDidUpdate(prevProps: Readonly<ParticipateProps>): void {
@@ -175,19 +171,6 @@ export default class Participate extends React.Component<
     }
 
     return actions[currentElement.dataset.feature ?? 'NULL']?.()
-  }
-
-  participantHandler = () => {
-    const session = this.props.session,
-      hasCurrentUser = session.activeParticipants.find(
-        (participant) => participant.id === this.props.userIdentity.id
-      )
-
-    if (hasCurrentUser === undefined) {
-      console.log('Joining session')
-      session.activeParticipants.push(this.props.userIdentity)
-      this.props.onJoinSession(session.activeParticipants)
-    }
   }
 
   // Direct actions
@@ -448,13 +431,13 @@ export default class Participate extends React.Component<
                     leftPartSlot={
                       <SectionTitle
                         label={'Participants'}
-                        indicator={this.props.session.activeParticipants.length.toString()}
+                        indicator={this.props.activeParticipants.length.toString()}
                       />
                     }
                   />
                   <div className="group__item">
                     <ul className="list list--fill">
-                      {this.props.session.activeParticipants.map(
+                      {this.props.activeParticipants.map(
                         (participant, index) => (
                           <SimpleItem
                             key={index}
