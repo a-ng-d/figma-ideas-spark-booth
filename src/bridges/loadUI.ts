@@ -1,6 +1,6 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
-import { SessionConfiguration } from '../types/configurations'
+import { UserConfiguration } from '../types/configurations'
 import { ActionsList } from '../types/models'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
@@ -11,6 +11,8 @@ import getProPlan from './getProPlan'
 import startSession from './startSession'
 
 const loadUI = async () => {
+  let lastData: string = ''
+
   const windowSize: windowSize = {
     w: (await figma.clientStorage.getAsync('plugin_window_width')) ?? 640,
     h: (await figma.clientStorage.getAsync('plugin_window_height')) ?? 320,
@@ -22,6 +24,8 @@ const loadUI = async () => {
     title: locals[lang].name,
     themeColors: true,
   })
+
+  figma.loadAllPagesAsync()
 
   // Checks
   checkUserConsent()
@@ -39,27 +43,47 @@ const loadUI = async () => {
     },
   })
 
-  async function sendMessages() {
-    figma.ui.postMessage({
-      type: 'GET_DATA',
-      data: {
-        activities: JSON.parse(figma.root.getPluginData('activities')),
-        sessions: JSON.parse(figma.root.getPluginData('sessions')),
-        ideas: JSON.parse(figma.root.getPluginData('ideas')),
-        userIdentity: {
-          userFullName: figma.currentUser?.name ?? 'John Doe',
-          id: figma.currentUser?.id ?? '1234567890',
-          userAvatar:
-            figma.currentUser?.photoUrl ??
-            'https://www.gravatar.com/avatar/?d=retro&s=32',
-        },
-      },
-    })
+  figma.ui.postMessage({
+    type: 'GET_ACTIVITIES',
+    data: JSON.parse(figma.root.getPluginData('activities')),
+  })
+  figma.ui.postMessage({
+    type: 'GET_SESSIONS',
+    data: JSON.parse(figma.root.getPluginData('sessions')),
+  })
+  figma.ui.postMessage({
+    type: 'GET_IDEAS',
+    data: JSON.parse(figma.root.getPluginData('ideas')),
+  })
+  figma.ui.postMessage({
+    type: 'GET_ACTIVE_PARTICIPANTS',
+    data: JSON.parse(figma.root.getPluginData('activeParticipants')),
+  })
+  figma.ui.postMessage({
+    type: 'GET_USER',
+    data: {
+      id: figma.currentUser?.id,
+      fullName: figma.currentUser?.name,
+      avatar: figma.currentUser?.photoUrl,
+    },
+  })
 
-    setTimeout(sendMessages, 1000)
-  }
+  let activeParticipants = JSON.parse(
+    figma.root.getPluginData('activeParticipants')
+  )
 
-  sendMessages()
+  activeParticipants = [
+    ...activeParticipants,
+    {
+      id: figma.currentUser?.id,
+      fullName: figma.currentUser?.name,
+      avatar: figma.currentUser?.photoUrl,
+    } as UserConfiguration,
+  ]
+  figma.root.setPluginData(
+    'activeParticipants',
+    JSON.stringify(activeParticipants)
+  )
 
   // UI > Canvas
   figma.ui.onmessage = async (msg) => {
@@ -132,20 +156,73 @@ const loadUI = async () => {
 
   // Listeners
   figma.on('close', () => {
-    const sessions: Array<SessionConfiguration> = JSON.parse(
-      figma.root.getPluginData('sessions')
+    let activeParticipants = JSON.parse(
+      figma.root.getPluginData('activeParticipants')
+    )
+    activeParticipants = activeParticipants.filter(
+      (participant: UserConfiguration) =>
+        participant.id !== figma.currentUser?.id
+    )
+    figma.root.setPluginData(
+      'activeParticipants',
+      JSON.stringify(activeParticipants)
+    )
+  })
+
+  figma.on('documentchange', (event) => {
+    const rootPluginDataChange = event.documentChanges.find(
+      (change) =>
+        change.type === 'PROPERTY_CHANGE' &&
+        'node' in change &&
+        change.node.id === figma.root.id &&
+        change.properties.includes('pluginData')
     )
 
-    const updatedSessions = sessions.map((session) => {
-      if (session.isOngoing) {
-        session.activeParticipants = session.activeParticipants.filter(
-          (participant) => participant.id !== figma.currentUser?.id
-        )
-      }
-      return session
-    })
-    figma.root.setPluginData('sessions', JSON.stringify(updatedSessions))
+    if (
+      rootPluginDataChange !== undefined &&
+      dataDidUpdate(figma.root.getPluginData('activities'))
+    ) {
+      figma.ui.postMessage({
+        type: 'GET_ACTIVITIES',
+        data: JSON.parse(figma.root.getPluginData('activities')),
+      })
+    }
+    if (
+      rootPluginDataChange !== undefined &&
+      dataDidUpdate(figma.root.getPluginData('sessions'))
+    ) {
+      figma.ui.postMessage({
+        type: 'GET_SESSIONS',
+        data: JSON.parse(figma.root.getPluginData('sessions')),
+      })
+    }
+    if (
+      rootPluginDataChange !== undefined &&
+      dataDidUpdate(figma.root.getPluginData('ideas'))
+    ) {
+      figma.ui.postMessage({
+        type: 'GET_IDEAS',
+        data: JSON.parse(figma.root.getPluginData('ideas')),
+      })
+    }
+    if (
+      rootPluginDataChange !== undefined &&
+      dataDidUpdate(figma.root.getPluginData('activeParticipants'))
+    ) {
+      figma.ui.postMessage({
+        type: 'GET_ACTIVE_PARTICIPANTS',
+        data: JSON.parse(figma.root.getPluginData('activeParticipants')),
+      })
+    }
   })
+
+  const dataDidUpdate = (data: string) => {
+    if (lastData !== data) {
+      lastData = data
+      return true
+    }
+    return false
+  }
 }
 
 export default loadUI

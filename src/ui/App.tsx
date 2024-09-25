@@ -251,18 +251,30 @@ class App extends React.Component<Record<string, never>, AppStates> {
             trialRemainingTime: e.data.pluginMessage.data.trialRemainingTime,
           })
 
-        const getData = () => {
+        const getActivities = () =>
           this.setState({
-            activities: e.data.pluginMessage.data.activities,
-            sessions: e.data.pluginMessage.data.sessions,
-            ideas: e.data.pluginMessage.data.ideas,
-            userIdentity: {
-              id: e.data.pluginMessage.data.userIdentity.id,
-              fullName: e.data.pluginMessage.data.userIdentity.userFullName,
-              avatar: e.data.pluginMessage.data.userIdentity.userAvatar,
-            }
+            activities: e.data.pluginMessage.data,
           })
-        }
+
+        const getSessions = () =>
+          this.setState({
+            sessions: e.data.pluginMessage.data,
+          })
+
+        const getIdeas = () =>
+          this.setState({
+            ideas: e.data.pluginMessage.data,
+          })
+
+        const getActiveParticipants = () =>
+          this.setState({
+            activeParticipants: e.data.pluginMessage.data,
+          })
+
+        const getUser = () =>
+          this.setState({
+            userIdentity: e.data.pluginMessage.data,
+          })
 
         const getProPlan = () => {
           this.setState({
@@ -303,7 +315,11 @@ class App extends React.Component<Record<string, never>, AppStates> {
           CHECK_USER_CONSENT: () => checkUserConsent(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
-          GET_DATA: () => getData(),
+          GET_ACTIVITIES: () => getActivities(),
+          GET_SESSIONS: () => getSessions(),
+          GET_IDEAS: () => getIdeas(),
+          GET_ACTIVE_PARTICIPANTS: () => getActiveParticipants(),
+          GET_USER: () => getUser(),
           GET_PRO_PLAN: () => getProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
           SIGN_OUT: () => signOut(e.data.pluginMessage?.data),
