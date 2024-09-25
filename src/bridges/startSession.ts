@@ -5,10 +5,10 @@ import {
 
 const startSession = (data: Array<SessionConfiguration>) => {
   const sessions = data,
-    onGoingSession = sessions.find((session) => session.isOngoing),
+    runningSession = sessions.find((session) => session.isRunning),
     activity = JSON.parse(figma.root.getPluginData('activities')).find(
       (activity: ActivityConfiguration) =>
-        activity.meta.id === onGoingSession?.activityId
+        activity.meta.id === runningSession?.activityId
     )
 
   figma.root.setPluginData('sessions', JSON.stringify(data))

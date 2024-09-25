@@ -249,8 +249,7 @@ export default class Activities extends React.Component<
         startDate: new Date().toISOString(),
         endDate: '',
       },
-      activeParticipants: [],
-      isOngoing: true,
+      isRunning: true,
       activityId: activityId,
     }
 

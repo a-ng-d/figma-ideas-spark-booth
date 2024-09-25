@@ -412,14 +412,14 @@ class App extends React.Component<Record<string, never>, AppStates> {
 
   // Render
   render() {
-    const onGoingSession = this.state.sessions?.find(
-        (session) => session.isOngoing
+    const runningSession = this.state.sessions?.find(
+        (session) => session.isRunning
       ),
-      onGoingSessionActivity = this.state.activities.find(
-        (activity) => activity.meta.id === onGoingSession?.activityId
+      runningSessionActivity = this.state.activities.find(
+        (activity) => activity.meta.id === runningSession?.activityId
       ),
-      onGoingSessionIdeas = this.state.ideas.filter(
-        (idea) => idea.sessionId === onGoingSession?.id
+      runningSessionIdeas = this.state.ideas.filter(
+        (idea) => idea.sessionId === runningSession?.id
       )
 
     if (this.state.isLoaded)
@@ -428,7 +428,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           <Feature
             isActive={
               features.find((feature) => feature.name === 'BROWSE')?.isActive &&
-              this.state.sessions?.find((session) => session.isOngoing) ===
+              this.state.sessions?.find((session) => session.isRunning) ===
                 undefined
             }
           >
@@ -442,15 +442,15 @@ class App extends React.Component<Record<string, never>, AppStates> {
             isActive={
               features.find((feature) => feature.name === 'PARTICIPATE')
                 ?.isActive &&
-              this.state.sessions?.find((session) => session.isOngoing) !==
+              this.state.sessions?.find((session) => session.isRunning) !==
                 undefined
             }
           >
             <Participate
               {...this.state}
-              activity={onGoingSessionActivity ?? ({} as ActivityConfiguration)}
-              session={onGoingSession ?? ({} as SessionConfiguration)}
-              ideas={onGoingSessionIdeas}
+              activity={runningSessionActivity ?? ({} as ActivityConfiguration)}
+              session={runningSession ?? ({} as SessionConfiguration)}
+              ideas={runningSessionIdeas}
               onPushIdea={(e) => this.setState({ ...this.state, ...e })}
               onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
               onEndSession={this.onEndSession}

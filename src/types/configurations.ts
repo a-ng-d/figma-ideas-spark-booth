@@ -43,8 +43,7 @@ export interface SessionConfiguration {
     startDate: Date | string
     endDate: Date | string
   }
-  activeParticipants: Array<UserConfiguration>
-  isOngoing: boolean
+  isRunning: boolean
   activityId: string
 }
 
