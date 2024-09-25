@@ -104,7 +104,7 @@ export default class Participate extends React.Component<
     return this.props.activity.types.map((type, index) => {
       return {
         label: type.name,
-        value: type.color,
+        value: type.id,
         feature: 'UPDATE_TYPE',
         position: index,
         type: 'OPTION',
@@ -296,7 +296,7 @@ export default class Participate extends React.Component<
                                     />
                                   }
                                   options={this.typesHandler('UPDATE')}
-                                  selected={idea.type.color}
+                                  selected={idea.type.id}
                                   state={
                                     isBlocked(
                                       'PARTICIPATE_UPDATE_TYPE',
@@ -514,7 +514,7 @@ export default class Participate extends React.Component<
                     />
                   }
                   options={this.typesHandler('CREATE')}
-                  selected={this.state.currentType.color}
+                  selected={this.state.currentType.id}
                   state={
                     isBlocked('PARTICIPATE_CREATE_TYPE', this.props.planStatus)
                       ? 'DISABLED'
