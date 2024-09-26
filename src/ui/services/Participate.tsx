@@ -261,6 +261,7 @@ export default class Participate extends React.Component<
                       indicator={this.state.selfIdeas.length.toString()}
                     />
                   }
+                  isListItem={false}
                 />
                 {this.state.selfIdeas.length === 0 ? (
                   <Message
@@ -399,6 +400,7 @@ export default class Participate extends React.Component<
                         indicator={this.props.ideas.length.toString()}
                       />
                     }
+                    isListItem={false}
                   />
                   <div className="group__item">
                     {this.props.ideas.length === 0 ? (
@@ -434,6 +436,7 @@ export default class Participate extends React.Component<
                         indicator={this.props.activeParticipants.length.toString()}
                       />
                     }
+                    isListItem={false}
                   />
                   <div className="group__item">
                     <ul className="list list--fill">
@@ -464,6 +467,7 @@ export default class Participate extends React.Component<
                   <div className="group">
                     <SimpleItem
                       leftPartSlot={<SectionTitle label={'Description'} />}
+                      isListItem={false}
                     />
                     <div className="group__item">
                       <div
@@ -479,6 +483,7 @@ export default class Participate extends React.Component<
                   <div className="group">
                     <SimpleItem
                       leftPartSlot={<SectionTitle label={'Instructions'} />}
+                      isListItem={false}
                     />
                     <div className="group__item">
                       <div

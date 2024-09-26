@@ -481,6 +481,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 label={locals[this.props.lang].settings.global.title}
               />
             }
+            isListItem={false}
           />
           <this.Name />
           <this.Description />
@@ -506,6 +507,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 label={locals[this.props.lang].settings.timer.title}
               />
             }
+            isListItem={false}
           />
           <this.Minutes />
           <this.Seconds />
@@ -537,6 +539,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 action={this.typeHandler}
               />
             }
+            isListItem={false}
           />
           <SortableList
             data={this.props.activity.types as Array<TypeConfiguration>}
