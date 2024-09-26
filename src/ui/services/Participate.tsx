@@ -500,6 +500,50 @@ export default class Participate extends React.Component<
                     </div>
                   </div>
                 )}
+                <div className="group">
+                  <SimpleItem
+                    leftPartSlot={
+                      <SectionTitle
+                        label={'Types'}
+                        indicator={this.props.activity.types.length.toString()}
+                      />
+                    }
+                    isListItem={false}
+                  />
+                  <div className="group__item group__item--tight">
+                    <ul>
+                      {this.props.activity.types.map((type, index) => (
+                        <SimpleItem
+                          key={index}
+                          leftPartSlot={
+                            <div className="simple-item__param">
+                              <div
+                                className="color-chip"
+                                style={{ backgroundColor: type.hex }}
+                              />
+                            </div>
+                          }
+                          rightPartSlot={
+                            <div
+                              className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
+                            >
+                              <span
+                                className={`type type--bold ${texts['type']}`}
+                              >
+                                {type.name}
+                              </span>
+                              {type.description !== '' && (
+                                <span className={`type ${texts['type']}`}>
+                                  {type.description}
+                                </span>
+                              )}
+                            </div>
+                          }
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
