@@ -385,7 +385,12 @@ export default class Participate extends React.Component<
                   </ul>
                 )}
               </div>
-              <div className="control__block control__block--no-padding">
+              <div
+                className="control__block control__block--no-padding"
+                style={{
+                  flex: '0 1 296px',
+                }}
+              >
                 <div className="group">
                   <SimpleItem
                     leftPartSlot={
@@ -396,7 +401,7 @@ export default class Participate extends React.Component<
                     }
                     isListItem={false}
                   />
-                  <div className="group__item">
+                  <div className="group__item group__item--tight">
                     {this.props.ideas.length === 0 ? (
                       <Message
                         icon="draft"
@@ -434,7 +439,7 @@ export default class Participate extends React.Component<
                     }
                     isListItem={false}
                   />
-                  <div className="group__item">
+                  <div className="group__item group__item--tight">
                     <ul className="list list--fill">
                       {this.props.activeParticipants.map(
                         (participant, index) => (

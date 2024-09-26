@@ -122,6 +122,10 @@ div.group__item {
   padding: 0 var(--size-xsmall);
 }
 
+div.group__item--tight {
+  padding: 0 var(--size-xxsmall);
+}
+
 /* Color Chip */
 .color-chip {
   width: var(--size-xsmall);
