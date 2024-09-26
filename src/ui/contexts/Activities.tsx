@@ -240,10 +240,10 @@ export default class Activities extends React.Component<
   onRunSession = (activityId: string) => {
     const newSession: SessionConfiguration = {
       id: uid(),
-      animator: {
+      facilitator: {
+        id: this.props.userIdentity.id,
         fullName: this.props.userIdentity.fullName,
         avatar: this.props.userIdentity.avatar,
-        id: this.props.userIdentity.id,
       },
       metrics: {
         startDate: new Date().toISOString(),

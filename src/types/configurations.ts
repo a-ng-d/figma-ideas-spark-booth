@@ -38,7 +38,7 @@ export type ColorConfiguration =
 
 export interface SessionConfiguration {
   id: string
-  animator: AnimatorConfiguration
+  facilitator: FacilitatorConfiguration
   metrics: {
     startDate: Date | string
     endDate: Date | string
@@ -74,7 +74,7 @@ export interface UserConfiguration {
   avatar: string
 }
 
-export interface AnimatorConfiguration {
+export interface FacilitatorConfiguration {
   id: string
   fullName: string
   avatar: string
