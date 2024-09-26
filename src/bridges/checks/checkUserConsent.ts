@@ -24,6 +24,8 @@ const checkUserConsent = async () => {
       currentUserConsentVersion === undefined,
     userConsent: userConsentData,
   })
+
+  return true
 }
 
 export default checkUserConsent

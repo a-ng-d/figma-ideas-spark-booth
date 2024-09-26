@@ -41,6 +41,8 @@ const checkPlanStatus = async () => {
       ),
     },
   })
+
+  return true
 }
 
 export default checkPlanStatus

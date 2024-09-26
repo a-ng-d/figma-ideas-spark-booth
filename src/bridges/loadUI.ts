@@ -9,6 +9,7 @@ import enableTrial from './enableTrial'
 import endSession from './endSession'
 import getProPlan from './getProPlan'
 import startSession from './startSession'
+import updateParticipants from './updates/updateParticipants'
 
 const loadUI = async () => {
   let lastData: string = ''
@@ -29,61 +30,46 @@ const loadUI = async () => {
 
   // Checks
   checkUserConsent()
-  await checkPlanStatus()
-
-  // Canvas > UI
-  figma.ui.postMessage({
-    type: 'CHECK_USER_AUTHENTICATION',
-    id: figma.currentUser?.id,
-    data: {
-      accessToken: await figma.clientStorage.getAsync('supabase_access_token'),
-      refreshToken: await figma.clientStorage.getAsync(
-        'supabase_refresh_token'
-      ),
-    },
-  })
-
-  figma.ui.postMessage({
-    type: 'GET_ACTIVITIES',
-    data: JSON.parse(figma.root.getPluginData('activities')),
-  })
-  figma.ui.postMessage({
-    type: 'GET_SESSIONS',
-    data: JSON.parse(figma.root.getPluginData('sessions')),
-  })
-  figma.ui.postMessage({
-    type: 'GET_IDEAS',
-    data: JSON.parse(figma.root.getPluginData('ideas')),
-  })
-  figma.ui.postMessage({
-    type: 'GET_ACTIVE_PARTICIPANTS',
-    data: JSON.parse(figma.root.getPluginData('activeParticipants')),
-  })
-  figma.ui.postMessage({
-    type: 'GET_USER',
-    data: {
-      id: figma.currentUser?.id,
-      fullName: figma.currentUser?.name,
-      avatar: figma.currentUser?.photoUrl,
-    },
-  })
-
-  let activeParticipants = JSON.parse(
-    figma.root.getPluginData('activeParticipants')
-  )
-
-  activeParticipants = [
-    ...activeParticipants,
-    {
-      id: figma.currentUser?.id,
-      fullName: figma.currentUser?.name,
-      avatar: figma.currentUser?.photoUrl,
-    } as UserConfiguration,
-  ]
-  figma.root.setPluginData(
-    'activeParticipants',
-    JSON.stringify(activeParticipants)
-  )
+    .then(() => checkPlanStatus())
+    .then(() => updateParticipants())
+    .then(async (activeParticipants) => {
+      figma.ui.postMessage({
+        type: 'CHECK_USER_AUTHENTICATION',
+        id: figma.currentUser?.id,
+        data: {
+          accessToken: await figma.clientStorage.getAsync(
+            'supabase_access_token'
+          ),
+          refreshToken: await figma.clientStorage.getAsync(
+            'supabase_refresh_token'
+          ),
+        },
+      })
+      figma.ui.postMessage({
+        type: 'GET_ACTIVITIES',
+        data: JSON.parse(figma.root.getPluginData('activities')),
+      })
+      figma.ui.postMessage({
+        type: 'GET_SESSIONS',
+        data: JSON.parse(figma.root.getPluginData('sessions')),
+      })
+      figma.ui.postMessage({
+        type: 'GET_IDEAS',
+        data: JSON.parse(figma.root.getPluginData('ideas')),
+      })
+      figma.ui.postMessage({
+        type: 'GET_ACTIVE_PARTICIPANTS',
+        data: activeParticipants,
+      })
+      figma.ui.postMessage({
+        type: 'GET_USER',
+        data: {
+          id: figma.currentUser?.id,
+          fullName: figma.currentUser?.name,
+          avatar: figma.currentUser?.photoUrl,
+        },
+      })
+    })
 
   // UI > Canvas
   figma.ui.onmessage = async (msg) => {
