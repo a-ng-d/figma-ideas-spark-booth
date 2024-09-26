@@ -9,6 +9,7 @@ import {
   SectionTitle,
   SimpleItem,
   layouts,
+  texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
@@ -229,7 +230,9 @@ export default class Participate extends React.Component<
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>
-              <span className="type">{this.props.activity.name}</span>
+              <span className={`type ${texts['type']}`}>
+                {this.props.activity.name}
+              </span>
             </div>
           }
           rightPartSlot={
@@ -419,7 +422,9 @@ export default class Participate extends React.Component<
                                   className="color-chip"
                                   style={{ backgroundColor: ideas[0].type.hex }}
                                 />
-                                <span className="type">{`${ideas.length} ${ideas[0].type.name}`}</span>
+                                <span
+                                  className={`type ${texts['type']}`}
+                                >{`${ideas.length} ${ideas[0].type.name}`}</span>
                               </div>
                             }
                           />
@@ -452,7 +457,7 @@ export default class Participate extends React.Component<
                                     alt={participant.fullName}
                                   />
                                 </div>
-                                <span className="type">
+                                <span className={`type ${texts['type']}`}>
                                   {participant.fullName}
                                 </span>
                               </div>
@@ -472,7 +477,7 @@ export default class Participate extends React.Component<
                     <div className="group__item">
                       <div
                         style={{ paddingLeft: 'var(--size-xxsmall)' }}
-                        className="type"
+                        className={`type ${texts['type']}`}
                       >
                         {this.props.activity.description}
                       </div>
@@ -488,7 +493,7 @@ export default class Participate extends React.Component<
                     <div className="group__item">
                       <div
                         style={{ paddingLeft: 'var(--size-xxsmall)' }}
-                        className="type"
+                        className={`type ${texts['type']}`}
                       >
                         {this.props.activity.instructions}
                       </div>
