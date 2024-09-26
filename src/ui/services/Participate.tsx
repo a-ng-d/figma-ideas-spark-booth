@@ -46,7 +46,6 @@ interface ParticipateProps {
 }
 
 interface ParticipateStates {
-  hasMoreOptions: boolean
   canBeSubmitted: boolean
   currentType: TypeConfiguration
   currentText: string
@@ -67,7 +66,6 @@ export default class Participate extends React.Component<
       data: this.props.ideas,
     }
     this.state = {
-      hasMoreOptions: false,
       canBeSubmitted: false,
       currentType: this.props.activity.types[0],
       currentText: '',
@@ -241,13 +239,6 @@ export default class Participate extends React.Component<
                 type="secondary"
                 label="End session"
                 action={this.props.onEndSession}
-              />
-              <Button
-                type="icon"
-                icon="adjust"
-                action={() =>
-                  this.setState({ hasMoreOptions: !this.state.hasMoreOptions })
-                }
               />
             </div>
           }
