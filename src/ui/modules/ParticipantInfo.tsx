@@ -93,25 +93,25 @@ export default class ParticipantInfo extends React.Component<
                 <SimpleItem
                   key={index}
                   leftPartSlot={
-                    <div className="simple-item__param">
+                    <div className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}>
+                      <div className="simple-item__param">
+                        <div
+                          className="color-chip"
+                          style={{ backgroundColor: type.hex }}
+                        />
+                      </div>
                       <div
-                        className="color-chip"
-                        style={{ backgroundColor: type.hex }}
-                      />
-                    </div>
-                  }
-                  rightPartSlot={
-                    <div
-                      className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
-                    >
-                      <span className={`type type--bold ${texts['type']}`}>
-                        {type.name}
-                      </span>
-                      {type.description !== '' && (
-                        <span className={`type ${texts['type']}`}>
-                          {type.description}
+                        className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
+                      >
+                        <span className={`type type--bold ${texts['type']}`}>
+                          {type.name}
                         </span>
-                      )}
+                        {type.description !== '' && (
+                          <span className={`type ${texts['type']}`}>
+                            {type.description}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   }
                 />
