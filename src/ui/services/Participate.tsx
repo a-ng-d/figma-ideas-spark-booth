@@ -2,7 +2,6 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
-  DropdownOption,
   Input,
   layouts,
   texts,
@@ -18,7 +17,6 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { IdeasMessage } from '../../types/messages'
-import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { AppStates } from '../App'
@@ -94,80 +92,6 @@ export default class Participate extends React.Component<
           ),
       })
     }
-  }
-
-  // Handlers
-  typesHandler = (action: 'CREATE' | 'UPDATE') => {
-    return this.props.activity.types.map((type, index) => {
-      return {
-        label: type.name,
-        value: type.id,
-        feature: 'UPDATE_TYPE',
-        position: index,
-        type: 'OPTION',
-        isActive: true,
-        isBlocked: false,
-        isNew: false,
-        children: [],
-        action: (e) => {
-          action === 'CREATE'
-            ? this.setState({ currentType: type })
-            : this.ideasHandler(e, type)
-        },
-      } as DropdownOption
-    })
-  }
-
-  ideasHandler = (e: any, type: TypeConfiguration = this.state.currentType) => {
-    let id: string | null
-    const element: HTMLElement | null = (e.target as HTMLElement).closest(
-        '.simple-item'
-      ),
-      currentElement: HTMLInputElement = e.currentTarget
-
-    element !== null ? (id = element.getAttribute('data-id')) : (id = null)
-
-    const updateIdea = () => {
-      this.ideasMessage.data = this.props.ideas.map((item) => {
-        if (item.id === id) item.text = currentElement.value
-        return item
-      })
-
-      sendData()
-    }
-
-    const removeIdea = () => {
-      this.ideasMessage.data = this.props.ideas.filter((item) => item.id !== id)
-
-      sendData()
-    }
-
-    const updateIdeaType = () => {
-      this.ideasMessage.data = this.props.ideas.map((item) => {
-        if (item.id === id) item.type = type
-        return item
-      })
-
-      sendData()
-    }
-
-    const sendData = () => {
-      this.props.onChangeIdeas({
-        ideas: this.ideasMessage.data,
-        onGoingStep: 'ideas changed',
-      })
-
-      parent.postMessage({ pluginMessage: this.ideasMessage }, '*')
-    }
-
-    const actions: ActionsList = {
-      UPDATE_IDEA: () => updateIdea(),
-      REMOVE_IDEA: () => removeIdea(),
-      UPDATE_TYPE: () => updateIdeaType(),
-      NULL: () => null,
-    }
-
-    return actions[currentElement.dataset.feature ?? 'NULL']?.()
   }
 
   // Renders
