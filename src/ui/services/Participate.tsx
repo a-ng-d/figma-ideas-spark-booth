@@ -38,7 +38,10 @@ interface ParticipateProps {
   lang: Language
   onPushIdea: (idea: Partial<AppStates>) => void
   onChangeIdeas: (ideas: Partial<AppStates>) => void
-  onEndSession: () => void
+  onEndSession: (
+    activity: ActivityConfiguration,
+    ideas: Array<IdeaConfiguration>
+  ) => void
 }
 
 interface ParticipateStates {
@@ -119,7 +122,14 @@ export default class Participate extends React.Component<
                 <Button
                   type="secondary"
                   label="End session"
-                  action={this.props.onEndSession}
+                  action={() =>
+                    this.props.onEndSession(
+                      this.props.activity,
+                      this.props.ideas.filter(
+                        (idea) => idea.sessionId === this.props.session.id
+                      )
+                    )
+                  }
                 />
               </Feature>
             </div>

@@ -372,7 +372,13 @@ class App extends React.Component<Record<string, never>, AppStates> {
   }
 
   // Direct actions
-  onEndSession = () => {
+  onEndSession = (
+    activity: ActivityConfiguration,
+    ideas: Array<IdeaConfiguration>
+  ) => {
+    const currentSession = this.state.sessions.find(
+      (session) => session.isRunning
+    )
     const sessions = this.state.sessions.map((session) => {
       session.isRunning = false
       session.metrics.endDate = new Date().toISOString()
@@ -387,7 +393,12 @@ class App extends React.Component<Record<string, never>, AppStates> {
       {
         pluginMessage: {
           type: 'END_SESSION',
-          data: sessions,
+          data: {
+            activity: activity,
+            sessions: sessions,
+            session: currentSession,
+            ideas: ideas,
+          },
         },
       },
       '*'
