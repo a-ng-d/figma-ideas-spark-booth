@@ -93,7 +93,9 @@ export default class ParticipantInfo extends React.Component<
                 <SimpleItem
                   key={index}
                   leftPartSlot={
-                    <div className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}>
+                    <div
+                      className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
+                    >
                       <div className="simple-item__param">
                         <div
                           className="color-chip"
