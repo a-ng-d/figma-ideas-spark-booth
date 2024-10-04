@@ -4,6 +4,7 @@ import {
   ActivityConfiguration,
   IdeaConfiguration,
 } from '../types/configurations'
+import setFriendlyDate from '../utils/setFriendlyDate'
 
 export default class Classification {
   activityName: string
@@ -82,14 +83,10 @@ export default class Classification {
     return sectionNode
   }
 
-  makeDate = (date: Date | string) => {
-    return `${new Date(date).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })} at ${new Date(date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`
-  }
-
   makeClassification = () => {
     // Base
     const sectionNode = figma.createSection()
-    sectionNode.name = `${this.activityName}・${this.makeDate(this.sessionDate)}`
+    sectionNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, 'en-US')}`
 
     const sections = Object.entries(this.ideas).map(([name, ideas]) => {
       return this.makeSection(name, ideas, ideas[0].type.hex)
