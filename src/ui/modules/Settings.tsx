@@ -3,11 +3,13 @@ import {
   Button,
   Dropdown,
   FormItem,
+  Icon,
   Input,
   SectionTitle,
   SimpleItem,
   SortableList,
   layouts,
+  texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
@@ -17,6 +19,8 @@ import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   ColorConfiguration,
+  IdeaConfiguration,
+  SessionConfiguration,
   TypeConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
@@ -36,6 +40,8 @@ import Feature from '../components/Feature'
 
 interface SettingsProps {
   activity: ActivityConfiguration
+  sessions: Array<SessionConfiguration>
+  ideas: Array<IdeaConfiguration>
   planStatus: PlanStatus
   lang: Language
   onChangeActivities: (
@@ -746,6 +752,61 @@ export default class Settings extends React.Component<SettingsProps> {
     )
   }
 
+  History = () => {
+    return (
+      <Feature
+        isActive={
+          features.find((feature) => feature.name === 'HISTORY')?.isActive
+        }
+      >
+        <div className="group">
+          <SimpleItem
+            leftPartSlot={
+              <SectionTitle
+                label={'Session history'}
+                indicator={this.props.sessions.length}
+              />
+            }
+            isListItem={false}
+          />
+          <ul>
+            {this.props.sessions.map((session, index) => (
+              <SimpleItem
+                key={index}
+                leftPartSlot={
+                  <div
+                    style={{
+                      paddingLeft: 'var(--size-xxsmall)',
+                    }}
+                    className={`${layouts['snackbar--medium']}`}
+                  >
+                    <span className={`${texts['type']} type`}>
+                      {`${new Date(session.metrics.startDate).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })} at ${new Date(session.metrics.startDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`}
+                    </span>
+                    <span
+                      className={`${texts['type']} ${texts['type--secondary']} type`}
+                    >
+                      {`${session.metrics.participants} participants, ${session.metrics.ideas} ideas`}
+                    </span>
+                  </div>
+                }
+                rightPartSlot={
+                  <Icon
+                    type="PICTO"
+                    iconName="caret-right"
+                  />
+                }
+                alignment="CENTER"
+                isInteractive={true}
+                action={() => null}
+              />
+            ))}
+          </ul>
+        </div>
+      </Feature>
+    )
+  }
+
   render() {
     return (
       <div className="controls__control">
@@ -799,6 +860,7 @@ export default class Settings extends React.Component<SettingsProps> {
           <this.Global />
           <this.Timer />
           <this.Types />
+          <this.History />
         </div>
       </div>
     )

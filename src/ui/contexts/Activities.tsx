@@ -6,6 +6,7 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
+  IdeaConfiguration,
   SessionConfiguration,
   TypeConfiguration,
   UserConfiguration,
@@ -20,6 +21,7 @@ import Settings from '../modules/Settings'
 interface ActivitiesProps {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
+  ideas: Array<IdeaConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -248,6 +250,8 @@ export default class Activities extends React.Component<
       metrics: {
         startDate: new Date().toISOString(),
         endDate: '',
+        participants: 0,
+        ideas: 0,
       },
       isRunning: true,
       activityId: activityId,

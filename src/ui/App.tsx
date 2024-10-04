@@ -379,9 +379,26 @@ class App extends React.Component<Record<string, never>, AppStates> {
     const currentSession = this.state.sessions.find(
       (session) => session.isRunning
     )
+    if (currentSession) {
+      currentSession.isRunning = false
+      currentSession.metrics.endDate = new Date().toISOString()
+      currentSession.metrics.participants = Object.keys(
+        ideas.reduce(
+          (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
+            const { userIdentity } = idea
+            if (!acc[userIdentity.fullName]) {
+              acc[userIdentity.fullName] = []
+            }
+            acc[userIdentity.fullName].push(idea)
+            return acc
+          },
+          {} as { [key: string]: IdeaConfiguration[] }
+        )
+      ).length
+      currentSession.metrics.ideas = ideas.length
+    }
     const sessions = this.state.sessions.map((session) => {
-      session.isRunning = false
-      session.metrics.endDate = new Date().toISOString()
+      if (session.id === currentSession?.id) return currentSession
       return session
     })
 

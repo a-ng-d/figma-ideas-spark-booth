@@ -5,6 +5,7 @@ import { Language, PlanStatus } from '../../types/app'
 import { ContextItem } from '../../types/app'
 import {
   ActivityConfiguration,
+  IdeaConfiguration,
   SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
@@ -16,6 +17,7 @@ import Activities from '../contexts/Activities'
 interface BrowseActivitiesProps {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
+  ideas: Array<IdeaConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration

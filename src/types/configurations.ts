@@ -42,6 +42,8 @@ export interface SessionConfiguration {
   metrics: {
     startDate: Date | string
     endDate: Date | string
+    participants: number
+    ideas: number
   }
   isRunning: boolean
   activityId: string
