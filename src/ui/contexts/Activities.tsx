@@ -16,6 +16,7 @@ import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { AppStates } from '../App'
 import ActivitiesList from '../modules/ActivitiesList'
+import History from '../modules/History'
 import Settings from '../modules/Settings'
 
 interface ActivitiesProps {
@@ -34,6 +35,7 @@ interface ActivitiesProps {
 interface ActivitiesStates {
   view: 'ACTIVITIES' | 'SETTINGS' | 'HISTORY'
   openedActivity?: string
+  openedSessionHistory?: string
 }
 
 export default class Activities extends React.Component<
@@ -51,6 +53,7 @@ export default class Activities extends React.Component<
     this.state = {
       view: 'ACTIVITIES',
       openedActivity: undefined,
+      openedSessionHistory: undefined,
     }
   }
 
@@ -307,6 +310,13 @@ export default class Activities extends React.Component<
             {...this.props}
             onChangeActivities={this.activitiesHandler}
             onChangeTypes={this.typesHandler}
+            onOpenSessionHistory={(e) =>
+              this.setState({
+                view: 'HISTORY',
+                openedSessionHistory: (e.currentTarget as HTMLElement).dataset
+                  .id,
+              })
+            }
             onCloseActivitySettings={() =>
               this.setState({
                 view: 'ACTIVITIES',
@@ -317,8 +327,30 @@ export default class Activities extends React.Component<
         )
         break
       }
+      case 'HISTORY': {
+        fragment = (
+          <History
+            {...this.props}
+            sessionDate={
+              this.props.sessions.find(
+                (session) => session.id === this.state.openedSessionHistory
+              )?.metrics.startDate ?? 'Session date'
+            }
+            ideas={this.props.ideas.filter(
+              (idea) => idea.sessionId === this.state.openedSessionHistory
+            )}
+            onRemoveSession={this.activitiesHandler}
+            onCloseSessionHistory={() =>
+              this.setState({
+                view: 'SETTINGS',
+                openedSessionHistory: undefined,
+              })
+            }
+          />
+        )
+        break
+      }
     }
-
     return <div className="controls__control">{fragment}</div>
   }
 }

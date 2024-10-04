@@ -295,6 +295,15 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
+          name: 'HISTORY_REMOVE',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'ACTION',
+          service: ['BROWSE'],
+        },
+        {
           name: 'EXPLORE',
           description: '',
           isActive: true,

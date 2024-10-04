@@ -36,6 +36,7 @@ import features, {
   yellowColor,
 } from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
+import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 
 interface SettingsProps {
@@ -53,6 +54,8 @@ interface SettingsProps {
       | React.MouseEvent<HTMLLIElement | Element, MouseEvent>
   ) => void
   onChangeTypes: (types: Array<TypeConfiguration>) => void
+  onOpenSessionHistory: React.MouseEventHandler<Element> &
+    React.KeyboardEventHandler<Element>
   onCloseActivitySettings: () => void
 }
 
@@ -773,6 +776,7 @@ export default class Settings extends React.Component<SettingsProps> {
             {this.props.sessions.map((session, index) => (
               <SimpleItem
                 key={index}
+                id={session.id}
                 leftPartSlot={
                   <div
                     style={{
@@ -781,7 +785,7 @@ export default class Settings extends React.Component<SettingsProps> {
                     className={`${layouts['snackbar--medium']}`}
                   >
                     <span className={`${texts['type']} type`}>
-                      {`${new Date(session.metrics.startDate).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })} at ${new Date(session.metrics.startDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`}
+                      {setFriendlyDate(session.metrics.startDate, 'en-US')}
                     </span>
                     <span
                       className={`${texts['type']} ${texts['type--secondary']} type`}
@@ -793,12 +797,12 @@ export default class Settings extends React.Component<SettingsProps> {
                 rightPartSlot={
                   <Icon
                     type="PICTO"
-                    iconName="caret-right"
+                    iconName="forward"
                   />
                 }
                 alignment="CENTER"
                 isInteractive={true}
-                action={() => null}
+                action={this.props.onOpenSessionHistory}
               />
             ))}
           </ul>
@@ -819,7 +823,9 @@ export default class Settings extends React.Component<SettingsProps> {
                 feature="BACK"
                 action={this.props.onCloseActivitySettings}
               />
-              <span className="type">{this.props.activity.name}</span>
+              <span className={`${texts['type']} type`}>
+                {this.props.activity.name}
+              </span>
             </div>
           }
           rightPartSlot={
