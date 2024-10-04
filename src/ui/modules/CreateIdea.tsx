@@ -20,7 +20,6 @@ import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
-import { AppStates } from '../App'
 import Feature from '../components/Feature'
 
 interface CreateIdeasProps {
@@ -33,7 +32,7 @@ interface CreateIdeasProps {
   userIdentity: UserConfiguration
   planStatus: PlanStatus
   lang: Language
-  onPushIdea: (idea: Partial<AppStates>) => void
+  onPushIdea: (idea: IdeaConfiguration) => void
 }
 
 interface CreateIdeasStates {
@@ -102,19 +101,7 @@ export default class CreateIdeas extends React.Component<
       setTimeout(() => this.textRef.current?.textareaRef.current?.focus(), 100)
       this.setState({ canBeSubmitted: false })
 
-      this.props.onPushIdea({
-        ideas: [...this.props.ideas, idea],
-      })
-
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'PUSH_IDEA',
-            data: [...this.props.ideas, idea],
-          },
-        },
-        '*'
-      )
+      this.props.onPushIdea(idea)
     }
   }
 

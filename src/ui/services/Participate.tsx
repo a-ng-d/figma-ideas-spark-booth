@@ -36,7 +36,7 @@ interface ParticipateProps {
   userIdentity: UserConfiguration
   planStatus: PlanStatus
   lang: Language
-  onPushIdea: (idea: Partial<AppStates>) => void
+  onPushIdea: (idea: IdeaConfiguration) => void
   onChangeIdeas: (ideas: Partial<AppStates>) => void
   onEndSession: (
     activity: ActivityConfiguration,
