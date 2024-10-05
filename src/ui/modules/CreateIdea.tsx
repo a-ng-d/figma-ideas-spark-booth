@@ -178,7 +178,7 @@ export default class CreateIdeas extends React.Component<
                       currentText: e.target.value,
                     })
               }
-              onConfirm={(e) =>
+              onConfirm={() =>
                 !isBlocked('PARTICIPATE_CREATE_IDEA', this.props.planStatus) &&
                 this.onPushIdea()
               }
@@ -191,7 +191,7 @@ export default class CreateIdeas extends React.Component<
                 this.props.planStatus
               )}
               isDisabled={!this.state.canBeSubmitted}
-              action={(e) =>
+              action={() =>
                 !isBlocked('PARTICIPATE_CREATE_IDEA', this.props.planStatus) &&
                 this.onPushIdea()
               }
