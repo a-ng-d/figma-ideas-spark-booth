@@ -1,12 +1,8 @@
-import { Dialog, Icon, Message, texts } from '@a_ng_d/figmug-ui';
-import React from 'react';
-
-
-
-import { locals } from '../../content/locals';
-import { HighlightDigest, Language } from '../../types/app';
-import { announcementsWorkerUrl } from '../../utils/config';
-
+import { locals } from '../../content/locals'
+import { HighlightDigest, Language } from '../../types/app'
+import { announcementsWorkerUrl } from '../../utils/config'
+import { Dialog, Icon, Message, texts } from '@a_ng_d/figmug-ui'
+import React from 'react'
 
 interface HighlightProps {
   highlight: HighlightDigest

@@ -1,12 +1,3 @@
-import {
-  ConsentConfiguration,
-  SectionTitle,
-  SimpleItem,
-  layouts,
-  texts,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
-
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
@@ -15,6 +6,14 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
+import {
+  ConsentConfiguration,
+  SectionTitle,
+  SimpleItem,
+  layouts,
+  texts,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
 
 interface ParticipantInfoProps {
   activity: ActivityConfiguration

@@ -1,3 +1,11 @@
+import { locals } from '../../content/locals'
+import { Language, PlanStatus } from '../../types/app'
+import {
+  ActivityConfiguration,
+  UserConfiguration,
+} from '../../types/configurations'
+import { UserSession } from '../../types/user'
+import { AppStates } from '../App'
 import {
   ActionsItem,
   Button,
@@ -7,15 +15,6 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
-
-import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
-import {
-  ActivityConfiguration,
-  UserConfiguration,
-} from '../../types/configurations'
-import { UserSession } from '../../types/user'
-import { AppStates } from '../App'
 
 interface ActivitiesListProps {
   activities: Array<ActivityConfiguration>

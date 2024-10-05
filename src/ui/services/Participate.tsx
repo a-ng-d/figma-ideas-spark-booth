@@ -1,13 +1,3 @@
-import {
-  Bar,
-  Button,
-  ConsentConfiguration,
-  Input,
-  layouts,
-  texts,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
-
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
@@ -25,6 +15,15 @@ import CreateIdea from '../modules/CreateIdea'
 import FacilitatorInfo from '../modules/FacilitatorInfo'
 import ParticipantInfo from '../modules/ParticipantInfo'
 import UpdateIdeas from '../modules/UpdateIdeas'
+import {
+  Bar,
+  Button,
+  ConsentConfiguration,
+  Input,
+  layouts,
+  texts,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
 
 interface ParticipateProps {
   activity: ActivityConfiguration

@@ -1,3 +1,12 @@
+import { signIn, signOut } from '../../bridges/publication/authentication'
+import { locals } from '../../content/locals'
+import { Language, PlanStatus, TrialStatus } from '../../types/app'
+import { UserConfiguration } from '../../types/configurations'
+import { UserSession } from '../../types/user'
+import features from '../../utils/config'
+import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
+import isBlocked from '../../utils/isBlocked'
+import Feature from '../components/Feature'
 import {
   Bar,
   Button,
@@ -8,16 +17,6 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
-
-import { signIn, signOut } from '../../bridges/publication/authentication'
-import { locals } from '../../content/locals'
-import { Language, PlanStatus, TrialStatus } from '../../types/app'
-import { UserConfiguration } from '../../types/configurations'
-import { UserSession } from '../../types/user'
-import features from '../../utils/config'
-import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
-import Feature from '../components/Feature'
 
 interface ShortcutsProps {
   planStatus: PlanStatus

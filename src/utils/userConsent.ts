@@ -1,6 +1,5 @@
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
-
 import { lang, locals } from '../content/locals'
+import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 
 export const userConsent: Array<ConsentConfiguration> = [
   {

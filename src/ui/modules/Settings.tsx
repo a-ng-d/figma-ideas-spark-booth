@@ -1,19 +1,3 @@
-import {
-  Bar,
-  Button,
-  Dropdown,
-  FormItem,
-  Icon,
-  Input,
-  SectionTitle,
-  SimpleItem,
-  SortableList,
-  layouts,
-  texts,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
-import { uid } from 'uid'
-
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -38,6 +22,21 @@ import features, {
 import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
+import {
+  Bar,
+  Button,
+  Dropdown,
+  FormItem,
+  Icon,
+  Input,
+  SectionTitle,
+  SimpleItem,
+  SortableList,
+  layouts,
+  texts,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
+import { uid } from 'uid'
 
 interface SettingsProps {
   activity: ActivityConfiguration

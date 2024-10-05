@@ -1,13 +1,3 @@
-import * as Sentry from '@sentry/browser'
-import {
-  ConsentConfiguration,
-  Dialog,
-  FormItem,
-  Input,
-  texts,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
-
 import { signIn } from '../../bridges/publication/authentication'
 import cp from '../../content/images/choose_plan.webp'
 import pp from '../../content/images/pro_plan.webp'
@@ -29,6 +19,15 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import About from './About'
 import Highlight from './Highlight'
+import {
+  ConsentConfiguration,
+  Dialog,
+  FormItem,
+  Input,
+  texts,
+} from '@a_ng_d/figmug-ui'
+import * as Sentry from '@sentry/browser'
+import React from 'react'
 
 interface PriorityContainerProps {
   context: PriorityContext
