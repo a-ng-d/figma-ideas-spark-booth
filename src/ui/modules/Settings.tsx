@@ -540,6 +540,7 @@ export default class Settings extends React.Component<SettingsProps> {
             leftPartSlot={
               <SectionTitle
                 label={locals[this.props.lang].settings.types.title}
+                indicator={this.props.activity.types.length}
               />
             }
             rightPartSlot={

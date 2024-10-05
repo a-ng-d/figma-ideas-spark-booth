@@ -303,12 +303,15 @@ export default class Activities extends React.Component<
       case 'SETTINGS': {
         fragment = (
           <Settings
+            {...this.props}
             activity={
               this.props.activities.find(
                 (activity) => activity.meta.id === this.state.openedActivity
               ) as ActivityConfiguration
             }
-            {...this.props}
+            sessions={this.props.sessions.filter(
+              (session) => session.activityId === this.state.openedActivity
+            )}
             onChangeActivities={this.activitiesHandler}
             onChangeTypes={this.typesHandler}
             onRunSession={this.onRunSession}
