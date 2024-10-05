@@ -1,10 +1,3 @@
-import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
-import { IdeaConfiguration } from '../../types/configurations'
-import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
-import setFriendlyDate from '../../utils/setFriendlyDate'
-import Feature from '../components/Feature'
 import {
   Bar,
   Button,
@@ -17,6 +10,14 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
+
+import { locals } from '../../content/locals'
+import { Language, PlanStatus } from '../../types/app'
+import { IdeaConfiguration } from '../../types/configurations'
+import features from '../../utils/config'
+import isBlocked from '../../utils/isBlocked'
+import setFriendlyDate from '../../utils/setFriendlyDate'
+import Feature from '../components/Feature'
 
 interface HistoryProps {
   sessionDate: string | Date

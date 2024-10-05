@@ -1,3 +1,6 @@
+import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
+import React from 'react'
+
 import { Language, PlanStatus } from '../../types/app'
 import { ContextItem } from '../../types/app'
 import {
@@ -10,8 +13,6 @@ import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Activities from '../contexts/Activities'
-import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
-import React from 'react'
 
 interface BrowseActivitiesProps {
   activities: Array<ActivityConfiguration>

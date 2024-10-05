@@ -15,7 +15,7 @@ const endSession = (data: {
 
   figma.timer?.stop()
 
-  if (data.activity.groupedBy === 'PARTICIPANT') {
+  if (data.activity.groupedBy === 'PARTICIPANT' && data.ideas.length > 0) {
     const sortedIdeasByParticipant = data.ideas.reduce(
       (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
         const { userIdentity } = idea
@@ -33,7 +33,7 @@ const endSession = (data: {
       data.session.metrics.startDate,
       sortedIdeasByParticipant
     )
-  } else if (data.activity.groupedBy === 'TYPE') {
+  } else if (data.activity.groupedBy === 'TYPE' && data.ideas.length > 0) {
     const sortedIdeasByType = data.ideas.reduce(
       (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
         const { type } = idea

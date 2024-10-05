@@ -41,6 +41,9 @@ export const locals: { [key: string]: any } = {
       title: 'Local activities',
       newActivity: 'New activity',
     },
+    sessions: {
+      new: 'New session',
+    },
     settings: {
       global: {
         title: 'Global settings',

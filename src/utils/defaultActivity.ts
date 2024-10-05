@@ -1,7 +1,8 @@
+import { uid } from 'uid'
+
 import { lang, locals } from '../content/locals'
 import { ActivityConfiguration } from '../types/configurations'
 import { yellowColor } from './config'
-import { uid } from 'uid'
 
 export const defaultActivity: ActivityConfiguration = {
   name: 'Classic Brainstorming',

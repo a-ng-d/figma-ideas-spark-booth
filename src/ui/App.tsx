@@ -1,3 +1,10 @@
+import * as Sentry from '@sentry/react'
+import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import 'figma-plugin-ds/dist/figma-plugin-ds.css'
+import mixpanel from 'mixpanel-figma'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import { locals } from '../content/locals'
@@ -37,12 +44,6 @@ import BrowseActivities from './services/BrowseActivities'
 import Participate from './services/Participate'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
-import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import * as Sentry from '@sentry/react'
-import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import mixpanel from 'mixpanel-figma'
-import React from 'react'
-import { createRoot } from 'react-dom/client'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>

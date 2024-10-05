@@ -1,3 +1,13 @@
+import {
+  Button,
+  ConsentConfiguration,
+  DropdownOption,
+  Input,
+  Menu,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
+import { uid } from 'uid'
+
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
@@ -11,15 +21,6 @@ import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
-import {
-  Button,
-  ConsentConfiguration,
-  DropdownOption,
-  Input,
-  Menu,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
-import { uid } from 'uid'
 
 interface CreateIdeasProps {
   activity: ActivityConfiguration

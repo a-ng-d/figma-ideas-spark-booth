@@ -1,3 +1,7 @@
+import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import React from 'react'
+import { uid } from 'uid'
+
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -14,9 +18,6 @@ import { AppStates } from '../App'
 import ActivitiesList from '../modules/ActivitiesList'
 import History from '../modules/History'
 import Settings from '../modules/Settings'
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import React from 'react'
-import { uid } from 'uid'
 
 interface ActivitiesProps {
   activities: Array<ActivityConfiguration>
