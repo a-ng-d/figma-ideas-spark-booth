@@ -311,6 +311,7 @@ export default class Activities extends React.Component<
             {...this.props}
             onChangeActivities={this.activitiesHandler}
             onChangeTypes={this.typesHandler}
+            onRunSession={this.onRunSession}
             onOpenSessionHistory={(e) =>
               this.setState({
                 view: 'HISTORY',

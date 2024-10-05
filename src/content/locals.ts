@@ -42,7 +42,7 @@ export const locals: { [key: string]: any } = {
       newActivity: 'New activity',
     },
     sessions: {
-      new: 'New session',
+      newSession: 'New session',
     },
     settings: {
       global: {

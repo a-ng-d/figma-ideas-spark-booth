@@ -15,7 +15,10 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
+import features from '../../utils/config'
+import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
+import Feature from '../components/Feature'
 
 interface ActivitiesListProps {
   activities: Array<ActivityConfiguration>
@@ -42,12 +45,24 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
             />
           }
           rightPartSlot={
-            <Button
-              type="icon"
-              icon="plus"
-              feature="ADD_ACTIVITY"
-              action={this.props.onChangeActivities}
-            />
+            <Feature
+              isActive={
+                features.find((feature) => feature.name === 'ACTIVITIES_ADD')
+                  ?.isActive
+              }
+            >
+              <Button
+                type="icon"
+                icon="plus"
+                feature="ADD_ACTIVITY"
+                isBlocked={isBlocked('ACTIVITIES_ADD', this.props.planStatus)}
+                isNew={
+                  features.find((feature) => feature.name === 'ACTIVITIES_ADD')
+                    ?.isNew
+                }
+                action={this.props.onChangeActivities}
+              />
+            </Feature>
           }
         />
         <ul className="rich-list">
@@ -85,23 +100,56 @@ export default class ActivitiesList extends React.Component<ActivitiesListProps>
                         ':' +
                         String(activity.timer.seconds).padStart(2, '0')}
                     </span>
-                    <Button
-                      type="icon"
-                      icon="adjust"
-                      feature="CONFIGURE_ACTIVITY"
-                      action={() =>
-                        this.props.onOpenActivitySettings(activity.meta.id)
+                    <Feature
+                      isActive={
+                        features.find(
+                          (feature) => feature.name === 'ACTIVITIES_SETTINGS'
+                        )?.isActive
                       }
-                    />
-                    <Button
-                      type="icon"
-                      icon="play"
-                      feature="RUN_ACTIVITY"
-                      action={() => this.props.onRunSession(activity.meta.id)}
-                    />
+                    >
+                      <Button
+                        type="icon"
+                        icon="adjust"
+                        feature="CONFIGURE_ACTIVITY"
+                        isBlocked={isBlocked(
+                          'ACTIVITIES_SETTINGS',
+                          this.props.planStatus
+                        )}
+                        isNew={
+                          features.find(
+                            (feature) => feature.name === 'ACTIVITIES_SETTINGS'
+                          )?.isNew
+                        }
+                        action={() =>
+                          this.props.onOpenActivitySettings(activity.meta.id)
+                        }
+                      />
+                    </Feature>
+                    <Feature
+                      isActive={
+                        features.find(
+                          (feature) => feature.name === 'SESSIONS_RUN'
+                        )?.isActive
+                      }
+                    >
+                      <Button
+                        type="icon"
+                        icon="play"
+                        feature="RUN_ACTIVITY"
+                        isBlocked={isBlocked(
+                          'SESSIONS_RUN',
+                          this.props.planStatus
+                        )}
+                        isNew={
+                          features.find(
+                            (feature) => feature.name === 'SESSIONS_RUN'
+                          )?.isNew
+                        }
+                        action={() => this.props.onRunSession(activity.meta.id)}
+                      />
+                    </Feature>
                   </>
                 }
-                action={(e) => null}
               />
             )
           )}

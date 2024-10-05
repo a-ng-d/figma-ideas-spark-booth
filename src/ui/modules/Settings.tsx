@@ -54,6 +54,7 @@ interface SettingsProps {
       | React.MouseEvent<HTMLLIElement | Element, MouseEvent>
   ) => void
   onChangeTypes: (types: Array<TypeConfiguration>) => void
+  onRunSession: (id: string) => void
   onOpenSessionHistory: React.MouseEventHandler<Element> &
     React.KeyboardEventHandler<Element>
   onCloseActivitySettings: () => void
@@ -848,6 +849,21 @@ export default class Settings extends React.Component<SettingsProps> {
           }
           rightPartSlot={
             <div className={layouts['snackbar--tight']}>
+              <Feature
+                isActive={
+                  features.find((feature) => feature.name === 'SESSIONS_RUN')
+                    ?.isActive
+                }
+              >
+                <Button
+                  type="primary"
+                  label={locals[this.props.lang].sessions.newSession}
+                  feature="SESSION_RUN"
+                  action={() =>
+                    this.props.onRunSession(this.props.activity.meta.id)
+                  }
+                />
+              </Feature>
               <Feature
                 isActive={
                   features.find(
