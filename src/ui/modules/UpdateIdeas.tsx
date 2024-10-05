@@ -11,6 +11,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 
+import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
@@ -173,7 +174,7 @@ export default class UpdateIdeas extends React.Component<
         {this.state.selfIdeas.length === 0 ? (
           <Message
             icon="draft"
-            messages={['No ideas yet']}
+            messages={[locals[this.props.lang].participate.noSelfIdea]}
           />
         ) : (
           <ul className="list list--fill">

@@ -1,20 +1,11 @@
-import {
-  ConsentConfiguration,
-  Message,
-  SectionTitle,
-  SimpleItem,
-  layouts,
-  texts,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { ConsentConfiguration, Message, SectionTitle, SimpleItem, layouts, texts } from '@a_ng_d/figmug-ui';
+import React from 'react';
 
-import { Language, PlanStatus } from '../../types/app'
-import {
-  ActivityConfiguration,
-  IdeaConfiguration,
-  TypeConfiguration,
-  UserConfiguration,
-} from '../../types/configurations'
+
+
+import { locals } from '../../content/locals';
+import { Language, PlanStatus } from '../../types/app';
+import { ActivityConfiguration, IdeaConfiguration, TypeConfiguration, UserConfiguration } from '../../types/configurations';
 import { UserSession } from '../../types/user'
 
 interface FacilitatorInfoProps {
@@ -74,7 +65,7 @@ export default class FacilitatorInfo extends React.Component<
           {this.props.ideas.length === 0 ? (
             <Message
               icon="draft"
-              messages={['No ideas yet']}
+              messages={[locals[this.props.lang].participate.noParticipantIdea]}
             />
           ) : (
             <div className="group__item group__item--tight">

@@ -111,6 +111,11 @@ export const locals: { [key: string]: any } = {
         recent: 'Most recent',
         old: 'Oldest',
       },
+      noIdea: 'This session has no idea',
+    },
+    participate: {
+      noSelfIdea: 'You have not added any idea yet',
+      noParticipantIdea: 'No participant has added any idea yet',
     },
     report: {
       title: 'Report a bug',
@@ -215,6 +220,7 @@ export const locals: { [key: string]: any } = {
     info: {
       noResult: 'No activity match your search',
     },
+    generic: {},
     warning: {},
     error: {
       generic: '✕ Something went wrong',

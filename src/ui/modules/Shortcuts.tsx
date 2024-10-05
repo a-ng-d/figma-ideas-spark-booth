@@ -545,7 +545,7 @@ export default class Shortcuts extends React.Component<
                   )}
                 {this.props.trialStatus === 'PENDING' ? (
                   <div className={`label ${texts.label}`}>
-                    <div className="type--bold">
+                    <div className="type type--bold">
                       {Math.ceil(
                         this.props.trialRemainingTime > 72
                           ? this.props.trialRemainingTime / 24

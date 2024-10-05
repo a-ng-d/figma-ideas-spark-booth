@@ -4,6 +4,7 @@ import {
   Dropdown,
   DropdownOption,
   Menu,
+  Message,
   SimpleItem,
   layouts,
   texts,
@@ -253,7 +254,7 @@ export default class History extends React.Component<
               <Feature
                 isActive={
                   features.find((feature) => feature.name === 'HISTORY_SORT')
-                    ?.isActive
+                    ?.isActive && this.props.ideas.length > 0
                 }
               >
                 <Dropdown
@@ -302,7 +303,7 @@ export default class History extends React.Component<
               <Feature
                 isActive={
                   features.find((feature) => feature.name === 'HISTORY_FILTER')
-                    ?.isActive
+                    ?.isActive && this.props.ideas.length > 0
                 }
               >
                 <Menu
@@ -334,51 +335,60 @@ export default class History extends React.Component<
           border={['BOTTOM']}
         ></Bar>
         <div className="control__block">
-          <ul
-            style={{
-              padding: '0 var(--size-xxsmall)',
-            }}
-          >
-            {this.state.ideas.map((idea, index) => (
-              <SimpleItem
-                key={index}
-                leftPartSlot={
-                  <div
-                    className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
-                  >
-                    <div className={`${layouts['snackbar--tight']}`}>
-                      <div
-                        className="color-chip"
-                        style={{ backgroundColor: idea.type.hex }}
-                      ></div>
+          {this.state.ideas.length > 0 ? (
+            <ul
+              style={{
+                padding: '0 var(--size-xxsmall)',
+              }}
+            >
+              {this.state.ideas.map((idea, index) => (
+                <SimpleItem
+                  key={index}
+                  leftPartSlot={
+                    <div
+                      className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
+                    >
+                      <div className={`${layouts['snackbar--tight']}`}>
+                        <div
+                          className="color-chip"
+                          style={{ backgroundColor: idea.type.hex }}
+                        ></div>
+                        <span
+                          className={`${texts['type']} ${texts['type--secondary']} type`}
+                        >
+                          {idea.type.name}
+                        </span>
+                      </div>
+                      <div className={`${texts['type']} type`}>{idea.text}</div>
+                    </div>
+                  }
+                  rightPartSlot={
+                    <div className="user">
                       <span
                         className={`${texts['type']} ${texts['type--secondary']} type`}
                       >
-                        {idea.type.name}
+                        {idea.userIdentity.fullName}
                       </span>
+                      <div className="user__avatar">
+                        <img
+                          src={idea.userIdentity.avatar}
+                          alt={idea.userIdentity.fullName}
+                        />
+                      </div>
                     </div>
-                    <div className={`${texts['type']} type`}>{idea.text}</div>
-                  </div>
-                }
-                rightPartSlot={
-                  <div className="user">
-                    <span
-                      className={`${texts['type']} ${texts['type--secondary']} type`}
-                    >
-                      {idea.userIdentity.fullName}
-                    </span>
-                    <div className="user__avatar">
-                      <img
-                        src={idea.userIdentity.avatar}
-                        alt={idea.userIdentity.fullName}
-                      />
-                    </div>
-                  </div>
-                }
-                alignment="CENTER"
+                  }
+                  alignment="CENTER"
+                />
+              ))}
+            </ul>
+          ) : (
+            <div className="onboarding__callout--centered">
+              <Message
+                icon="info"
+                messages={[locals[this.props.lang].history.noIdea]}
               />
-            ))}
-          </ul>
+            </div>
+          )}
         </div>
       </div>
     )
