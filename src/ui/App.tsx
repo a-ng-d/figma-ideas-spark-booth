@@ -466,14 +466,14 @@ class App extends React.Component<Record<string, never>, AppStates> {
               onPushIdea={(e) => {
                 this.setState({ ideas: [...this.state.ideas, e] })
                 parent.postMessage(
-                {
-                  pluginMessage: {
-                    type: 'PUSH_IDEA',
-                    data: [...this.state.ideas, e],
+                  {
+                    pluginMessage: {
+                      type: 'PUSH_IDEA',
+                      data: [...this.state.ideas, e],
+                    },
                   },
-                },
-                '*'
-              )
+                  '*'
+                )
               }}
               onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
               onEndSession={this.onEndSession}

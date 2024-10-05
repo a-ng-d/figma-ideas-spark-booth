@@ -1,11 +1,21 @@
-import { ConsentConfiguration, Message, SectionTitle, SimpleItem, layouts, texts } from '@a_ng_d/figmug-ui';
-import React from 'react';
+import {
+  ConsentConfiguration,
+  Message,
+  SectionTitle,
+  SimpleItem,
+  layouts,
+  texts,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
 
-
-
-import { locals } from '../../content/locals';
-import { Language, PlanStatus } from '../../types/app';
-import { ActivityConfiguration, IdeaConfiguration, TypeConfiguration, UserConfiguration } from '../../types/configurations';
+import { locals } from '../../content/locals'
+import { Language, PlanStatus } from '../../types/app'
+import {
+  ActivityConfiguration,
+  IdeaConfiguration,
+  TypeConfiguration,
+  UserConfiguration,
+} from '../../types/configurations'
 import { UserSession } from '../../types/user'
 
 interface FacilitatorInfoProps {
