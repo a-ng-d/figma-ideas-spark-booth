@@ -593,7 +593,9 @@ export default class Settings extends React.Component<SettingsProps> {
                         id="update-type-color"
                         options={[
                           {
-                            label: 'Gray',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .gray,
                             value: 'GRAY',
                             feature: 'UPDATE_COLOR',
                             position: 0,
@@ -605,7 +607,8 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Red',
+                            label:
+                              locals[this.props.lang].settings.types.colors.red,
                             value: 'RED',
                             feature: 'UPDATE_COLOR',
                             position: 1,
@@ -617,7 +620,9 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Orange',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .orange,
                             value: 'ORANGE',
                             feature: 'UPDATE_COLOR',
                             position: 2,
@@ -629,7 +634,9 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Yellow',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .yellow,
                             value: 'YELLOW',
                             feature: 'UPDATE_COLOR',
                             position: 3,
@@ -641,7 +648,9 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Green',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .green,
                             value: 'GREEN',
                             feature: 'UPDATE_COLOR',
                             position: 4,
@@ -653,7 +662,9 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Blue',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .blue,
                             value: 'BLUE',
                             feature: 'UPDATE_COLOR',
                             position: 5,
@@ -665,7 +676,9 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Violet',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .violet,
                             value: 'VIOLET',
                             feature: 'UPDATE_COLOR',
                             position: 6,
@@ -677,7 +690,9 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Pink',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .pink,
                             value: 'PINK',
                             feature: 'UPDATE_COLOR',
                             position: 7,
@@ -689,7 +704,9 @@ export default class Settings extends React.Component<SettingsProps> {
                             action: this.typeHandler,
                           },
                           {
-                            label: 'Light gray',
+                            label:
+                              locals[this.props.lang].settings.types.colors
+                                .lightGray,
                             value: 'LIGHT_GRAY',
                             feature: 'UPDATE_COLOR',
                             position: 8,
@@ -766,7 +783,7 @@ export default class Settings extends React.Component<SettingsProps> {
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={'Session history'}
+                label={locals[this.props.lang].settings.history.title}
                 indicator={this.props.sessions.length}
               />
             }
@@ -782,7 +799,7 @@ export default class Settings extends React.Component<SettingsProps> {
                     style={{
                       paddingLeft: 'var(--size-xxsmall)',
                     }}
-                    className={`${layouts['snackbar--medium']}`}
+                    className={`${layouts['snackbar--large']}`}
                   >
                     <span className={`${texts['type']} type`}>
                       {setFriendlyDate(session.metrics.startDate, 'en-US')}
@@ -790,7 +807,7 @@ export default class Settings extends React.Component<SettingsProps> {
                     <span
                       className={`${texts['type']} ${texts['type--secondary']} type`}
                     >
-                      {`${session.metrics.participants} participants, ${session.metrics.ideas} ideas`}
+                      {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}, ${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
                     </span>
                   </div>
                 }

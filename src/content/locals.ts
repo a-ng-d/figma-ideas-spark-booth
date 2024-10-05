@@ -77,6 +77,39 @@ export const locals: { [key: string]: any } = {
         },
         newType: 'New type',
         defaultType: 'Classic yellow',
+        colors: {
+          gray: 'Gray',
+          orange: 'Orange',
+          red: 'Red',
+          yellow: 'Yellow',
+          green: 'Green',
+          blue: 'Blue',
+          violet: 'Violet',
+          pink: 'Pink',
+          lightGray: 'Light gray',
+        },
+      },
+      history: {
+        title: 'Session history',
+        participants: {
+          single: 'participant',
+          plural: 'participants',
+        },
+        ideas: {
+          single: 'idea',
+          plural: 'ideas',
+        },
+      },
+    },
+    history: {
+      filter: {
+        none: 'None',
+        types: 'Types',
+        participants: 'Participants',
+      },
+      sort: {
+        recent: 'Most recent',
+        old: 'Oldest',
       },
     },
     report: {

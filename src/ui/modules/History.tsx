@@ -158,7 +158,7 @@ export default class History extends React.Component<
       })
     return [
       {
-        label: 'None',
+        label: locals[this.props.lang].history.filter.none,
         value: 'NONE',
         feature: null,
         position: 0,
@@ -195,7 +195,7 @@ export default class History extends React.Component<
         action: () => null,
       },
       {
-        label: 'Types',
+        label: locals[this.props.lang].history.filter.types,
         value: 'TYPES',
         feature: null,
         position: 0,
@@ -207,7 +207,7 @@ export default class History extends React.Component<
         action: () => null,
       },
       {
-        label: 'Participants',
+        label: locals[this.props.lang].history.filter.participants,
         value: 'PARTICIPANTS',
         feature: null,
         position: 0,
@@ -260,7 +260,7 @@ export default class History extends React.Component<
                   id="sort-ideas"
                   options={[
                     {
-                      label: 'Most recent',
+                      label: locals[this.props.lang].history.sort.recent,
                       value: 'MOST_RECENT',
                       feature: 'UPDATE_COLOR',
                       position: 0,
@@ -277,7 +277,7 @@ export default class History extends React.Component<
                       },
                     },
                     {
-                      label: 'Oldest',
+                      label: locals[this.props.lang].history.sort.old,
                       value: 'OLDEST',
                       feature: 'UPDATE_COLOR',
                       position: 0,
@@ -295,6 +295,7 @@ export default class History extends React.Component<
                     },
                   ]}
                   selected={this.state.sortedBy}
+                  isDisabled={isBlocked('HISTORY_SORT', this.props.planStatus)}
                   alignment="RIGHT"
                 />
               </Feature>
@@ -307,7 +308,7 @@ export default class History extends React.Component<
                 <Menu
                   id="filter-ideas"
                   type="ICON"
-                  icon="resolve-filled"
+                  icon="filter"
                   options={this.typesHandler()}
                   selected={this.state.filteredBy}
                   isNew={this.state.filteredBy !== 'NONE'}
@@ -325,6 +326,7 @@ export default class History extends React.Component<
                   icon="trash"
                   feature="REMOVE_SESSION"
                   action={this.props.onRemoveSession}
+                  isBlocked={isBlocked('HISTORY_REMOVE', this.props.planStatus)}
                 />
               </Feature>
             </div>
