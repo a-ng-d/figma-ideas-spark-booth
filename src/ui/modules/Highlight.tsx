@@ -1,9 +1,12 @@
-import { Dialog, Icon, Message, texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { Dialog, Icon, Message, texts } from '@a_ng_d/figmug-ui';
+import React from 'react';
 
-import { locals } from '../../content/locals'
-import { HighlightDigest, Language } from '../../types/app'
-import { announcementsWorkerUrl } from '../../utils/config'
+
+
+import { locals } from '../../content/locals';
+import { HighlightDigest, Language } from '../../types/app';
+import { announcementsWorkerUrl } from '../../utils/config';
+
 
 interface HighlightProps {
   highlight: HighlightDigest
@@ -13,6 +16,7 @@ interface HighlightProps {
 
 interface HighlightStates {
   position: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   announcements: Array<any>
   status: 'LOADING' | 'LOADED' | 'ERROR'
 }

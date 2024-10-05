@@ -61,6 +61,7 @@ interface SettingsProps {
 
 export default class Settings extends React.Component<SettingsProps> {
   // Handlers
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   typeHandler = (e: any) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(

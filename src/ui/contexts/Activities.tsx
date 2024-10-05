@@ -1,23 +1,20 @@
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import React from 'react'
-import { uid } from 'uid'
+import { ConsentConfiguration } from '@a_ng_d/figmug-ui';
+import React from 'react';
+import { uid } from 'uid';
 
-import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
-import {
-  ActivityConfiguration,
-  IdeaConfiguration,
-  SessionConfiguration,
-  TypeConfiguration,
-  UserConfiguration,
-} from '../../types/configurations'
-import { ActivitiesMessage } from '../../types/messages'
-import { ActionsList } from '../../types/models'
-import { UserSession } from '../../types/user'
-import { AppStates } from '../App'
-import ActivitiesList from '../modules/ActivitiesList'
-import History from '../modules/History'
-import Settings from '../modules/Settings'
+
+
+import { locals } from '../../content/locals';
+import { Language, PlanStatus } from '../../types/app';
+import { ActivityConfiguration, IdeaConfiguration, SessionConfiguration, TypeConfiguration, UserConfiguration } from '../../types/configurations';
+import { ActivitiesMessage } from '../../types/messages';
+import { ActionsList } from '../../types/models';
+import { UserSession } from '../../types/user';
+import { AppStates } from '../App';
+import ActivitiesList from '../modules/ActivitiesList';
+import History from '../modules/History';
+import Settings from '../modules/Settings';
+
 
 interface ActivitiesProps {
   activities: Array<ActivityConfiguration>
@@ -38,10 +35,7 @@ interface ActivitiesStates {
   openedSessionHistory?: string
 }
 
-export default class Activities extends React.Component<
-  ActivitiesProps,
-  ActivitiesStates
-> {
+export default class Activities extends React.Component<ActivitiesProps, ActivitiesStates> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {
@@ -58,6 +52,7 @@ export default class Activities extends React.Component<
   }
 
   // Handlers
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   activitiesHandler = (e: any) => {
     const currentElement: HTMLInputElement = e.currentTarget
 

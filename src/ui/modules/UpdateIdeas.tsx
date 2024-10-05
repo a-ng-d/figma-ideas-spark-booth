@@ -106,6 +106,7 @@ export default class UpdateIdeas extends React.Component<
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ideasHandler = (e: any, type: TypeConfiguration) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(

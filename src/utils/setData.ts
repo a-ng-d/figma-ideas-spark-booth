@@ -1,4 +1,5 @@
 const setData = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Array<any>,
   entry: string,
   value: boolean | string | number

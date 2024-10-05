@@ -52,6 +52,7 @@ export default class Shortcuts extends React.Component<
   }
 
   // Direct actions
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onHold = (e: any) => {
     const shiftX = e.target.offsetWidth - e.nativeEvent.layerX
     const shiftY = e.target.offsetHeight - e.nativeEvent.layerY
