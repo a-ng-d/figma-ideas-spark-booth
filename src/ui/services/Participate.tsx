@@ -118,7 +118,7 @@ export default class Participate extends React.Component<
             </div>
           }
           rightPartSlot={
-            <div className={layouts['snackbar--tight']}>
+            <div className={layouts['snackbar--medium']}>
               <Feature
                 isActive={
                   features.find((feature) => feature.name === 'PARTICIPATE_END')

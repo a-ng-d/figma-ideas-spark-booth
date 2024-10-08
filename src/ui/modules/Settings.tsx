@@ -863,7 +863,7 @@ export default class Settings extends React.Component<
             </div>
           }
           rightPartSlot={
-            <div className={layouts['snackbar--tight']}>
+            <div className={layouts['snackbar--medium']}>
               <Feature
                 isActive={
                   features.find((feature) => feature.name === 'SESSIONS_RUN')
