@@ -569,6 +569,7 @@ export default class Settings extends React.Component<
           />
           <SortableList
             data={this.props.activity.types as Array<TypeConfiguration>}
+            canBeEmpty={false}
             primarySlot={this.props.activity.types.map((type) => (
               <>
                 <Feature
