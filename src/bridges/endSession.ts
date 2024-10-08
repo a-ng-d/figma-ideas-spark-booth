@@ -1,4 +1,5 @@
 import Classification from '../canvas/Classification'
+import { lang, locals } from '../content/locals'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -6,7 +7,7 @@ import {
 } from '../types/configurations'
 import updateParticipants from './updates/updateParticipants'
 
-const endSession = (data: {
+const endSession = async (data: {
   activity: ActivityConfiguration
   sessions: Array<SessionConfiguration>
   session: SessionConfiguration
@@ -56,6 +57,10 @@ const endSession = (data: {
   }
 
   figma.timer?.stop()
+
+  await figma.saveVersionHistoryAsync(
+    `${data.activity.name} ${locals[lang].sessions.endSession}`
+  )
 }
 
 export default endSession

@@ -44,6 +44,7 @@ export const locals: { [key: string]: any } = {
     },
     sessions: {
       newSession: 'New session',
+      endSession: 'session has ended',
     },
     settings: {
       global: {
