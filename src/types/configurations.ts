@@ -94,3 +94,10 @@ export interface MetaConfiguration {
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
 }
+
+export interface ActiveParticipants {
+  userIdentity: UserConfiguration
+  hasStarted: boolean
+  hasEnded: boolean
+  hasFinished: boolean
+}

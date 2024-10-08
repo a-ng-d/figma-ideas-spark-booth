@@ -16,6 +16,7 @@ import {
 } from '../types/app'
 import { PriorityContext } from '../types/app'
 import {
+  ActiveParticipants,
   ActivityConfiguration,
   DatesConfiguration,
   IdeaConfiguration,
@@ -49,7 +50,7 @@ export interface AppStates {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
-  activeParticipants: Array<UserConfiguration>
+  activeParticipants: Array<ActiveParticipants>
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number

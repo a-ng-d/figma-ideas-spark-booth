@@ -1,6 +1,6 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
-import { UserConfiguration } from '../types/configurations'
+import { ActiveParticipants } from '../types/configurations'
 import { ActionsList } from '../types/models'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
@@ -146,8 +146,8 @@ const loadUI = async () => {
       figma.root.getPluginData('activeParticipants')
     )
     activeParticipants = activeParticipants.filter(
-      (participant: UserConfiguration) =>
-        participant.id !== figma.currentUser?.id
+      (participant: ActiveParticipants) =>
+        participant.userIdentity.id !== figma.currentUser?.id
     )
     figma.root.setPluginData(
       'activeParticipants',

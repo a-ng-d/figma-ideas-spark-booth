@@ -10,6 +10,7 @@ import { uid } from 'uid'
 
 import { Language, PlanStatus } from '../../types/app'
 import {
+  ActiveParticipants,
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
@@ -26,7 +27,7 @@ interface CreateIdeasProps {
   activity: ActivityConfiguration
   session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
-  activeParticipants: Array<UserConfiguration>
+  activeParticipants: Array<ActiveParticipants>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
