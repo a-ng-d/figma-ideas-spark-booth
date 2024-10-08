@@ -4,6 +4,7 @@ import {
   IdeaConfiguration,
   SessionConfiguration,
 } from '../types/configurations'
+import updateParticipants from './updates/updateParticipants'
 
 const endSession = (data: {
   activity: ActivityConfiguration
@@ -12,8 +13,9 @@ const endSession = (data: {
   ideas: Array<IdeaConfiguration>
 }) => {
   figma.root.setPluginData('sessions', JSON.stringify(data.sessions))
+  figma.root.setPluginData('event', 'SESSION_ENDED')
 
-  figma.timer?.stop()
+  updateParticipants({ hasEnded: true })
 
   if (data.activity.groupedBy === 'PARTICIPANT' && data.ideas.length > 0) {
     const sortedIdeasByParticipant = data.ideas.reduce(
@@ -52,6 +54,8 @@ const endSession = (data: {
       sortedIdeasByType
     )
   }
+
+  figma.timer?.stop()
 }
 
 export default endSession

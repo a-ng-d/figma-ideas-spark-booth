@@ -129,8 +129,8 @@ export default class Participate extends React.Component<
                 }
               >
                 <Button
-                  type="secondary"
-                  label="End session"
+                  type="primary"
+                  label={locals[this.props.lang].participate.endSession}
                   action={() => this.setState({ isDialogOpen: true })}
                 />
               </Feature>
@@ -160,8 +160,8 @@ export default class Participate extends React.Component<
                       action: () => null,
                     },
                     {
-                      label: 'End session',
-                      value: 'End session',
+                      label: locals[this.props.lang].participate.endSession,
+                      value: null,
                       feature: null,
                       position: 0,
                       type: 'OPTION',
@@ -202,8 +202,7 @@ export default class Participate extends React.Component<
             }
             actions={{
               destructive: {
-                label:
-                  locals[this.props.lang].participate.endSessionDialog.confirm,
+                label: locals[this.props.lang].participate.endSession,
                 action: () =>
                   this.props.onEndSession(
                     this.props.activity,

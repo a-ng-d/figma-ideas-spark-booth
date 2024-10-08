@@ -21,6 +21,7 @@ export const locals: { [key: string]: any } = {
         label: 'Description',
         placeholder: "What's it for?",
       },
+      close: `Close ${glossary.name}`,
     },
     onboarding: {},
     shortcuts: {
@@ -120,13 +121,13 @@ export const locals: { [key: string]: any } = {
     participate: {
       noSelfIdea: 'You have not added any idea yet',
       noParticipantIdea: 'No participant has added any idea yet',
+      endSession: 'End session',
       endSessionDialog: {
         facilitatorTitle: 'Are you sure to end the session?',
         participantTitle:
           "Are you sure to end the session on facilitator's behalf?",
         message:
           'This will close the session and all participants will be notified.',
-        confirm: 'End session',
         cancel: 'Cancel',
       },
     },
@@ -229,12 +230,17 @@ export const locals: { [key: string]: any } = {
       primaryAction: '………',
       secondaryAction: '………',
     },
-    success: {},
+    success: {
+      startSession: 'The session has been started by',
+      endSession: 'The session has been ended by',
+    },
     info: {
       noResult: 'No activity match your search',
     },
     generic: {},
-    warning: {},
+    warning: {
+      timesUp: 'The time is up!',
+    },
     error: {
       generic: '✕ Something went wrong',
       badResponse: '✕ The response is not valid',

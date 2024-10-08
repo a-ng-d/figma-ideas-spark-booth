@@ -155,6 +155,10 @@ const loadUI = async () => {
     )
   })
 
+  figma.on('timerdone', () => {
+    figma.notify(locals[lang].warning.timerDone)
+  })
+
   figma.on('documentchange', (event) => {
     const rootPluginDataChange = event.documentChanges.find(
       (change) =>
@@ -163,6 +167,33 @@ const loadUI = async () => {
         change.node.id === figma.root.id &&
         change.properties.includes('pluginData')
     )
+
+    if (figma.root.getPluginData('event') === 'SESSION_STARTED') {
+      figma.notify(
+        `${locals[lang].success.startSession} ${JSON.parse(figma.root.getPluginData('activeParticipants')).find((participant: ActiveParticipants) => participant.hasStarted).userIdentity.fullName}`
+      )
+      setTimeout(() => {
+        figma.root.setPluginData('event', '')
+        updateParticipants()
+      }, 3000)
+    }
+
+    if (figma.root.getPluginData('event') === 'SESSION_ENDED') {
+      figma.notify(
+        `${locals[lang].success.endSession} ${JSON.parse(figma.root.getPluginData('activeParticipants')).find((participant: ActiveParticipants) => participant.hasEnded).userIdentity.fullName}`,
+        {
+          timeout: Infinity,
+          button: {
+            text: locals[lang].global.close,
+            action: () => figma.closePlugin(),
+          },
+        }
+      )
+      setTimeout(() => {
+        figma.root.setPluginData('event', '')
+        updateParticipants()
+      }, 3000)
+    }
 
     if (
       rootPluginDataChange !== undefined &&
