@@ -1,4 +1,5 @@
 import {
+  Chip,
   ConsentConfiguration,
   Message,
   SectionTitle,
@@ -126,6 +127,11 @@ export default class FacilitatorInfo extends React.Component<
                       <span className={`type ${texts['type']}`}>
                         {participant.userIdentity.fullName}
                       </span>
+                      {participant.hasFinished && (
+                        <Chip>
+                          {locals[this.props.lang].participate.finished}
+                        </Chip>
+                      )}
                     </div>
                   }
                 />

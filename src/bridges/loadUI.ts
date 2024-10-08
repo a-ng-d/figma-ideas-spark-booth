@@ -99,6 +99,8 @@ const loadUI = async () => {
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       UPDATE_IDEAS: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
+      FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
+      UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
@@ -156,7 +158,7 @@ const loadUI = async () => {
   })
 
   figma.on('timerdone', () => {
-    figma.notify(locals[lang].warning.timerDone)
+    figma.notify(locals[lang].warning.timesUp)
   })
 
   figma.on('documentchange', (event) => {
@@ -174,7 +176,11 @@ const loadUI = async () => {
       )
       setTimeout(() => {
         figma.root.setPluginData('event', '')
-        updateParticipants()
+        updateParticipants({
+          hasStarted: false,
+          hasEnded: false,
+          hasFinished: false,
+        })
       }, 3000)
     }
 
@@ -191,7 +197,11 @@ const loadUI = async () => {
       )
       setTimeout(() => {
         figma.root.setPluginData('event', '')
-        updateParticipants()
+        updateParticipants({
+          hasStarted: false,
+          hasEnded: false,
+          hasFinished: false,
+        })
       }, 3000)
     }
 

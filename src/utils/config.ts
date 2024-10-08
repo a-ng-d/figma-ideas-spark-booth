@@ -331,6 +331,15 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
+          name: 'PARTICIPATE_FINISH',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'ACTION',
+          service: ['PARTICIPATE'],
+        },
+        {
           name: 'PARTICIPATE_END',
           description: '',
           isActive: true,

@@ -131,6 +131,10 @@ export const locals: { [key: string]: any } = {
       noIdea: 'This session has no idea',
     },
     participate: {
+      onGoing: 'Ongoing…',
+      finished: 'Finished',
+      flagAsDone: 'Flag facilitator you are done',
+      unflagAsDone: 'Remove flag',
       noSelfIdea: 'You have not added any idea yet',
       noParticipantIdea: 'No participant has added any idea yet',
       endSession: 'End session',

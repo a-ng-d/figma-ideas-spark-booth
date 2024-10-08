@@ -1,6 +1,7 @@
 import {
   Bar,
   Button,
+  Chip,
   ConsentConfiguration,
   Dialog,
   Input,
@@ -51,15 +52,13 @@ interface ParticipateProps {
 interface ParticipateStates {
   canBeSubmitted: boolean
   isDialogOpen: boolean
+  isFlaggedAsDone: boolean
   currentType: TypeConfiguration
   currentText: string
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class Participate extends React.Component<
-  ParticipateProps,
-  ParticipateStates
-> {
+export default class Participate extends React.Component<ParticipateProps, ParticipateStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 
@@ -72,6 +71,7 @@ export default class Participate extends React.Component<
     this.state = {
       canBeSubmitted: false,
       isDialogOpen: false,
+      isFlaggedAsDone: false,
       currentType: this.props.activity.types[0],
       currentText: '',
       selfIdeas: this.props.ideas
@@ -105,6 +105,31 @@ export default class Participate extends React.Component<
     }
   }
 
+  // Handlers
+  finishHandler = (): void => {
+    if (!this.state.isFlaggedAsDone) {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'FLAG_AS_DONE',
+          },
+        },
+        '*'
+      )
+    } else {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UNFLAG_AS_DONE',
+          },
+        },
+        '*'
+      )
+    }
+
+    this.setState({ isFlaggedAsDone: !this.state.isFlaggedAsDone })
+  }
+
   // Renders
   render() {
     return (
@@ -115,6 +140,11 @@ export default class Participate extends React.Component<
               <span className={`type ${texts['type']}`}>
                 {this.props.activity.name}
               </span>
+              {this.state.isFlaggedAsDone ? (
+                <Chip>{locals[this.props.lang].participate.finished}</Chip>
+              ) : (
+                <Chip>{locals[this.props.lang].participate.onGoing}</Chip>
+              )}
             </div>
           }
           rightPartSlot={
@@ -147,8 +177,10 @@ export default class Participate extends React.Component<
                   icon="ellipses"
                   options={[
                     {
-                      label: 'Marked as done',
-                      value: 'Marked as done',
+                      label: this.state.isFlaggedAsDone
+                        ? locals[this.props.lang].participate.unflagAsDone
+                        : locals[this.props.lang].participate.flagAsDone,
+                      value: null,
                       feature: null,
                       position: 0,
                       type: 'OPTION',
@@ -156,7 +188,7 @@ export default class Participate extends React.Component<
                       isBlocked: false,
                       isNew: false,
                       children: [],
-                      action: () => null,
+                      action: this.finishHandler,
                     },
                     {
                       label: locals[this.props.lang].participate.endSession,
