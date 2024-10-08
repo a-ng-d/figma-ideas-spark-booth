@@ -2,12 +2,15 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
+  Dialog,
   Input,
+  Menu,
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 
+import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
@@ -19,6 +22,7 @@ import {
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
+import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import CreateIdea from '../modules/CreateIdea'
@@ -46,6 +50,7 @@ interface ParticipateProps {
 
 interface ParticipateStates {
   canBeSubmitted: boolean
+  isDialogOpen: boolean
   currentType: TypeConfiguration
   currentText: string
   selfIdeas: Array<IdeaConfiguration>
@@ -66,6 +71,7 @@ export default class Participate extends React.Component<
     }
     this.state = {
       canBeSubmitted: false,
+      isDialogOpen: false,
       currentType: this.props.activity.types[0],
       currentText: '',
       selfIdeas: this.props.ideas
@@ -124,20 +130,102 @@ export default class Participate extends React.Component<
                 <Button
                   type="secondary"
                   label="End session"
-                  action={() =>
-                    this.props.onEndSession(
-                      this.props.activity,
-                      this.props.ideas.filter(
-                        (idea) => idea.sessionId === this.props.session.id
-                      )
-                    )
-                  }
+                  action={() => this.setState({ isDialogOpen: true })}
+                />
+              </Feature>
+              <Feature
+                isActive={
+                  features.find((feature) => feature.name === 'PARTICIPATE_END')
+                    ?.isActive &&
+                  this.props.session.facilitator.id !==
+                    this.props.userIdentity.id
+                }
+              >
+                <Menu
+                  id="open-session-tools"
+                  type="ICON"
+                  icon="ellipses"
+                  options={[
+                    {
+                      label: 'Marked as done',
+                      value: 'Marked as done',
+                      feature: null,
+                      position: 0,
+                      type: 'OPTION',
+                      isActive: true,
+                      isBlocked: false,
+                      isNew: false,
+                      children: [],
+                      action: () => null,
+                    },
+                    {
+                      label: 'End session',
+                      value: 'End session',
+                      feature: null,
+                      position: 0,
+                      type: 'OPTION',
+                      isActive: features.find(
+                        (feature) => feature.name === 'PARTICIPATE_END'
+                      )?.isActive,
+                      isBlocked: isBlocked(
+                        'PARTICIPATE_END',
+                        this.props.planStatus
+                      ),
+                      isNew: features.find(
+                        (feature) => feature.name === 'PARTICIPATE_END'
+                      )?.isNew,
+                      children: [],
+                      action: () => this.setState({ isDialogOpen: true }),
+                    },
+                  ]}
+                  alignment="BOTTOM_RIGHT"
                 />
               </Feature>
             </div>
           }
           border={['BOTTOM']}
         />
+        <Feature
+          isActive={
+            features.find((feature) => feature.name === 'PARTICIPATE_END')
+              ?.isActive && this.state.isDialogOpen
+          }
+        >
+          <Dialog
+            title={
+              this.props.session.facilitator.id !== this.props.userIdentity.id
+                ? locals[this.props.lang].participate.endSessionDialog
+                    .participantTitle
+                : locals[this.props.lang].participate.endSessionDialog
+                    .facilitatorTitle
+            }
+            actions={{
+              destructive: {
+                label:
+                  locals[this.props.lang].participate.endSessionDialog.confirm,
+                action: () =>
+                  this.props.onEndSession(
+                    this.props.activity,
+                    this.props.ideas.filter(
+                      (idea) => idea.sessionId === this.props.session.id
+                    )
+                  ),
+              },
+              secondary: {
+                label:
+                  locals[this.props.lang].participate.endSessionDialog.cancel,
+                action: () => this.setState({ isDialogOpen: false }),
+              },
+            }}
+            onClose={() => this.setState({ isDialogOpen: false })}
+          >
+            <div className="dialog__text">
+              <p className={`type ${texts.type}`}>
+                {locals[this.props.lang].participate.endSessionDialog.message}
+              </p>
+            </div>
+          </Dialog>
+        </Feature>
         <section className="controller">
           <div className="controls">
             <div className="controls__control controls__control--horizontal">

@@ -120,6 +120,15 @@ export const locals: { [key: string]: any } = {
     participate: {
       noSelfIdea: 'You have not added any idea yet',
       noParticipantIdea: 'No participant has added any idea yet',
+      endSessionDialog: {
+        facilitatorTitle: 'Are you sure to end the session?',
+        participantTitle:
+          "Are you sure to end the session on facilitator's behalf?",
+        message:
+          'This will close the session and all participants will be notified.',
+        confirm: 'End session',
+        cancel: 'Cancel',
+      },
     },
     report: {
       title: 'Report a bug',
