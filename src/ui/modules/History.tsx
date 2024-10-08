@@ -43,7 +43,8 @@ export default class History extends React.Component<
     super(props)
     this.state = {
       ideas: props.ideas.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       ),
       sortedBy: 'MOST_RECENT',
       filteredBy: 'NONE',
@@ -224,12 +225,14 @@ export default class History extends React.Component<
 
   onSortMostRecent = (ideas: Array<IdeaConfiguration>) =>
     ideas.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     )
 
   onSortOldest = (ideas: Array<IdeaConfiguration>) =>
     ideas.sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      (a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     )
 
   render() {

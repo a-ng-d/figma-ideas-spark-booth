@@ -75,7 +75,8 @@ export default class Participate extends React.Component<
             idea.sessionId === this.props.session.id
         )
         .sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         ),
     }
     this.textRef = React.createRef()
@@ -91,7 +92,8 @@ export default class Participate extends React.Component<
               idea.sessionId === this.props.session.id
           )
           .sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           ),
       })
     }

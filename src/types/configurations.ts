@@ -54,7 +54,7 @@ export interface IdeaConfiguration {
   text: string
   type: TypeConfiguration
   userIdentity: UserConfiguration
-  date: Date | string
+  createdAt: Date | string
   sessionId: string
   activityId: string
 }

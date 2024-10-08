@@ -91,7 +91,7 @@ export default class CreateIdeas extends React.Component<
         fullName: this.props.userIdentity.fullName,
         avatar: this.props.userIdentity.avatar,
       },
-      date: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       sessionId: this.props.session.id,
       activityId: this.props.activity.meta.id,
     }
