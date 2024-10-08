@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser'
 import {
   ConsentConfiguration,
   Dialog,
@@ -6,12 +5,10 @@ import {
   Input,
   texts,
 } from '@a_ng_d/figmug-ui'
+import * as Sentry from '@sentry/browser'
 import React from 'react'
-
-import { signIn } from '../../bridges/publication/authentication'
 import cp from '../../content/images/choose_plan.webp'
 import pp from '../../content/images/pro_plan.webp'
-import p from '../../content/images/publication.webp'
 import t from '../../content/images/trial.webp'
 import { locals } from '../../content/locals'
 import {
@@ -24,7 +21,6 @@ import {
 import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
-import { trackSignInEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import About from './About'

@@ -1,8 +1,6 @@
 import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
 import React from 'react'
-
-import { Language, PlanStatus } from '../../types/app'
-import { ContextItem } from '../../types/app'
+import { ContextItem, Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,

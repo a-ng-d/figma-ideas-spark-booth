@@ -8,7 +8,6 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
-
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'

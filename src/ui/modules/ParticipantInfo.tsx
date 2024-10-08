@@ -6,7 +6,6 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
-
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,

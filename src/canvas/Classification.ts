@@ -1,5 +1,4 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
-
 import {
   ActivityConfiguration,
   IdeaConfiguration,

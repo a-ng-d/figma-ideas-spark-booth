@@ -7,7 +7,6 @@ import {
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
-
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActiveParticipants,

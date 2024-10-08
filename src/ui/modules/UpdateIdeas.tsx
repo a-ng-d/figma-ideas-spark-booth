@@ -10,7 +10,6 @@ import {
   layouts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
-
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -67,7 +66,8 @@ export default class UpdateIdeas extends React.Component<
             idea.sessionId === this.props.session.id
         )
         .sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         ),
     }
     this.textRef = React.createRef()
@@ -83,7 +83,8 @@ export default class UpdateIdeas extends React.Component<
               idea.sessionId === this.props.session.id
           )
           .sort(
-            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           ),
       })
     }

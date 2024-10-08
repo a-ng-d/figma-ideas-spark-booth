@@ -1,10 +1,7 @@
-import * as Sentry from '@sentry/react'
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import mixpanel from 'mixpanel-figma'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import { locals } from '../content/locals'
@@ -12,13 +9,12 @@ import {
   HighlightDigest,
   Language,
   PlanStatus,
+  PriorityContext,
   TrialStatus,
 } from '../types/app'
-import { PriorityContext } from '../types/app'
 import {
   ActiveParticipants,
   ActivityConfiguration,
-  DatesConfiguration,
   IdeaConfiguration,
   PublicationConfiguration,
   SessionConfiguration,
@@ -33,7 +29,6 @@ import features, {
 } from '../utils/config'
 import {
   trackPurchaseEvent,
-  trackRunningEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'

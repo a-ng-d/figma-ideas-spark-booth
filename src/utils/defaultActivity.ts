@@ -1,5 +1,4 @@
 import { uid } from 'uid'
-
 import { lang, locals } from '../content/locals'
 import { ActivityConfiguration } from '../types/configurations'
 import { yellowColor } from './config'
