@@ -105,6 +105,18 @@ export const locals: { [key: string]: any } = {
           plural: 'ideas',
         },
       },
+      deleteActivityDialog: {
+        title: 'Delete activity',
+        message: "You're about to delete the activity",
+        delete: 'Delete file',
+        cancel: 'Cancel',
+      },
+      deleteSessionDialog: {
+        title: 'Delete session',
+        message: "You're about to delete the session on",
+        delete: 'Delete session',
+        cancel: 'Cancel',
+      },
     },
     history: {
       filter: {

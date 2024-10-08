@@ -1,6 +1,7 @@
 import {
   Bar,
   Button,
+  Dialog,
   Dropdown,
   DropdownOption,
   Menu,
@@ -19,12 +20,12 @@ import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 
 interface HistoryProps {
+  sessionId: string
   sessionDate: string | Date
   ideas: Array<IdeaConfiguration>
   planStatus: PlanStatus
   lang: Language
-  onRemoveSession: React.MouseEventHandler<Element> &
-    React.KeyboardEventHandler<Element>
+  onDeleteSession: (sessionId: string) => void
   onCloseSessionHistory: () => void
 }
 
@@ -32,6 +33,7 @@ interface HistoryStates {
   ideas: Array<IdeaConfiguration>
   sortedBy: 'MOST_RECENT' | 'OLDEST'
   filteredBy: string
+  isDialogOpen: boolean
 }
 
 export default class History extends React.Component<
@@ -47,6 +49,7 @@ export default class History extends React.Component<
       ),
       sortedBy: 'MOST_RECENT',
       filteredBy: 'NONE',
+      isDialogOpen: false,
     }
   }
 
@@ -320,22 +323,51 @@ export default class History extends React.Component<
               </Feature>
               <Feature
                 isActive={
-                  features.find((feature) => feature.name === 'HISTORY_REMOVE')
+                  features.find((feature) => feature.name === 'HISTORY_DELETE')
                     ?.isActive
                 }
               >
                 <Button
                   type="icon"
                   icon="trash"
-                  feature="REMOVE_SESSION"
-                  action={this.props.onRemoveSession}
+                  feature="DELETE_SESSION"
                   isBlocked={isBlocked('HISTORY_REMOVE', this.props.planStatus)}
+                  action={() => this.setState({ isDialogOpen: true })}
                 />
               </Feature>
             </div>
           }
           border={['BOTTOM']}
         ></Bar>
+        <Feature
+          isActive={
+            features.find((feature) => feature.name === 'ACTIVITIES_DELETE')
+              ?.isActive && this.state.isDialogOpen
+          }
+        >
+          <Dialog
+            title={locals[this.props.lang].settings.deleteSessionDialog.title}
+            actions={{
+              destructive: {
+                label:
+                  locals[this.props.lang].settings.deleteSessionDialog.delete,
+                action: () => this.props.onDeleteSession(this.props.sessionId),
+              },
+              secondary: {
+                label:
+                  locals[this.props.lang].settings.deleteSessionDialog.cancel,
+                action: () => this.setState({ isDialogOpen: false }),
+              },
+            }}
+            onClose={() => this.setState({ isDialogOpen: false })}
+          >
+            <div className="dialog__text">
+              <p className={`type ${texts.type}`}>
+                {`${locals[this.props.lang].settings.deleteSessionDialog.message} ${setFriendlyDate(this.props.sessionDate, 'en-US')}.`}
+              </p>
+            </div>
+          </Dialog>
+        </Feature>
         <div className="control__block">
           {this.state.ideas.length > 0 ? (
             <ul

@@ -1,6 +1,7 @@
 import {
   Bar,
   Button,
+  Dialog,
   Dropdown,
   FormItem,
   Icon,
@@ -59,7 +60,21 @@ interface SettingsProps {
   onCloseActivitySettings: () => void
 }
 
-export default class Settings extends React.Component<SettingsProps> {
+interface SettingsStates {
+  isDialogOpen: boolean
+}
+
+export default class Settings extends React.Component<
+  SettingsProps,
+  SettingsStates
+> {
+  constructor(props: SettingsProps) {
+    super(props)
+    this.state = {
+      isDialogOpen: false,
+    }
+  }
+
   // Handlers
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   typeHandler = (e: any) => {
@@ -881,26 +896,56 @@ export default class Settings extends React.Component<SettingsProps> {
               <Feature
                 isActive={
                   features.find(
-                    (feature) => feature.name === 'ACTIVITIES_REMOVE'
+                    (feature) => feature.name === 'ACTIVITIES_DELETE'
                   )?.isActive
                 }
               >
                 <Button
                   type="icon"
                   icon="trash"
-                  feature="REMOVE_ACTIVITY"
-                  action={this.props.onChangeActivities}
+                  feature="DELETE_ACTIVITY"
+                  action={() => this.setState({ isDialogOpen: true })}
                 />
               </Feature>
             </div>
           }
           border={['BOTTOM']}
         ></Bar>
+        <Feature
+          isActive={
+            features.find((feature) => feature.name === 'ACTIVITIES_DELETE')
+              ?.isActive && this.state.isDialogOpen
+          }
+        >
+          <Dialog
+            title={locals[this.props.lang].settings.deleteActivityDialog.title}
+            actions={{
+              destructive: {
+                label:
+                  locals[this.props.lang].settings.deleteActivityDialog.delete,
+                feature: 'DELETE_ACTIVITY',
+                action: this.props.onChangeActivities,
+              },
+              secondary: {
+                label:
+                  locals[this.props.lang].settings.deleteActivityDialog.cancel,
+                action: () => this.setState({ isDialogOpen: false }),
+              },
+            }}
+            onClose={() => this.setState({ isDialogOpen: false })}
+          >
+            <div className="dialog__text">
+              <p className={`type ${texts.type}`}>
+                {`${locals[this.props.lang].settings.deleteActivityDialog.message} ${this.props.activity.name}`}
+              </p>
+            </div>
+          </Dialog>
+        </Feature>
         <div className="control__block control__block--no-padding">
           <this.Global />
           <this.Timer />
           <this.Types />
-          <this.History />
+          {this.props.sessions.length > 0 && <this.History />}
         </div>
       </div>
     )

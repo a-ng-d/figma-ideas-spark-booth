@@ -79,7 +79,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'ACTIVITIES_REMOVE',
+          name: 'ACTIVITIES_DELETE',
           description: '',
           isActive: true,
           isPro: false,
@@ -313,7 +313,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'HISTORY_REMOVE',
+          name: 'HISTORY_DELETE',
           description: '',
           isActive: true,
           isPro: false,

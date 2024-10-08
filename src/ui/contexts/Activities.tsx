@@ -106,7 +106,7 @@ export default class Activities extends React.Component<
       return sendData()
     }
 
-    const removeActivity = () => {
+    const deleteActivity = () => {
       this.activitiesMessage.data = this.props.activities.filter(
         (activity) => activity.meta.id !== this.state.openedActivity
       )
@@ -214,7 +214,7 @@ export default class Activities extends React.Component<
 
     const actions: ActionsList = {
       ADD_ACTIVITY: () => addActivity(),
-      REMOVE_ACTIVITY: () => removeActivity(),
+      DELETE_ACTIVITY: () => deleteActivity(),
       RENAME_ACTIVITY: () => renameActivity(),
       UPDATE_DESCRIPTION: () => updateDescription(),
       UPDATE_INSTRUCTIONS: () => updateInstructions(),
@@ -271,6 +271,31 @@ export default class Activities extends React.Component<
       {
         pluginMessage: {
           type: 'START_SESSION',
+          data: sessions,
+        },
+      },
+      '*'
+    )
+  }
+
+  onDeleteSession = (sessionId: string) => {
+    const sessions = this.props.sessions.filter(
+      (session) => session.id !== sessionId
+    )
+
+    this.setState({
+      view: 'SETTINGS',
+      openedSessionHistory: undefined,
+    })
+    this.props.onChangeActivities({
+      sessions: sessions,
+      onGoingStep: 'session deleted',
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_SESSIONS',
           data: sessions,
         },
       },
@@ -335,6 +360,7 @@ export default class Activities extends React.Component<
         fragment = (
           <History
             {...this.props}
+            sessionId={this.state.openedSessionHistory ?? 'Session id'}
             sessionDate={
               this.props.sessions.find(
                 (session) => session.id === this.state.openedSessionHistory
@@ -343,7 +369,7 @@ export default class Activities extends React.Component<
             ideas={this.props.ideas.filter(
               (idea) => idea.sessionId === this.state.openedSessionHistory
             )}
-            onRemoveSession={this.activitiesHandler}
+            onDeleteSession={this.onDeleteSession}
             onCloseSessionHistory={() =>
               this.setState({
                 view: 'SETTINGS',
