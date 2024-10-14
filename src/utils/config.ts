@@ -304,7 +304,16 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'HISTORY_EXPORT',
+          name: 'HISTORY_EXPORT_CSV',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'ACTION',
+          service: ['BROWSE'],
+        },
+        {
+          name: 'HISTORY_ADD_TO_BOARD',
           description: '',
           isActive: true,
           isPro: false,

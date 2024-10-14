@@ -360,6 +360,11 @@ export default class Activities extends React.Component<
         fragment = (
           <History
             {...this.props}
+            activity={
+              this.props.activities.find(
+                (activity) => activity.meta.id === this.state.openedActivity
+              ) ?? ({} as ActivityConfiguration)
+            }
             sessionId={this.state.openedSessionHistory ?? 'Session id'}
             sessionDate={
               this.props.sessions.find(

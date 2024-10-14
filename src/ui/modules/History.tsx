@@ -13,13 +13,17 @@ import {
 import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
-import { IdeaConfiguration } from '../../types/configurations'
+import {
+  ActivityConfiguration,
+  IdeaConfiguration,
+} from '../../types/configurations'
 import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 
 interface HistoryProps {
+  activity: ActivityConfiguration
   sessionId: string
   sessionDate: string | Date
   ideas: Array<IdeaConfiguration>
@@ -256,6 +260,38 @@ export default class History extends React.Component<
           }
           rightPartSlot={
             <div className={layouts['snackbar--tight']}>
+              <Feature
+                isActive={
+                  features.find(
+                    (feature) => feature.name === 'HISTORY_ADD_TO_BOARD'
+                  )?.isActive && this.props.ideas.length > 0
+                }
+              >
+                <Button
+                  type="secondary"
+                  label="Add to board"
+                  feature="ADD_TO_BOARD"
+                  isBlocked={isBlocked(
+                    'HISTORY_ADD_TO_BOARD',
+                    this.props.planStatus
+                  )}
+                  action={() => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'ADD_TO_BOARD',
+                          data: {
+                            activity: this.props.activity,
+                            sessionDate: this.props.sessionDate,
+                            ideas: this.props.ideas,
+                          },
+                        },
+                      },
+                      '*'
+                    )
+                  }}
+                />
+              </Feature>
               <Feature
                 isActive={
                   features.find((feature) => feature.name === 'HISTORY_SORT')

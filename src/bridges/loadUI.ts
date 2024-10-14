@@ -2,6 +2,7 @@ import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
 import { ActiveParticipants } from '../types/configurations'
 import { ActionsList } from '../types/models'
+import addToBoard from './addToBoard'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
@@ -101,6 +102,8 @@ const loadUI = async () => {
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
+      //
+      ADD_TO_BOARD: () => addToBoard(msg.data),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
