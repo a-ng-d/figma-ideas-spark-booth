@@ -808,38 +808,44 @@ export default class Settings extends React.Component<
             isListItem={false}
           />
           <ul>
-            {this.props.sessions.map((session, index) => (
-              <SimpleItem
-                key={index}
-                id={session.id}
-                leftPartSlot={
-                  <div
-                    style={{
-                      paddingLeft: 'var(--size-xxsmall)',
-                    }}
-                    className={`${layouts['snackbar--large']}`}
-                  >
-                    <span className={`${texts['type']} type`}>
-                      {setFriendlyDate(session.metrics.startDate, 'en-US')}
-                    </span>
-                    <span
-                      className={`${texts['type']} ${texts['type--secondary']} type`}
+            {this.props.sessions
+              .sort(
+                (a, b) =>
+                  new Date(b.metrics.startDate).getTime() -
+                  new Date(a.metrics.startDate).getTime()
+              )
+              .map((session, index) => (
+                <SimpleItem
+                  key={index}
+                  id={session.id}
+                  leftPartSlot={
+                    <div
+                      style={{
+                        paddingLeft: 'var(--size-xxsmall)',
+                      }}
+                      className={`${layouts['snackbar--large']}`}
                     >
-                      {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}, ${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
-                    </span>
-                  </div>
-                }
-                rightPartSlot={
-                  <Icon
-                    type="PICTO"
-                    iconName="forward"
-                  />
-                }
-                alignment="CENTER"
-                isInteractive={true}
-                action={this.props.onOpenSessionHistory}
-              />
-            ))}
+                      <span className={`${texts['type']} type`}>
+                        {setFriendlyDate(session.metrics.startDate, 'en-US')}
+                      </span>
+                      <span
+                        className={`${texts['type']} ${texts['type--secondary']} type`}
+                      >
+                        {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}, ${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
+                      </span>
+                    </div>
+                  }
+                  rightPartSlot={
+                    <Icon
+                      type="PICTO"
+                      iconName="forward"
+                    />
+                  }
+                  alignment="CENTER"
+                  isInteractive={true}
+                  action={this.props.onOpenSessionHistory}
+                />
+              ))}
           </ul>
         </div>
       </Feature>
