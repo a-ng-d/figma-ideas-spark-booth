@@ -184,17 +184,16 @@ export default class Activities extends React.Component<
     }
 
     const updateTimerSeconds = () => {
-      let secondes = parseFloat(currentElement.value)
-      secondes <= 0 ? (secondes = 0) : secondes
-      secondes >= 59 ? (secondes = 59) : secondes
-      Number.isNaN(secondes) ? (secondes = 0) : secondes
+      let seconds = parseFloat(currentElement.value)
+      seconds <= 0 ? (seconds = 0) : seconds
+      seconds >= 59 ? (seconds = 59) : seconds
+      Number.isNaN(seconds) ? (seconds = 0) : seconds
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
         if (item.meta.id === this.state.openedActivity) {
-          item.timer.seconds = secondes
-          item.timer.minutes === 0
-            ? (item.timer.seconds = 30)
-            : item.timer.seconds
+          if (item.timer.minutes === 0 && item.timer.seconds < 30)
+            item.timer.seconds = 30
+          else item.timer.seconds = seconds
         }
 
         return item
