@@ -1,9 +1,9 @@
-import { lang, locals } from '../content/locals'
+import { lang, locals } from '../../content/locals'
 import {
   ActivityConfiguration,
   SessionConfiguration,
-} from '../types/configurations'
-import updateParticipants from './updates/updateParticipants'
+} from '../../types/configurations'
+import updateParticipants from './../updates/updateParticipants'
 
 const startSession = async (data: Array<SessionConfiguration>) => {
   const sessions = data,

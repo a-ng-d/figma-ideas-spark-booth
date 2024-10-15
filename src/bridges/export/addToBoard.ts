@@ -1,8 +1,8 @@
-import Classification from '../canvas/Classification'
+import Classification from '../../canvas/Classification'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
-} from '../types/configurations'
+} from '../../types/configurations'
 
 const addToBoard = async (data: {
   activity: ActivityConfiguration

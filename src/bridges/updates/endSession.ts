@@ -1,11 +1,11 @@
-import { lang, locals } from '../content/locals'
+import { lang, locals } from '../../content/locals'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
-} from '../types/configurations'
-import addToBoard from './addToBoard'
-import updateParticipants from './updates/updateParticipants'
+} from '../../types/configurations'
+import addToBoard from '../export/addToBoard'
+import updateParticipants from './updateParticipants'
 
 const endSession = async (data: {
   activity: ActivityConfiguration
