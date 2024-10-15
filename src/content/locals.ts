@@ -132,6 +132,9 @@ export const locals: { [key: string]: any } = {
         old: 'Oldest',
       },
       noIdea: 'This session has no idea',
+      addToBoard: 'Add to board',
+      exportCsv: 'Export as CSV',
+      deleteSession: 'Delete session',
     },
     participate: {
       onGoing: 'Ongoing…',

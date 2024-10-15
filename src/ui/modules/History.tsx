@@ -253,69 +253,6 @@ export default class History extends React.Component<HistoryProps, HistoryStates
             <div className={layouts['snackbar--tight']}>
               <Feature
                 isActive={
-                  features.find(
-                    (feature) => feature.name === 'HISTORY_ADD_TO_BOARD'
-                  )?.isActive && this.props.ideas.length > 0
-                }
-              >
-                <Button
-                  type="secondary"
-                  label="Add to board"
-                  feature="ADD_TO_BOARD"
-                  isBlocked={isBlocked(
-                    'HISTORY_ADD_TO_BOARD',
-                    this.props.planStatus
-                  )}
-                  action={() => {
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'ADD_TO_BOARD',
-                          data: {
-                            activity: this.props.activity,
-                            sessionDate: this.props.sessionDate,
-                            ideas: this.props.ideas,
-                          },
-                        },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-              </Feature>
-              <Feature
-                isActive={
-                  features.find(
-                    (feature) => feature.name === 'HISTORY_EXPORT_CSV'
-                  )?.isActive && this.props.ideas.length > 0
-                }
-              >
-                <Button
-                  type="secondary"
-                  label="Export to CSV"
-                  isBlocked={isBlocked(
-                    'HISTORY_EXPORT_CSV',
-                    this.props.planStatus
-                  )}
-                  action={() => {
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'EXPORT_CSV',
-                          data: {
-                            activity: this.props.activity,
-                            sessionDate: this.props.sessionDate,
-                            ideas: this.props.ideas,
-                          },
-                        },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-              </Feature>
-              <Feature
-                isActive={
                   features.find((feature) => feature.name === 'HISTORY_SORT')
                     ?.isActive && this.props.ideas.length > 0
                 }
@@ -363,6 +300,78 @@ export default class History extends React.Component<HistoryProps, HistoryStates
                   alignment="RIGHT"
                 />
               </Feature>
+              {this.props.ideas.length > 0 ? (
+                <Menu
+                  type="ICON"
+                  icon="ellipses"
+                  options={[
+                    {
+                      label: locals[this.props.lang].history.exportCsv,
+                      type: 'OPTION',
+                      isActive: features.find(
+                        (feature) => feature.name === 'HISTORY_EXPORT_CSV'
+                      )?.isActive,
+                      isBlocked: isBlocked(
+                        'HISTORY_EXPORT_CSV',
+                        this.props.planStatus
+                      ),
+                      isNew: features.find(
+                        (feature) => feature.name === 'HISTORY_EXPORT_CSV'
+                      )?.isNew,
+                      action: () => {
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'EXPORT_CSV',
+                              data: {
+                                activity: this.props.activity,
+                                sessionDate: this.props.sessionDate,
+                                ideas: this.props.ideas,
+                              },
+                            },
+                          },
+                          '*'
+                        )
+                      },
+                    },
+                    {
+                      label: locals[this.props.lang].history.deleteSession,
+                      type: 'OPTION',
+                      isActive: features.find(
+                        (feature) => feature.name === 'HISTORY_DELETE'
+                      )?.isActive,
+                      isBlocked: isBlocked(
+                        'HISTORY_DELETE',
+                        this.props.planStatus
+                      ),
+                      isNew: features.find(
+                        (feature) => feature.name === 'HISTORY_DELETE'
+                      )?.isNew,
+                      action: () => this.setState({ isDialogOpen: true }),
+                    },
+                  ]}
+                  alignment="BOTTOM_RIGHT"
+                />
+              ) : (
+                <Feature
+                  isActive={
+                    features.find(
+                      (feature) => feature.name === 'HISTORY_DELETE'
+                    )?.isActive
+                  }
+                >
+                  <Button
+                    type="icon"
+                    icon="trash"
+                    feature="DELETE_SESSION"
+                    isBlocked={isBlocked(
+                      'HISTORY_DELETE',
+                      this.props.planStatus
+                    )}
+                    action={() => this.setState({ isDialogOpen: true })}
+                  />
+                </Feature>
+              )}
               <Feature
                 isActive={
                   features.find((feature) => feature.name === 'HISTORY_FILTER')
@@ -381,16 +390,33 @@ export default class History extends React.Component<HistoryProps, HistoryStates
               </Feature>
               <Feature
                 isActive={
-                  features.find((feature) => feature.name === 'HISTORY_DELETE')
-                    ?.isActive
+                  features.find(
+                    (feature) => feature.name === 'HISTORY_ADD_TO_BOARD'
+                  )?.isActive && this.props.ideas.length > 0
                 }
               >
                 <Button
-                  type="icon"
-                  icon="trash"
-                  feature="DELETE_SESSION"
-                  isBlocked={isBlocked('HISTORY_REMOVE', this.props.planStatus)}
-                  action={() => this.setState({ isDialogOpen: true })}
+                  type="secondary"
+                  label={locals[this.props.lang].history.addToBoard}
+                  isBlocked={isBlocked(
+                    'HISTORY_ADD_TO_BOARD',
+                    this.props.planStatus
+                  )}
+                  action={() => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'ADD_TO_BOARD',
+                          data: {
+                            activity: this.props.activity,
+                            sessionDate: this.props.sessionDate,
+                            ideas: this.props.ideas,
+                          },
+                        },
+                      },
+                      '*'
+                    )
+                  }}
                 />
               </Feature>
             </div>

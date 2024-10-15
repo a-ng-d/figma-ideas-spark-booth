@@ -867,17 +867,16 @@ export default class Settings extends React.Component<
             <div className={layouts['snackbar--medium']}>
               <Feature
                 isActive={
-                  features.find((feature) => feature.name === 'SESSIONS_RUN')
-                    ?.isActive
+                  features.find(
+                    (feature) => feature.name === 'ACTIVITIES_DELETE'
+                  )?.isActive
                 }
               >
                 <Button
-                  type="primary"
-                  label={locals[this.props.lang].sessions.newSession}
-                  feature="SESSION_RUN"
-                  action={() =>
-                    this.props.onRunSession(this.props.activity.meta.id)
-                  }
+                  type="icon"
+                  icon="trash"
+                  feature="DELETE_ACTIVITY"
+                  action={() => this.setState({ isDialogOpen: true })}
                 />
               </Feature>
               <Feature
@@ -896,16 +895,17 @@ export default class Settings extends React.Component<
               </Feature>
               <Feature
                 isActive={
-                  features.find(
-                    (feature) => feature.name === 'ACTIVITIES_DELETE'
-                  )?.isActive
+                  features.find((feature) => feature.name === 'SESSIONS_RUN')
+                    ?.isActive
                 }
               >
                 <Button
-                  type="icon"
-                  icon="trash"
-                  feature="DELETE_ACTIVITY"
-                  action={() => this.setState({ isDialogOpen: true })}
+                  type="primary"
+                  label={locals[this.props.lang].sessions.newSession}
+                  feature="SESSION_RUN"
+                  action={() =>
+                    this.props.onRunSession(this.props.activity.meta.id)
+                  }
                 />
               </Feature>
             </div>
