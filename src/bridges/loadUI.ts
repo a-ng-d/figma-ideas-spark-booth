@@ -14,7 +14,7 @@ import startSession from './startSession'
 import updateParticipants from './updates/updateParticipants'
 
 const loadUI = async () => {
-  let lastData: string = ''
+  let lastData = ''
 
   const windowSize: windowSize = {
     w: (await figma.clientStorage.getAsync('plugin_window_width')) ?? 640,
@@ -28,7 +28,7 @@ const loadUI = async () => {
     themeColors: true,
   })
 
-  figma.loadAllPagesAsync()
+  await figma.loadAllPagesAsync()
 
   // Checks
   checkUserConsent()

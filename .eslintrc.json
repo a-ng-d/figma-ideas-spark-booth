@@ -20,13 +20,15 @@
   },
   "plugins": [
     "react",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "@figma/figma-plugins"
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": [1],
     "eqeqeq": ["error", "always", { "null": "ignore" }],
     "@figma/figma-plugins/dynamic-page-find-method-advice": "off",
-    "@figma/figma-plugins/ban-deprecated-id-params": "off"
+    "@figma/figma-plugins/ban-deprecated-id-params": "off",
+    "@figma/figma-plugins/dynamic-page-documentchange-event-advice": "off"
   },
   "root": true,
   "settings" : {
