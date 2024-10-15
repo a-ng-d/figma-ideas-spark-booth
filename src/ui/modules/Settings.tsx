@@ -825,13 +825,16 @@ export default class Settings extends React.Component<
                       }}
                       className={`${layouts['snackbar--large']}`}
                     >
-                      <span className={`${texts['type']} type`}>
+                      <span
+                        className={`${texts['type']} ${texts['type--truncated']} type`}
+                        style={{ flex: '0 0 148px' }}
+                      >
                         {setFriendlyDate(session.metrics.startDate, 'en-US')}
                       </span>
                       <span
                         className={`${texts['type']} ${texts['type--secondary']} type`}
                       >
-                        {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}, ${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
+                        {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}・${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
                       </span>
                     </div>
                   }

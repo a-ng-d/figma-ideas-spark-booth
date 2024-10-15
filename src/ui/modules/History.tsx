@@ -469,14 +469,20 @@ export default class History extends React.Component<HistoryProps, HistoryStates
                   leftPartSlot={
                     <div
                       className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
+                      style={{
+                        flex: '1',
+                      }}
                     >
-                      <div className={`${layouts['snackbar--tight']}`}>
+                      <div
+                        className={`${layouts['snackbar--tight']}`}
+                        style={{ flex: '0 0 64px' }}
+                      >
                         <div
                           className="color-chip"
                           style={{ backgroundColor: idea.type.hex }}
                         ></div>
                         <span
-                          className={`${texts['type']} ${texts['type--secondary']} type`}
+                          className={`${texts['type']} ${texts['type--secondary']} ${texts['type--truncated']} type`}
                         >
                           {idea.type.name}
                         </span>
@@ -499,7 +505,6 @@ export default class History extends React.Component<HistoryProps, HistoryStates
                       </div>
                     </div>
                   }
-                  alignment="CENTER"
                 />
               ))}
             </ul>
