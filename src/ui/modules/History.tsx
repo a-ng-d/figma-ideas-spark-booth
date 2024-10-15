@@ -59,7 +59,6 @@ export default class History extends React.Component<HistoryProps, HistoryStates
   componentDidMount = () => {
     onmessage = (e: MessageEvent) => {
       const exportCsv = (data: string) => {
-        console.log(data)
         const blob = new Blob([data], {
           type: 'text/csv;charset=utf-8',
         })

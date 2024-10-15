@@ -267,7 +267,12 @@ export default class Participate extends React.Component<ParticipateProps, Parti
               >
                 {this.props.session.facilitator.id ===
                 this.props.userIdentity.id ? (
-                  <FacilitatorInfo {...this.props} />
+                  <FacilitatorInfo
+                    {...this.props}
+                    ideas={this.props.ideas.filter(
+                      (idea) => idea.sessionId === this.props.session.id
+                    )}
+                  />
                 ) : (
                   <ParticipantInfo {...this.props} />
                 )}

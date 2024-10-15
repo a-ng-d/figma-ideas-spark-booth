@@ -142,9 +142,11 @@ const loadUI = async () => {
             refreshToken: undefined,
           },
         }),
+      //
+      DEFAULT: () => null,
     }
 
-    return actions[msg.type]?.()
+    return actions[msg.type ?? 'DEFAULT']?.()
   }
 
   // Listeners

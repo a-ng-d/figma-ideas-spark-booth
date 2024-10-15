@@ -425,9 +425,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
       ),
       runningSessionActivity = this.state.activities.find(
         (activity) => activity.meta.id === runningSession?.activityId
-      ),
-      runningSessionIdeas = this.state.ideas.filter(
-        (idea) => idea.sessionId === runningSession?.id
       )
 
     if (this.state.isLoaded)
@@ -458,7 +455,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               {...this.state}
               activity={runningSessionActivity ?? ({} as ActivityConfiguration)}
               session={runningSession ?? ({} as SessionConfiguration)}
-              ideas={runningSessionIdeas}
+              ideas={this.state.ideas}
               onPushIdea={(e) => {
                 this.setState({ ideas: [...this.state.ideas, e] })
                 parent.postMessage(
