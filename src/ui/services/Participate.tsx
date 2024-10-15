@@ -180,21 +180,11 @@ export default class Participate extends React.Component<ParticipateProps, Parti
                       label: this.state.isFlaggedAsDone
                         ? locals[this.props.lang].participate.unflagAsDone
                         : locals[this.props.lang].participate.flagAsDone,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
-                      isActive: true,
-                      isBlocked: false,
-                      isNew: false,
-                      children: [],
                       action: this.finishHandler,
                     },
                     {
                       label: locals[this.props.lang].participate.endSession,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive: features.find(
                         (feature) => feature.name === 'PARTICIPATE_END'
@@ -206,7 +196,6 @@ export default class Participate extends React.Component<ParticipateProps, Parti
                       isNew: features.find(
                         (feature) => feature.name === 'PARTICIPATE_END'
                       )?.isNew,
-                      children: [],
                       action: () => this.setState({ isDialogOpen: true }),
                     },
                   ]}

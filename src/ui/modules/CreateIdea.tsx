@@ -64,17 +64,12 @@ export default class CreateIdeas extends React.Component<
 
   // Handlers
   typesHandler = () => {
-    return this.props.activity.types.map((type, index) => {
+    return this.props.activity.types.map((type) => {
       return {
         label: type.name,
         value: type.id,
         feature: 'UPDATE_TYPE',
-        position: index,
         type: 'OPTION',
-        isActive: true,
-        isBlocked: false,
-        isNew: false,
-        children: [],
         action: () => this.setState({ currentType: type }),
       } as DropdownOption
     })

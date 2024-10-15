@@ -92,17 +92,12 @@ export default class UpdateIdeas extends React.Component<
 
   // Handlers
   typesHandler = () => {
-    return this.props.activity.types.map((type, index) => {
+    return this.props.activity.types.map((type) => {
       return {
         label: type.name,
         value: type.id,
         feature: 'UPDATE_TYPE',
-        position: index,
         type: 'OPTION',
-        isActive: true,
-        isBlocked: false,
-        isNew: false,
-        children: [],
         action: (e) => this.ideasHandler(e, type),
       } as DropdownOption
     })

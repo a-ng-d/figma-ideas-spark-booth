@@ -138,37 +138,15 @@ export default class Shortcuts extends React.Component<
                             '$[]',
                             this.props.userSession.userFullName
                           ),
-                          value: null,
-                          feature: null,
-                          position: 0,
                           type: 'TITLE',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
-                          children: [],
                           action: () => null,
                         },
                         {
-                          label: '',
-                          value: null,
-                          feature: null,
-                          position: 0,
                           type: 'SEPARATOR',
-                          isActive: true,
-                          isBlocked: false,
-                          children: [],
-                          action: () => null,
                         },
                         {
                           label: locals[this.props.lang].user.signOut,
-                          value: null,
-                          feature: null,
-                          position: 0,
                           type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
-                          children: [],
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
                             signOut()
@@ -209,14 +187,7 @@ export default class Shortcuts extends React.Component<
                         },
                         {
                           label: locals[this.props.lang].user.updateConsent,
-                          value: null,
-                          feature: null,
-                          position: 0,
                           type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
-                          children: [],
                           action: this.props.onUpdateConsent,
                         },
                       ]}
@@ -229,14 +200,7 @@ export default class Shortcuts extends React.Component<
                       options={[
                         {
                           label: locals[this.props.lang].user.signIn,
-                          value: null,
-                          feature: null,
-                          position: 0,
                           type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
-                          children: [],
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
                             signIn()
@@ -272,14 +236,7 @@ export default class Shortcuts extends React.Component<
                         },
                         {
                           label: locals[this.props.lang].user.updateConsent,
-                          value: null,
-                          feature: null,
-                          position: 0,
                           type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
-                          children: [],
                           action: this.props.onUpdateConsent,
                         },
                       ]}
@@ -296,9 +253,6 @@ export default class Shortcuts extends React.Component<
                   options={[
                     {
                       label: locals[this.props.lang].shortcuts.news,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive:
                         features.find(
@@ -312,14 +266,10 @@ export default class Shortcuts extends React.Component<
                         features.find(
                           (feature) => feature.name === 'SHORTCUTS_HIGHLIGHT'
                         )?.isNew ?? true,
-                      children: [],
                       action: () => this.props.onReOpenHighlight(),
                     },
                     {
                       label: locals[this.props.lang].about.repository,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive: features.find(
                         (feature) => feature.name === 'SHORTCUTS_REPOSITORY'
@@ -331,7 +281,6 @@ export default class Shortcuts extends React.Component<
                       isNew: features.find(
                         (feature) => feature.name === 'SHORTCUTS_REPOSITORY'
                       )?.isNew,
-                      children: [],
                       action: () =>
                         parent.postMessage(
                           {
@@ -344,21 +293,10 @@ export default class Shortcuts extends React.Component<
                         ),
                     },
                     {
-                      label: '',
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'SEPARATOR',
-                      isActive: true,
-                      isBlocked: false,
-                      children: [],
-                      action: () => null,
                     },
                     {
                       label: locals[this.props.lang].shortcuts.feedback,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive: features.find(
                         (feature) => feature.name === 'SHORTCUTS_FEEDBACK'
@@ -370,14 +308,10 @@ export default class Shortcuts extends React.Component<
                       isNew: features.find(
                         (feature) => feature.name === 'SHORTCUTS_FEEDBACK'
                       )?.isNew,
-                      children: [],
                       action: () => this.props.onReOpenFeedback(),
                     },
                     {
                       label: locals[this.props.lang].about.beInvolved.request,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive: features.find(
                         (feature) => feature.name === 'SHORTCUTS_REQUESTS'
@@ -389,7 +323,6 @@ export default class Shortcuts extends React.Component<
                       isNew: features.find(
                         (feature) => feature.name === 'SHORTCUTS_REQUESTS'
                       )?.isNew,
-                      children: [],
                       action: () =>
                         parent.postMessage(
                           {
@@ -403,9 +336,6 @@ export default class Shortcuts extends React.Component<
                     },
                     {
                       label: locals[this.props.lang].about.beInvolved.issue,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive: features.find(
                         (feature) => feature.name === 'SHORTCUTS_REPORTING'
@@ -417,13 +347,10 @@ export default class Shortcuts extends React.Component<
                       isNew: features.find(
                         (feature) => feature.name === 'SHORTCUTS_REPORTING'
                       )?.isNew,
-                      children: [],
                       action: this.props.onReOpenReport,
                     },
                     {
                       label: locals[this.props.lang].about.getHelp.email,
-                      value: null,
-                      feature: null,
                       position: 0,
                       type: 'OPTION',
                       isActive: features.find(
@@ -436,7 +363,6 @@ export default class Shortcuts extends React.Component<
                       isNew: features.find(
                         (feature) => feature.name === 'SHORTCUTS_EMAIL'
                       )?.isNew,
-                      children: [],
                       action: () =>
                         parent.postMessage(
                           {
@@ -449,21 +375,10 @@ export default class Shortcuts extends React.Component<
                         ),
                     },
                     {
-                      label: '',
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'SEPARATOR',
-                      isActive: true,
-                      isBlocked: false,
-                      children: [],
-                      action: () => null,
                     },
                     {
                       label: locals[this.props.lang].about.title,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive: features.find(
                         (feature) => feature.name === 'SHORTCUTS_ABOUT'
@@ -475,14 +390,10 @@ export default class Shortcuts extends React.Component<
                       isNew: features.find(
                         (feature) => feature.name === 'SHORTCUTS_ABOUT'
                       )?.isNew,
-                      children: [],
                       action: this.props.onReOpenAbout,
                     },
                     {
                       label: locals[this.props.lang].about.giveSupport.follow,
-                      value: null,
-                      feature: null,
-                      position: 0,
                       type: 'OPTION',
                       isActive: features.find(
                         (feature) => feature.name === 'SHORTCUTS_NETWORKING'
@@ -494,7 +405,6 @@ export default class Shortcuts extends React.Component<
                       isNew: features.find(
                         (feature) => feature.name === 'SHORTCUTS_NETWORKING'
                       )?.isNew,
-                      children: [],
                       action: () =>
                         parent.postMessage(
                           {
