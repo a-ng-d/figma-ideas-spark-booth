@@ -937,7 +937,12 @@ export default class Settings extends React.Component<
           >
             <div className="dialog__text">
               <p className={`type ${texts.type}`}>
-                {`${locals[this.props.lang].settings.deleteActivityDialog.message} ${this.props.activity.name}`}
+                {locals[
+                  this.props.lang
+                ].settings.deleteActivityDialog.message.replace(
+                  '$1',
+                  this.props.activity.name
+                )}
               </p>
             </div>
           </Dialog>

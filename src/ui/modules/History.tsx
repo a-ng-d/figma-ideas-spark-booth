@@ -451,7 +451,12 @@ export default class History extends React.Component<HistoryProps, HistoryStates
           >
             <div className="dialog__text">
               <p className={`type ${texts.type}`}>
-                {`${locals[this.props.lang].settings.deleteSessionDialog.message} ${setFriendlyDate(this.props.sessionDate, 'en-US')}.`}
+                {locals[
+                  this.props.lang
+                ].settings.deleteSessionDialog.message.replace(
+                  '$1',
+                  setFriendlyDate(this.props.sessionDate, 'en-US')
+                )}
               </p>
             </div>
           </Dialog>

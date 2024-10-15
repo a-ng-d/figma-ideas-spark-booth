@@ -108,13 +108,15 @@ export const locals: { [key: string]: any } = {
       },
       deleteActivityDialog: {
         title: 'Delete activity',
-        message: "You're about to delete the activity",
-        delete: 'Delete file',
+        message:
+          "You're about to delete the activity $1. This action is irreversible.",
+        delete: 'Delete activity',
         cancel: 'Cancel',
       },
       deleteSessionDialog: {
         title: 'Delete session',
-        message: "You're about to delete the session on",
+        message:
+          "You're about to delete the session on $1. This action is irreversible.",
         delete: 'Delete session',
         cancel: 'Cancel',
       },
