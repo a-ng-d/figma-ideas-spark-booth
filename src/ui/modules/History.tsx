@@ -21,6 +21,8 @@ import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
+import { ActionsList } from '../../types/models'
+import FileSaver from 'file-saver'
 
 interface HistoryProps {
   activity: ActivityConfiguration
@@ -40,10 +42,7 @@ interface HistoryStates {
   isDialogOpen: boolean
 }
 
-export default class History extends React.Component<
-  HistoryProps,
-  HistoryStates
-> {
+export default class History extends React.Component<HistoryProps, HistoryStates> {
   constructor(props: HistoryProps) {
     super(props)
     this.state = {
@@ -54,6 +53,28 @@ export default class History extends React.Component<
       sortedBy: 'MOST_RECENT',
       filteredBy: 'NONE',
       isDialogOpen: false,
+    }
+  }
+
+  componentDidMount = () => {
+    onmessage = (e: MessageEvent) => {
+      const exportCsv = (data: string) => {
+        console.log(data)
+        const blob = new Blob([data], {
+          type: 'text/csv;charset=utf-8',
+        })
+        FileSaver.saveAs(
+          blob,
+          `${this.props.activity.name}_${this.props.sessionDate}.csv`
+        )
+      }
+
+      const actions: ActionsList = {
+        EXPORT_CSV: () => exportCsv(e.data.pluginMessage?.data),
+        DEFAULT: () => null,
+      }
+
+      return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
     }
   }
 
@@ -280,6 +301,37 @@ export default class History extends React.Component<
                       {
                         pluginMessage: {
                           type: 'ADD_TO_BOARD',
+                          data: {
+                            activity: this.props.activity,
+                            sessionDate: this.props.sessionDate,
+                            ideas: this.props.ideas,
+                          },
+                        },
+                      },
+                      '*'
+                    )
+                  }}
+                />
+              </Feature>
+              <Feature
+                isActive={
+                  features.find(
+                    (feature) => feature.name === 'HISTORY_EXPORT_CSV'
+                  )?.isActive && this.props.ideas.length > 0
+                }
+              >
+                <Button
+                  type="secondary"
+                  label="Export to CSV"
+                  isBlocked={isBlocked(
+                    'HISTORY_EXPORT_CSV',
+                    this.props.planStatus
+                  )}
+                  action={() => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'EXPORT_CSV',
                           data: {
                             activity: this.props.activity,
                             sessionDate: this.props.sessionDate,

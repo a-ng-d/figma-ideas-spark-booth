@@ -8,6 +8,7 @@ import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
 import endSession from './endSession'
+import exportCsv from './export/exportCsv'
 import getProPlan from './getProPlan'
 import startSession from './startSession'
 import updateParticipants from './updates/updateParticipants'
@@ -104,6 +105,7 @@ const loadUI = async () => {
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
       //
       ADD_TO_BOARD: () => addToBoard(msg.data),
+      EXPORT_CSV: () => exportCsv(msg.data),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
