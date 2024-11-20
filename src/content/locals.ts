@@ -255,6 +255,7 @@ export const locals: { [key: string]: any } = {
     success: {
       startSession: 'The session has been started by',
       endSession: 'The session has been ended by',
+      publication: '✓ The activity has been published',
     },
     info: {
       noResult: 'No activity match your search',
@@ -268,6 +269,7 @@ export const locals: { [key: string]: any } = {
       badResponse: '✕ The response is not valid',
       authentication: '✕ The authentication has failed',
       timeout: '✕ The authentication has been timed out',
+      publication: '✕ The activity cannot be published',
       fetch: 'The activities cannot be loaded',
       addToFile: '✕ The activities cannot be added',
       noInternetConnection:

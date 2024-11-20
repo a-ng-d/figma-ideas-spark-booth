@@ -38,11 +38,14 @@ import features, {
 import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
+import { UserSession } from '../../types/user'
+import publishActivity from '../../bridges/publication/publishActivity'
 
 interface SettingsProps {
   activity: ActivityConfiguration
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
+  userSession: UserSession
   planStatus: PlanStatus
   lang: Language
   onChangeActivities: (
@@ -62,6 +65,7 @@ interface SettingsProps {
 
 interface SettingsStates {
   isDialogOpen: boolean
+  isPrimaryActionLoading: boolean
 }
 
 export default class Settings extends React.Component<
@@ -72,6 +76,7 @@ export default class Settings extends React.Component<
     super(props)
     this.state = {
       isDialogOpen: false,
+      isPrimaryActionLoading: false,
     }
   }
 
@@ -899,7 +904,41 @@ export default class Settings extends React.Component<
                   type="secondary"
                   label={locals[this.props.lang].publication.publish}
                   feature="PUBLISH_ACTIVITY"
-                  action={() => null}
+                  isLoading={this.state.isPrimaryActionLoading}
+                  action={async () => {
+                    this.setState({ isPrimaryActionLoading: true })
+                    await publishActivity(
+                      this.props.activity,
+                      this.props.userSession
+                    )
+                      .then(() => {
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'SEND_MESSAGE',
+                              message:
+                                locals[this.props.lang].success.publication,
+                            },
+                          },
+                          '*'
+                        )
+                      })
+                      .finally(() => {
+                        this.setState({ isPrimaryActionLoading: false })
+                      })
+                      .catch(() => {
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'SEND_MESSAGE',
+                              message:
+                                locals[this.props.lang].error.publication,
+                            },
+                          },
+                          '*'
+                        )
+                      })
+                  }}
                 />
               </Feature>
               <Feature

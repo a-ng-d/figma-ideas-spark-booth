@@ -95,6 +95,16 @@ const loadUI = async () => {
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
       UPDATE_SESSIONS: () =>
         figma.root.setPluginData('sessions', JSON.stringify(msg.data)),
+      UPDATE_ACTIVITY: () => {
+        const activities = JSON.parse(figma.root.getPluginData('activities'))
+        activities.map((activity: { meta: { id: string } }) => {
+          if (activity.meta.id === msg.data.meta.id) {
+            activity = msg.data
+          }
+          return activity
+        })
+        figma.root.setPluginData('activities', JSON.stringify(activities))
+      },
       START_SESSION: () => startSession(msg.data),
       END_SESSION: () => endSession(msg.data),
       PUSH_IDEA: () =>

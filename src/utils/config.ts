@@ -19,9 +19,9 @@ export const authUrl =
     ? 'http://localhost:3000'
     : (process.env.REACT_APP_AUTH_URL as string)
 
-export const palettesDbTableName =
-  process.env.NODE_ENV === 'development' ? 'sandbox.palettes' : 'palettes'
-export const palettesStorageName =
+export const activitiesDbTableName =
+  process.env.NODE_ENV === 'development' ? 'sandbox.activities' : 'activities'
+export const activitiesStorageName =
   process.env.NODE_ENV === 'development'
     ? 'Palette screenshots'
     : 'palette.screenshots'
