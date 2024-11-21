@@ -31,7 +31,11 @@ export const locals: { [key: string]: any } = {
       about: 'About',
     },
     publication: {
-      title: 'Publication',
+      titlePublish: 'Publish activity',
+      titleSynchronize: 'Synchronize activity',
+      titleSignIn: 'Publish or Synchronize activities',
+      message:
+        'Publish your activity as a single source of truth and reuse it in other FigJam documents. You can also distribute your activities by sharing them with the community.',
       share: 'Share with the community',
       unshare: 'Remove from the community',
       statusShared: 'Shared',
@@ -80,6 +84,8 @@ export const locals: { [key: string]: any } = {
           participant: 'Participant',
           type: 'Type',
         },
+        publish: 'Publish activity',
+        synchronize: 'Synchronize activity',
         delete: 'Delete activity',
       },
       timer: {
@@ -272,9 +278,16 @@ export const locals: { [key: string]: any } = {
       startSession: 'The session has been started by',
       endSession: 'The session has been ended by',
       publication: '✓ The activity has been published',
+      nonPublication: '✓ The activity has been unpublished',
+      synchronization: '✓ The activity has been synchronized',
+      detachment: '✓ The activity has been detached',
+      report: '✓ Thanks for your report',
+      share: '✓ The activity has been shared with the community',
+      unshare: '✓ The activity is no longer shared with the community',
     },
     info: {
       noResult: 'No activity match your search',
+      signOut: '☻ See you later',
     },
     generic: {},
     warning: {
@@ -286,8 +299,12 @@ export const locals: { [key: string]: any } = {
       authentication: '✕ The authentication has failed',
       timeout: '✕ The authentication has been timed out',
       publication: '✕ The activity cannot be published',
+      nonPublication: '✕ The activity cannot be unpublished',
+      synchronization: '✕ The activity has not been synchronized',
+      share: '✕ The activity has not been shared with the community',
+      unshare: '✕ The activity has not been removed from the community',
       fetch: 'The activities cannot be loaded',
-      addToFile: '✕ The activities cannot be added',
+      addToFile: '✕ The activity cannot be added',
       noInternetConnection:
         '✕ The connection with the remote activity is unlinked',
       announcements: 'The announcements cannot be loaded',

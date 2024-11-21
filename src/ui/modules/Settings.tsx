@@ -2,12 +2,12 @@ import {
   Bar,
   Button,
   Chip,
+  ConsentConfiguration,
   Dialog,
   Dropdown,
   FormItem,
   Icon,
   Input,
-  Menu,
   SectionTitle,
   SimpleItem,
   SortableList,
@@ -17,17 +17,17 @@ import {
 import React from 'react'
 import { uid } from 'uid'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus, PublicationStatus } from '../../types/app'
+import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   ColorConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
   TypeConfiguration,
+  UserConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import features, {
-  activitiesDbTableName,
   blueColor,
   grayColor,
   greenColor,
@@ -42,14 +42,18 @@ import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 import { UserSession } from '../../types/user'
-import publishActivity from '../../bridges/publication/publishActivity'
-import { supabase } from '../../bridges/publication/authentication'
+import { trackSignInEvent } from '../../utils/eventsTracker'
+import Publication from './Publication'
+import p from '../../content/images/publication.webp'
+import { signIn } from '../../bridges/publication/authentication'
 
 interface SettingsProps {
   activity: ActivityConfiguration
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
   userSession: UserSession
+  userIdentity: UserConfiguration
+  userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
   onChangeActivities: (
@@ -68,10 +72,10 @@ interface SettingsProps {
 }
 
 interface SettingsStates {
-  isDialogOpen: boolean
-  isActivityShared: boolean
-  publicationStatus: PublicationStatus
+  isDeleteDialogOpen: boolean
+  isPublicationDialogOpen: boolean
   isPrimaryActionLoading: boolean
+  isSecondaryActionLoading: boolean
 }
 
 export default class Settings extends React.Component<
@@ -81,128 +85,11 @@ export default class Settings extends React.Component<
   constructor(props: SettingsProps) {
     super(props)
     this.state = {
-      isDialogOpen: false,
-      isActivityShared: this.props.activity.meta.publicationStatus.isShared,
-      publicationStatus: 'WAITING',
+      isDeleteDialogOpen: false,
+      isPublicationDialogOpen: false,
       isPrimaryActionLoading: false,
+      isSecondaryActionLoading: false,
     }
-  }
-
-  // Lifecycle
-  componentDidMount = () => {
-    if (this.props.activity.meta.publicationStatus.isPublished)
-      this.callUICPAgent()
-    else
-      this.setState({
-        publicationStatus: 'UNPUBLISHED',
-      })
-  }
-
-  componentDidUpdate = (prevProps: Readonly<SettingsProps>) => {
-    if (
-      this.props.activity.meta.publicationStatus.isPublished &&
-      prevProps.activity.meta.id !== this.props.activity.meta.id
-    )
-      this.callUICPAgent()
-    else if (
-      !this.props.activity.meta.publicationStatus.isPublished &&
-      prevProps.activity.meta.id !== this.props.activity.meta.id
-    )
-      this.setState({
-        publicationStatus: 'UNPUBLISHED',
-      })
-  }
-
-  // Direct actions
-  callUICPAgent = async () => {
-    const localUserId = this.props.userSession.userId,
-      localPublicationDate = new Date(
-        this.props.activity.meta.dates.publishedAt
-      ),
-      localUpdatedDate = new Date(this.props.activity.meta.dates.updatedAt)
-
-    const { data, error } = await supabase
-      .from(activitiesDbTableName)
-      .select('*')
-      .eq('activity_id', this.props.activity.meta.id)
-
-    if (!error && data.length !== 0) {
-      const isMyActivity = data?.[0].creator_id === localUserId
-
-      if (new Date(data[0].published_at) > localPublicationDate)
-        this.setState({
-          publicationStatus: isMyActivity ? 'MUST_BE_PULLED' : 'MAY_BE_PULLED',
-        })
-      else if (new Date(data[0].published_at) < localUpdatedDate)
-        this.setState({
-          publicationStatus: isMyActivity ? 'CAN_BE_PUSHED' : 'CAN_BE_REVERTED',
-        })
-      else
-        this.setState({
-          publicationStatus: isMyActivity ? 'PUBLISHED' : 'UP_TO_DATE',
-        })
-    } else if (data?.length === 0)
-      this.setState({
-        publicationStatus: 'IS_NOT_FOUND',
-      })
-    else if (error) {
-      this.setState({
-        publicationStatus: 'WAITING',
-      })
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'SEND_MESSAGE',
-            message: locals[this.props.lang].error.noInternetConnection,
-          },
-        },
-        '*'
-      )
-    }
-  }
-
-  getActivityStatus = () => {
-    if (this.state.publicationStatus === 'UNPUBLISHED')
-      return (
-        <Chip state="INACTIVE">
-          {locals[this.props.lang].publication.statusUnpublished}
-        </Chip>
-      )
-    else if (
-      this.state.publicationStatus === 'CAN_BE_PUSHED' ||
-      this.state.publicationStatus === 'CAN_BE_REVERTED'
-    )
-      return (
-        <Chip>{locals[this.props.lang].publication.statusLocalChanges}</Chip>
-      )
-    else if (
-      this.state.publicationStatus === 'PUBLISHED' ||
-      this.state.publicationStatus === 'UP_TO_DATE'
-    )
-      return (
-        <Chip state="INACTIVE">
-          {locals[this.props.lang].publication.statusUptoDate}
-        </Chip>
-      )
-    else if (
-      this.state.publicationStatus === 'MUST_BE_PULLED' ||
-      this.state.publicationStatus === 'MAY_BE_PULLED'
-    )
-      return (
-        <Chip>{locals[this.props.lang].publication.statusRemoteChanges}</Chip>
-      )
-    else if (this.state.publicationStatus === 'IS_NOT_FOUND')
-      return (
-        <Chip state="INACTIVE">
-          {locals[this.props.lang].publication.statusNotFound}
-        </Chip>
-      )
-    else if (this.state.publicationStatus === 'WAITING')
-      return (
-        <Chip state="INACTIVE">
-          {locals[this.props.lang].publication.statusWaiting}
-        </Chip>
-      )
   }
 
   // Handlers
@@ -1000,7 +887,6 @@ export default class Settings extends React.Component<
               <span className={`${texts['type']} type`}>
                 {this.props.activity.name}
               </span>
-              {this.getActivityStatus()}
               {this.props.activity.meta.publicationStatus.isShared && (
                 <Chip state="ACTIVE">
                   {locals[this.props.lang].publication.statusShared}
@@ -1014,104 +900,35 @@ export default class Settings extends React.Component<
                 isActive={
                   features.find(
                     (feature) => feature.name === 'ACTIVITIES_DELETE'
-                  )?.isActive && this.state.publicationStatus === 'UNPUBLISHED'
+                  )?.isActive
                 }
               >
                 <Button
                   type="icon"
                   icon="trash"
-                  action={() => this.setState({ isDialogOpen: true })}
+                  action={() => this.setState({ isDeleteDialogOpen: true })}
                 />
               </Feature>
               <Feature
                 isActive={
                   features.find(
                     (feature) => feature.name === 'ACTIVITIES_PUBLISH'
-                  )?.isActive && this.state.publicationStatus === 'UNPUBLISHED'
+                  )?.isActive
                 }
               >
                 <Button
                   type="secondary"
-                  label={locals[this.props.lang].publication.publish}
-                  feature="PUBLISH_ACTIVITY"
-                  isLoading={this.state.isPrimaryActionLoading}
-                  action={async () => {
-                    this.setState({ isPrimaryActionLoading: true })
-                    await publishActivity(
-                      this.props.activity,
-                      this.props.userSession
-                    )
-                      .then(() => {
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'SEND_MESSAGE',
-                              message:
-                                locals[this.props.lang].success.publication,
-                            },
-                          },
-                          '*'
-                        )
-                      })
-                      .finally(() => {
-                        this.setState({ isPrimaryActionLoading: false })
-                      })
-                      .catch(() => {
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'SEND_MESSAGE',
-                              message:
-                                locals[this.props.lang].error.publication,
-                            },
-                          },
-                          '*'
-                        )
-                      })
-                  }}
-                />
-              </Feature>
-              <Feature
-                isActive={
-                  features.find(
-                    (feature) => feature.name === 'ACTIVITIES_PUBLISH'
-                  )?.isActive && this.state.publicationStatus !== 'UNPUBLISHED'
-                }
-              >
-                <Menu
-                  id="open-publication-actions"
-                  type="ICON"
-                  icon="ellipsis"
-                  options={[
-                    {
-                      type: 'TITLE',
-                      label: locals[this.props.lang].publication.title,
-                    },
-                    {
-                      label: locals[this.props.lang].publication.publish,
-                      type: 'OPTION',
-                      action: () => null,
-                    },
-                    {
-                      label: locals[this.props.lang].publication.unpublish,
-                      type: 'OPTION',
-                      action: () => null,
-                    },
-                    {
-                      label: locals[this.props.lang].publication.share,
-                      type: 'OPTION',
-                      action: () => null,
-                    },
-                    {
-                      type: 'SEPARATOR',
-                    },
-                    {
-                      label: locals[this.props.lang].settings.global.delete,
-                      type: 'OPTION',
-                      action: () => this.setState({ isDialogOpen: true }),
-                    },
-                  ]}
-                  alignment="BOTTOM_RIGHT"
+                  label={
+                    this.props.userSession.userId ===
+                      this.props.activity.meta.creatorIdentity.id ||
+                    this.props.userSession.connectionStatus === 'UNCONNECTED' ||
+                    !this.props.activity.meta.publicationStatus.isPublished
+                      ? locals[this.props.lang].settings.global.publish
+                      : locals[this.props.lang].settings.global.synchronize
+                  }
+                  action={() =>
+                    this.setState({ isPublicationDialogOpen: true })
+                  }
                 />
               </Feature>
               <Feature
@@ -1136,7 +953,7 @@ export default class Settings extends React.Component<
         <Feature
           isActive={
             features.find((feature) => feature.name === 'ACTIVITIES_DELETE')
-              ?.isActive && this.state.isDialogOpen
+              ?.isActive && this.state.isDeleteDialogOpen
           }
         >
           <Dialog
@@ -1151,10 +968,10 @@ export default class Settings extends React.Component<
               secondary: {
                 label:
                   locals[this.props.lang].settings.deleteActivityDialog.cancel,
-                action: () => this.setState({ isDialogOpen: false }),
+                action: () => this.setState({ isDeleteDialogOpen: false }),
               },
             }}
-            onClose={() => this.setState({ isDialogOpen: false })}
+            onClose={() => this.setState({ isDeleteDialogOpen: false })}
           >
             <div className="dialog__text">
               <p className={`type ${texts.type}`}>
@@ -1167,6 +984,86 @@ export default class Settings extends React.Component<
               </p>
             </div>
           </Dialog>
+        </Feature>
+        <Feature
+          isActive={
+            features.find((feature) => feature.name === 'PUBLICATION')
+              ?.isActive && this.state.isPublicationDialogOpen
+          }
+        >
+          {this.props.userSession.connectionStatus === 'UNCONNECTED' ? (
+            <Dialog
+              title={locals[this.props.lang].publication.titleSignIn}
+              actions={{
+                primary: {
+                  label: locals[this.props.lang].publication.signIn,
+                  state: this.state.isPrimaryActionLoading
+                    ? 'LOADING'
+                    : 'DEFAULT',
+                  action: async () => {
+                    this.setState({ isPrimaryActionLoading: true })
+                    signIn(this.props.userIdentity.id)
+                      .then(() => {
+                        trackSignInEvent(
+                          this.props.userIdentity.id,
+                          this.props.userConsent.find(
+                            (consent) => consent.id === 'mixpanel'
+                          )?.isConsented ?? false
+                        )
+                      })
+                      .finally(() => {
+                        this.setState({ isPrimaryActionLoading: false })
+                      })
+                      .catch((error) => {
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'SEND_MESSAGE',
+                              message:
+                                error.message === 'Authentication timeout'
+                                  ? locals[this.props.lang].error.timeout
+                                  : locals[this.props.lang].error
+                                      .authentication,
+                            },
+                          },
+                          '*'
+                        )
+                      })
+                  },
+                },
+              }}
+              onClose={() => this.setState({ isPublicationDialogOpen: false })}
+            >
+              <div className="dialog__cover">
+                <img
+                  src={p}
+                  style={{
+                    width: '100%',
+                  }}
+                />
+              </div>
+              <div className="dialog__text">
+                <p className={`type ${texts.type}`}>
+                  {locals[this.props.lang].publication.message}
+                </p>
+              </div>
+            </Dialog>
+          ) : (
+            <Publication
+              {...this.props}
+              isPrimaryActionLoading={this.state.isPrimaryActionLoading}
+              isSecondaryActionLoading={this.state.isSecondaryActionLoading}
+              onLoadPrimaryAction={(e) =>
+                this.setState({ isPrimaryActionLoading: e })
+              }
+              onLoadSecondaryAction={(e) =>
+                this.setState({ isSecondaryActionLoading: e })
+              }
+              onClosePublication={() =>
+                this.setState({ isPublicationDialogOpen: false })
+              }
+            />
+          )}
         </Feature>
         <div className="control__block control__block--no-padding">
           <this.Global />

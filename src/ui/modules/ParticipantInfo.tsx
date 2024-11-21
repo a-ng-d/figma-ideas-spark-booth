@@ -115,6 +115,7 @@ export default class ParticipantInfo extends React.Component<
                       </div>
                     </div>
                   }
+                  alignment={type.description === '' ? 'CENTER' : 'DEFAULT'}
                 />
               ))}
             </ul>

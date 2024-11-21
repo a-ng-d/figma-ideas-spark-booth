@@ -102,9 +102,7 @@ const loadUI = async () => {
         const activities = JSON.parse(
           figma.root.getPluginData('activities')
         ).map((activity: ActivityConfiguration) => {
-          if (activity.meta.id === msg.data.meta.id) {
-            return msg.data
-          }
+          if (activity.meta.id === msg.data.meta.id) return msg.data
           return activity
         })
         figma.root.setPluginData('activities', JSON.stringify(activities))

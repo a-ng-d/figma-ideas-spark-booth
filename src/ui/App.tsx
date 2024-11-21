@@ -475,7 +475,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
             <PriorityContainer
               context={this.state.priorityContainerContext}
-              rawData={this.state}
               {...this.state}
               onChangePublication={(e) =>
                 this.setState({ ...this.state, ...e })

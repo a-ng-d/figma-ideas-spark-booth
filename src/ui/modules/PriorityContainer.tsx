@@ -28,10 +28,9 @@ import Highlight from './Highlight'
 
 interface PriorityContainerProps {
   context: PriorityContext
-  rawData: AppStates
-  userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   trialStatus: TrialStatus
+  userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
   userSession: UserSession
   highlight: HighlightDigest

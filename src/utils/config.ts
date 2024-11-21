@@ -7,7 +7,7 @@ export const pageSize = 20
 
 export const authWorkerUrl =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8787'
+    ? (process.env.REACT_APP_AUTH_WORKER_URL as string)
     : (process.env.REACT_APP_AUTH_WORKER_URL as string)
 export const announcementsWorkerUrl =
   process.env.NODE_ENV === 'development'
@@ -16,7 +16,7 @@ export const announcementsWorkerUrl =
 export const databaseUrl = process.env.REACT_APP_SUPABASE_URL as string
 export const authUrl =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
+    ? (process.env.REACT_APP_AUTH_URL as string)
     : (process.env.REACT_APP_AUTH_URL as string)
 
 export const activitiesDbTableName =
@@ -572,6 +572,15 @@ export const features: Array<Feature> =
           isNew: false,
           type: 'ACTION',
           service: ['BROWSE', 'PARTICIPATE'],
+        },
+        {
+          name: 'PUBLICATION',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'DIVISION',
+          service: ['BROWSE'],
         },
       ]
     : []
