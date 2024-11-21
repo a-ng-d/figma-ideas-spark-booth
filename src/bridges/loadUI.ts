@@ -1,6 +1,9 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
-import { ActiveParticipants } from '../types/configurations'
+import {
+  ActiveParticipants,
+  ActivityConfiguration,
+} from '../types/configurations'
 import { ActionsList } from '../types/models'
 import addToBoard from './export/addToBoard'
 import checkHighlightStatus from './checks/checkHighlightStatus'
@@ -96,10 +99,11 @@ const loadUI = async () => {
       UPDATE_SESSIONS: () =>
         figma.root.setPluginData('sessions', JSON.stringify(msg.data)),
       UPDATE_ACTIVITY: () => {
-        const activities = JSON.parse(figma.root.getPluginData('activities'))
-        activities.map((activity: { meta: { id: string } }) => {
+        const activities = JSON.parse(
+          figma.root.getPluginData('activities')
+        ).map((activity: ActivityConfiguration) => {
           if (activity.meta.id === msg.data.meta.id) {
-            activity = msg.data
+            return msg.data
           }
           return activity
         })

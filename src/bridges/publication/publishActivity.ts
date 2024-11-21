@@ -62,7 +62,7 @@ const publishActivity = async (
           data: {
             ...activity,
             meta: {
-              activityPublicationDetails,
+              ...activityPublicationDetails,
             },
           },
         },
