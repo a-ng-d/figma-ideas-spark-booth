@@ -10,7 +10,11 @@ export interface Feature {
 
 export type Service = 'BROWSE' | 'PARTICIPATE'
 
-export type Context = 'ACTIVITY' | 'EXPLORE'
+export type Context =
+  | 'ACTIVITIES'
+  | 'ACTIVITIES_LOCAL'
+  | 'ACTIVITIES_SELF'
+  | 'EXPLORE'
 
 export type FilterOptions =
   | 'ANY'

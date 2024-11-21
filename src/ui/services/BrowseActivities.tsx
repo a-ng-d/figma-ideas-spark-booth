@@ -37,7 +37,7 @@ export default class BrowseActivities extends React.Component<
 
   constructor(props: BrowseActivitiesProps) {
     super(props)
-    this.contexts = setContexts(['ACTIVITY', 'EXPLORE'])
+    this.contexts = setContexts(['ACTIVITIES', 'EXPLORE'])
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
     }
@@ -56,7 +56,7 @@ export default class BrowseActivities extends React.Component<
     let fragment
 
     switch (this.state.context) {
-      case 'ACTIVITY': {
+      case 'ACTIVITIES': {
         fragment = <Activities {...this.props} />
         break
       }

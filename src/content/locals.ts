@@ -52,14 +52,28 @@ export const locals: { [key: string]: any } = {
       detach: 'Detach',
       signIn: 'Sign in to publish',
     },
+    actions: {
+      duplicateToLocal: 'Duplicate to local',
+    },
     relaunch: {},
     contexts: {
       activities: 'Activities',
+      activitiesLocal: 'Local',
+      activitiesSelf: 'My activities',
       explore: 'Explore',
     },
     activities: {
       title: 'Local activities',
       newActivity: 'New activity',
+      signInFirst: {
+        message: 'Find and reuse your published activities once authentified',
+        signIn: 'Sign in to fetch your activities',
+      },
+      lazyLoad: {
+        search: 'Search activities…',
+        loadMore: 'Load more activities',
+        completeList: 'The activities list is complete',
+      },
     },
     sessions: {
       newSession: 'New session',
@@ -284,6 +298,8 @@ export const locals: { [key: string]: any } = {
       report: '✓ Thanks for your report',
       share: '✓ The activity has been shared with the community',
       unshare: '✓ The activity is no longer shared with the community',
+      duplicatedActivity:
+        '✓ The activity has been duplicated to the local ones',
     },
     info: {
       noResult: 'No activity match your search',
@@ -292,6 +308,12 @@ export const locals: { [key: string]: any } = {
     generic: {},
     warning: {
       timesUp: 'The time is up!',
+      noSelfactivityOnRemote:
+        'This is quite empty around here! Publish your activity to reuse it across multiple boards.',
+      noCommunityactivityOnRemote:
+        'This is quite empty around here! Be the first to share your activity with other users!',
+      activityAlreadyExists:
+        'This activity is already duplicated to the local ones',
     },
     error: {
       generic: '✕ Something went wrong',
@@ -303,8 +325,8 @@ export const locals: { [key: string]: any } = {
       synchronization: '✕ The activity has not been synchronized',
       share: '✕ The activity has not been shared with the community',
       unshare: '✕ The activity has not been removed from the community',
-      fetch: 'The activities cannot be loaded',
-      addToFile: '✕ The activity cannot be added',
+      fetchActivity: 'The activities cannot be loaded',
+      duplicateToLocal: '✕ The activity cannot be duplicated',
       noInternetConnection:
         '✕ The connection with the remote activity is unlinked',
       announcements: 'The announcements cannot be loaded',

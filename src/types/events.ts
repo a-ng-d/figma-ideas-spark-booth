@@ -14,6 +14,7 @@ export interface PublicationEvent {
     | 'REVERT_PALETTE'
     | 'DETACH_PALETTE'
     | 'ADD_PALETTE'
+    | 'SHARE_PALETTE'
 }
 
 export interface ImportEvent {

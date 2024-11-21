@@ -1,9 +1,6 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
-import {
-  ActiveParticipants,
-  ActivityConfiguration,
-} from '../types/configurations'
+import { ActiveParticipants } from '../types/configurations'
 import { ActionsList } from '../types/models'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
@@ -12,9 +9,11 @@ import enableTrial from './enableTrial'
 import addToBoard from './export/addToBoard'
 import exportCsv from './export/exportCsv'
 import getProPlan from './getProPlan'
+import duplicatePublishedActivity from './updates/duplicatePublishedActivity'
 import endSession from './updates/endSession'
 import startSession from './updates/startSession'
 import updateParticipants from './updates/updateParticipants'
+import updateSingleActivity from './updates/updateSingleActivity'
 
 const loadUI = async () => {
   let lastData = ''
@@ -98,15 +97,8 @@ const loadUI = async () => {
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
       UPDATE_SESSIONS: () =>
         figma.root.setPluginData('sessions', JSON.stringify(msg.data)),
-      UPDATE_ACTIVITY: () => {
-        const activities = JSON.parse(
-          figma.root.getPluginData('activities')
-        ).map((activity: ActivityConfiguration) => {
-          if (activity.meta.id === msg.data.meta.id) return msg.data
-          return activity
-        })
-        figma.root.setPluginData('activities', JSON.stringify(activities))
-      },
+      UPDATE_ACTIVITY: () => updateSingleActivity(msg.data),
+      DUPLICATE_ACTIVITY: () => duplicatePublishedActivity(msg.data),
       START_SESSION: () => startSession(msg.data),
       END_SESSION: () => endSession(msg.data),
       PUSH_IDEA: () =>

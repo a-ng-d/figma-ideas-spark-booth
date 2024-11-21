@@ -82,6 +82,7 @@ export default class Activities extends React.Component<
             color: 'YELLOW',
             hex: '#FFD966',
             id: uid(),
+            description: '',
           },
         ],
         meta: {

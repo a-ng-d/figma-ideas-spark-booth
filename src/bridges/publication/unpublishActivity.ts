@@ -6,21 +6,21 @@ import { activitiesDbTableName } from '../../utils/config'
 import { supabase } from './authentication'
 
 const unpublishActivity = async (
-  activity: ActivityConfiguration,
+  activity: Partial<ActivityConfiguration>,
   isRemote = false
-): Promise<MetaConfiguration> => {
+): Promise<Partial<MetaConfiguration>> => {
   const { error } = await supabase
     .from(activitiesDbTableName)
     .delete()
-    .match({ activity_id: activity.meta.id })
+    .match({ activity_id: activity.meta?.id })
 
   if (!error) {
     const activityPublicationDetails = {
-      id: activity.meta.id,
+      id: activity.meta?.id,
       dates: {
         publishedAt: '',
-        createdAt: activity.meta.dates?.createdAt ?? '',
-        updatedAt: activity.meta.dates?.updatedAt ?? '',
+        createdAt: activity.meta?.dates.createdAt ?? '',
+        updatedAt: activity.meta?.dates.updatedAt ?? '',
       },
       publicationStatus: {
         isPublished: false,

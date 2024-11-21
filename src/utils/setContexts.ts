@@ -11,13 +11,33 @@ export const setContexts = (contextList: Array<Context>) => {
   }> = [
     {
       label: locals[lang].contexts.activities,
-      id: 'ACTIVITY',
+      id: 'ACTIVITIES',
       isUpdated:
         features.find((feature) => feature.name === 'ACTIVITIES')?.isNew ??
         false,
       isActive:
         features.find((feature) => feature.name === 'ACTIVITIES')?.isActive ??
         false,
+    },
+    {
+      label: locals[lang].contexts.activitiesLocal,
+      id: 'ACTIVITIES_LOCAL',
+      isUpdated:
+        features.find((feature) => feature.name === 'ACTIVITIES_LOCAL')
+          ?.isNew ?? false,
+      isActive:
+        features.find((feature) => feature.name === 'ACTIVITIES_LOCAL')
+          ?.isActive ?? false,
+    },
+    {
+      label: locals[lang].contexts.activitiesSelf,
+      id: 'ACTIVITIES_SELF',
+      isUpdated:
+        features.find((feature) => feature.name === 'ACTIVITIES_SELF')?.isNew ??
+        false,
+      isActive:
+        features.find((feature) => feature.name === 'ACTIVITIES_SELF')
+          ?.isActive ?? false,
     },
     {
       label: locals[lang].contexts.explore,

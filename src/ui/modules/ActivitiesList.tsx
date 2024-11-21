@@ -1,23 +1,15 @@
-import {
-  ActionsItem,
-  Button,
-  ConsentConfiguration,
-  SectionTitle,
-  SimpleItem,
-  texts,
-} from '@a_ng_d/figmug-ui'
+import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
 import React from 'react'
-import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { ContextItem, Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
+import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
-import Feature from '../components/Feature'
+import LocalActivities from '../contexts/LocalActivities'
+import MyActivities from '../contexts/MyActivities'
 
 interface ActivitiesListProps {
   activities: Array<ActivityConfiguration>
@@ -31,129 +23,60 @@ interface ActivitiesListProps {
   onRunSession: (id: string) => void
 }
 
-export default class ActivitiesList extends React.Component<ActivitiesListProps> {
+interface ActivitiesListStates {
+  context: string | undefined
+}
+
+export default class ActivitiesList extends React.Component<
+  ActivitiesListProps,
+  ActivitiesListStates
+> {
+  contexts: Array<ContextItem>
+
+  constructor(props: ActivitiesListProps) {
+    super(props)
+    this.contexts = setContexts(['ACTIVITIES_LOCAL', 'ACTIVITIES_SELF'])
+    this.state = {
+      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+    }
+  }
+
+  // Handlers
+  navHandler = (e: React.SyntheticEvent) =>
+    this.setState({
+      context: (e.target as HTMLElement).dataset.feature,
+    })
+
   // Render
   render() {
+    let fragment
+
+    switch (this.state.context) {
+      case 'ACTIVITIES_LOCAL': {
+        fragment = <LocalActivities {...this.props} />
+        break
+      }
+      case 'ACTIVITIES_SELF': {
+        fragment = <MyActivities {...this.props} />
+        break
+      }
+    }
+
     return (
-      <div className="control__block control__block--list">
-        <SimpleItem
+      <>
+        <Bar
           leftPartSlot={
-            <SectionTitle
-              label={locals[this.props.lang].activities.title}
-              indicator={this.props.activities.length}
+            <Tabs
+              tabs={this.contexts}
+              active={this.state.context ?? ''}
+              action={this.navHandler}
             />
           }
-          rightPartSlot={
-            <Feature
-              isActive={
-                features.find((feature) => feature.name === 'ACTIVITIES_ADD')
-                  ?.isActive
-              }
-            >
-              <Button
-                type="icon"
-                icon="plus"
-                feature="ADD_ACTIVITY"
-                isBlocked={isBlocked('ACTIVITIES_ADD', this.props.planStatus)}
-                isNew={
-                  features.find((feature) => feature.name === 'ACTIVITIES_ADD')
-                    ?.isNew
-                }
-                action={this.props.onChangeActivities}
-              />
-            </Feature>
-          }
+          border={['BOTTOM']}
+          isOnlyText={true}
         />
-        <ul className="rich-list">
-          {this.props.activities.map(
-            (activity: ActivityConfiguration, index) => (
-              <ActionsItem
-                key={index}
-                id={activity.meta.id}
-                name={activity.name}
-                description={activity.description}
-                complementSlot={
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: 'var(--size-xxsmall)',
-                    }}
-                  >
-                    {activity.types.map((type, index) => (
-                      <div
-                        key={index}
-                        className="color-chip"
-                        style={{
-                          backgroundColor: type.hex,
-                        }}
-                      />
-                    ))}
-                  </div>
-                }
-                actionsSlot={
-                  <>
-                    <span
-                      className={`${texts.type} ${texts['type--secondary']} type`}
-                    >
-                      {String(activity.timer.minutes).padStart(2, '0') +
-                        ':' +
-                        String(activity.timer.seconds).padStart(2, '0')}
-                    </span>
-                    <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'ACTIVITIES_SETTINGS'
-                        )?.isActive
-                      }
-                    >
-                      <Button
-                        type="icon"
-                        icon="adjust"
-                        feature="CONFIGURE_ACTIVITY"
-                        isBlocked={isBlocked(
-                          'ACTIVITIES_SETTINGS',
-                          this.props.planStatus
-                        )}
-                        isNew={
-                          features.find(
-                            (feature) => feature.name === 'ACTIVITIES_SETTINGS'
-                          )?.isNew
-                        }
-                        action={() =>
-                          this.props.onOpenActivitySettings(activity.meta.id)
-                        }
-                      />
-                    </Feature>
-                    <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'SESSIONS_RUN'
-                        )?.isActive
-                      }
-                    >
-                      <Button
-                        type="icon"
-                        icon="play"
-                        feature="RUN_ACTIVITY"
-                        isBlocked={isBlocked(
-                          'SESSIONS_RUN',
-                          this.props.planStatus
-                        )}
-                        isNew={
-                          features.find(
-                            (feature) => feature.name === 'SESSIONS_RUN'
-                          )?.isNew
-                        }
-                        action={() => this.props.onRunSession(activity.meta.id)}
-                      />
-                    </Feature>
-                  </>
-                }
-              />
-            )
-          )}
-        </ul>
-      </div>
+        {fragment}
+      </>
     )
   }
 }
