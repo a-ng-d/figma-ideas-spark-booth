@@ -16,6 +16,8 @@ import {
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
+import { signIn } from '../../bridges/publication/authentication'
+import p from '../../content/images/publication.webp'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -27,6 +29,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
+import { UserSession } from '../../types/user'
 import features, {
   blueColor,
   grayColor,
@@ -38,14 +41,11 @@ import features, {
   violetColor,
   yellowColor,
 } from '../../utils/config'
+import { trackSignInEvent } from '../../utils/eventsTracker'
 import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
-import { UserSession } from '../../types/user'
-import { trackSignInEvent } from '../../utils/eventsTracker'
 import Publication from './Publication'
-import p from '../../content/images/publication.webp'
-import { signIn } from '../../bridges/publication/authentication'
 
 interface SettingsProps {
   activity: ActivityConfiguration

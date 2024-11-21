@@ -10,6 +10,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
+import FileSaver from 'file-saver'
 import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
@@ -17,12 +18,11 @@ import {
   ActivityConfiguration,
   IdeaConfiguration,
 } from '../../types/configurations'
+import { ActionsList } from '../../types/models'
 import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
-import { ActionsList } from '../../types/models'
-import FileSaver from 'file-saver'
 
 interface HistoryProps {
   activity: ActivityConfiguration
@@ -42,7 +42,10 @@ interface HistoryStates {
   isDialogOpen: boolean
 }
 
-export default class History extends React.Component<HistoryProps, HistoryStates> {
+export default class History extends React.Component<
+  HistoryProps,
+  HistoryStates
+> {
   constructor(props: HistoryProps) {
     super(props)
     this.state = {

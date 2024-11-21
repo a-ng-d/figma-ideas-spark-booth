@@ -5,14 +5,14 @@ import {
   ActivityConfiguration,
 } from '../types/configurations'
 import { ActionsList } from '../types/models'
-import addToBoard from './export/addToBoard'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
-import endSession from './updates/endSession'
+import addToBoard from './export/addToBoard'
 import exportCsv from './export/exportCsv'
 import getProPlan from './getProPlan'
+import endSession from './updates/endSession'
 import startSession from './updates/startSession'
 import updateParticipants from './updates/updateParticipants'
 
