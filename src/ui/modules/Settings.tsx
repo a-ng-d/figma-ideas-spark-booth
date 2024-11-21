@@ -1,11 +1,13 @@
 import {
   Bar,
   Button,
+  Chip,
   Dialog,
   Dropdown,
   FormItem,
   Icon,
   Input,
+  Menu,
   SectionTitle,
   SimpleItem,
   SortableList,
@@ -157,6 +159,50 @@ export default class Settings extends React.Component<
         '*'
       )
     }
+  }
+
+  getActivityStatus = () => {
+    if (this.state.publicationStatus === 'UNPUBLISHED')
+      return (
+        <Chip state="INACTIVE">
+          {locals[this.props.lang].publication.statusUnpublished}
+        </Chip>
+      )
+    else if (
+      this.state.publicationStatus === 'CAN_BE_PUSHED' ||
+      this.state.publicationStatus === 'CAN_BE_REVERTED'
+    )
+      return (
+        <Chip>{locals[this.props.lang].publication.statusLocalChanges}</Chip>
+      )
+    else if (
+      this.state.publicationStatus === 'PUBLISHED' ||
+      this.state.publicationStatus === 'UP_TO_DATE'
+    )
+      return (
+        <Chip state="INACTIVE">
+          {locals[this.props.lang].publication.statusUptoDate}
+        </Chip>
+      )
+    else if (
+      this.state.publicationStatus === 'MUST_BE_PULLED' ||
+      this.state.publicationStatus === 'MAY_BE_PULLED'
+    )
+      return (
+        <Chip>{locals[this.props.lang].publication.statusRemoteChanges}</Chip>
+      )
+    else if (this.state.publicationStatus === 'IS_NOT_FOUND')
+      return (
+        <Chip state="INACTIVE">
+          {locals[this.props.lang].publication.statusNotFound}
+        </Chip>
+      )
+    else if (this.state.publicationStatus === 'WAITING')
+      return (
+        <Chip state="INACTIVE">
+          {locals[this.props.lang].publication.statusWaiting}
+        </Chip>
+      )
   }
 
   // Handlers
@@ -954,6 +1000,12 @@ export default class Settings extends React.Component<
               <span className={`${texts['type']} type`}>
                 {this.props.activity.name}
               </span>
+              {this.getActivityStatus()}
+              {this.props.activity.meta.publicationStatus.isShared && (
+                <Chip state="ACTIVE">
+                  {locals[this.props.lang].publication.statusShared}
+                </Chip>
+              )}
             </div>
           }
           rightPartSlot={
@@ -962,13 +1014,12 @@ export default class Settings extends React.Component<
                 isActive={
                   features.find(
                     (feature) => feature.name === 'ACTIVITIES_DELETE'
-                  )?.isActive
+                  )?.isActive && this.state.publicationStatus === 'UNPUBLISHED'
                 }
               >
                 <Button
                   type="icon"
                   icon="trash"
-                  feature="DELETE_ACTIVITY"
                   action={() => this.setState({ isDialogOpen: true })}
                 />
               </Feature>
@@ -976,7 +1027,7 @@ export default class Settings extends React.Component<
                 isActive={
                   features.find(
                     (feature) => feature.name === 'ACTIVITIES_PUBLISH'
-                  )?.isActive
+                  )?.isActive && this.state.publicationStatus === 'UNPUBLISHED'
                 }
               >
                 <Button
@@ -1018,6 +1069,49 @@ export default class Settings extends React.Component<
                         )
                       })
                   }}
+                />
+              </Feature>
+              <Feature
+                isActive={
+                  features.find(
+                    (feature) => feature.name === 'ACTIVITIES_PUBLISH'
+                  )?.isActive && this.state.publicationStatus !== 'UNPUBLISHED'
+                }
+              >
+                <Menu
+                  id="open-publication-actions"
+                  type="ICON"
+                  icon="ellipsis"
+                  options={[
+                    {
+                      type: 'TITLE',
+                      label: locals[this.props.lang].publication.title,
+                    },
+                    {
+                      label: locals[this.props.lang].publication.publish,
+                      type: 'OPTION',
+                      action: () => null,
+                    },
+                    {
+                      label: locals[this.props.lang].publication.unpublish,
+                      type: 'OPTION',
+                      action: () => null,
+                    },
+                    {
+                      label: locals[this.props.lang].publication.share,
+                      type: 'OPTION',
+                      action: () => null,
+                    },
+                    {
+                      type: 'SEPARATOR',
+                    },
+                    {
+                      label: locals[this.props.lang].settings.global.delete,
+                      type: 'OPTION',
+                      action: () => this.setState({ isDialogOpen: true }),
+                    },
+                  ]}
+                  alignment="BOTTOM_RIGHT"
                 />
               </Feature>
               <Feature
