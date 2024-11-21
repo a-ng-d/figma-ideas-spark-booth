@@ -92,7 +92,7 @@ export default class Activities extends React.Component<
           },
           dates: {
             createdAt: new Date().toISOString(),
-            updatedAt: '',
+            updatedAt: new Date().toISOString(),
             publishedAt: '',
           },
           creatorIdentity: {
@@ -125,11 +125,14 @@ export default class Activities extends React.Component<
       )
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.meta.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity) {
           item.name =
             hasSameName.length > 1
               ? currentElement.value + ' 2'
               : currentElement.value
+          item.meta.dates.updatedAt = new Date().toISOString()
+        }
+
         return item
       })
 
@@ -138,8 +141,11 @@ export default class Activities extends React.Component<
 
     const updateDescription = () => {
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.meta.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity) {
           item.description = currentElement.value
+          item.meta.dates.updatedAt = new Date().toISOString()
+        }
+
         return item
       })
 
@@ -148,8 +154,11 @@ export default class Activities extends React.Component<
 
     const updateInstructions = () => {
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.meta.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity) {
           item.instructions = currentElement.value
+          item.meta.dates.updatedAt = new Date().toISOString()
+        }
+
         return item
       })
 
@@ -158,10 +167,13 @@ export default class Activities extends React.Component<
 
     const updateGroupedBy = () => {
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.meta.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity) {
           item.groupedBy = currentElement.dataset.value as
             | 'PARTICIPANT'
             | 'TYPE'
+          item.meta.dates.updatedAt = new Date().toISOString()
+        }
+
         return item
       })
 
@@ -175,8 +187,11 @@ export default class Activities extends React.Component<
       Number.isNaN(minutes) ? (minutes = 0) : minutes
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.meta.id === this.state.openedActivity)
+        if (item.meta.id === this.state.openedActivity) {
           item.timer.minutes = minutes
+          item.meta.dates.updatedAt = new Date().toISOString()
+        }
+
         return item
       })
 
@@ -194,6 +209,7 @@ export default class Activities extends React.Component<
           if (item.timer.minutes === 0 && item.timer.seconds < 30)
             item.timer.seconds = 30
           else item.timer.seconds = seconds
+          item.meta.dates.updatedAt = new Date().toISOString()
         }
 
         return item
@@ -228,7 +244,10 @@ export default class Activities extends React.Component<
 
   typesHandler = (types: Array<TypeConfiguration>) => {
     this.activitiesMessage.data = this.props.activities.map((activity) => {
-      if (activity.meta.id === this.state.openedActivity) activity.types = types
+      if (activity.meta.id === this.state.openedActivity) {
+        activity.types = types
+        activity.meta.dates.updatedAt = new Date().toISOString()
+      }
       return activity
     })
 

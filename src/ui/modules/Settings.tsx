@@ -15,7 +15,7 @@ import {
 import React from 'react'
 import { uid } from 'uid'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PublicationStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   ColorConfiguration,
@@ -25,6 +25,7 @@ import {
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import features, {
+  activitiesDbTableName,
   blueColor,
   grayColor,
   greenColor,
@@ -40,6 +41,7 @@ import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 import { UserSession } from '../../types/user'
 import publishActivity from '../../bridges/publication/publishActivity'
+import { supabase } from '../../bridges/publication/authentication'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -65,6 +67,8 @@ interface SettingsProps {
 
 interface SettingsStates {
   isDialogOpen: boolean
+  isActivityShared: boolean
+  publicationStatus: PublicationStatus
   isPrimaryActionLoading: boolean
 }
 
@@ -76,7 +80,82 @@ export default class Settings extends React.Component<
     super(props)
     this.state = {
       isDialogOpen: false,
+      isActivityShared: this.props.activity.meta.publicationStatus.isShared,
+      publicationStatus: 'WAITING',
       isPrimaryActionLoading: false,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount = () => {
+    if (this.props.activity.meta.publicationStatus.isPublished)
+      this.callUICPAgent()
+    else
+      this.setState({
+        publicationStatus: 'UNPUBLISHED',
+      })
+  }
+
+  componentDidUpdate = (prevProps: Readonly<SettingsProps>) => {
+    if (
+      this.props.activity.meta.publicationStatus.isPublished &&
+      prevProps.activity.meta.id !== this.props.activity.meta.id
+    )
+      this.callUICPAgent()
+    else if (
+      !this.props.activity.meta.publicationStatus.isPublished &&
+      prevProps.activity.meta.id !== this.props.activity.meta.id
+    )
+      this.setState({
+        publicationStatus: 'UNPUBLISHED',
+      })
+  }
+
+  // Direct actions
+  callUICPAgent = async () => {
+    const localUserId = this.props.userSession.userId,
+      localPublicationDate = new Date(
+        this.props.activity.meta.dates.publishedAt
+      ),
+      localUpdatedDate = new Date(this.props.activity.meta.dates.updatedAt)
+
+    const { data, error } = await supabase
+      .from(activitiesDbTableName)
+      .select('*')
+      .eq('activity_id', this.props.activity.meta.id)
+
+    if (!error && data.length !== 0) {
+      const isMyActivity = data?.[0].creator_id === localUserId
+
+      if (new Date(data[0].published_at) > localPublicationDate)
+        this.setState({
+          publicationStatus: isMyActivity ? 'MUST_BE_PULLED' : 'MAY_BE_PULLED',
+        })
+      else if (new Date(data[0].published_at) < localUpdatedDate)
+        this.setState({
+          publicationStatus: isMyActivity ? 'CAN_BE_PUSHED' : 'CAN_BE_REVERTED',
+        })
+      else
+        this.setState({
+          publicationStatus: isMyActivity ? 'PUBLISHED' : 'UP_TO_DATE',
+        })
+    } else if (data?.length === 0)
+      this.setState({
+        publicationStatus: 'IS_NOT_FOUND',
+      })
+    else if (error) {
+      this.setState({
+        publicationStatus: 'WAITING',
+      })
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'SEND_MESSAGE',
+            message: locals[this.props.lang].error.noInternetConnection,
+          },
+        },
+        '*'
+      )
     }
   }
 

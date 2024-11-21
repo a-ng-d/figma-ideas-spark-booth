@@ -72,3 +72,14 @@ export interface ContextItem {
   isUpdated: boolean
   isActive: boolean
 }
+
+export type PublicationStatus =
+  | 'UNPUBLISHED'
+  | 'CAN_BE_PUSHED'
+  | 'MUST_BE_PULLED'
+  | 'MAY_BE_PULLED'
+  | 'PUBLISHED'
+  | 'UP_TO_DATE'
+  | 'CAN_BE_REVERTED'
+  | 'IS_NOT_FOUND'
+  | 'WAITING'
