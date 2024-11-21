@@ -203,7 +203,7 @@ export default class Shortcuts extends React.Component<
                           type: 'OPTION',
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
-                            signIn()
+                            signIn(this.props.userIdentity.id)
                               .then(() => {
                                 trackSignInEvent(
                                   this.props.userIdentity.id,
