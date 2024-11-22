@@ -1,9 +1,10 @@
 import {
   ActionsItem,
   Button,
+  Chip,
+  layouts,
   SectionTitle,
   SimpleItem,
-  texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
@@ -64,33 +65,8 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                 id={activity.meta.id}
                 name={activity.name}
                 description={activity.description}
-                complementSlot={
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: 'var(--size-xxsmall)',
-                    }}
-                  >
-                    {activity.types.map((type, index) => (
-                      <div
-                        key={index}
-                        className="color-chip"
-                        style={{
-                          backgroundColor: type.hex,
-                        }}
-                      />
-                    ))}
-                  </div>
-                }
                 actionsSlot={
                   <>
-                    <span
-                      className={`${texts.type} ${texts['type--secondary']} type`}
-                    >
-                      {String(activity.timer.minutes).padStart(2, '0') +
-                        ':' +
-                        String(activity.timer.seconds).padStart(2, '0')}
-                    </span>
                     <Feature
                       isActive={
                         features.find(
@@ -140,6 +116,26 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                       />
                     </Feature>
                   </>
+                }
+                complementSlot={
+                  <div
+                    className={`${layouts['snackbar']} ${layouts['snackbar--tight']}`}
+                  >
+                    {activity.types.map((type, index) => (
+                      <div
+                        key={index}
+                        className="color-chip"
+                        style={{
+                          backgroundColor: type.hex,
+                        }}
+                      />
+                    ))}
+                    <Chip state="INACTIVE">
+                      {String(activity.timer.minutes).padStart(2, '0') +
+                        ':' +
+                        String(activity.timer.seconds).padStart(2, '0')}
+                    </Chip>
+                  </div>
                 }
               />
             )

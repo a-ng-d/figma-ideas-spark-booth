@@ -18,6 +18,7 @@ import { UserSession } from '../../types/user'
 import { activitiesDbTableName, pageSize } from '../../utils/config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import SelfActivity from '../modules/SelfActivity'
+import CommunityActivity from '../modules/CommunityActivity'
 
 interface ExternalActivitiesProps {
   context: 'SELF' | 'COMMUNITY'
@@ -113,10 +114,10 @@ export default class ExternalActivities extends React.Component<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(activitiesDbTableName)
         .select(
-          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared'
+          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, creator_full_name, creator_avatar'
         )
         .eq(
           this.props.context === 'SELF' ? 'creator_id' : 'is_shared',
@@ -126,10 +127,10 @@ export default class ExternalActivities extends React.Component<
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(activitiesDbTableName)
         .select(
-          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared'
+          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, creator_full_name, creator_avatar'
         )
         .eq(
           this.props.context === 'SELF' ? 'creator_id' : 'is_shared',
@@ -276,51 +277,87 @@ export default class ExternalActivities extends React.Component<
         )}
         {(this.state.activitiesListStatus === 'LOADED' ||
           this.state.activitiesListStatus === 'COMPLETE') &&
-          this.state.activitiesList.map((activity, index: number) => (
-            <SelfActivity
-              {...this.props}
-              {...this.state}
-              key={`activity-${index}`}
-              index={index}
-              activity={activity}
-              onChangeActivitiesList={(e) =>
-                this.setState({ activitiesList: e })
-              }
-              onChangeActivitiesListStatus={(e) =>
-                this.setState({ activitiesListStatus: e })
-              }
-              onChangeCurrentPage={(e) => this.setState({ currentPage: e })}
-              onChangeContextActionLoading={(e) =>
-                this.setState({ isContextActionLoading: e })
-              }
-              onChangeDuplicateToLocalActionLoading={(e) =>
-                this.setState({ isDuplicateToLocalActionLoading: e })
-              }
-              onSelectActivity={() =>
-                this.onSelectActivity(activity.activity_id ?? '')
-                  .finally(() => {
-                    this.setState({
-                      isDuplicateToLocalActionLoading:
-                        this.state.isDuplicateToLocalActionLoading.map(
-                          (loading, i) => (i === index ? false : loading)
-                        ),
+          this.state.activitiesList.map((activity, index: number) =>
+            this.props.context === 'SELF' ? (
+              <SelfActivity
+                {...this.props}
+                {...this.state}
+                key={`activity-${index}`}
+                index={index}
+                activity={activity}
+                onChangeActivitiesList={(e) =>
+                  this.setState({ activitiesList: e })
+                }
+                onChangeActivitiesListStatus={(e) =>
+                  this.setState({ activitiesListStatus: e })
+                }
+                onChangeCurrentPage={(e) => this.setState({ currentPage: e })}
+                onChangeContextActionLoading={(e) =>
+                  this.setState({ isContextActionLoading: e })
+                }
+                onChangeDuplicateToLocalActionLoading={(e) =>
+                  this.setState({ isDuplicateToLocalActionLoading: e })
+                }
+                onSelectActivity={() =>
+                  this.onSelectActivity(activity.activity_id ?? '')
+                    .finally(() => {
+                      this.setState({
+                        isDuplicateToLocalActionLoading:
+                          this.state.isDuplicateToLocalActionLoading.map(
+                            (loading, i) => (i === index ? false : loading)
+                          ),
+                      })
                     })
-                  })
-                  .catch(() => {
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'SEND_MESSAGE',
-                          message:
-                            locals[this.props.lang].error.duplicateToLocal,
+                    .catch(() => {
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SEND_MESSAGE',
+                            message:
+                              locals[this.props.lang].error.duplicateToLocal,
+                          },
                         },
-                      },
-                      '*'
-                    )
-                  })
-              }
-            />
-          ))}
+                        '*'
+                      )
+                    })
+                }
+              />
+            ) : (
+              <CommunityActivity
+                {...this.props}
+                {...this.state}
+                key={`activity-${index}`}
+                index={index}
+                activity={activity}
+                onChangeDuplicateToLocalActionLoading={(e) =>
+                  this.setState({ isDuplicateToLocalActionLoading: e })
+                }
+                onSelectActivity={() =>
+                  this.onSelectActivity(activity.activity_id ?? '')
+                    .finally(() => {
+                      this.setState({
+                        isDuplicateToLocalActionLoading:
+                          this.state.isDuplicateToLocalActionLoading.map(
+                            (loading, i) => (i === index ? false : loading)
+                          ),
+                      })
+                    })
+                    .catch(() => {
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SEND_MESSAGE',
+                            message:
+                              locals[this.props.lang].error.duplicateToLocal,
+                          },
+                        },
+                        '*'
+                      )
+                    })
+                }
+              />
+            )
+          )}
         <div className="list-control">{fragment}</div>
       </ul>
     )

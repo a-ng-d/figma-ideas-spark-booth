@@ -1,9 +1,10 @@
 import {
   ActionsItem,
   Button,
+  Chip,
   ConsentConfiguration,
+  layouts,
   Menu,
-  texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import shareActivity from '../../bridges/publication/shareActivity'
@@ -44,24 +45,6 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
         id={this.props.activity.activity_id}
         name={this.props.activity.name}
         description={this.props.activity.description}
-        complementSlot={
-          <div
-            style={{
-              display: 'flex',
-              gap: 'var(--size-xxsmall)',
-            }}
-          >
-            {this.props.activity.types.map((type, index) => (
-              <div
-                key={index}
-                className="color-chip"
-                style={{
-                  backgroundColor: type.hex,
-                }}
-              />
-            ))}
-          </div>
-        }
         indicator={
           this.props.activity.is_shared
             ? {
@@ -72,11 +55,6 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
         }
         actionsSlot={
           <>
-            <span className={`${texts.type} ${texts['type--secondary']} type`}>
-              {String(this.props.activity.timer_minutes).padStart(2, '0') +
-                ':' +
-                String(this.props.activity.timer_seconds).padStart(2, '0')}
-            </span>
             <Menu
               id="publication-options"
               icon="ellipsis"
@@ -263,6 +241,26 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
               }}
             />
           </>
+        }
+        complementSlot={
+          <div
+            className={`${layouts['snackbar']} ${layouts['snackbar--tight']}`}
+          >
+            {this.props.activity.types.map((type, index) => (
+              <div
+                key={index}
+                className="color-chip"
+                style={{
+                  backgroundColor: type.hex,
+                }}
+              />
+            ))}
+            <Chip state="INACTIVE">
+              {String(this.props.activity.timer_minutes).padStart(2, '0') +
+                ':' +
+                String(this.props.activity.timer_seconds).padStart(2, '0')}
+            </Chip>
+          </div>
         }
       />
     )
