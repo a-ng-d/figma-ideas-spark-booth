@@ -1,8 +1,8 @@
 import { lang, locals } from '../../content/locals'
 import { ActivityConfiguration } from '../../types/configurations'
-import { ExternalActivities } from '../../types/data'
+import { ExternalActivitiesData } from '../../types/data'
 
-const duplicatePublishedActivity = async (data: ExternalActivities) => {
+const duplicatePublishedActivity = async (data: ExternalActivitiesData) => {
   const newActivity: ActivityConfiguration = {
       name: data.name,
       description: data.description,

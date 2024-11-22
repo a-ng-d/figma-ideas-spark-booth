@@ -1,6 +1,6 @@
 import { GroupedBy, TypeConfiguration } from './configurations'
 
-export interface ExternalActivities {
+export interface ExternalActivitiesData {
   activity_id: string
   name: string
   description: string

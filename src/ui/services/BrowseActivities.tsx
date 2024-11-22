@@ -11,6 +11,7 @@ import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Activities from '../contexts/Activities'
+import Explore from '../contexts/Explore'
 
 interface BrowseActivitiesProps {
   activities: Array<ActivityConfiguration>
@@ -61,7 +62,7 @@ export default class BrowseActivities extends React.Component<
         break
       }
       case 'EXPLORE': {
-        fragment = <div></div>
+        fragment = <Explore {...this.props} />
         break
       }
     }

@@ -9,7 +9,7 @@ import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import LocalActivities from '../contexts/LocalActivities'
-import MyActivities from '../contexts/MyActivities'
+import ExternalActivities from '../contexts/ExternalActivities'
 
 interface ActivitiesListProps {
   activities: Array<ActivityConfiguration>
@@ -57,7 +57,12 @@ export default class ActivitiesList extends React.Component<
         break
       }
       case 'ACTIVITIES_SELF': {
-        fragment = <MyActivities {...this.props} />
+        fragment = (
+          <ExternalActivities
+            context="SELF"
+            {...this.props}
+          />
+        )
         break
       }
     }
