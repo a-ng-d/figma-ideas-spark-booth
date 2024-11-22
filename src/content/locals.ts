@@ -41,6 +41,7 @@ export const locals: { [key: string]: any } = {
       statusShared: 'Shared',
       statusLocalChanges: 'Local changes',
       statusUptoDate: 'No change',
+      statusPublished: 'Published',
       statusUnpublished: 'Unpublished',
       statusRemoteChanges: 'Remote changes',
       statusWaiting: 'Pending…',

@@ -65,6 +65,15 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                 id={activity.meta.id}
                 name={activity.name}
                 description={activity.description}
+                indicator={
+                  activity.meta.publicationStatus.isPublished
+                    ? {
+                        status: 'ACTIVE',
+                        label:
+                          locals[this.props.lang].publication.statusPublished,
+                      }
+                    : undefined
+                }
                 actionsSlot={
                   <>
                     <Feature
@@ -136,6 +145,14 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                         String(activity.timer.seconds).padStart(2, '0')}
                     </Chip>
                   </div>
+                }
+                user={
+                  activity.meta.publicationStatus.isPublished
+                    ? {
+                        avatar: activity.meta.creatorIdentity.avatar ?? '',
+                        name: activity.meta.creatorIdentity.fullName ?? '',
+                      }
+                    : undefined
                 }
               />
             )

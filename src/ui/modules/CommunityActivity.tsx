@@ -34,10 +34,6 @@ export default class CommunityActivity extends React.Component<CommunityActivity
         id={this.props.activity.activity_id}
         name={this.props.activity.name}
         description={this.props.activity.description}
-        user={{
-          avatar: this.props.activity.creator_avatar ?? '',
-          name: this.props.activity.creator_full_name ?? '',
-        }}
         actionsSlot={
           <Button
             type="secondary"
@@ -75,6 +71,10 @@ export default class CommunityActivity extends React.Component<CommunityActivity
             </Chip>
           </div>
         }
+        user={{
+          avatar: this.props.activity.creator_avatar ?? '',
+          name: this.props.activity.creator_full_name ?? '',
+        }}
       />
     )
   }
