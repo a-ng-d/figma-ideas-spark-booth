@@ -155,13 +155,12 @@ export default class ExternalActivities extends React.Component<
     }
 
     if (!error) {
-      const batch = this.state.activitiesList.concat(
-        data as Array<ExternalActivitiesData>
-      )
       this.setState({
-        activitiesList: batch,
+        activitiesList: this.state.activitiesList.concat(
+          data as Array<ExternalActivitiesData>
+        ),
         activitiesListStatus: this.updateStatus(
-          batch,
+          data as Array<ExternalActivitiesData>,
           currentPage,
           searchQuery
         ),
