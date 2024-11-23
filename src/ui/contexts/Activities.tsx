@@ -126,7 +126,10 @@ export default class Activities extends React.Component<
       )
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
-        if (item.meta.id === this.state.openedActivity) {
+        if (
+          item.meta.id === this.state.openedActivity &&
+          currentElement.value.length > 0
+        ) {
           item.name =
             hasSameName.length > 1
               ? currentElement.value + ' 2'
