@@ -5,8 +5,10 @@
   "main": "code.js",
   "scripts": {
     "start": "npm-run-all -p start:auth_worker start:auth_lobby start:dev",
+    "clone:announcements_worker": "git clone https://github.com/a-ng-d/announcements-yelbolt-worker.git && cd announcements-yelbolt-worker && npm install",
     "clone:auth_worker": "git clone https://github.com/a-ng-d/auth-yelbolt-worker.git && cd auth-yelbolt-worker && npm install",
     "clone:auth_lobby": "git clone https://github.com/a-ng-d/auth-ui-color-palette.git && cd auth-ui-color-palette && npm install",
+    "start:announcements_worker": "cd ../announcements-yelbolt-worker && npm run start:8888",
     "start:auth_worker": "cd ../auth-yelbolt-worker && npm run start:8787",
     "start:auth_lobby": "cd ../auth-ui-color-palette && npm start",
     "start:dev": "npx webpack --mode=development --watch",
