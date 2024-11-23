@@ -805,20 +805,43 @@ export default class Publication extends React.Component<
         select={this.publicationOption(this.state.publicationStatus)}
         onClose={this.props.onClosePublication}
       >
-        <div className={`dialog__text`}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--size-xxsmall)',
-            }}
-          >
-            <div className={`${texts.type} type--large`}>
-              {this.props.activity.name}
-              <Chip state="INACTIVE">
-                {`${this.props.activity.timer.minutes.toString().padStart(2, '0')}:${this.props.activity.timer.seconds.toString().padStart(2, '0')}`}
-              </Chip>
-              {this.getPaletteStatus()}
+        <div
+          className={`dialog__text`}
+          style={{ width: '100%' }}
+        >
+          <div className={`${layouts.stackbar} ${layouts['stackbar--tight']}`}>
+            <div
+              className={`${layouts.snackbar} ${layouts['snackbar--fill']} ${layouts['snackbar--medium']}`}
+              style={{ justifyContent: 'space-between', width: '100%' }}
+            >
+              <div className={`${layouts.snackbar}`}>
+                <div
+                  className={`${texts.type} ${texts['type--truncated']} type--large`}
+                  style={{ maxWidth: '200px' }}
+                >
+                  {this.props.activity.name}
+                </div>
+                <Chip state="INACTIVE">
+                  {`${this.props.activity.timer.minutes.toString().padStart(2, '0')}:${this.props.activity.timer.seconds.toString().padStart(2, '0')}`}
+                </Chip>
+                {this.getPaletteStatus()}
+              </div>
+              {(this.state.publicationStatus === 'UP_TO_DATE' ||
+                this.state.publicationStatus === 'MAY_BE_PULLED' ||
+                this.state.publicationStatus === 'CAN_BE_REVERTED') && (
+                <div className="user">
+                  <div className="user__avatar">
+                    <img
+                      src={this.props.activity.meta.creatorIdentity.avatar}
+                    />
+                  </div>
+                  <div
+                    className={`${texts.type} ${texts['type--secondary']} type user__name`}
+                  >
+                    {this.props.activity.meta.creatorIdentity.fullName}
+                  </div>
+                </div>
+              )}
             </div>
             {this.props.activity.description !== '' && (
               <div className={`${texts.type} type`}>
@@ -857,20 +880,6 @@ export default class Publication extends React.Component<
                 />
               ))}
             </ul>
-            {(this.state.publicationStatus === 'UP_TO_DATE' ||
-              this.state.publicationStatus === 'MAY_BE_PULLED' ||
-              this.state.publicationStatus === 'CAN_BE_REVERTED') && (
-              <div className="user">
-                <div className="user__avatar">
-                  <img src={this.props.userIdentity.avatar} />
-                </div>
-                <div
-                  className={`${texts.type} ${texts['type--secondary']} type`}
-                >
-                  {this.props.userIdentity.fullName}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </Dialog>

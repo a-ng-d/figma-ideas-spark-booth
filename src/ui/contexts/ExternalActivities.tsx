@@ -62,8 +62,15 @@ export default class ExternalActivities extends React.Component<
   componentDidMount = async () => {
     const actions: ActionsList = {
       UNLOADED: () => {
-        this.callUICPAgent(1, '')
-        this.setState({ activitiesListStatus: 'LOADING' })
+        if (
+          this.props.userSession.connectionStatus !== 'CONNECTED' &&
+          this.props.context === 'SELF'
+        )
+          this.setState({ activitiesListStatus: 'SIGN_IN_FIRST' })
+        else {
+          this.setState({ activitiesListStatus: 'LOADING' })
+          this.callUICPAgent(1, '')
+        }
       },
       LOADING: () => null,
       COMPLETE: () => null,
@@ -84,6 +91,12 @@ export default class ExternalActivities extends React.Component<
     ) {
       this.callUICPAgent(1, '')
     }
+    if (
+      prevProps.userSession.connectionStatus !==
+        this.props.userSession.connectionStatus &&
+      this.props.context === 'SELF'
+    )
+      this.setState({ activitiesListStatus: 'SIGN_IN_FIRST' })
     if (prevState.activitiesList.length !== this.state.activitiesList.length)
       this.setState({
         isDuplicateToLocalActionLoading: Array(

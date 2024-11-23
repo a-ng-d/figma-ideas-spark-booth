@@ -51,7 +51,7 @@ export const locals: { [key: string]: any } = {
       synchronize: 'Synchronize…',
       revert: 'Revert',
       detach: 'Detach',
-      signIn: 'Sign in to publish',
+      signIn: 'Sign in to publish or synchronize',
     },
     actions: {
       duplicateToLocal: 'Duplicate to local',
@@ -101,6 +101,7 @@ export const locals: { [key: string]: any } = {
         },
         publish: 'Publish activity',
         synchronize: 'Synchronize activity',
+        signIn: 'Sign in to publish',
         delete: 'Delete activity',
       },
       timer: {

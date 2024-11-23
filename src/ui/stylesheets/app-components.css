@@ -99,11 +99,16 @@ div.user__avatar {
   height: var(--size-small);
   border-radius: var(--size-small);
   overflow: hidden;
+  flex: 0 0 var(--size-small);
 }
 
 div.user__avatar img {
   width: 100%;
   height: 100%;
+}
+
+div.user__name {
+  text-wrap: nowrap;
 }
 
 /* Group */

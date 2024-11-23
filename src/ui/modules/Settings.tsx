@@ -844,12 +844,13 @@ export default class Settings extends React.Component<
                     >
                       <span
                         className={`${texts['type']} ${texts['type--truncated']} type`}
-                        style={{ flex: '0 0 148px' }}
+                        style={{ flex: '0 0 200px' }}
                       >
                         {setFriendlyDate(session.metrics.startDate, 'en-US')}
                       </span>
                       <span
                         className={`${texts['type']} ${texts['type--secondary']} type`}
+                        style={{ flex: '0 0 auto' }}
                       >
                         {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}・${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
                       </span>
@@ -889,7 +890,7 @@ export default class Settings extends React.Component<
               </span>
               {this.props.activity.meta.publicationStatus.isShared && (
                 <Chip state="ACTIVE">
-                  {locals[this.props.lang].publication.statusShared}
+                  {locals[this.props.lang].publication.statusPublished}
                 </Chip>
               )}
             </div>
@@ -916,20 +917,28 @@ export default class Settings extends React.Component<
                   )?.isActive
                 }
               >
-                <Button
-                  type="secondary"
-                  label={
-                    this.props.userSession.userId ===
-                      this.props.activity.meta.creatorIdentity.id ||
-                    this.props.userSession.connectionStatus === 'UNCONNECTED' ||
-                    !this.props.activity.meta.publicationStatus.isPublished
-                      ? locals[this.props.lang].settings.global.publish
-                      : locals[this.props.lang].settings.global.synchronize
-                  }
-                  action={() =>
-                    this.setState({ isPublicationDialogOpen: true })
-                  }
-                />
+                {this.props.activity.meta.publicationStatus.isPublished ? (
+                  <Button
+                    type="secondary"
+                    label={
+                      this.props.userSession.userId ===
+                      this.props.activity.meta.creatorIdentity.id
+                        ? locals[this.props.lang].settings.global.publish
+                        : locals[this.props.lang].settings.global.synchronize
+                    }
+                    action={() =>
+                      this.setState({ isPublicationDialogOpen: true })
+                    }
+                  />
+                ) : (
+                  <Button
+                    type="secondary"
+                    label={locals[this.props.lang].settings.global.publish}
+                    action={() =>
+                      this.setState({ isPublicationDialogOpen: true })
+                    }
+                  />
+                )}
               </Feature>
               <Feature
                 isActive={
