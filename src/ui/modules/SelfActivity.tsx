@@ -15,6 +15,7 @@ import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
 import { pageSize } from '../../utils/config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
+import ColorChip from '../components/ColorChip'
 
 interface SelfActivityProps {
   activity: ExternalActivitiesData
@@ -247,12 +248,10 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
             className={`${layouts['snackbar']} ${layouts['snackbar--tight']}`}
           >
             {this.props.activity.types.map((type, index) => (
-              <div
+              <ColorChip
                 key={index}
-                className="color-chip"
-                style={{
-                  backgroundColor: type.hex,
-                }}
+                color={type.hex}
+                helper={type.name}
               />
             ))}
             <Chip state="INACTIVE">

@@ -21,6 +21,7 @@ import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
+import ColorChip from '../components/ColorChip'
 
 interface CreateIdeasProps {
   activity: ActivityConfiguration
@@ -115,14 +116,7 @@ export default class CreateIdeas extends React.Component<
             <Menu
               id={'update-type'}
               type="ICON"
-              customIcon={
-                <div
-                  className="color-chip"
-                  style={{
-                    backgroundColor: this.state.currentType.hex,
-                  }}
-                />
-              }
+              customIcon={<ColorChip color={this.state.currentType.hex} />}
               options={this.typesHandler()}
               selected={this.state.currentType.id}
               state={

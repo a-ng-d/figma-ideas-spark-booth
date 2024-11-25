@@ -46,6 +46,7 @@ import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 import Publication from './Publication'
+import ColorChip from '../components/ColorChip'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -616,12 +617,7 @@ export default class Settings extends React.Component<
                 >
                   <>
                     <div className="draggable-item__param--square">
-                      <div
-                        className="color-chip"
-                        style={{
-                          backgroundColor: type.hex,
-                        }}
-                      />
+                      <ColorChip color={type.hex} />
                     </div>
                     <div className="draggable-item__param--compact">
                       <Dropdown

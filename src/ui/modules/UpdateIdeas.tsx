@@ -27,6 +27,7 @@ import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
+import ColorChip from '../components/ColorChip'
 
 interface UpdateIdeasProps {
   activity: ActivityConfiguration
@@ -196,14 +197,7 @@ export default class UpdateIdeas extends React.Component<
                         <Menu
                           id={`update-type-${index}`}
                           type="ICON"
-                          customIcon={
-                            <div
-                              className="color-chip"
-                              style={{
-                                backgroundColor: idea.type.hex,
-                              }}
-                            />
-                          }
+                          customIcon={<ColorChip color={idea.type.hex} />}
                           options={this.typesHandler()}
                           selected={idea.type.id}
                           state={

@@ -18,6 +18,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
+import ColorChip from '../components/ColorChip'
 
 interface FacilitatorInfoProps {
   activity: ActivityConfiguration
@@ -86,10 +87,7 @@ export default class FacilitatorInfo extends React.Component<
                     key={index}
                     leftPartSlot={
                       <div className={layouts['snackbar--medium']}>
-                        <div
-                          className="color-chip"
-                          style={{ backgroundColor: ideas[0].type.hex }}
-                        />
+                        <ColorChip color={ideas[0].type.hex} />
                         <span
                           className={`type ${texts['type']}`}
                         >{`${ideas.length} ${ideas[0].type.name}`}</span>
@@ -191,10 +189,7 @@ export default class FacilitatorInfo extends React.Component<
                       className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
                     >
                       <div className="simple-item__param">
-                        <div
-                          className="color-chip"
-                          style={{ backgroundColor: type.hex }}
-                        />
+                        <ColorChip color={type.hex} />
                       </div>
                       <div
                         className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}

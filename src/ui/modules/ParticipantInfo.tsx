@@ -14,6 +14,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
+import ColorChip from '../components/ColorChip'
 
 interface ParticipantInfoProps {
   activity: ActivityConfiguration
@@ -96,10 +97,7 @@ export default class ParticipantInfo extends React.Component<
                       className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
                     >
                       <div className="simple-item__param">
-                        <div
-                          className="color-chip"
-                          style={{ backgroundColor: type.hex }}
-                        />
+                        <ColorChip color={type.hex} />
                       </div>
                       <div
                         className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}

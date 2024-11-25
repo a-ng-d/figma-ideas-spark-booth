@@ -23,6 +23,7 @@ import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
+import ColorChip from '../components/ColorChip'
 
 interface HistoryProps {
   activity: ActivityConfiguration
@@ -480,10 +481,7 @@ export default class History extends React.Component<
                         className={`${layouts['snackbar--tight']}`}
                         style={{ flex: '0 0 64px' }}
                       >
-                        <div
-                          className="color-chip"
-                          style={{ backgroundColor: idea.type.hex }}
-                        ></div>
+                        <ColorChip color={idea.type.hex} />
                         <span
                           className={`${texts['type']} ${texts['type--secondary']} ${texts['type--truncated']} type`}
                         >

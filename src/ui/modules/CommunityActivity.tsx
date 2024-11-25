@@ -10,6 +10,7 @@ import { locals } from '../../content/locals'
 import { FetchStatus, Language, PlanStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
+import ColorChip from '../components/ColorChip'
 
 interface CommunityActivityProps {
   activity: ExternalActivitiesData
@@ -56,12 +57,10 @@ export default class CommunityActivity extends React.Component<CommunityActivity
             className={`${layouts['snackbar']} ${layouts['snackbar--tight']}`}
           >
             {this.props.activity.types.map((type, index) => (
-              <div
+              <ColorChip
                 key={index}
-                className="color-chip"
-                style={{
-                  backgroundColor: type.hex,
-                }}
+                color={type.hex}
+                helper={type.name}
               />
             ))}
             <Chip state="INACTIVE">
