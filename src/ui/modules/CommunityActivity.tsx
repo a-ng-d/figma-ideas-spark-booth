@@ -3,6 +3,7 @@ import {
   Button,
   Chip,
   ConsentConfiguration,
+  FeatureStatus,
   layouts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
@@ -11,6 +12,8 @@ import { FetchStatus, Language, PlanStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
 import ColorChip from '../components/ColorChip'
+import features from '../../utils/config'
+import Feature from '../components/Feature'
 
 interface CommunityActivityProps {
   activity: ExternalActivitiesData
@@ -29,6 +32,14 @@ interface CommunityActivityProps {
 }
 
 export default class CommunityActivity extends React.Component<CommunityActivityProps> {
+  static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_DUPLICATE: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_DUPLICATE',
+      planStatus: planStatus,
+    }),
+  })
+
   render() {
     return (
       <ActionsItem
@@ -36,21 +47,33 @@ export default class CommunityActivity extends React.Component<CommunityActivity
         name={this.props.activity.name}
         description={this.props.activity.description}
         actionsSlot={
-          <Button
-            type="secondary"
-            label={locals[this.props.lang].actions.duplicateToLocal}
-            isLoading={
-              this.props.isDuplicateToLocalActionLoading[this.props.index]
-            }
-            action={() => {
-              this.props.onChangeDuplicateToLocalActionLoading(
-                this.props.isDuplicateToLocalActionLoading.map((loading, i) =>
-                  i === this.props.index ? true : loading
+          <Feature
+            isActive={CommunityActivity.features(
+              this.props.planStatus
+            ).ACTIVITIES_DUPLICATE.isActive()}
+          >
+            <Button
+              type="secondary"
+              label={locals[this.props.lang].actions.duplicateToLocal}
+              isLoading={
+                this.props.isDuplicateToLocalActionLoading[this.props.index]
+              }
+              isBlocked={CommunityActivity.features(
+                this.props.planStatus
+              ).ACTIVITIES_DUPLICATE.isBlocked()}
+              isNew={CommunityActivity.features(
+                this.props.planStatus
+              ).ACTIVITIES_DUPLICATE.isNew()}
+              action={() => {
+                this.props.onChangeDuplicateToLocalActionLoading(
+                  this.props.isDuplicateToLocalActionLoading.map(
+                    (loading, i) => (i === this.props.index ? true : loading)
+                  )
                 )
-              )
-              this.props.onSelectActivity()
-            }}
-          />
+                this.props.onSelectActivity()
+              }}
+            />
+          </Feature>
         }
         complementSlot={
           <div
