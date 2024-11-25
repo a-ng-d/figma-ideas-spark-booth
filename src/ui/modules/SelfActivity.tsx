@@ -3,6 +3,7 @@ import {
   Button,
   Chip,
   ConsentConfiguration,
+  FeatureStatus,
   layouts,
   Menu,
 } from '@a_ng_d/figmug-ui'
@@ -13,9 +14,10 @@ import { locals } from '../../content/locals'
 import { FetchStatus, Language, PlanStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
-import { pageSize } from '../../utils/config'
+import features, { pageSize } from '../../utils/config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
+import Feature from '../components/Feature'
 
 interface SelfActivityProps {
   activity: ExternalActivitiesData
@@ -40,6 +42,24 @@ interface SelfActivityProps {
 }
 
 export default class SelfActivity extends React.Component<SelfActivityProps> {
+  static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_DUPLICATE: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_DUPLICATE',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_UNPUBLISH: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_UNPUBLISH',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_SHARE: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_SHARE',
+      planStatus: planStatus,
+    }),
+  })
+
   render() {
     return (
       <ActionsItem
@@ -63,6 +83,15 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
                 {
                   label: locals[this.props.lang].publication.unpublish,
                   type: 'OPTION',
+                  isActive: SelfActivity.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_UNPUBLISH.isActive(),
+                  isBlocked: SelfActivity.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_UNPUBLISH.isBlocked(),
+                  isNew: SelfActivity.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_UNPUBLISH.isNew(),
                   action: async () => {
                     this.props.onChangeContextActionLoading(
                       this.props.isContextActionLoading.map((loading, i) =>
@@ -152,6 +181,15 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
                     ? locals[this.props.lang].publication.unshare
                     : locals[this.props.lang].publication.share,
                   type: 'OPTION',
+                  isActive: SelfActivity.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_SHARE.isActive(),
+                  isBlocked: SelfActivity.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_SHARE.isBlocked(),
+                  isNew: SelfActivity.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_SHARE.isNew(),
                   action: async () => {
                     this.props.onChangeContextActionLoading(
                       this.props.isContextActionLoading.map((loading, i) =>
@@ -226,21 +264,33 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
               }
               alignment="BOTTOM_RIGHT"
             />
-            <Button
-              type="secondary"
-              label={locals[this.props.lang].actions.duplicateToLocal}
-              isLoading={
-                this.props.isDuplicateToLocalActionLoading[this.props.index]
-              }
-              action={() => {
-                this.props.onChangeDuplicateToLocalActionLoading(
-                  this.props.isDuplicateToLocalActionLoading.map(
-                    (loading, i) => (i === this.props.index ? true : loading)
+            <Feature
+              isActive={SelfActivity.features(
+                this.props.planStatus
+              ).ACTIVITIES_DUPLICATE.isActive()}
+            >
+              <Button
+                type="secondary"
+                label={locals[this.props.lang].actions.duplicateToLocal}
+                isLoading={
+                  this.props.isDuplicateToLocalActionLoading[this.props.index]
+                }
+                isBlocked={SelfActivity.features(
+                  this.props.planStatus
+                ).ACTIVITIES_DUPLICATE.isBlocked()}
+                isNew={SelfActivity.features(
+                  this.props.planStatus
+                ).ACTIVITIES_DUPLICATE.isNew()}
+                action={() => {
+                  this.props.onChangeDuplicateToLocalActionLoading(
+                    this.props.isDuplicateToLocalActionLoading.map(
+                      (loading, i) => (i === this.props.index ? true : loading)
+                    )
                   )
-                )
-                this.props.onSelectActivity()
-              }}
-            />
+                  this.props.onSelectActivity()
+                }}
+              />
+            </Feature>
           </>
         }
         complementSlot={

@@ -2,6 +2,7 @@ import {
   ActionsItem,
   Button,
   Chip,
+  FeatureStatus,
   layouts,
   SectionTitle,
   SimpleItem,
@@ -26,7 +27,24 @@ interface LocalActivitiesProps {
 }
 
 export default class LocalActivities extends React.Component<LocalActivitiesProps> {
-  // Render
+  static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_ADD: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_ADD',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_SETTINGS: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_SETTINGS',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_RUN: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_RUN',
+      planStatus: planStatus,
+    }),
+  })
+
   render() {
     return (
       <div className="control__block control__block--list">
@@ -39,20 +57,20 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
           }
           rightPartSlot={
             <Feature
-              isActive={
-                features.find((feature) => feature.name === 'ACTIVITIES_ADD')
-                  ?.isActive
-              }
+              isActive={LocalActivities.features(
+                this.props.planStatus
+              ).ACTIVITIES_ADD.isActive()}
             >
               <Button
                 type="icon"
                 icon="plus"
                 feature="ADD_ACTIVITY"
-                isBlocked={isBlocked('ACTIVITIES_ADD', this.props.planStatus)}
-                isNew={
-                  features.find((feature) => feature.name === 'ACTIVITIES_ADD')
-                    ?.isNew
-                }
+                isBlocked={LocalActivities.features(
+                  this.props.planStatus
+                ).ACTIVITIES_ADD.isBlocked()}
+                isNew={LocalActivities.features(
+                  this.props.planStatus
+                ).ACTIVITIES_ADD.isNew()}
                 action={this.props.onChangeActivities}
               />
             </Feature>
@@ -103,25 +121,20 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                       />
                     </Feature>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'SESSIONS_RUN'
-                        )?.isActive
-                      }
+                      isActive={LocalActivities.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_RUN.isActive()}
                     >
                       <Button
                         type="icon"
                         icon="play"
                         feature="RUN_ACTIVITY"
-                        isBlocked={isBlocked(
-                          'SESSIONS_RUN',
+                        isBlocked={LocalActivities.features(
                           this.props.planStatus
-                        )}
-                        isNew={
-                          features.find(
-                            (feature) => feature.name === 'SESSIONS_RUN'
-                          )?.isNew
-                        }
+                        ).ACTIVITIES_RUN.isBlocked()}
+                        isNew={LocalActivities.features(
+                          this.props.planStatus
+                        ).ACTIVITIES_RUN.isNew()}
                         action={() => this.props.onRunSession(activity.meta.id)}
                       />
                     </Feature>

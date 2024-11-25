@@ -1,4 +1,5 @@
-import { Feature } from '../types/app'
+import { Feature } from '@a_ng_d/figmug-ui'
+import { Service } from '../types/app'
 
 export const trialTime = 48
 export const oldTrialTime = 72
@@ -39,7 +40,7 @@ export const violetColor = '#D9B8FF'
 export const pinkColor = '#FFBDF2'
 export const lightGrayColor = '#E6E6E6'
 
-export const features: Array<Feature> =
+export const features: Array<Feature<Service>> =
   process.env.NODE_ENV === 'development'
     ? [
         {
@@ -133,6 +134,24 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
+          name: 'ACTIVITIES_DUPLICATE',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'ACTION',
+          service: ['BROWSE'],
+        },
+        {
+          name: 'ACTIVITIES_SEARCH',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: true,
+          type: 'ACTION',
+          service: ['BROWSE'],
+        },
+        {
           name: 'ACTIVITIES_SETTINGS',
           description: '',
           isActive: true,
@@ -142,7 +161,7 @@ export const features: Array<Feature> =
           service: ['BROWSE'],
         },
         {
-          name: 'SESSIONS_RUN',
+          name: 'ACTIVITIES_RUN',
           description: '',
           isActive: true,
           isPro: false,
