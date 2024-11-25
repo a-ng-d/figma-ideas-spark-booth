@@ -139,4 +139,5 @@ div.group__item--tight {
   outline: 1px solid rgba(0, 0, 0, 0.1);
   outline-offset: -1px;
   flex: 0 0 16px;
+  position: relative;
 }

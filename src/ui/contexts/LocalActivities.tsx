@@ -14,6 +14,7 @@ import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
+import ColorChip from '../components/ColorChip'
 
 interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>
@@ -131,12 +132,10 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                     className={`${layouts['snackbar']} ${layouts['snackbar--tight']}`}
                   >
                     {activity.types.map((type, index) => (
-                      <div
+                      <ColorChip
                         key={index}
-                        className="color-chip"
-                        style={{
-                          backgroundColor: type.hex,
-                        }}
+                        color={type.hex}
+                        helper={type.name}
                       />
                     ))}
                     <Chip state="INACTIVE">
