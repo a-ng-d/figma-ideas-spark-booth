@@ -4,7 +4,7 @@
   "description": "",
   "main": "code.js",
   "scripts": {
-    "start": "npm-run-all -p start:auth_worker start:auth_lobby start:dev",
+    "start": "npm-run-all -p start:auth_worker start:announcements_worker start:auth_lobby start:dev",
     "clone:announcements_worker": "git clone https://github.com/a-ng-d/announcements-yelbolt-worker.git && cd announcements-yelbolt-worker && npm install",
     "clone:auth_worker": "git clone https://github.com/a-ng-d/auth-yelbolt-worker.git && cd auth-yelbolt-worker && npm install",
     "clone:auth_lobby": "git clone https://github.com/a-ng-d/auth-ui-color-palette.git && cd auth-ui-color-palette && npm install",
@@ -59,7 +59,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@a_ng_d/figmug-ui": "^0.102.5",
+    "@a_ng_d/figmug-ui": "^0.104.3",
     "@a-ng-d/figmug.modules.do-camel-case": "^0.0.4",
     "@a-ng-d/figmug.modules.do-kebab-case": "^0.0.4",
     "@a-ng-d/figmug.modules.do-map": "^0.0.3",
