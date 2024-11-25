@@ -792,6 +792,7 @@ export default class Settings extends React.Component<
                       }
                       feature="UPDATE_DESCRIPTION"
                       isGrowing={true}
+                      onChange={this.typeHandler}
                       onBlur={this.typeHandler}
                       onConfirm={this.typeHandler}
                     />
