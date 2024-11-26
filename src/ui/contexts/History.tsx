@@ -384,7 +384,7 @@ export default class History extends React.Component<
                     feature="DELETE_SESSION"
                     isBlocked={History.features(
                       this.props.planStatus
-                    ).HISTORY_DELETE.isActive()}
+                    ).HISTORY_DELETE.isBlocked()}
                     isNew={History.features(
                       this.props.planStatus
                     ).HISTORY_DELETE.isNew()}
