@@ -19,8 +19,8 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import ColorChip from '../components/ColorChip'
 import features from '../../utils/config'
+import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface FacilitatorInfoProps {

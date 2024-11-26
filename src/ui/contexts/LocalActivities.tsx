@@ -13,8 +13,8 @@ import { Language, PlanStatus } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
 import features from '../../utils/config'
 import { AppStates } from '../App'
-import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
+import Feature from '../components/Feature'
 
 interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>

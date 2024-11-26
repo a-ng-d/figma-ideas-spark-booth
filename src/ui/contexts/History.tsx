@@ -22,8 +22,8 @@ import {
 import { ActionsList } from '../../types/models'
 import features from '../../utils/config'
 import setFriendlyDate from '../../utils/setFriendlyDate'
-import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
+import Feature from '../components/Feature'
 
 interface HistoryProps {
   activity: ActivityConfiguration
@@ -43,7 +43,10 @@ interface HistoryStates {
   isDialogOpen: boolean
 }
 
-export default class History extends React.Component<HistoryProps, HistoryStates> {
+export default class History extends React.Component<
+  HistoryProps,
+  HistoryStates
+> {
   static features = (planStatus: PlanStatus) => ({
     HISTORY_FILTER: new FeatureStatus({
       features: features,

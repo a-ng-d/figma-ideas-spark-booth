@@ -1,10 +1,10 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
+import { lang } from '../content/locals'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
-import { lang } from '../content/locals'
 
 export default class Classification {
   activityName: string

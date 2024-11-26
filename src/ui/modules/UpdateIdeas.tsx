@@ -26,8 +26,8 @@ import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { AppStates } from '../App'
-import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
+import Feature from '../components/Feature'
 
 interface UpdateIdeasProps {
   activity: ActivityConfiguration
@@ -46,7 +46,10 @@ interface UpdateIdeasStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class UpdateIdeas extends React.Component<UpdateIdeasProps, UpdateIdeasStates> {
+export default class UpdateIdeas extends React.Component<
+  UpdateIdeasProps,
+  UpdateIdeasStates
+> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 

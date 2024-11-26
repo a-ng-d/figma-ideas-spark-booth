@@ -20,8 +20,8 @@ import {
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
-import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
+import Feature from '../components/Feature'
 
 interface CreateIdeasProps {
   activity: ActivityConfiguration

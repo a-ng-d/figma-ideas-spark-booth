@@ -28,8 +28,8 @@ import features from '../../utils/config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
-import Publication from '../modules/Publication'
 import GlobalSettings from '../modules/GlobalSettings'
+import Publication from '../modules/Publication'
 import TimerSettings from '../modules/TimerSettings'
 import TypesSettings from '../modules/TypesSettings'
 
@@ -64,7 +64,10 @@ interface SettingsStates {
   isSecondaryActionLoading: boolean
 }
 
-export default class Settings extends React.Component<SettingsProps, SettingsStates> {
+export default class Settings extends React.Component<
+  SettingsProps,
+  SettingsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,

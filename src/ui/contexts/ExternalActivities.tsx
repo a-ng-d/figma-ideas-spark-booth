@@ -18,9 +18,9 @@ import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import features, { activitiesDbTableName, pageSize } from '../../utils/config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
-import SelfActivity from '../modules/SelfActivity'
-import CommunityActivity from '../modules/CommunityActivity'
 import Feature from '../components/Feature'
+import CommunityActivity from '../modules/CommunityActivity'
+import SelfActivity from '../modules/SelfActivity'
 
 interface ExternalActivitiesProps {
   context: 'SELF' | 'COMMUNITY'

@@ -11,8 +11,8 @@ import { locals } from '../../content/locals'
 import { FetchStatus, Language, PlanStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
-import ColorChip from '../components/ColorChip'
 import features from '../../utils/config'
+import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface CommunityActivityProps {
