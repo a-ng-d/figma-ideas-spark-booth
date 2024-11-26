@@ -14,7 +14,15 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
+import features, {
+  documentationUrl,
+  feedbackUrl,
+  networkUrl,
+  repositoryUrl,
+  requestsUrl,
+  supportEmail,
+  trialUrl,
+} from '../../utils/config'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 
@@ -26,8 +34,6 @@ interface ShortcutsProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   lang: Language
-  onReOpenFeedback: () => void
-  onReOpenTrialFeedback: () => void
   onReOpenHighlight: () => void
   onReOpenAbout: () => void
   onReOpenReport: () => void
@@ -39,7 +45,10 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends React.Component<ShortcutsProps, ShortcutsStates> {
+export default class Shortcuts extends React.Component<
+  ShortcutsProps,
+  ShortcutsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     SHORTCUTS_HIGHLIGHT: new FeatureStatus({
       features: features,
@@ -175,7 +184,7 @@ export default class Shortcuts extends React.Component<ShortcutsProps, Shortcuts
                         {
                           pluginMessage: {
                             type: 'OPEN_IN_BROWSER',
-                            url: 'https://uicp.link/docs',
+                            url: documentationUrl,
                           },
                         },
                         '*'
@@ -362,7 +371,7 @@ export default class Shortcuts extends React.Component<ShortcutsProps, Shortcuts
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/repository',
+                              url: repositoryUrl,
                             },
                           },
                           '*'
@@ -383,7 +392,17 @@ export default class Shortcuts extends React.Component<ShortcutsProps, Shortcuts
                       isNew: Shortcuts.features(
                         this.props.planStatus
                       ).SHORTCUTS_FEEDBACK.isNew(),
-                      action: () => this.props.onReOpenFeedback(),
+                      action: () => {
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              url: feedbackUrl,
+                            },
+                          },
+                          '*'
+                        )
+                      },
                     },
                     {
                       label: locals[this.props.lang].about.beInvolved.request,
@@ -402,7 +421,7 @@ export default class Shortcuts extends React.Component<ShortcutsProps, Shortcuts
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/request-feature',
+                              url: requestsUrl,
                             },
                           },
                           '*'
@@ -440,7 +459,7 @@ export default class Shortcuts extends React.Component<ShortcutsProps, Shortcuts
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/contact-support',
+                              url: supportEmail,
                             },
                           },
                           '*'
@@ -480,7 +499,7 @@ export default class Shortcuts extends React.Component<ShortcutsProps, Shortcuts
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/network',
+                              url: networkUrl,
                             },
                           },
                           '*'
@@ -573,7 +592,17 @@ export default class Shortcuts extends React.Component<ShortcutsProps, Shortcuts
                         isNew={Shortcuts.features(
                           this.props.planStatus
                         ).SHORTCUTS_REPORTING.isNew()}
-                        action={this.props.onReOpenTrialFeedback}
+                        action={() =>
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'OPEN_IN_BROWSER',
+                                url: trialUrl,
+                              },
+                            },
+                            '*'
+                          )
+                        }
                       />
                     </Feature>
                   )

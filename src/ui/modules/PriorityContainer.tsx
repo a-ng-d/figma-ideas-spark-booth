@@ -220,59 +220,6 @@ export default class PriorityContainer extends React.Component<
     )
   }
 
-  Feedback = () => {
-    return (
-      <Feature
-        isActive={PriorityContainer.features(
-          this.props.planStatus
-        ).SHORTCUTS_FEEDBACK.isActive()}
-      >
-        <Dialog
-          title={locals[this.props.lang].shortcuts.feedback}
-          actions={{}}
-          onClose={this.props.onClose}
-        >
-          <iframe
-            style={{
-              border: 'none',
-              width: '100%',
-            }}
-            title="Voice of the UI Color Palette Users"
-            loading="lazy"
-            src="https://tally.so/embed/w7KBNL?hideTitle=1"
-          ></iframe>
-        </Dialog>
-      </Feature>
-    )
-  }
-
-  TrialFeedback = () => {
-    return (
-      <Feature
-        isActive={PriorityContainer.features(
-          this.props.planStatus
-        ).SHORTCUTS_FEEDBACK.isActive()}
-      >
-        <Dialog
-          title={locals[this.props.lang].shortcuts.trialFeedback}
-          actions={{}}
-          onClose={this.props.onClose}
-        >
-          <iframe
-            style={{
-              border: 'none',
-              width: '100%',
-              height: '100%',
-            }}
-            title="Voice of the UI Color Palette Users"
-            loading="lazy"
-            src="https://tally.so/embed/w2Krvp?hideTitle=1"
-          ></iframe>
-        </Dialog>
-      </Feature>
-    )
-  }
-
   WelcomeToPro = () => {
     return (
       <Feature
@@ -435,8 +382,6 @@ export default class PriorityContainer extends React.Component<
         {this.props.context === 'TRY' ? <this.TryPro /> : null}
         {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
         {this.props.context === 'WELCOME_TO_PRO' ? <this.WelcomeToPro /> : null}
-        {this.props.context === 'FEEDBACK' ? <this.Feedback /> : null}
-        {this.props.context === 'TRIAL_FEEDBACK' && <this.TrialFeedback />}
         {this.props.context === 'HIGHLIGHT' ? <this.Highlight /> : null}
         {this.props.context === 'ABOUT' ? <this.About /> : null}
         {this.props.context === 'REPORT' ? <this.Report /> : null}

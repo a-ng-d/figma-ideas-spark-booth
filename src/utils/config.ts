@@ -30,6 +30,14 @@ export const activitiesStorageName =
 export const userConsentVersion = '2024.01'
 export const trialVersion = '2024.01'
 
+export const documentationUrl = ''
+export const repositoryUrl = ''
+export const supportEmail = ''
+export const feedbackUrl = ''
+export const trialUrl = ''
+export const requestsUrl = ''
+export const networkUrl = ''
+
 export const grayColor = '#AFBCCF'
 export const redColor = '#FFAFA3'
 export const orangeColor = '#FFC470'
