@@ -15,8 +15,8 @@ import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { AppStates } from '../App'
 import ActivitiesList from '../modules/ActivitiesList'
-import History from '../modules/History'
-import Settings from '../modules/Settings'
+import History from './History'
+import Settings from './Settings'
 
 interface ActivitiesProps {
   activities: Array<ActivityConfiguration>

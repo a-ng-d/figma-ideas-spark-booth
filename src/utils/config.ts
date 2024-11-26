@@ -183,7 +183,7 @@ export const features: Array<Feature<Service>> =
           isActive: true,
           isPro: false,
           isNew: false,
-          type: 'DIVISION',
+          type: 'CONTEXT',
           service: ['BROWSE'],
         },
         {
@@ -336,7 +336,7 @@ export const features: Array<Feature<Service>> =
           isActive: true,
           isPro: false,
           isNew: false,
-          type: 'DIVISION',
+          type: 'CONTEXT',
           service: ['BROWSE'],
         },
         {

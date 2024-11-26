@@ -44,9 +44,9 @@ import features, {
 } from '../../utils/config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import setFriendlyDate from '../../utils/setFriendlyDate'
-import Feature from '../components/Feature'
-import Publication from './Publication'
 import ColorChip from '../components/ColorChip'
+import Feature from '../components/Feature'
+import Publication from '../modules/Publication'
 
 interface SettingsProps {
   activity: ActivityConfiguration
