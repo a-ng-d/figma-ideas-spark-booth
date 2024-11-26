@@ -528,7 +528,7 @@ export default class Settings extends React.Component<
             id="update-timer-seconds"
             isBlocked={Settings.features(
               this.props.planStatus
-            ).SETTINGS_TIMER_SECONDS.isActive()}
+            ).SETTINGS_TIMER_SECONDS.isBlocked()}
             isNew={Settings.features(
               this.props.planStatus
             ).SETTINGS_TIMER_SECONDS.isNew()}
