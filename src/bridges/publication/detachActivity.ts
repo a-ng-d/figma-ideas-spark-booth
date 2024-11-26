@@ -1,3 +1,4 @@
+import { uid } from 'uid'
 import { lang, locals } from '../../content/locals'
 import {
   ActivityConfiguration,
@@ -8,7 +9,7 @@ const detachActivity = async (
   activity: ActivityConfiguration
 ): Promise<MetaConfiguration> => {
   const activityPublicationDetails = {
-    id: activity.meta.id,
+    id: uid(),
     dates: {
       publishedAt: '',
       createdAt: activity.meta.dates.createdAt,
