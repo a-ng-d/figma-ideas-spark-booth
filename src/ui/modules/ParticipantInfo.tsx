@@ -87,9 +87,13 @@ export default class ParticipantInfo extends React.Component<
               <div
                 style={{ paddingLeft: 'var(--size-xxsmall)' }}
                 className={`type ${texts['type']}`}
-              >
-                {this.props.activity.description}
-              </div>
+                dangerouslySetInnerHTML={{
+                  __html: this.props.activity.description.replace(
+                    /\n/g,
+                    '<br />'
+                  ),
+                }}
+              />
             </div>
           </div>
         </Feature>
@@ -114,9 +118,13 @@ export default class ParticipantInfo extends React.Component<
               <div
                 style={{ paddingLeft: 'var(--size-xxsmall)' }}
                 className={`type ${texts['type']}`}
-              >
-                {this.props.activity.instructions}
-              </div>
+                dangerouslySetInnerHTML={{
+                  __html: this.props.activity.instructions.replace(
+                    /\n/g,
+                    '<br />'
+                  ),
+                }}
+              />
             </div>
           </div>
         </Feature>
