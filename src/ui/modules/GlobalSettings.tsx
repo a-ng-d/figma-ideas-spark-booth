@@ -1,0 +1,269 @@
+import {
+  Dropdown,
+  FeatureStatus,
+  FormItem,
+  Input,
+  SectionTitle,
+  SimpleItem,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
+import { locals } from '../../content/locals'
+import { Language, PlanStatus } from '../../types/app'
+import { ActivityConfiguration } from '../../types/configurations'
+import features from '../../utils/config'
+import Feature from '../components/Feature'
+
+interface GlobalSettingsProps {
+  activity: ActivityConfiguration
+  planStatus: PlanStatus
+  lang: Language
+  onChangeActivities: (
+    event:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | Element>
+      | React.KeyboardEvent<
+          HTMLInputElement | HTMLTextAreaElement | Element | HTMLLIElement
+        >
+      | React.MouseEvent<HTMLLIElement | Element, MouseEvent>
+  ) => void
+}
+
+export default class GlobalSettings extends React.Component<GlobalSettingsProps> {
+  static features = (planStatus: PlanStatus) => ({
+    SETTINGS_GLOBAL: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GLOBAL',
+      planStatus: planStatus,
+    }),
+    SETTINGS_NAME: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_NAME',
+      planStatus: planStatus,
+    }),
+    SETTINGS_DESCRIPTION: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_DESCRIPTION',
+      planStatus: planStatus,
+    }),
+    SETTINGS_INSTRUCTIONS: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_INSTRUCTIONS',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GROUPED_BY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GROUPED_BY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GROUPED_BY_PARTICIPANT: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GROUPED_BY_PARTICIPANT',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GROUPED_BY_TYPE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GROUPED_BY_TYPE',
+      planStatus: planStatus,
+    }),
+  })
+
+  // Templates
+  Name = () => {
+    return (
+      <Feature
+        isActive={GlobalSettings.features(
+          this.props.planStatus
+        ).SETTINGS_NAME.isActive()}
+      >
+        <div className="group__item">
+          <FormItem
+            label={locals[this.props.lang].settings.global.name.label}
+            id="update-activity-name"
+            isBlocked={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isBlocked()}
+            isNew={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isNew()}
+          >
+            <Input
+              id="update-activity-name"
+              type="TEXT"
+              value={this.props.activity.name}
+              charactersLimit={64}
+              feature="RENAME_ACTIVITY"
+              isBlocked={GlobalSettings.features(
+                this.props.planStatus
+              ).SETTINGS_NAME.isBlocked()}
+              onChange={this.props.onChangeActivities}
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
+            />
+          </FormItem>
+        </div>
+      </Feature>
+    )
+  }
+
+  Description = () => {
+    return (
+      <Feature
+        isActive={GlobalSettings.features(
+          this.props.planStatus
+        ).SETTINGS_DESCRIPTION.isActive()}
+      >
+        <div className="group__item">
+          <FormItem
+            label={locals[this.props.lang].settings.global.description.label}
+            id="update-activity-description"
+            isBlocked={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_DESCRIPTION.isBlocked()}
+            isNew={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_DESCRIPTION.isNew()}
+          >
+            <Input
+              id="update-activity-description"
+              type="LONG_TEXT"
+              placeholder={"What's it for?"}
+              value={this.props.activity.description}
+              feature="UPDATE_DESCRIPTION"
+              isBlocked={GlobalSettings.features(
+                this.props.planStatus
+              ).SETTINGS_DESCRIPTION.isBlocked()}
+              isGrowing={true}
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
+            />
+          </FormItem>
+        </div>
+      </Feature>
+    )
+  }
+
+  Instructions = () => {
+    return (
+      <Feature
+        isActive={GlobalSettings.features(
+          this.props.planStatus
+        ).SETTINGS_INSTRUCTIONS.isActive()}
+      >
+        <div className="group__item">
+          <FormItem
+            label={locals[this.props.lang].settings.global.instructions.label}
+            id="update-activity-instructions"
+            isBlocked={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_INSTRUCTIONS.isBlocked()}
+            isNew={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_INSTRUCTIONS.isNew()}
+          >
+            <Input
+              id="update-activity-instructions"
+              type="LONG_TEXT"
+              placeholder={"What's it for?"}
+              value={this.props.activity.instructions}
+              feature="UPDATE_INSTRUCTIONS"
+              isBlocked={GlobalSettings.features(
+                this.props.planStatus
+              ).SETTINGS_INSTRUCTIONS.isBlocked()}
+              isGrowing={true}
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
+            />
+          </FormItem>
+        </div>
+      </Feature>
+    )
+  }
+
+  GroupedBy = () => {
+    return (
+      <Feature
+        isActive={GlobalSettings.features(
+          this.props.planStatus
+        ).SETTINGS_GROUPED_BY.isActive()}
+      >
+        <div className="group__item">
+          <FormItem
+            id="update-grouped-by"
+            label={locals[this.props.lang].settings.global.groupedBy.label}
+            isBlocked={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_GROUPED_BY.isBlocked()}
+          >
+            <Dropdown
+              id="update-grouped-by"
+              options={[
+                {
+                  label:
+                    locals[this.props.lang].settings.global.groupedBy
+                      .participant,
+                  value: 'PARTICIPANT',
+                  feature: 'UPDATE_GROUPED_BY',
+                  type: 'OPTION',
+                  position: 0,
+                  isActive: GlobalSettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_PARTICIPANT.isActive(),
+                  isBlocked: GlobalSettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_PARTICIPANT.isBlocked(),
+                  isNew: GlobalSettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_PARTICIPANT.isNew(),
+                  action: this.props.onChangeActivities,
+                },
+                {
+                  label: locals[this.props.lang].settings.global.groupedBy.type,
+                  value: 'TYPE',
+                  feature: 'UPDATE_GROUPED_BY',
+                  position: 1,
+                  type: 'OPTION',
+                  isActive: GlobalSettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_TYPE.isActive(),
+                  isBlocked: GlobalSettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_TYPE.isBlocked(),
+                  isNew: GlobalSettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_TYPE.isNew(),
+                  action: this.props.onChangeActivities,
+                },
+              ]}
+              selected={this.props.activity.groupedBy}
+              isNew={GlobalSettings.features(
+                this.props.planStatus
+              ).SETTINGS_GROUPED_BY.isNew()}
+            />
+          </FormItem>
+        </div>
+      </Feature>
+    )
+  }
+
+  // Render
+  render() {
+    return (
+      <div className="group">
+        <SimpleItem
+          leftPartSlot={
+            <SectionTitle
+              label={locals[this.props.lang].settings.global.title}
+            />
+          }
+          isListItem={false}
+        />
+        <this.Name />
+        <this.Description />
+        <this.Instructions />
+        <this.GroupedBy />
+      </div>
+    )
+  }
+}
