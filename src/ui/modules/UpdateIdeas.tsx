@@ -180,7 +180,7 @@ export default class UpdateIdeas extends React.Component<UpdateIdeasProps, Updat
         <SimpleItem
           leftPartSlot={
             <SectionTitle
-              label={'Ideas'}
+              label={locals[this.props.lang].participate.ideas}
               indicator={this.state.selfIdeas.length.toString()}
             />
           }

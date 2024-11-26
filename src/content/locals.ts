@@ -175,12 +175,20 @@ export const locals: { [key: string]: any } = {
       deleteSession: 'Delete session',
     },
     participate: {
+      ideas: 'Ideas',
       onGoing: 'Ongoing…',
       finished: 'Finished',
       flagAsDone: 'Flag facilitator you are done',
       unflagAsDone: 'Remove flag',
       noSelfIdea: 'You have not added any idea yet',
       noParticipantIdea: 'No participant has added any idea yet',
+      info: {
+        sessionIdeas: 'Session ideas',
+        participants: 'Participants',
+        types: 'Types',
+        description: 'Description',
+        instructions: 'Instructions',
+      },
       endSession: 'End session',
       endSessionDialog: {
         facilitatorTitle: 'Are you sure to end the session?',

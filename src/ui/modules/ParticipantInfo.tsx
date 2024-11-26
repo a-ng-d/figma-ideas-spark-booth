@@ -18,6 +18,7 @@ import { UserSession } from '../../types/user'
 import ColorChip from '../components/ColorChip'
 import features from '../../utils/config'
 import Feature from '../components/Feature'
+import { locals } from '../../content/locals'
 
 interface ParticipantInfoProps {
   activity: ActivityConfiguration
@@ -75,7 +76,11 @@ export default class ParticipantInfo extends React.Component<
         >
           <div className="group">
             <SimpleItem
-              leftPartSlot={<SectionTitle label={'Description'} />}
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].participate.info.description}
+                />
+              }
               isListItem={false}
             />
             <div className="group__item">
@@ -98,7 +103,11 @@ export default class ParticipantInfo extends React.Component<
         >
           <div className="group">
             <SimpleItem
-              leftPartSlot={<SectionTitle label={'Instructions'} />}
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].participate.info.instructions}
+                />
+              }
               isListItem={false}
             />
             <div className="group__item">
@@ -120,7 +129,7 @@ export default class ParticipantInfo extends React.Component<
             <SimpleItem
               leftPartSlot={
                 <SectionTitle
-                  label={'Types'}
+                  label={locals[this.props.lang].participate.info.types}
                   indicator={this.props.activity.types.length.toString()}
                 />
               }

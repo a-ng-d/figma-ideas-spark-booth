@@ -102,7 +102,7 @@ export default class FacilitatorInfo extends React.Component<
             <SimpleItem
               leftPartSlot={
                 <SectionTitle
-                  label={'Session ideas'}
+                  label={locals[this.props.lang].participate.info.sessionIdeas}
                   indicator={this.props.ideas.length.toString()}
                 />
               }
@@ -146,7 +146,7 @@ export default class FacilitatorInfo extends React.Component<
             <SimpleItem
               leftPartSlot={
                 <SectionTitle
-                  label={'Participants'}
+                  label={locals[this.props.lang].participate.info.participants}
                   indicator={this.props.activeParticipants.length.toString()}
                 />
               }
@@ -191,7 +191,11 @@ export default class FacilitatorInfo extends React.Component<
         >
           <div className="group">
             <SimpleItem
-              leftPartSlot={<SectionTitle label={'Description'} />}
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].participate.info.description}
+                />
+              }
               isListItem={false}
             />
             <div className="group__item">
@@ -214,7 +218,11 @@ export default class FacilitatorInfo extends React.Component<
         >
           <div className="group">
             <SimpleItem
-              leftPartSlot={<SectionTitle label={'Instructions'} />}
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].participate.info.instructions}
+                />
+              }
               isListItem={false}
             />
             <div className="group__item">
@@ -236,7 +244,7 @@ export default class FacilitatorInfo extends React.Component<
             <SimpleItem
               leftPartSlot={
                 <SectionTitle
-                  label={'Types'}
+                  label={locals[this.props.lang].participate.info.types}
                   indicator={this.props.activity.types.length.toString()}
                 />
               }
