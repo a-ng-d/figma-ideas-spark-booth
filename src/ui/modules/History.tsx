@@ -4,6 +4,7 @@ import {
   Dialog,
   Dropdown,
   DropdownOption,
+  FeatureStatus,
   Menu,
   Message,
   SimpleItem,
@@ -20,7 +21,6 @@ import {
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
@@ -43,10 +43,35 @@ interface HistoryStates {
   isDialogOpen: boolean
 }
 
-export default class History extends React.Component<
-  HistoryProps,
-  HistoryStates
-> {
+export default class History extends React.Component<HistoryProps, HistoryStates> {
+  static features = (planStatus: PlanStatus) => ({
+    HISTORY_FILTER: new FeatureStatus({
+      features: features,
+      featureName: 'HISTORY_FILTER',
+      planStatus: planStatus,
+    }),
+    HISTORY_SORT: new FeatureStatus({
+      features: features,
+      featureName: 'HISTORY_SORT',
+      planStatus: planStatus,
+    }),
+    HISTORY_EXPORT_CSV: new FeatureStatus({
+      features: features,
+      featureName: 'HISTORY_EXPORT_CSV',
+      planStatus: planStatus,
+    }),
+    HISTORY_ADD_TO_BOARD: new FeatureStatus({
+      features: features,
+      featureName: 'HISTORY_ADD_TO_BOARD',
+      planStatus: planStatus,
+    }),
+    HISTORY_DELETE: new FeatureStatus({
+      features: features,
+      featureName: 'HISTORY_DELETE',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: HistoryProps) {
     super(props)
     this.state = {
@@ -151,12 +176,7 @@ export default class History extends React.Component<
           label: entries[1][0].userIdentity.fullName,
           value: entries[1][0].userIdentity.id,
           feature: 'FILTER_BY_PARTICIPANT',
-          position: 0,
           type: 'OPTION',
-          isActive: true,
-          isBlocked: false,
-          isNew: false,
-          children: [],
           action: () =>
             this.setState({
               filteredBy: entries[1][0].userIdentity.id,
@@ -256,8 +276,9 @@ export default class History extends React.Component<
             <div className={layouts['snackbar--tight']}>
               <Feature
                 isActive={
-                  features.find((feature) => feature.name === 'HISTORY_SORT')
-                    ?.isActive && this.props.ideas.length > 0
+                  History.features(
+                    this.props.planStatus
+                  ).HISTORY_SORT.isActive() && this.props.ideas.length > 0
                 }
               >
                 <Dropdown
@@ -267,12 +288,7 @@ export default class History extends React.Component<
                       label: locals[this.props.lang].history.sort.recent,
                       value: 'MOST_RECENT',
                       feature: 'UPDATE_COLOR',
-                      position: 0,
                       type: 'OPTION',
-                      isActive: true,
-                      isBlocked: false,
-                      isNew: false,
-                      children: [],
                       action: () => {
                         this.setState({
                           sortedBy: 'MOST_RECENT',
@@ -284,12 +300,7 @@ export default class History extends React.Component<
                       label: locals[this.props.lang].history.sort.old,
                       value: 'OLDEST',
                       feature: 'UPDATE_COLOR',
-                      position: 0,
                       type: 'OPTION',
-                      isActive: true,
-                      isBlocked: false,
-                      isNew: false,
-                      children: [],
                       action: () => {
                         this.setState({
                           sortedBy: 'OLDEST',
@@ -299,7 +310,9 @@ export default class History extends React.Component<
                     },
                   ]}
                   selected={this.state.sortedBy}
-                  isDisabled={isBlocked('HISTORY_SORT', this.props.planStatus)}
+                  isDisabled={History.features(
+                    this.props.planStatus
+                  ).HISTORY_SORT.isBlocked()}
                   alignment="RIGHT"
                 />
               </Feature>
@@ -311,16 +324,15 @@ export default class History extends React.Component<
                     {
                       label: locals[this.props.lang].history.exportCsv,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'HISTORY_EXPORT_CSV'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'HISTORY_EXPORT_CSV',
+                      isActive: History.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'HISTORY_EXPORT_CSV'
-                      )?.isNew,
+                      ).HISTORY_EXPORT_CSV.isActive(),
+                      isBlocked: History.features(
+                        this.props.planStatus
+                      ).HISTORY_EXPORT_CSV.isBlocked(),
+                      isNew: History.features(
+                        this.props.planStatus
+                      ).HISTORY_EXPORT_CSV.isNew(),
                       action: () => {
                         parent.postMessage(
                           {
@@ -338,18 +350,20 @@ export default class History extends React.Component<
                       },
                     },
                     {
+                      type: 'SEPARATOR',
+                    },
+                    {
                       label: locals[this.props.lang].history.deleteSession,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'HISTORY_DELETE'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'HISTORY_DELETE',
+                      isActive: History.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'HISTORY_DELETE'
-                      )?.isNew,
+                      ).HISTORY_DELETE.isActive(),
+                      isBlocked: History.features(
+                        this.props.planStatus
+                      ).HISTORY_DELETE.isBlocked(),
+                      isNew: History.features(
+                        this.props.planStatus
+                      ).HISTORY_DELETE.isNew(),
                       action: () => this.setState({ isDialogOpen: true }),
                     },
                   ]}
@@ -357,28 +371,29 @@ export default class History extends React.Component<
                 />
               ) : (
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'HISTORY_DELETE'
-                    )?.isActive
-                  }
+                  isActive={History.features(
+                    this.props.planStatus
+                  ).HISTORY_DELETE.isActive()}
                 >
                   <Button
                     type="icon"
                     icon="trash"
                     feature="DELETE_SESSION"
-                    isBlocked={isBlocked(
-                      'HISTORY_DELETE',
+                    isBlocked={History.features(
                       this.props.planStatus
-                    )}
+                    ).HISTORY_DELETE.isActive()}
+                    isNew={History.features(
+                      this.props.planStatus
+                    ).HISTORY_DELETE.isNew()}
                     action={() => this.setState({ isDialogOpen: true })}
                   />
                 </Feature>
               )}
               <Feature
                 isActive={
-                  features.find((feature) => feature.name === 'HISTORY_FILTER')
-                    ?.isActive && this.props.ideas.length > 0
+                  History.features(
+                    this.props.planStatus
+                  ).HISTORY_FILTER.isActive() && this.props.ideas.length > 0
                 }
               >
                 <Menu
@@ -393,18 +408,21 @@ export default class History extends React.Component<
               </Feature>
               <Feature
                 isActive={
-                  features.find(
-                    (feature) => feature.name === 'HISTORY_ADD_TO_BOARD'
-                  )?.isActive && this.props.ideas.length > 0
+                  History.features(
+                    this.props.planStatus
+                  ).HISTORY_ADD_TO_BOARD.isActive() &&
+                  this.props.ideas.length > 0
                 }
               >
                 <Button
                   type="secondary"
                   label={locals[this.props.lang].history.addToBoard}
-                  isBlocked={isBlocked(
-                    'HISTORY_ADD_TO_BOARD',
+                  isBlocked={History.features(
                     this.props.planStatus
-                  )}
+                  ).HISTORY_ADD_TO_BOARD.isBlocked()}
+                  isNew={History.features(
+                    this.props.planStatus
+                  ).HISTORY_ADD_TO_BOARD.isNew()}
                   action={() => {
                     parent.postMessage(
                       {
@@ -428,8 +446,8 @@ export default class History extends React.Component<
         ></Bar>
         <Feature
           isActive={
-            features.find((feature) => feature.name === 'ACTIVITIES_DELETE')
-              ?.isActive && this.state.isDialogOpen
+            History.features(this.props.planStatus).HISTORY_DELETE.isActive() &&
+            this.state.isDialogOpen
           }
         >
           <Dialog

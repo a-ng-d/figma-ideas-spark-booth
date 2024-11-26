@@ -170,6 +170,15 @@ export const features: Array<Feature<Service>> =
           service: ['BROWSE'],
         },
         {
+          name: 'SETTINGS',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'DIVISION',
+          service: ['BROWSE'],
+        },
+        {
           name: 'SETTINGS_GLOBAL',
           description: '',
           isActive: true,
@@ -618,6 +627,24 @@ export const features: Array<Feature<Service>> =
           isNew: false,
           type: 'DIVISION',
           service: ['BROWSE'],
+        },
+        {
+          name: 'GET_PRO_PLAN',
+          description: 'Pro plan subscription',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'ACTION',
+          service: ['BROWSE', 'PARTICIPATE'],
+        },
+        {
+          name: 'CONSENT',
+          description: 'User vendors consent',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'DIVISION',
+          service: ['BROWSE', 'PARTICIPATE'],
         },
       ]
     : []

@@ -1,6 +1,7 @@
 import {
   ConsentConfiguration,
   Dialog,
+  FeatureStatus,
   FormItem,
   Input,
   texts,
@@ -52,6 +53,34 @@ export default class PriorityContainer extends React.Component<
   PriorityContainerStates
 > {
   counter: number
+
+  static features = (planStatus: PlanStatus) => ({
+    GET_PRO_PLAN: new FeatureStatus({
+      features: features,
+      featureName: 'GET_PRO_PLAN',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_FEEDBACK: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_FEEDBACK',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_HIGHLIGHT: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_HIGHLIGHT',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_ABOUT: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_ABOUT',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_REPORTING: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_REPORTING',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: PriorityContainerProps) {
     super(props)
@@ -112,9 +141,9 @@ export default class PriorityContainer extends React.Component<
   TryPro = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'GET_PRO_PLAN')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).GET_PRO_PLAN.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].proPlan.trial.title}
@@ -159,9 +188,9 @@ export default class PriorityContainer extends React.Component<
   WelcomeToTrial = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'GET_PRO_PLAN')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).GET_PRO_PLAN.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].proPlan.welcome.title}
@@ -194,10 +223,9 @@ export default class PriorityContainer extends React.Component<
   Feedback = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SHORTCUTS_FEEDBACK')
-            ?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_FEEDBACK.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].shortcuts.feedback}
@@ -221,10 +249,9 @@ export default class PriorityContainer extends React.Component<
   TrialFeedback = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SHORTCUTS_FEEDBACK')
-            ?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_FEEDBACK.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].shortcuts.trialFeedback}
@@ -249,9 +276,9 @@ export default class PriorityContainer extends React.Component<
   WelcomeToPro = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'GET_PRO_PLAN')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).GET_PRO_PLAN.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].proPlan.welcome.title}
@@ -284,10 +311,9 @@ export default class PriorityContainer extends React.Component<
   Highlight = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SHORTCUTS_HIGHLIGHT')
-            ?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_HIGHLIGHT.isActive()}
       >
         <Highlight
           {...this.props}
@@ -300,10 +326,9 @@ export default class PriorityContainer extends React.Component<
   About = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SHORTCUTS_ABOUT')
-            ?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_ABOUT.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].about.title}
@@ -323,9 +348,9 @@ export default class PriorityContainer extends React.Component<
   Report = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'REPORT')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_REPORTING.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].report.title}

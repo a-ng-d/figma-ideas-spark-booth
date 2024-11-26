@@ -2,6 +2,7 @@ import {
   Button,
   ConsentConfiguration,
   DropdownOption,
+  FeatureStatus,
   Input,
   Menu,
   Message,
@@ -24,7 +25,6 @@ import { IdeasMessage } from '../../types/messages'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
@@ -46,12 +46,27 @@ interface UpdateIdeasStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class UpdateIdeas extends React.Component<
-  UpdateIdeasProps,
-  UpdateIdeasStates
-> {
+export default class UpdateIdeas extends React.Component<UpdateIdeasProps, UpdateIdeasStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
+
+  static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE_UPDATE_TYPE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_UPDATE_TYPE',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE_UPDATE_IDEA: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_UPDATE_IDEA',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE_UPDATE_REMOVE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_UPDATE_REMOVE',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: UpdateIdeasProps) {
     super(props)
@@ -74,6 +89,7 @@ export default class UpdateIdeas extends React.Component<
     this.textRef = React.createRef()
   }
 
+  // Lyfecycle
   componentDidUpdate(prevProps: Readonly<UpdateIdeasProps>): void {
     if (prevProps.ideas !== this.props.ideas) {
       this.setState({
@@ -186,12 +202,9 @@ export default class UpdateIdeas extends React.Component<
                     className={`${layouts['snackbar--tight']} ${layouts['snackbar--fill']} ${layouts['snackbar--start']}`}
                   >
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) =>
-                            feature.name === 'PARTICIPATE_UPDATE_TYPE'
-                        )?.isActive
-                      }
+                      isActive={UpdateIdeas.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_UPDATE_TYPE.isActive()}
                     >
                       <div className="simple-item__param">
                         <Menu
@@ -201,29 +214,22 @@ export default class UpdateIdeas extends React.Component<
                           options={this.typesHandler()}
                           selected={idea.type.id}
                           state={
-                            isBlocked(
-                              'PARTICIPATE_UPDATE_TYPE',
+                            UpdateIdeas.features(
                               this.props.planStatus
-                            )
+                            ).PARTICIPATE_UPDATE_TYPE.isActive()
                               ? 'DISABLED'
                               : 'DEFAULT'
                           }
-                          isNew={
-                            features.find(
-                              (feature) =>
-                                feature.name === 'PARTICIPATE_UPDATE_TYPE'
-                            )?.isNew
-                          }
+                          isNew={UpdateIdeas.features(
+                            this.props.planStatus
+                          ).PARTICIPATE_UPDATE_TYPE.isNew()}
                         />
                       </div>
                     </Feature>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) =>
-                            feature.name === 'PARTICIPATE_UPDATE_IDEA'
-                        )?.isActive
-                      }
+                      isActive={UpdateIdeas.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_UPDATE_IDEA.isActive()}
                     >
                       <div className="simple-item__param simple-item__param--fill">
                         <Input
@@ -233,28 +239,14 @@ export default class UpdateIdeas extends React.Component<
                           feature="UPDATE_IDEA"
                           isGrowing={true}
                           isFlex={true}
-                          isBlocked={isBlocked(
-                            'PARTICIPATE_UPDATE_IDEA',
+                          isBlocked={UpdateIdeas.features(
                             this.props.planStatus
-                          )}
-                          isNew={
-                            features.find(
-                              (feature) =>
-                                feature.name === 'PARTICIPATE_UPDATE_IDEA'
-                            )?.isNew
-                          }
-                          onBlur={(e) =>
-                            !isBlocked(
-                              'PARTICIPATE_UPDATE_IDEA',
-                              this.props.planStatus
-                            ) && this.ideasHandler(e, idea.type)
-                          }
-                          onConfirm={(e) =>
-                            !isBlocked(
-                              'PARTICIPATE_UPDATE_IDEA',
-                              this.props.planStatus
-                            ) && this.ideasHandler(e, idea.type)
-                          }
+                          ).PARTICIPATE_UPDATE_IDEA.isBlocked()}
+                          isNew={UpdateIdeas.features(
+                            this.props.planStatus
+                          ).PARTICIPATE_UPDATE_IDEA.isNew()}
+                          onBlur={(e) => this.ideasHandler(e, idea.type)}
+                          onConfirm={(e) => this.ideasHandler(e, idea.type)}
                         />
                       </div>
                     </Feature>
@@ -262,27 +254,21 @@ export default class UpdateIdeas extends React.Component<
                 }
                 rightPartSlot={
                   <Feature
-                    isActive={
-                      features.find(
-                        (feature) =>
-                          feature.name === 'PARTICIPATE_UPDATE_REMOVE'
-                      )?.isActive
-                    }
+                    isActive={UpdateIdeas.features(
+                      this.props.planStatus
+                    ).PARTICIPATE_UPDATE_REMOVE.isActive()}
                   >
                     <Button
                       type="icon"
                       icon="trash"
                       feature="REMOVE_IDEA"
-                      isBlocked={isBlocked(
-                        'PARTICIPATE_UPDATE_REMOVE',
+                      isBlocked={UpdateIdeas.features(
                         this.props.planStatus
-                      )}
-                      action={(e) =>
-                        !isBlocked(
-                          'PARTICIPATE_UPDATE_REMOVE',
-                          this.props.planStatus
-                        ) && this.ideasHandler(e, idea.type)
-                      }
+                      ).PARTICIPATE_UPDATE_REMOVE.isBlocked()}
+                      isNew={UpdateIdeas.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_UPDATE_REMOVE.isNew()}
+                      action={(e) => this.ideasHandler(e, idea.type)}
                     />
                   </Feature>
                 }

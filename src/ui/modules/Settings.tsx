@@ -5,6 +5,7 @@ import {
   ConsentConfiguration,
   Dialog,
   Dropdown,
+  FeatureStatus,
   FormItem,
   Icon,
   Input,
@@ -42,7 +43,6 @@ import features, {
   yellowColor,
 } from '../../utils/config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 import Publication from './Publication'
@@ -83,6 +83,119 @@ export default class Settings extends React.Component<
   SettingsProps,
   SettingsStates
 > {
+  static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_DELETE: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_DELETE',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_PUBLISH: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_PUBLISH',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_RUN: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_RUN',
+      planStatus: planStatus,
+    }),
+    SETTINGS: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS',
+      planStatus: planStatus,
+    }),
+    PUBLICATION: new FeatureStatus({
+      features: features,
+      featureName: 'PUBLICATION',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GLOBAL: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GLOBAL',
+      planStatus: planStatus,
+    }),
+    SETTINGS_NAME: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_NAME',
+      planStatus: planStatus,
+    }),
+    SETTINGS_DESCRIPTION: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_DESCRIPTION',
+      planStatus: planStatus,
+    }),
+    SETTINGS_INSTRUCTIONS: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_INSTRUCTIONS',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GROUPED_BY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GROUPED_BY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GROUPED_BY_PARTICIPANT: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GROUPED_BY_PARTICIPANT',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GROUPED_BY_TYPE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GROUPED_BY_TYPE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TIMER: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TIMER',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TIMER_MINUTES: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TIMER_MINUTES',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TIMER_SECONDS: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TIMER_SECONDS',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TYPES: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TYPES',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TYPES_ADD: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TYPES_ADD',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TYPES_REMOVE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TYPES_REMOVE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TYPES_NAME: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TYPES_NAME',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TYPES_COLOR: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TYPES_COLOR',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TYPES_DESCRIPTION: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TYPES_DESCRIPTION',
+      planStatus: planStatus,
+    }),
+    HISTORY: new FeatureStatus({
+      features: features,
+      featureName: 'HISTORY',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: SettingsProps) {
     super(props)
     this.state = {
@@ -186,43 +299,34 @@ export default class Settings extends React.Component<
   Name = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_NAME')?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_NAME.isActive()}
       >
         <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.global.name.label}
             id="update-activity-name"
-            isBlocked={isBlocked('SETTINGS_NAME', this.props.planStatus)}
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isBlocked()}
+            isNew={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isNew()}
           >
             <Input
               id="update-activity-name"
               type="TEXT"
               value={this.props.activity.name}
               charactersLimit={64}
-              isBlocked={isBlocked('SETTINGS_NAME', this.props.planStatus)}
               feature="RENAME_ACTIVITY"
-              onChange={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onFocus={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onBlur={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onConfirm={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
+              isBlocked={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_NAME.isBlocked()}
+              onChange={this.props.onChangeActivities}
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
             />
           </FormItem>
         </div>
@@ -233,43 +337,34 @@ export default class Settings extends React.Component<
   Description = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_DESCRIPTION')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_DESCRIPTION.isActive()}
       >
         <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.global.description.label}
             id="update-activity-description"
-            isBlocked={isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)}
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_DESCRIPTION.isBlocked()}
+            isNew={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_DESCRIPTION.isNew()}
           >
             <Input
               id="update-activity-description"
               type="LONG_TEXT"
               placeholder={"What's it for?"}
               value={this.props.activity.description}
-              isBlocked={isBlocked(
-                'SETTINGS_DESCRIPTION',
-                this.props.planStatus
-              )}
               feature="UPDATE_DESCRIPTION"
+              isBlocked={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_DESCRIPTION.isBlocked()}
               isGrowing={true}
-              onFocus={
-                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onBlur={
-                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onConfirm={
-                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
             />
           </FormItem>
         </div>
@@ -280,46 +375,34 @@ export default class Settings extends React.Component<
   Instructions = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_INSTRUCTIONS')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_INSTRUCTIONS.isActive()}
       >
         <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.global.instructions.label}
             id="update-activity-instructions"
-            isBlocked={isBlocked(
-              'SETTINGS_INSTRUCTIONS',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
+            ).SETTINGS_INSTRUCTIONS.isBlocked()}
+            isNew={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_INSTRUCTIONS.isNew()}
           >
             <Input
               id="update-activity-instructions"
               type="LONG_TEXT"
               placeholder={"What's it for?"}
               value={this.props.activity.instructions}
-              isBlocked={isBlocked(
-                'SETTINGS_DESCRIPTION',
-                this.props.planStatus
-              )}
               feature="UPDATE_INSTRUCTIONS"
+              isBlocked={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_INSTRUCTIONS.isBlocked()}
               isGrowing={true}
-              onFocus={
-                isBlocked('SETTINGS_INSTRUCTIONS', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onBlur={
-                isBlocked('SETTINGS_INSTRUCTIONS', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onConfirm={
-                isBlocked('SETTINGS_INSTRUCTIONS', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
             />
           </FormItem>
         </div>
@@ -330,15 +413,17 @@ export default class Settings extends React.Component<
   GroupedBy = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_GROUPED_BY')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_GROUPED_BY.isActive()}
       >
         <div className="group__item">
           <FormItem
             id="update-grouped-by"
             label={locals[this.props.lang].settings.global.groupedBy.label}
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_GROUPED_BY.isBlocked()}
           >
             <Dropdown
               id="update-grouped-by"
@@ -349,21 +434,17 @@ export default class Settings extends React.Component<
                       .participant,
                   value: 'PARTICIPANT',
                   feature: 'UPDATE_GROUPED_BY',
-                  position: 0,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name === 'SETTINGS_GROUPED_BY_PARTICIPANT'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_GROUPED_BY_PARTICIPANT',
+                  position: 0,
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name === 'SETTINGS_GROUPED_BY_PARTICIPANT'
-                  )?.isNew,
-                  children: [],
+                  ).SETTINGS_GROUPED_BY_PARTICIPANT.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_PARTICIPANT.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_PARTICIPANT.isNew(),
                   action: this.props.onChangeActivities,
                 },
                 {
@@ -372,26 +453,22 @@ export default class Settings extends React.Component<
                   feature: 'UPDATE_GROUPED_BY',
                   position: 1,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SETTINGS_GROUPED_BY_TYPE'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_GROUPED_BY_TYPE',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SETTINGS_GROUPED_BY_TYPE'
-                  )?.isNew,
-                  children: [],
+                  ).SETTINGS_GROUPED_BY_TYPE.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_TYPE.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_GROUPED_BY_TYPE.isNew(),
                   action: this.props.onChangeActivities,
                 },
               ]}
               selected={this.props.activity.groupedBy}
-              isNew={
-                features.find(
-                  (feature) => feature.name === 'SETTINGS_GROUPED_BY'
-                )?.isNew
-              }
+              isNew={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_GROUPED_BY.isNew()}
             />
           </FormItem>
         </div>
@@ -402,19 +479,20 @@ export default class Settings extends React.Component<
   Minutes = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_TIMER_MINUTES')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_TIMER_MINUTES.isActive()}
       >
         <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.timer.minutes.label}
             id="update-timer-minutes"
-            isBlocked={isBlocked(
-              'SETTINGS_TIMER_MINUTES',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
+            ).SETTINGS_TIMER_MINUTES.isBlocked()}
+            isNew={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_TIMER_MINUTES.isNew()}
           >
             <Input
               id="update-timer-minutes"
@@ -422,31 +500,14 @@ export default class Settings extends React.Component<
               value={this.props.activity.timer.minutes.toString()}
               min="0"
               max="59"
-              isBlocked={isBlocked(
-                'SETTINGS_TIMER_MINUTES',
+              isBlocked={Settings.features(
                 this.props.planStatus
-              )}
+              ).SETTINGS_TIMER_MINUTES.isBlocked()}
               feature="UPDATE_TIMER_MINUTES"
-              onChange={
-                isBlocked('SETTINGS_TIMER_MINUTES', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onFocus={
-                isBlocked('SETTINGS_TIMER_MINUTES', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onBlur={
-                isBlocked('SETTINGS_TIMER_MINUTES', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onConfirm={
-                isBlocked('SETTINGS_TIMER_MINUTES', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
+              onChange={this.props.onChangeActivities}
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
             />
           </FormItem>
         </div>
@@ -457,19 +518,20 @@ export default class Settings extends React.Component<
   Seconds = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_TIMER_SECONDS')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_TIMER_SECONDS.isActive()}
       >
         <div className="group__item">
           <FormItem
             label={locals[this.props.lang].settings.timer.seconds.label}
             id="update-timer-seconds"
-            isBlocked={isBlocked(
-              'SETTINGS_TIMER_SECONDS',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
+            ).SETTINGS_TIMER_SECONDS.isActive()}
+            isNew={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_TIMER_SECONDS.isNew()}
           >
             <Input
               id="update-timer-seconds"
@@ -477,31 +539,14 @@ export default class Settings extends React.Component<
               value={this.props.activity.timer.seconds.toString()}
               min="0"
               max="59"
-              isBlocked={isBlocked(
-                'SETTINGS_TIMER_SECONDS',
+              isBlocked={Settings.features(
                 this.props.planStatus
-              )}
+              ).SETTINGS_TIMER_SECONDS.isBlocked()}
               feature="UPDATE_TIMER_SECONDS"
-              onChange={
-                isBlocked('SETTINGS_TIMER_SECONDS', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onFocus={
-                isBlocked('SETTINGS_TIMER_SECONDS', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onBlur={
-                isBlocked('SETTINGS_TIMER_SECONDS', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
-              onConfirm={
-                isBlocked('SETTINGS_TIMER_SECONDS', this.props.planStatus)
-                  ? () => null
-                  : this.props.onChangeActivities
-              }
+              onChange={this.props.onChangeActivities}
+              onFocus={this.props.onChangeActivities}
+              onBlur={this.props.onChangeActivities}
+              onConfirm={this.props.onChangeActivities}
             />
           </FormItem>
         </div>
@@ -512,10 +557,9 @@ export default class Settings extends React.Component<
   Global = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_GLOBAL')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_GLOBAL.isActive()}
       >
         <div className="group">
           <SimpleItem
@@ -538,10 +582,9 @@ export default class Settings extends React.Component<
   Timer = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_TIMER')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_TIMER.isActive()}
       >
         <div className="group">
           <SimpleItem
@@ -562,10 +605,9 @@ export default class Settings extends React.Component<
   Types = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_TYPES')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_TYPES.isActive()}
       >
         <div className="group">
           <SimpleItem
@@ -576,12 +618,24 @@ export default class Settings extends React.Component<
               />
             }
             rightPartSlot={
-              <Button
-                type="icon"
-                icon="plus"
-                feature="ADD_TYPE"
-                action={this.typeHandler}
-              />
+              <Feature
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).SETTINGS_TYPES_ADD.isActive()}
+              >
+                <Button
+                  type="icon"
+                  icon="plus"
+                  feature="ADD_TYPE"
+                  isBlocked={Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_TYPES_ADD.isBlocked()}
+                  isNew={Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_TYPES_ADD.isNew()}
+                  action={this.typeHandler}
+                />
+              </Feature>
             }
             isListItem={false}
           />
@@ -591,11 +645,9 @@ export default class Settings extends React.Component<
             primarySlot={this.props.activity.types.map((type) => (
               <>
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'SETTINGS_TYPES_NAME'
-                    )?.isActive
-                  }
+                  isActive={Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_TYPES_NAME.isActive()}
                 >
                   <div className="draggable-item__param--compact">
                     <Input
@@ -603,17 +655,21 @@ export default class Settings extends React.Component<
                       value={type.name}
                       charactersLimit={24}
                       feature="RENAME_TYPE"
+                      isBlocked={Settings.features(
+                        this.props.planStatus
+                      ).SETTINGS_TYPES_NAME.isBlocked()}
+                      isNew={Settings.features(
+                        this.props.planStatus
+                      ).SETTINGS_TYPES_NAME.isNew()}
                       onBlur={this.typeHandler}
                       onConfirm={this.typeHandler}
                     />
                   </div>
                 </Feature>
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'SETTINGS_TYPES_COLOR'
-                    )?.isActive
-                  }
+                  isActive={Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_TYPES_COLOR.isActive()}
                 >
                   <>
                     <div className="draggable-item__param--square">
@@ -631,10 +687,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 0,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -644,10 +696,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 1,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -658,10 +706,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 2,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -672,10 +716,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 3,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -686,10 +726,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 4,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -700,10 +736,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 5,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -714,10 +746,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 6,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -728,10 +756,6 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 7,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                           {
@@ -742,20 +766,14 @@ export default class Settings extends React.Component<
                             feature: 'UPDATE_COLOR',
                             position: 8,
                             type: 'OPTION',
-                            isActive: true,
-                            isBlocked: false,
-                            isNew: false,
-                            children: [],
                             action: this.typeHandler,
                           },
                         ]}
                         selected={type.color}
                         alignment="FILL"
-                        isNew={
-                          features.find(
-                            (feature) => feature.name === 'SETTINGS_TYPES_COLOR'
-                          )?.isNew
-                        }
+                        isNew={Settings.features(
+                          this.props.planStatus
+                        ).SETTINGS_TYPES_COLOR.isNew()}
                       />
                     </div>
                   </>
@@ -765,11 +783,9 @@ export default class Settings extends React.Component<
             secondarySlot={this.props.activity.types.map((type, index) => (
               <Feature
                 key={index}
-                isActive={
-                  features.find(
-                    (feature) => feature.name === 'SETTINGS_TYPES_DESCRIPTION'
-                  )?.isActive
-                }
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).SETTINGS_TYPES_DESCRIPTION.isActive()}
               >
                 <div className="draggable-list__param">
                   <FormItem
@@ -777,6 +793,12 @@ export default class Settings extends React.Component<
                     label={
                       locals[this.props.lang].settings.types.description.label
                     }
+                    isBlocked={Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                    isNew={Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_TYPES_DESCRIPTION.isNew()}
                   >
                     <Input
                       id="color-description"
@@ -788,6 +810,12 @@ export default class Settings extends React.Component<
                       }
                       feature="UPDATE_DESCRIPTION"
                       isGrowing={true}
+                      isBlocked={Settings.features(
+                        this.props.planStatus
+                      ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                      isNew={Settings.features(
+                        this.props.planStatus
+                      ).SETTINGS_TYPES_DESCRIPTION.isNew()}
                       onChange={this.typeHandler}
                       onBlur={this.typeHandler}
                       onConfirm={this.typeHandler}
@@ -807,9 +835,7 @@ export default class Settings extends React.Component<
   History = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'HISTORY')?.isActive
-        }
+        isActive={Settings.features(this.props.planStatus).HISTORY.isActive()}
       >
         <div className="group">
           <SimpleItem
@@ -895,24 +921,26 @@ export default class Settings extends React.Component<
           rightPartSlot={
             <div className={layouts['snackbar--medium']}>
               <Feature
-                isActive={
-                  features.find(
-                    (feature) => feature.name === 'ACTIVITIES_DELETE'
-                  )?.isActive
-                }
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).ACTIVITIES_DELETE.isActive()}
               >
                 <Button
                   type="icon"
                   icon="trash"
+                  isBlocked={Settings.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_DELETE.isBlocked()}
+                  isNew={Settings.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_DELETE.isNew()}
                   action={() => this.setState({ isDeleteDialogOpen: true })}
                 />
               </Feature>
               <Feature
-                isActive={
-                  features.find(
-                    (feature) => feature.name === 'ACTIVITIES_PUBLISH'
-                  )?.isActive
-                }
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).ACTIVITIES_PUBLISH.isActive()}
               >
                 {this.props.activity.meta.publicationStatus.isPublished ? (
                   <Button
@@ -923,6 +951,12 @@ export default class Settings extends React.Component<
                         ? locals[this.props.lang].settings.global.publish
                         : locals[this.props.lang].settings.global.synchronize
                     }
+                    isBlocked={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isBlocked()}
+                    isNew={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isNew()}
                     action={() =>
                       this.setState({ isPublicationDialogOpen: true })
                     }
@@ -931,6 +965,12 @@ export default class Settings extends React.Component<
                   <Button
                     type="secondary"
                     label={locals[this.props.lang].settings.global.publish}
+                    isBlocked={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isBlocked()}
+                    isNew={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isNew()}
                     action={() =>
                       this.setState({ isPublicationDialogOpen: true })
                     }
@@ -938,15 +978,20 @@ export default class Settings extends React.Component<
                 )}
               </Feature>
               <Feature
-                isActive={
-                  features.find((feature) => feature.name === 'SESSIONS_RUN')
-                    ?.isActive
-                }
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).ACTIVITIES_RUN.isActive()}
               >
                 <Button
                   type="primary"
                   label={locals[this.props.lang].sessions.newSession}
                   feature="SESSION_RUN"
+                  isBlocked={Settings.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_RUN.isBlocked()}
+                  isNew={Settings.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_RUN.isNew()}
                   action={() =>
                     this.props.onRunSession(this.props.activity.meta.id)
                   }
@@ -958,8 +1003,9 @@ export default class Settings extends React.Component<
         ></Bar>
         <Feature
           isActive={
-            features.find((feature) => feature.name === 'ACTIVITIES_DELETE')
-              ?.isActive && this.state.isDeleteDialogOpen
+            Settings.features(
+              this.props.planStatus
+            ).ACTIVITIES_DELETE.isActive() && this.state.isDeleteDialogOpen
           }
         >
           <Dialog
@@ -993,8 +1039,8 @@ export default class Settings extends React.Component<
         </Feature>
         <Feature
           isActive={
-            features.find((feature) => feature.name === 'PUBLICATION')
-              ?.isActive && this.state.isPublicationDialogOpen
+            Settings.features(this.props.planStatus).PUBLICATION.isActive() &&
+            this.state.isPublicationDialogOpen
           }
         >
           {this.props.userSession.connectionStatus === 'UNCONNECTED' ? (

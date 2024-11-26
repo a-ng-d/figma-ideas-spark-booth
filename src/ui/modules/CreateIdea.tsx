@@ -2,6 +2,7 @@ import {
   Button,
   ConsentConfiguration,
   DropdownOption,
+  FeatureStatus,
   Input,
   Menu,
 } from '@a_ng_d/figmug-ui'
@@ -19,7 +20,6 @@ import {
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
 
@@ -48,6 +48,19 @@ export default class CreateIdeas extends React.Component<
 > {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
+
+  static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE_CREATE_TYPE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_CREATE_TYPE',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE_CREATE_IDEA: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_CREATE_IDEA',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: CreateIdeasProps) {
     super(props)
@@ -106,11 +119,9 @@ export default class CreateIdeas extends React.Component<
     return (
       <div className="idea-edit">
         <Feature
-          isActive={
-            features.find(
-              (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
-            )?.isActive
-          }
+          isActive={CreateIdeas.features(
+            this.props.planStatus
+          ).PARTICIPATE_CREATE_TYPE.isActive()}
         >
           <div className="idea-edit__type">
             <Menu
@@ -120,25 +131,23 @@ export default class CreateIdeas extends React.Component<
               options={this.typesHandler()}
               selected={this.state.currentType.id}
               state={
-                isBlocked('PARTICIPATE_CREATE_TYPE', this.props.planStatus)
+                CreateIdeas.features(
+                  this.props.planStatus
+                ).PARTICIPATE_CREATE_TYPE.isBlocked()
                   ? 'DISABLED'
                   : 'DEFAULT'
               }
               alignment="TOP_LEFT"
-              isNew={
-                features.find(
-                  (feature) => feature.name === 'PARTICIPATE_CREATE_TYPE'
-                )?.isNew
-              }
+              isNew={CreateIdeas.features(
+                this.props.planStatus
+              ).PARTICIPATE_CREATE_TYPE.isNew()}
             />
           </div>
         </Feature>
         <Feature
-          isActive={
-            features.find(
-              (feature) => feature.name === 'PARTICIPATE_CREATE_IDEA'
-            )?.isActive
-          }
+          isActive={CreateIdeas.features(
+            this.props.planStatus
+          ).PARTICIPATE_CREATE_IDEA.isActive()}
         >
           <div className="idea-edit__text">
             <Input
@@ -147,15 +156,12 @@ export default class CreateIdeas extends React.Component<
               type="LONG_TEXT"
               placeholder="Type your idea here"
               isGrowing={true}
-              isBlocked={isBlocked(
-                'PARTICIPATE_CREATE_IDEA',
+              isBlocked={CreateIdeas.features(
                 this.props.planStatus
-              )}
-              isNew={
-                features.find(
-                  (feature) => feature.name === 'PARTICIPATE_CREATE_IDEA'
-                )?.isNew
-              }
+              ).PARTICIPATE_CREATE_IDEA.isBlocked()}
+              isNew={CreateIdeas.features(
+                this.props.planStatus
+              ).PARTICIPATE_CREATE_IDEA.isNew()}
               onChange={(e) =>
                 e.target.value.length > 0
                   ? this.setState({
@@ -167,23 +173,19 @@ export default class CreateIdeas extends React.Component<
                       currentText: e.target.value,
                     })
               }
-              onConfirm={() =>
-                !isBlocked('PARTICIPATE_CREATE_IDEA', this.props.planStatus) &&
-                this.onPushIdea()
-              }
+              onConfirm={this.onPushIdea}
             />
             <Button
               type="icon"
               icon="plus"
-              isBlocked={isBlocked(
-                'PARTICIPATE_CREATE_IDEA',
-                this.props.planStatus
-              )}
               isDisabled={!this.state.canBeSubmitted}
-              action={() =>
-                !isBlocked('PARTICIPATE_CREATE_IDEA', this.props.planStatus) &&
-                this.onPushIdea()
-              }
+              isBlocked={CreateIdeas.features(
+                this.props.planStatus
+              ).PARTICIPATE_CREATE_IDEA.isBlocked()}
+              isNew={CreateIdeas.features(
+                this.props.planStatus
+              ).PARTICIPATE_CREATE_IDEA.isNew()}
+              action={this.onPushIdea}
             />
           </div>
         </Feature>

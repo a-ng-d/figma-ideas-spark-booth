@@ -2,6 +2,7 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
+  FeatureStatus,
   Menu,
   icons,
   layouts,
@@ -15,7 +16,6 @@ import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
 
 interface ShortcutsProps {
@@ -39,10 +39,70 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends React.Component<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends React.Component<ShortcutsProps, ShortcutsStates> {
+  static features = (planStatus: PlanStatus) => ({
+    SHORTCUTS_HIGHLIGHT: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_HIGHLIGHT',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_USER: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_USER',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_REPOSITORY: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_REPOSITORY',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_EMAIL: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_EMAIL',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_FEEDBACK: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_FEEDBACK',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_REPORTING: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_REPORTING',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_REQUESTS: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_REQUESTS',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_ABOUT: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_ABOUT',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_NETWORKING: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_NETWORKING',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_DOCUMENTATION: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_DOCUMENTATION',
+      planStatus: planStatus,
+    }),
+    GET_PRO_PLAN: new FeatureStatus({
+      features: features,
+      featureName: 'GET_PRO_PLAN',
+      planStatus: planStatus,
+    }),
+    CONSENT: new FeatureStatus({
+      features: features,
+      featureName: 'CONSENT',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: ShortcutsProps) {
     super(props)
     this.state = {
@@ -97,35 +157,37 @@ export default class Shortcuts extends React.Component<
                   .join(' ')}
               >
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'SHORTCUTS_USER'
-                    )?.isActive
-                  }
+                  isActive={Shortcuts.features(
+                    this.props.planStatus
+                  ).SHORTCUTS_DOCUMENTATION.isActive()}
                 >
-                  <Feature
-                    isActive={
-                      features.find(
-                        (feature) => feature.name === 'SHORTCUTS_DOCUMENTATION'
-                      )?.isActive
-                    }
-                  >
-                    <Button
-                      type="icon"
-                      icon="library"
-                      action={() =>
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/docs',
-                            },
+                  <Button
+                    type="icon"
+                    icon="library"
+                    isBlocked={Shortcuts.features(
+                      this.props.planStatus
+                    ).SHORTCUTS_DOCUMENTATION.isBlocked()}
+                    isNew={Shortcuts.features(
+                      this.props.planStatus
+                    ).SHORTCUTS_DOCUMENTATION.isNew()}
+                    action={() =>
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            url: 'https://uicp.link/docs',
                           },
-                          '*'
-                        )
-                      }
-                    />
-                  </Feature>
+                        },
+                        '*'
+                      )
+                    }
+                  />
+                </Feature>
+                <Feature
+                  isActive={Shortcuts.features(
+                    this.props.planStatus
+                  ).SHORTCUTS_USER.isActive()}
+                >
                   {this.props.userSession.connectionStatus === 'CONNECTED' ? (
                     <Menu
                       id="user-menu"
@@ -188,6 +250,15 @@ export default class Shortcuts extends React.Component<
                         {
                           label: locals[this.props.lang].user.updateConsent,
                           type: 'OPTION',
+                          isActive: Shortcuts.features(
+                            this.props.planStatus
+                          ).CONSENT.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus
+                          ).CONSENT.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus
+                          ).CONSENT.isNew(),
                           action: this.props.onUpdateConsent,
                         },
                       ]}
@@ -237,6 +308,15 @@ export default class Shortcuts extends React.Component<
                         {
                           label: locals[this.props.lang].user.updateConsent,
                           type: 'OPTION',
+                          isActive: Shortcuts.features(
+                            this.props.planStatus
+                          ).CONSENT.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus
+                          ).CONSENT.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus
+                          ).CONSENT.isNew(),
                           action: this.props.onUpdateConsent,
                         },
                       ]}
@@ -254,33 +334,29 @@ export default class Shortcuts extends React.Component<
                     {
                       label: locals[this.props.lang].shortcuts.news,
                       type: 'OPTION',
-                      isActive:
-                        features.find(
-                          (feature) => feature.name === 'SHORTCUTS_HIGHLIGHT'
-                        )?.isActive ?? true,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_HIGHLIGHT',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew:
-                        features.find(
-                          (feature) => feature.name === 'SHORTCUTS_HIGHLIGHT'
-                        )?.isNew ?? true,
+                      ).SHORTCUTS_HIGHLIGHT.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_HIGHLIGHT.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_HIGHLIGHT.isNew(),
                       action: () => this.props.onReOpenHighlight(),
                     },
                     {
                       label: locals[this.props.lang].about.repository,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_REPOSITORY'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_REPOSITORY',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_REPOSITORY'
-                      )?.isNew,
+                      ).SHORTCUTS_REPOSITORY.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REPOSITORY.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REPOSITORY.isNew(),
                       action: () =>
                         parent.postMessage(
                           {
@@ -298,31 +374,29 @@ export default class Shortcuts extends React.Component<
                     {
                       label: locals[this.props.lang].shortcuts.feedback,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_FEEDBACK'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_FEEDBACK',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_FEEDBACK'
-                      )?.isNew,
+                      ).SHORTCUTS_FEEDBACK.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_FEEDBACK.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_FEEDBACK.isNew(),
                       action: () => this.props.onReOpenFeedback(),
                     },
                     {
                       label: locals[this.props.lang].about.beInvolved.request,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_REQUESTS'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_REQUESTS',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_REQUESTS'
-                      )?.isNew,
+                      ).SHORTCUTS_REQUESTS.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REQUESTS.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REQUESTS.isNew(),
                       action: () =>
                         parent.postMessage(
                           {
@@ -337,32 +411,30 @@ export default class Shortcuts extends React.Component<
                     {
                       label: locals[this.props.lang].about.beInvolved.issue,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_REPORTING'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_REPORTING',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_REPORTING'
-                      )?.isNew,
+                      ).SHORTCUTS_REPORTING.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REPORTING.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REPORTING.isNew(),
                       action: this.props.onReOpenReport,
                     },
                     {
                       label: locals[this.props.lang].about.getHelp.email,
                       position: 0,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_EMAIL'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_EMAIL',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_EMAIL'
-                      )?.isNew,
+                      ).SHORTCUTS_EMAIL.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_EMAIL.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_EMAIL.isNew(),
                       action: () =>
                         parent.postMessage(
                           {
@@ -380,31 +452,29 @@ export default class Shortcuts extends React.Component<
                     {
                       label: locals[this.props.lang].about.title,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_ABOUT'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_ABOUT',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_ABOUT'
-                      )?.isNew,
+                      ).SHORTCUTS_ABOUT.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_ABOUT.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_ABOUT.isNew(),
                       action: this.props.onReOpenAbout,
                     },
                     {
                       label: locals[this.props.lang].about.giveSupport.follow,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_NETWORKING'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'SHORTCUTS_NETWORKING',
+                      isActive: Shortcuts.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'SHORTCUTS_NETWORKING'
-                      )?.isNew,
+                      ).SHORTCUTS_NETWORKING.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_NETWORKING.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_NETWORKING.isNew(),
                       action: () =>
                         parent.postMessage(
                           {
@@ -430,10 +500,9 @@ export default class Shortcuts extends React.Component<
           }
           leftPartSlot={
             <Feature
-              isActive={
-                features.find((feature) => feature.name === 'GET_PRO_PLAN')
-                  ?.isActive
-              }
+              isActive={Shortcuts.features(
+                this.props.planStatus
+              ).GET_PRO_PLAN.isActive()}
             >
               <div
                 className={['pro-zone', layouts['snackbar--tight']]
@@ -450,6 +519,12 @@ export default class Shortcuts extends React.Component<
                           ? locals[this.props.lang].plan.tryPro
                           : locals[this.props.lang].plan.getPro
                       }
+                      isBlocked={Shortcuts.features(
+                        this.props.planStatus
+                      ).GET_PRO_PLAN.isBlocked()}
+                      isNew={Shortcuts.features(
+                        this.props.planStatus
+                      ).GET_PRO_PLAN.isNew()}
                       action={this.props.onGetProPlan}
                     />
                   )}
@@ -473,12 +548,17 @@ export default class Shortcuts extends React.Component<
                 ) : (
                   this.props.trialStatus === 'EXPIRED' &&
                   this.props.planStatus !== 'PAID' && (
-                    <>
+                    <Feature
+                      isActive={Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REPORTING.isActive()}
+                    >
                       <div
                         className={`type ${texts.type} ${texts['type--secondary']} truncated`}
                       >
                         <span>{locals[this.props.lang].plan.trialEnded}</span>
                       </div>
+
                       <span
                         className={`type ${texts.type} ${texts['type--secondary']}`}
                       >
@@ -487,9 +567,15 @@ export default class Shortcuts extends React.Component<
                       <Button
                         type="tertiary"
                         label={locals[this.props.lang].shortcuts.trialFeedback}
+                        isBlocked={Shortcuts.features(
+                          this.props.planStatus
+                        ).SHORTCUTS_REPORTING.isBlocked()}
+                        isNew={Shortcuts.features(
+                          this.props.planStatus
+                        ).SHORTCUTS_REPORTING.isNew()}
                         action={this.props.onReOpenTrialFeedback}
                       />
-                    </>
+                    </Feature>
                   )
                 )}
               </div>

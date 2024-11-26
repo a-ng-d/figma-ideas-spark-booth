@@ -1,4 +1,9 @@
-import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
+import {
+  Bar,
+  ConsentConfiguration,
+  FeatureStatus,
+  Tabs,
+} from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { ContextItem, Language, PlanStatus } from '../../types/app'
 import {
@@ -6,10 +11,12 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
+import features from '../../utils/config'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
-import LocalActivities from '../contexts/LocalActivities'
+import Feature from '../components/Feature'
 import ExternalActivities from '../contexts/ExternalActivities'
+import LocalActivities from '../contexts/LocalActivities'
 
 interface ActivitiesListProps {
   activities: Array<ActivityConfiguration>
@@ -33,9 +40,25 @@ export default class ActivitiesList extends React.Component<
 > {
   contexts: Array<ContextItem>
 
+  static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_LOCAL: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_LOCAL',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_SELF: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_SELF',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: ActivitiesListProps) {
     super(props)
-    this.contexts = setContexts(['ACTIVITIES_LOCAL', 'ACTIVITIES_SELF'])
+    this.contexts = setContexts(
+      ['ACTIVITIES_LOCAL', 'ACTIVITIES_SELF'],
+      this.props.planStatus
+    )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
     }
@@ -53,15 +76,29 @@ export default class ActivitiesList extends React.Component<
 
     switch (this.state.context) {
       case 'ACTIVITIES_LOCAL': {
-        fragment = <LocalActivities {...this.props} />
+        fragment = (
+          <Feature
+            isActive={ActivitiesList.features(
+              this.props.planStatus
+            ).ACTIVITIES_LOCAL.isActive()}
+          >
+            <LocalActivities {...this.props} />
+          </Feature>
+        )
         break
       }
       case 'ACTIVITIES_SELF': {
         fragment = (
-          <ExternalActivities
-            context="SELF"
-            {...this.props}
-          />
+          <Feature
+            isActive={ActivitiesList.features(
+              this.props.planStatus
+            ).ACTIVITIES_SELF.isActive()}
+          >
+            <ExternalActivities
+              context="SELF"
+              {...this.props}
+            />
+          </Feature>
         )
         break
       }

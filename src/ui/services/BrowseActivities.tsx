@@ -58,7 +58,10 @@ export default class BrowseActivities extends React.Component<
 
   constructor(props: BrowseActivitiesProps) {
     super(props)
-    this.contexts = setContexts(['ACTIVITIES', 'EXPLORE'])
+    this.contexts = setContexts(
+      ['ACTIVITIES', 'EXPLORE'],
+      this.props.planStatus
+    )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
     }

@@ -1,8 +1,35 @@
+import { FeatureStatus } from '@a_ng_d/figmug-ui'
 import { lang, locals } from '../content/locals'
-import { Context } from '../types/app'
+import { Context, PlanStatus } from '../types/app'
 import features from './config'
 
-export const setContexts = (contextList: Array<Context>) => {
+export const setContexts = (
+  contextList: Array<Context>,
+  planStatus: PlanStatus
+) => {
+  const featuresList = {
+    ACTIVITIES: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_LOCAL: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_LOCAL',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_SELF: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_SELF',
+      planStatus: planStatus,
+    }),
+    EXPLORE: new FeatureStatus({
+      features: features,
+      featureName: 'EXPLORE',
+      planStatus: planStatus,
+    }),
+  }
+
   const contexts: Array<{
     label: string
     id: Context
@@ -12,41 +39,26 @@ export const setContexts = (contextList: Array<Context>) => {
     {
       label: locals[lang].contexts.activities,
       id: 'ACTIVITIES',
-      isUpdated:
-        features.find((feature) => feature.name === 'ACTIVITIES')?.isNew ??
-        false,
-      isActive:
-        features.find((feature) => feature.name === 'ACTIVITIES')?.isActive ??
-        false,
+      isUpdated: featuresList.ACTIVITIES.isNew(),
+      isActive: featuresList.ACTIVITIES.isActive(),
     },
     {
       label: locals[lang].contexts.activitiesLocal,
       id: 'ACTIVITIES_LOCAL',
-      isUpdated:
-        features.find((feature) => feature.name === 'ACTIVITIES_LOCAL')
-          ?.isNew ?? false,
-      isActive:
-        features.find((feature) => feature.name === 'ACTIVITIES_LOCAL')
-          ?.isActive ?? false,
+      isUpdated: featuresList.ACTIVITIES_LOCAL.isNew(),
+      isActive: featuresList.ACTIVITIES_LOCAL.isActive(),
     },
     {
       label: locals[lang].contexts.activitiesSelf,
       id: 'ACTIVITIES_SELF',
-      isUpdated:
-        features.find((feature) => feature.name === 'ACTIVITIES_SELF')?.isNew ??
-        false,
-      isActive:
-        features.find((feature) => feature.name === 'ACTIVITIES_SELF')
-          ?.isActive ?? false,
+      isUpdated: featuresList.ACTIVITIES_SELF.isNew(),
+      isActive: featuresList.ACTIVITIES_SELF.isActive(),
     },
     {
       label: locals[lang].contexts.explore,
       id: 'EXPLORE',
-      isUpdated:
-        features.find((feature) => feature.name === 'EXPLORE')?.isNew ?? false,
-      isActive:
-        features.find((feature) => feature.name === 'EXPLORE')?.isActive ??
-        false,
+      isUpdated: featuresList.EXPLORE.isNew(),
+      isActive: featuresList.EXPLORE.isActive(),
     },
   ]
 
