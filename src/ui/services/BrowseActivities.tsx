@@ -1,4 +1,9 @@
-import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
+import {
+  Bar,
+  ConsentConfiguration,
+  FeatureStatus,
+  Tabs,
+} from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { ContextItem, Language, PlanStatus } from '../../types/app'
 import {
@@ -8,8 +13,10 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
+import features from '../../utils/config'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
+import Feature from '../components/Feature'
 import Activities from '../contexts/Activities'
 import Explore from '../contexts/Explore'
 
@@ -36,6 +43,19 @@ export default class BrowseActivities extends React.Component<
 > {
   contexts: Array<ContextItem>
 
+  static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES',
+      planStatus: planStatus,
+    }),
+    EXPLORE: new FeatureStatus({
+      features: features,
+      featureName: 'EXPLORE',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: BrowseActivitiesProps) {
     super(props)
     this.contexts = setContexts(['ACTIVITIES', 'EXPLORE'])
@@ -50,19 +70,33 @@ export default class BrowseActivities extends React.Component<
       context: (e.target as HTMLElement).dataset.feature,
     })
 
-  // Direct actions
-
   // Renders
   render() {
     let fragment
 
     switch (this.state.context) {
       case 'ACTIVITIES': {
-        fragment = <Activities {...this.props} />
+        fragment = (
+          <Feature
+            isActive={BrowseActivities.features(
+              this.props.planStatus
+            ).ACTIVITIES.isActive()}
+          >
+            <Activities {...this.props} />
+          </Feature>
+        )
         break
       }
       case 'EXPLORE': {
-        fragment = <Explore {...this.props} />
+        fragment = (
+          <Feature
+            isActive={BrowseActivities.features(
+              this.props.planStatus
+            ).EXPLORE.isActive()}
+          >
+            <Explore {...this.props} />
+          </Feature>
+        )
         break
       }
     }

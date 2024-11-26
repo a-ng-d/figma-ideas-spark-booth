@@ -4,6 +4,7 @@ import {
   Chip,
   ConsentConfiguration,
   Dialog,
+  FeatureStatus,
   Input,
   Menu,
   layouts,
@@ -23,7 +24,6 @@ import {
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import CreateIdea from '../modules/CreateIdea'
@@ -58,12 +58,37 @@ interface ParticipateStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class Participate extends React.Component<
-  ParticipateProps,
-  ParticipateStates
-> {
+export default class Participate extends React.Component<ParticipateProps, ParticipateStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
+
+  static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE_END: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_END',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE_UPDATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_UPDATE',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE_INFO: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_INFO',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE_CREATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_CREATE',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE_FINISH: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_FINISH',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: ParticipateProps) {
     super(props)
@@ -154,8 +179,9 @@ export default class Participate extends React.Component<
             <div className={layouts['snackbar--medium']}>
               <Feature
                 isActive={
-                  features.find((feature) => feature.name === 'PARTICIPATE_END')
-                    ?.isActive &&
+                  Participate.features(
+                    this.props.planStatus
+                  ).PARTICIPATE_END.isActive() &&
                   this.props.session.facilitator.id ===
                     this.props.userIdentity.id
                 }
@@ -163,13 +189,20 @@ export default class Participate extends React.Component<
                 <Button
                   type="primary"
                   label={locals[this.props.lang].participate.endSession}
+                  isBlocked={Participate.features(
+                    this.props.planStatus
+                  ).PARTICIPATE_END.isBlocked()}
+                  isNew={Participate.features(
+                    this.props.planStatus
+                  ).PARTICIPATE_END.isNew()}
                   action={() => this.setState({ isDialogOpen: true })}
                 />
               </Feature>
               <Feature
                 isActive={
-                  features.find((feature) => feature.name === 'PARTICIPATE_END')
-                    ?.isActive &&
+                  Participate.features(
+                    this.props.planStatus
+                  ).PARTICIPATE_END.isActive() &&
                   this.props.session.facilitator.id !==
                     this.props.userIdentity.id
                 }
@@ -184,21 +217,32 @@ export default class Participate extends React.Component<
                         ? locals[this.props.lang].participate.unflagAsDone
                         : locals[this.props.lang].participate.flagAsDone,
                       type: 'OPTION',
+                      isActive: Participate.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_FINISH.isActive(),
+                      isBlocked: Participate.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_FINISH.isBlocked(),
+                      isNew: Participate.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_FINISH.isNew(),
                       action: this.finishHandler,
+                    },
+                    {
+                      type: 'SEPARATOR',
                     },
                     {
                       label: locals[this.props.lang].participate.endSession,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === 'PARTICIPATE_END'
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        'PARTICIPATE_END',
+                      isActive: Participate.features(
                         this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === 'PARTICIPATE_END'
-                      )?.isNew,
+                      ).PARTICIPATE_END.isActive(),
+                      isBlocked: Participate.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_END.isBlocked(),
+                      isNew: Participate.features(
+                        this.props.planStatus
+                      ).PARTICIPATE_END.isNew(),
                       action: () => this.setState({ isDialogOpen: true }),
                     },
                   ]}
@@ -211,8 +255,9 @@ export default class Participate extends React.Component<
         />
         <Feature
           isActive={
-            features.find((feature) => feature.name === 'PARTICIPATE_END')
-              ?.isActive && this.state.isDialogOpen
+            Participate.features(
+              this.props.planStatus
+            ).PARTICIPATE_END.isActive() && this.state.isDialogOpen
           }
         >
           <Dialog
@@ -253,20 +298,16 @@ export default class Participate extends React.Component<
           <div className="controls">
             <div className="controls__control controls__control--horizontal">
               <Feature
-                isActive={
-                  features.find(
-                    (feature) => feature.name === 'PARTICIPATE_UPDATE'
-                  )?.isActive
-                }
+                isActive={Participate.features(
+                  this.props.planStatus
+                ).PARTICIPATE_UPDATE.isActive()}
               >
                 <UpdateIdeas {...this.props} />
               </Feature>
               <Feature
-                isActive={
-                  features.find(
-                    (feature) => feature.name === 'PARTICIPATE_INFO'
-                  )?.isActive
-                }
+                isActive={Participate.features(
+                  this.props.planStatus
+                ).PARTICIPATE_INFO.isActive()}
               >
                 {this.props.session.facilitator.id ===
                 this.props.userIdentity.id ? (
@@ -283,10 +324,9 @@ export default class Participate extends React.Component<
             </div>
           </div>
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'PARTICIPATE_CREATE')
-                ?.isActive
-            }
+            isActive={Participate.features(
+              this.props.planStatus
+            ).PARTICIPATE_CREATE.isActive()}
           >
             <CreateIdea {...this.props} />
           </Feature>

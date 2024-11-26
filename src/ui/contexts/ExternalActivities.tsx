@@ -2,6 +2,7 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
+  FeatureStatus,
   Icon,
   Input,
   Message,
@@ -15,10 +16,11 @@ import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
-import { activitiesDbTableName, pageSize } from '../../utils/config'
+import features, { activitiesDbTableName, pageSize } from '../../utils/config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import SelfActivity from '../modules/SelfActivity'
 import CommunityActivity from '../modules/CommunityActivity'
+import Feature from '../components/Feature'
 
 interface ExternalActivitiesProps {
   context: 'SELF' | 'COMMUNITY'
@@ -44,6 +46,14 @@ export default class ExternalActivities extends React.Component<
   ExternalActivitiesProps,
   ExternalActivitiesStates
 > {
+  static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_SEARCH: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_SEARCH',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: ExternalActivitiesProps) {
     super(props)
     this.state = {
@@ -127,7 +137,7 @@ export default class ExternalActivities extends React.Component<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;;({ data, error } = await supabase
+      ;({ data, error } = await supabase
         .from(activitiesDbTableName)
         .select(
           'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, creator_full_name, creator_avatar'
@@ -140,7 +150,7 @@ export default class ExternalActivities extends React.Component<
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;;({ data, error } = await supabase
+      ;({ data, error } = await supabase
         .from(activitiesDbTableName)
         .select(
           'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, creator_full_name, creator_avatar'
@@ -427,41 +437,53 @@ export default class ExternalActivities extends React.Component<
             this.state.activitiesListStatus !== 'EMPTY' && (
               <Bar
                 soloPartSlot={
-                  <Input
-                    type="TEXT"
-                    icon={{
-                      type: 'PICTO',
-                      value: 'search',
-                    }}
-                    placeholder={
-                      locals[this.props.lang].activities.lazyLoad.search
-                    }
-                    value={this.state.activitiesSearchQuery}
-                    isClearable
-                    isFramed={false}
-                    onChange={(e) => {
-                      this.setState({
-                        activitiesSearchQuery: (e.target as HTMLInputElement)
-                          .value,
-                        activitiesListStatus: 'LOADING',
-                        currentPage: 1,
-                        activitiesList: [],
-                      })
-                      this.callUICPAgent(
-                        1,
-                        (e.target as HTMLInputElement).value
-                      )
-                    }}
-                    onCleared={(e) => {
-                      this.setState({
-                        activitiesSearchQuery: '',
-                        activitiesListStatus: 'LOADING',
-                        currentPage: 1,
-                        activitiesList: [],
-                      })
-                      this.callUICPAgent(1, e)
-                    }}
-                  />
+                  <Feature
+                    isActive={ExternalActivities.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_SEARCH.isActive()}
+                  >
+                    <Input
+                      type="TEXT"
+                      icon={{
+                        type: 'PICTO',
+                        value: 'search',
+                      }}
+                      placeholder={
+                        locals[this.props.lang].activities.lazyLoad.search
+                      }
+                      value={this.state.activitiesSearchQuery}
+                      isClearable
+                      isFramed={false}
+                      isBlocked={ExternalActivities.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_SEARCH.isBlocked()}
+                      isNew={ExternalActivities.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_SEARCH.isNew()}
+                      onChange={(e) => {
+                        this.setState({
+                          activitiesSearchQuery: (e.target as HTMLInputElement)
+                            .value,
+                          activitiesListStatus: 'LOADING',
+                          currentPage: 1,
+                          activitiesList: [],
+                        })
+                        this.callUICPAgent(
+                          1,
+                          (e.target as HTMLInputElement).value
+                        )
+                      }}
+                      onCleared={(e) => {
+                        this.setState({
+                          activitiesSearchQuery: '',
+                          activitiesListStatus: 'LOADING',
+                          currentPage: 1,
+                          activitiesList: [],
+                        })
+                        this.callUICPAgent(1, e)
+                      }}
+                    />
+                  </Feature>
                 }
                 border={['BOTTOM']}
               />

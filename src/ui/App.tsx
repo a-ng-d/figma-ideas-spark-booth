@@ -1,4 +1,4 @@
-import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import { Consent, ConsentConfiguration, FeatureStatus } from '@a_ng_d/figmug-ui'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
@@ -90,6 +90,29 @@ const container = document.getElementById('app'),
 })*/
 
 class App extends React.Component<Record<string, never>, AppStates> {
+  static features = (planStatus: PlanStatus) => ({
+    BROWSE: new FeatureStatus({
+      features: features,
+      featureName: 'BROWSE',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS',
+      planStatus: planStatus,
+    }),
+    CONSENT: new FeatureStatus({
+      features: features,
+      featureName: 'CONSENT',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: Record<string, never>) {
     super(props)
     this.state = {
@@ -432,7 +455,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
         <main className="ui">
           <Feature
             isActive={
-              features.find((feature) => feature.name === 'BROWSE')?.isActive &&
+              App.features(this.props.planStatus).BROWSE.isActive() &&
               this.state.sessions?.find((session) => session.isRunning) ===
                 undefined
             }
@@ -445,8 +468,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           </Feature>
           <Feature
             isActive={
-              features.find((feature) => feature.name === 'PARTICIPATE')
-                ?.isActive &&
+              App.features(this.props.planStatus).PARTICIPATE.isActive() &&
               this.state.sessions?.find((session) => session.isRunning) !==
                 undefined
             }
@@ -493,7 +515,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           <Feature
             isActive={
               this.state.mustUserConsent &&
-              features.find((feature) => feature.name === 'CONSENT')?.isActive
+              App.features(this.props.planStatus).CONSENT.isActive()
             }
           >
             <Consent
@@ -543,9 +565,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
             />
           </Feature>
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SHORTCUTS')?.isActive
-            }
+            isActive={App.features(this.props.planStatus).SHORTCUTS.isActive()}
           >
             <Shortcuts
               {...this.state}

@@ -147,7 +147,7 @@ export const features: Array<Feature<Service>> =
           description: '',
           isActive: true,
           isPro: false,
-          isNew: true,
+          isNew: false,
           type: 'ACTION',
           service: ['BROWSE'],
         },
