@@ -4,6 +4,7 @@ import {
   IdeaConfiguration,
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
+import { lang } from '../content/locals'
 
 export default class Classification {
   activityName: string
@@ -85,7 +86,7 @@ export default class Classification {
   makeClassification = () => {
     // Base
     const sectionNode = figma.createSection()
-    sectionNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, 'en-US')}`
+    sectionNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`
 
     const sections = Object.entries(this.ideas).map(([name, ideas]) => {
       return this.makeSection(name, ideas, ideas[0].type.hex)

@@ -256,7 +256,7 @@ export const locals: { [key: string]: any } = {
         title: `Welcome to ${glossary.name} Pro!`,
         message: '-',
         trial: '-',
-        cta: '',
+        cta: '-',
       },
       trial: {
         title: `Would you like to upgrade to the Pro plan within the next ${trialTime} hours?`,

@@ -268,7 +268,7 @@ export default class History extends React.Component<HistoryProps, HistoryStates
                 action={this.props.onCloseSessionHistory}
               />
               <span className={`${texts['type']} type`}>
-                {setFriendlyDate(this.props.sessionDate, 'en-US')}
+                {setFriendlyDate(this.props.sessionDate, this.props.lang)}
               </span>
             </div>
           }
@@ -472,7 +472,7 @@ export default class History extends React.Component<HistoryProps, HistoryStates
                   this.props.lang
                 ].settings.deleteSessionDialog.message.replace(
                   '$1',
-                  setFriendlyDate(this.props.sessionDate, 'en-US')
+                  setFriendlyDate(this.props.sessionDate, this.props.lang)
                 )}
               </p>
             </div>

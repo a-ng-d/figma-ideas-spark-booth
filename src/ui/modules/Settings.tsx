@@ -869,7 +869,10 @@ export default class Settings extends React.Component<
                         className={`${texts['type']} ${texts['type--truncated']} type`}
                         style={{ flex: '0 0 200px' }}
                       >
-                        {setFriendlyDate(session.metrics.startDate, 'en-US')}
+                        {setFriendlyDate(
+                          session.metrics.startDate,
+                          this.props.lang
+                        )}
                       </span>
                       <span
                         className={`${texts['type']} ${texts['type--secondary']} type`}
