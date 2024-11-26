@@ -12,7 +12,6 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
 import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import ColorChip from '../components/ColorChip'
@@ -96,25 +95,20 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                 actionsSlot={
                   <>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'ACTIVITIES_SETTINGS'
-                        )?.isActive
-                      }
+                      isActive={LocalActivities.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_SETTINGS.isActive()}
                     >
                       <Button
                         type="icon"
                         icon="adjust"
                         feature="CONFIGURE_ACTIVITY"
-                        isBlocked={isBlocked(
-                          'ACTIVITIES_SETTINGS',
+                        isBlocked={LocalActivities.features(
                           this.props.planStatus
-                        )}
-                        isNew={
-                          features.find(
-                            (feature) => feature.name === 'ACTIVITIES_SETTINGS'
-                          )?.isNew
-                        }
+                        ).ACTIVITIES_SETTINGS.isBlocked()}
+                        isNew={LocalActivities.features(
+                          this.props.planStatus
+                        ).ACTIVITIES_SETTINGS.isNew()}
                         action={() =>
                           this.props.onOpenActivitySettings(activity.meta.id)
                         }
