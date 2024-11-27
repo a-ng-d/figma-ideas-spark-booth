@@ -219,7 +219,7 @@ export default class UpdateIdeas extends React.Component<
                           state={
                             UpdateIdeas.features(
                               this.props.planStatus
-                            ).PARTICIPATE_UPDATE_TYPE.isActive()
+                            ).PARTICIPATE_UPDATE_TYPE.isBlocked()
                               ? 'DISABLED'
                               : 'DEFAULT'
                           }
