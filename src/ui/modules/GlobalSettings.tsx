@@ -126,7 +126,9 @@ export default class GlobalSettings extends React.Component<GlobalSettingsProps>
             <Input
               id="update-activity-description"
               type="LONG_TEXT"
-              placeholder={"What's it for?"}
+              placeholder={
+                locals[this.props.lang].settings.global.description.placeholder
+              }
               value={this.props.activity.description}
               feature="UPDATE_DESCRIPTION"
               isBlocked={GlobalSettings.features(
@@ -164,7 +166,9 @@ export default class GlobalSettings extends React.Component<GlobalSettingsProps>
             <Input
               id="update-activity-instructions"
               type="LONG_TEXT"
-              placeholder={"What's it for?"}
+              placeholder={
+                locals[this.props.lang].settings.global.instructions.placeholder
+              }
               value={this.props.activity.instructions}
               feature="UPDATE_INSTRUCTIONS"
               isBlocked={GlobalSettings.features(
