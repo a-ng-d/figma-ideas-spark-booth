@@ -22,6 +22,7 @@ export const locals: { [key: string]: any } = {
         placeholder: "What's it for?",
       },
       close: `Close ${glossary.name}`,
+      you: 'You',
     },
     onboarding: {},
     shortcuts: {
@@ -313,6 +314,7 @@ export const locals: { [key: string]: any } = {
     },
     info: {
       noResult: 'No activity match your search',
+      inviteParticipants: `Invite participants to join the FigmJam board and tell them to open ${glossary.name}`,
       signOut: '☻ See you later',
     },
     generic: {},

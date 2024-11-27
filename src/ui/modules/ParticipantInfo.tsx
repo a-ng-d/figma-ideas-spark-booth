@@ -11,8 +11,6 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
-  IdeaConfiguration,
-  TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -29,17 +27,7 @@ interface ParticipantInfoProps {
   lang: Language
 }
 
-interface ParticipantInfoStates {
-  canBeSubmitted: boolean
-  currentType: TypeConfiguration
-  currentText: string
-  selfIdeas: Array<IdeaConfiguration>
-}
-
-export default class ParticipantInfo extends React.Component<
-  ParticipantInfoProps,
-  ParticipantInfoStates
-> {
+export default class ParticipantInfo extends React.Component<ParticipantInfoProps> {
   static features = (planStatus: PlanStatus) => ({
     PARTICIPATE_INFO_DESCRIPTION: new FeatureStatus({
       features: features,

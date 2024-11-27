@@ -1,9 +1,11 @@
 import {
+  Button,
   Chip,
   ConsentConfiguration,
   FeatureStatus,
   Message,
   SectionTitle,
+  SemanticMessage,
   SimpleItem,
   layouts,
   texts,
@@ -15,7 +17,6 @@ import {
   ActiveParticipants,
   ActivityConfiguration,
   IdeaConfiguration,
-  TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -35,10 +36,7 @@ interface FacilitatorInfoProps {
 }
 
 interface FacilitatorInfoStates {
-  canBeSubmitted: boolean
-  currentType: TypeConfiguration
-  currentText: string
-  selfIdeas: Array<IdeaConfiguration>
+  isParticipantsMessageVisible: boolean
 }
 
 export default class FacilitatorInfo extends React.Component<
@@ -72,6 +70,13 @@ export default class FacilitatorInfo extends React.Component<
       planStatus: planStatus,
     }),
   })
+
+  constructor(props: FacilitatorInfoProps) {
+    super(props)
+    this.state = {
+      isParticipantsMessageVisible: true,
+    }
+  }
 
   render() {
     const sortedIdeas = this.props.ideas.reduce(
@@ -153,6 +158,21 @@ export default class FacilitatorInfo extends React.Component<
               isListItem={false}
             />
             <div className="group__item group__item--tight">
+              {this.state.isParticipantsMessageVisible && (
+                <SemanticMessage
+                  type="INFO"
+                  message={locals[this.props.lang].info.inviteParticipants}
+                  action={
+                    <Button
+                      type="icon"
+                      icon="close"
+                      action={() =>
+                        this.setState({ isParticipantsMessageVisible: false })
+                      }
+                    />
+                  }
+                />
+              )}
               <ul className="list list--fill">
                 {this.props.activeParticipants.map((participant, index) => (
                   <SimpleItem
@@ -167,6 +187,13 @@ export default class FacilitatorInfo extends React.Component<
                         </div>
                         <span className={`type ${texts['type']}`}>
                           {participant.userIdentity.fullName}
+                        </span>
+                        <span
+                          className={`type ${texts['type']}  ${texts['type--secondary']}`}
+                        >
+                          {participant.userIdentity.id ===
+                            this.props.userIdentity.id &&
+                            locals[this.props.lang].global.you}
                         </span>
                         {participant.hasFinished && (
                           <Chip>
