@@ -76,17 +76,6 @@ div.onboarding__actions {
   padding: 0 calc(var(--size-xsmall) + var(--size-xxxsmall));
 }
 
-/* Truncated */
-div.truncated {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  padding: 0 0 0 var(--size-xxxsmall);
-}
-
-div.truncated span {
-  white-space: nowrap;
-}
-
 /* User */
 div.user {
   display: flex;
@@ -109,26 +98,6 @@ div.user__avatar img {
 
 div.user__name {
   text-wrap: nowrap;
-}
-
-/* Group */
-div.group {
-  padding: var(--size-xxsmall) 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-xxxsmall);
-}
-
-div.group + div.group {
-  border-top: 1px solid var(--figma-color-border);
-}
-
-div.group__item {
-  padding: 0 var(--size-xsmall);
-}
-
-div.group__item--tight {
-  padding: 0 var(--size-xxsmall);
 }
 
 /* Color Chip */

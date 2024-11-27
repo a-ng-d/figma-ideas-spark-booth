@@ -128,18 +128,6 @@ div.control__block__loader {
   margin: auto;
 }
 
-/* Export */
-div.export-palette__preview {
-  padding: 0 var(--size-xsmall);
-  flex: 1;
-  display: grid;
-}
-
-div.export-palette__preview textarea {
-  height: 100%;
-  margin: 0;
-}
-
 /* About */
 div.about {
   flex-direction: row;
