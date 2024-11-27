@@ -275,7 +275,7 @@ export default class ExternalActivities extends React.Component<
         {this.state.activitiesListStatus === 'ERROR' && (
           <div className="onboarding__callout--centered">
             <SemanticMessage
-              type="ERROR"
+              type="WARNING"
               message={locals[this.props.lang].error.fetchActivity}
             />
           </div>
