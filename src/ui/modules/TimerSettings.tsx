@@ -1,4 +1,11 @@
-import { FeatureStatus, FormItem, Input, Section } from '@a_ng_d/figmug-ui'
+import {
+  FeatureStatus,
+  FormItem,
+  Input,
+  Section,
+  SectionTitle,
+  SimpleItem,
+} from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
@@ -122,8 +129,17 @@ export default class TimerSettings extends React.Component<TimerSettingsProps> {
         ).SETTINGS_TIMER.isActive()}
       >
         <Section
-          label={locals[this.props.lang].settings.global.title}
-          childrens={[
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].settings.timer.title}
+                />
+              }
+              isListItem={false}
+            />
+          }
+          body={[
             {
               node: <this.Minutes />,
             },
@@ -131,6 +147,7 @@ export default class TimerSettings extends React.Component<TimerSettingsProps> {
               node: <this.Seconds />,
             },
           ]}
+          border={['BOTTOM']}
         />
       </Feature>
     )

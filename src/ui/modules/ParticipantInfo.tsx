@@ -2,6 +2,7 @@ import {
   ConsentConfiguration,
   FeatureStatus,
   Section,
+  SectionTitle,
   SimpleItem,
   layouts,
   texts,
@@ -63,8 +64,17 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
           }
         >
           <Section
-            label={locals[this.props.lang].participate.info.description}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={locals[this.props.lang].participate.info.description}
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (
                   <div
@@ -80,6 +90,7 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
                 ),
               },
             ]}
+            border={['BOTTOM']}
           />
         </Feature>
         <Feature
@@ -91,8 +102,19 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
           }
         >
           <Section
-            label={locals[this.props.lang].participate.info.instructions}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={
+                      locals[this.props.lang].participate.info.instructions
+                    }
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (
                   <div
@@ -108,6 +130,7 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
                 ),
               },
             ]}
+            border={['BOTTOM']}
           />
         </Feature>
         <Feature
@@ -116,9 +139,18 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
           ).PARTICIPATE_INFO_TYPES.isActive()}
         >
           <Section
-            label={locals[this.props.lang].participate.info.types}
-            indicator={this.props.activity.types.length.toString()}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={locals[this.props.lang].participate.info.types}
+                    indicator={this.props.activity.types.length.toString()}
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (
                   <ul>

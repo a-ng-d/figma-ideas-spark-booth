@@ -4,6 +4,7 @@ import {
   FeatureStatus,
   FormItem,
   Input,
+  Section,
   SectionTitle,
   SimpleItem,
   SortableList,
@@ -169,225 +170,239 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
           this.props.planStatus
         ).SETTINGS_TYPES.isActive()}
       >
-        <div className="group">
-          <SimpleItem
-            leftPartSlot={
-              <SectionTitle
-                label={locals[this.props.lang].settings.types.title}
-                indicator={this.props.activity.types.length}
-              />
-            }
-            rightPartSlot={
-              <Feature
-                isActive={TypesSettings.features(
-                  this.props.planStatus
-                ).SETTINGS_TYPES_ADD.isActive()}
-              >
-                <Button
-                  type="icon"
-                  icon="plus"
-                  feature="ADD_TYPE"
-                  isBlocked={TypesSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_TYPES_ADD.isBlocked()}
-                  isNew={TypesSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_TYPES_ADD.isNew()}
-                  action={this.typeHandler}
+        <Section
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].settings.types.title}
+                  indicator={this.props.activity.types.length}
                 />
-              </Feature>
-            }
-            isListItem={false}
-          />
-          <SortableList
-            data={this.props.activity.types as Array<TypeConfiguration>}
-            canBeEmpty={false}
-            primarySlot={this.props.activity.types.map((type) => (
-              <>
+              }
+              rightPartSlot={
                 <Feature
                   isActive={TypesSettings.features(
                     this.props.planStatus
-                  ).SETTINGS_TYPES_NAME.isActive()}
+                  ).SETTINGS_TYPES_ADD.isActive()}
                 >
-                  <div className="draggable-item__param--compact">
-                    <Input
-                      type="TEXT"
-                      value={type.name}
-                      charactersLimit={24}
-                      feature="RENAME_TYPE"
-                      isBlocked={TypesSettings.features(
-                        this.props.planStatus
-                      ).SETTINGS_TYPES_NAME.isBlocked()}
-                      isNew={TypesSettings.features(
-                        this.props.planStatus
-                      ).SETTINGS_TYPES_NAME.isNew()}
-                      onBlur={this.typeHandler}
-                      onConfirm={this.typeHandler}
-                    />
-                  </div>
-                </Feature>
-                <Feature
-                  isActive={TypesSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_TYPES_COLOR.isActive()}
-                >
-                  <>
-                    <div className="draggable-item__param--square">
-                      <ColorChip color={type.hex} />
-                    </div>
-                    <div className="draggable-item__param--compact">
-                      <Dropdown
-                        id="update-type-color"
-                        options={[
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .gray,
-                            value: 'GRAY',
-                            feature: 'UPDATE_COLOR',
-                            position: 0,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors.red,
-                            value: 'RED',
-                            feature: 'UPDATE_COLOR',
-                            position: 1,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .orange,
-                            value: 'ORANGE',
-                            feature: 'UPDATE_COLOR',
-                            position: 2,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .yellow,
-                            value: 'YELLOW',
-                            feature: 'UPDATE_COLOR',
-                            position: 3,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .green,
-                            value: 'GREEN',
-                            feature: 'UPDATE_COLOR',
-                            position: 4,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .blue,
-                            value: 'BLUE',
-                            feature: 'UPDATE_COLOR',
-                            position: 5,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .violet,
-                            value: 'VIOLET',
-                            feature: 'UPDATE_COLOR',
-                            position: 6,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .pink,
-                            value: 'PINK',
-                            feature: 'UPDATE_COLOR',
-                            position: 7,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                          {
-                            label:
-                              locals[this.props.lang].settings.types.colors
-                                .lightGray,
-                            value: 'LIGHT_GRAY',
-                            feature: 'UPDATE_COLOR',
-                            position: 8,
-                            type: 'OPTION',
-                            action: this.typeHandler,
-                          },
-                        ]}
-                        selected={type.color}
-                        alignment="FILL"
-                        isNew={TypesSettings.features(
-                          this.props.planStatus
-                        ).SETTINGS_TYPES_COLOR.isNew()}
-                      />
-                    </div>
-                  </>
-                </Feature>
-              </>
-            ))}
-            secondarySlot={this.props.activity.types.map((type, index) => (
-              <Feature
-                key={index}
-                isActive={TypesSettings.features(
-                  this.props.planStatus
-                ).SETTINGS_TYPES_DESCRIPTION.isActive()}
-              >
-                <div className="draggable-list__param">
-                  <FormItem
-                    id="type-description"
-                    label={
-                      locals[this.props.lang].settings.types.description.label
-                    }
+                  <Button
+                    type="icon"
+                    icon="plus"
+                    feature="ADD_TYPE"
                     isBlocked={TypesSettings.features(
                       this.props.planStatus
-                    ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                    ).SETTINGS_TYPES_ADD.isBlocked()}
                     isNew={TypesSettings.features(
                       this.props.planStatus
-                    ).SETTINGS_TYPES_DESCRIPTION.isNew()}
-                  >
-                    <Input
-                      id="color-description"
-                      type="LONG_TEXT"
-                      value={type.description}
-                      placeholder={
-                        locals[this.props.lang].settings.types.description
-                          .placeholder
-                      }
-                      feature="UPDATE_DESCRIPTION"
-                      isGrowing={true}
-                      isBlocked={TypesSettings.features(
-                        this.props.planStatus
-                      ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
-                      isNew={TypesSettings.features(
-                        this.props.planStatus
-                      ).SETTINGS_TYPES_DESCRIPTION.isNew()}
-                      onChange={this.typeHandler}
-                      onBlur={this.typeHandler}
-                      onConfirm={this.typeHandler}
-                    />
-                  </FormItem>
-                </div>
-              </Feature>
-            ))}
-            onChangeSortableList={this.onChangeOrder}
-            onRemoveItem={this.typeHandler}
-          />
-        </div>
+                    ).SETTINGS_TYPES_ADD.isNew()}
+                    action={this.typeHandler}
+                  />
+                </Feature>
+              }
+              isListItem={false}
+            />
+          }
+          body={[
+            {
+              node: (
+                <SortableList
+                  data={this.props.activity.types as Array<TypeConfiguration>}
+                  canBeEmpty={false}
+                  primarySlot={this.props.activity.types.map((type) => (
+                    <>
+                      <Feature
+                        isActive={TypesSettings.features(
+                          this.props.planStatus
+                        ).SETTINGS_TYPES_NAME.isActive()}
+                      >
+                        <div className="draggable-item__param--compact">
+                          <Input
+                            type="TEXT"
+                            value={type.name}
+                            charactersLimit={24}
+                            feature="RENAME_TYPE"
+                            isBlocked={TypesSettings.features(
+                              this.props.planStatus
+                            ).SETTINGS_TYPES_NAME.isBlocked()}
+                            isNew={TypesSettings.features(
+                              this.props.planStatus
+                            ).SETTINGS_TYPES_NAME.isNew()}
+                            onBlur={this.typeHandler}
+                            onConfirm={this.typeHandler}
+                          />
+                        </div>
+                      </Feature>
+                      <Feature
+                        isActive={TypesSettings.features(
+                          this.props.planStatus
+                        ).SETTINGS_TYPES_COLOR.isActive()}
+                      >
+                        <>
+                          <div className="draggable-item__param--square">
+                            <ColorChip color={type.hex} />
+                          </div>
+                          <div className="draggable-item__param--compact">
+                            <Dropdown
+                              id="update-type-color"
+                              options={[
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.gray,
+                                  value: 'GRAY',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 0,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.red,
+                                  value: 'RED',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 1,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.orange,
+                                  value: 'ORANGE',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 2,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.yellow,
+                                  value: 'YELLOW',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 3,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.green,
+                                  value: 'GREEN',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 4,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.blue,
+                                  value: 'BLUE',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 5,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.violet,
+                                  value: 'VIOLET',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 6,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.pink,
+                                  value: 'PINK',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 7,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                                {
+                                  label:
+                                    locals[this.props.lang].settings.types
+                                      .colors.lightGray,
+                                  value: 'LIGHT_GRAY',
+                                  feature: 'UPDATE_COLOR',
+                                  position: 8,
+                                  type: 'OPTION',
+                                  action: this.typeHandler,
+                                },
+                              ]}
+                              selected={type.color}
+                              alignment="FILL"
+                              isNew={TypesSettings.features(
+                                this.props.planStatus
+                              ).SETTINGS_TYPES_COLOR.isNew()}
+                            />
+                          </div>
+                        </>
+                      </Feature>
+                    </>
+                  ))}
+                  secondarySlot={this.props.activity.types.map(
+                    (type, index) => (
+                      <Feature
+                        key={index}
+                        isActive={TypesSettings.features(
+                          this.props.planStatus
+                        ).SETTINGS_TYPES_DESCRIPTION.isActive()}
+                      >
+                        <div className="draggable-list__param">
+                          <FormItem
+                            id="type-description"
+                            label={
+                              locals[this.props.lang].settings.types.description
+                                .label
+                            }
+                            isBlocked={TypesSettings.features(
+                              this.props.planStatus
+                            ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                            isNew={TypesSettings.features(
+                              this.props.planStatus
+                            ).SETTINGS_TYPES_DESCRIPTION.isNew()}
+                          >
+                            <Input
+                              id="color-description"
+                              type="LONG_TEXT"
+                              value={type.description}
+                              placeholder={
+                                locals[this.props.lang].settings.types
+                                  .description.placeholder
+                              }
+                              feature="UPDATE_DESCRIPTION"
+                              isGrowing={true}
+                              isBlocked={TypesSettings.features(
+                                this.props.planStatus
+                              ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                              isNew={TypesSettings.features(
+                                this.props.planStatus
+                              ).SETTINGS_TYPES_DESCRIPTION.isNew()}
+                              onChange={this.typeHandler}
+                              onBlur={this.typeHandler}
+                              onConfirm={this.typeHandler}
+                            />
+                          </FormItem>
+                        </div>
+                      </Feature>
+                    )
+                  )}
+                  onChangeSortableList={this.onChangeOrder}
+                  onRemoveItem={this.typeHandler}
+                />
+              ),
+              spacingModifier: 'NONE',
+            },
+          ]}
+          border={['BOTTOM']}
+        />
       </Feature>
     )
   }

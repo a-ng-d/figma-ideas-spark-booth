@@ -4,6 +4,8 @@ import {
   FormItem,
   Input,
   Section,
+  SectionTitle,
+  SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
@@ -245,8 +247,17 @@ export default class GlobalSettings extends React.Component<GlobalSettingsProps>
   render() {
     return (
       <Section
-        label={locals[this.props.lang].settings.global.title}
-        childrens={[
+        title={
+          <SimpleItem
+            leftPartSlot={
+              <SectionTitle
+                label={locals[this.props.lang].settings.global.title}
+              />
+            }
+            isListItem={false}
+          />
+        }
+        body={[
           {
             node: <this.Name />,
           },
@@ -260,6 +271,7 @@ export default class GlobalSettings extends React.Component<GlobalSettingsProps>
             node: <this.GroupedBy />,
           },
         ]}
+        border={['BOTTOM']}
       />
     )
   }

@@ -6,6 +6,7 @@ import {
   Dialog,
   FeatureStatus,
   Icon,
+  Section,
   SectionTitle,
   SimpleItem,
   layouts,
@@ -112,64 +113,74 @@ export default class Settings extends React.Component<
       <Feature
         isActive={Settings.features(this.props.planStatus).HISTORY.isActive()}
       >
-        <div className="group">
-          <SimpleItem
-            leftPartSlot={
-              <SectionTitle
-                label={locals[this.props.lang].settings.history.title}
-                indicator={this.props.sessions.length}
-              />
-            }
-            isListItem={false}
-          />
-          <ul>
-            {this.props.sessions
-              .sort(
-                (a, b) =>
-                  new Date(b.metrics.startDate).getTime() -
-                  new Date(a.metrics.startDate).getTime()
-              )
-              .map((session, index) => (
-                <SimpleItem
-                  key={index}
-                  id={session.id}
-                  leftPartSlot={
-                    <div
-                      style={{
-                        paddingLeft: 'var(--size-xxsmall)',
-                      }}
-                      className={`${layouts['snackbar--large']}`}
-                    >
-                      <span
-                        className={`${texts['type']} ${texts['type--truncated']} type`}
-                        style={{ flex: '0 0 200px' }}
-                      >
-                        {setFriendlyDate(
-                          session.metrics.startDate,
-                          this.props.lang
-                        )}
-                      </span>
-                      <span
-                        className={`${texts['type']} ${texts['type--secondary']} type`}
-                        style={{ flex: '0 0 auto' }}
-                      >
-                        {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}・${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
-                      </span>
-                    </div>
-                  }
-                  rightPartSlot={
-                    <Icon
-                      type="PICTO"
-                      iconName="forward"
-                    />
-                  }
-                  alignment="CENTER"
-                  isInteractive={true}
-                  action={this.props.onOpenSessionHistory}
+        <Section
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].settings.history.title}
+                  indicator={this.props.sessions.length}
                 />
-              ))}
-          </ul>
-        </div>
+              }
+              isListItem={false}
+            />
+          }
+          body={[
+            {
+              node: (
+                <ul>
+                  {this.props.sessions
+                    .sort(
+                      (a, b) =>
+                        new Date(b.metrics.startDate).getTime() -
+                        new Date(a.metrics.startDate).getTime()
+                    )
+                    .map((session, index) => (
+                      <SimpleItem
+                        key={index}
+                        id={session.id}
+                        leftPartSlot={
+                          <div
+                            style={{
+                              paddingLeft: 'var(--size-xxsmall)',
+                            }}
+                            className={`${layouts['snackbar--large']}`}
+                          >
+                            <span
+                              className={`${texts['type']} ${texts['type--truncated']} type`}
+                              style={{ flex: '0 0 200px' }}
+                            >
+                              {setFriendlyDate(
+                                session.metrics.startDate,
+                                this.props.lang
+                              )}
+                            </span>
+                            <span
+                              className={`${texts['type']} ${texts['type--secondary']} type`}
+                              style={{ flex: '0 0 auto' }}
+                            >
+                              {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}・${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
+                            </span>
+                          </div>
+                        }
+                        rightPartSlot={
+                          <Icon
+                            type="PICTO"
+                            iconName="forward"
+                          />
+                        }
+                        alignment="CENTER"
+                        isInteractive={true}
+                        action={this.props.onOpenSessionHistory}
+                      />
+                    ))}
+                </ul>
+              ),
+              spacingModifier: 'NONE',
+            },
+          ]}
+          border={undefined}
+        />
       </Feature>
     )
   }

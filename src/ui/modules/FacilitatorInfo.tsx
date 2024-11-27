@@ -5,6 +5,7 @@ import {
   FeatureStatus,
   Message,
   Section,
+  SectionTitle,
   SemanticMessage,
   SimpleItem,
   layouts,
@@ -104,9 +105,20 @@ export default class FacilitatorInfo extends React.Component<
           ).PARTICIPATE_INFO_IDEAS.isActive()}
         >
           <Section
-            label={locals[this.props.lang].participate.info.sessionIdeas}
-            indicator={this.props.ideas.length.toString()}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={
+                      locals[this.props.lang].participate.info.sessionIdeas
+                    }
+                    indicator={this.props.ideas.length.toString()}
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (() =>
                   this.props.ideas.length === 0 ? (
@@ -137,6 +149,7 @@ export default class FacilitatorInfo extends React.Component<
                   this.props.ideas.length === 0 ? 'NONE' : 'TIGHT',
               },
             ]}
+            border={['BOTTOM']}
           />
         </Feature>
         <Feature
@@ -145,9 +158,20 @@ export default class FacilitatorInfo extends React.Component<
           ).PARTICIPATE_INFO_PARTICIPANTS.isActive()}
         >
           <Section
-            label={locals[this.props.lang].participate.info.participants}
-            indicator={this.props.activeParticipants.length.toString()}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={
+                      locals[this.props.lang].participate.info.participants
+                    }
+                    indicator={this.props.activeParticipants.length.toString()}
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (() =>
                   this.state.isParticipantsMessageVisible && (
@@ -206,6 +230,7 @@ export default class FacilitatorInfo extends React.Component<
                 spacingModifier: 'TIGHT',
               },
             ]}
+            border={['BOTTOM']}
           />
         </Feature>
         <Feature
@@ -217,8 +242,17 @@ export default class FacilitatorInfo extends React.Component<
           }
         >
           <Section
-            label={locals[this.props.lang].participate.info.description}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={locals[this.props.lang].participate.info.description}
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (
                   <div
@@ -234,6 +268,7 @@ export default class FacilitatorInfo extends React.Component<
                 ),
               },
             ]}
+            border={['BOTTOM']}
           />
         </Feature>
         <Feature
@@ -245,8 +280,19 @@ export default class FacilitatorInfo extends React.Component<
           }
         >
           <Section
-            label={locals[this.props.lang].participate.info.instructions}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={
+                      locals[this.props.lang].participate.info.instructions
+                    }
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (
                   <div
@@ -262,6 +308,7 @@ export default class FacilitatorInfo extends React.Component<
                 ),
               },
             ]}
+            border={['BOTTOM']}
           />
         </Feature>
         <Feature
@@ -270,9 +317,18 @@ export default class FacilitatorInfo extends React.Component<
           ).PARTICIPATE_INFO_TYPES.isActive()}
         >
           <Section
-            label={locals[this.props.lang].participate.info.types}
-            indicator={this.props.activity.types.length.toString()}
-            childrens={[
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={locals[this.props.lang].participate.info.types}
+                    indicator={this.props.activity.types.length.toString()}
+                  />
+                }
+                isListItem={false}
+              />
+            }
+            body={[
               {
                 node: (
                   <ul>
