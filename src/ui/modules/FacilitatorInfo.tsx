@@ -257,7 +257,7 @@ export default class FacilitatorInfo extends React.Component<
               {
                 node: (
                   <div
-                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    style={{ paddingBottom: 'var(--size-xxsmall)' }}
                     className={`type ${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.description.replace(
@@ -267,6 +267,7 @@ export default class FacilitatorInfo extends React.Component<
                     }}
                   />
                 ),
+                spacingModifier: 'LARGE',
               },
             ]}
             border={['BOTTOM']}
@@ -297,7 +298,7 @@ export default class FacilitatorInfo extends React.Component<
               {
                 node: (
                   <div
-                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    style={{ paddingBottom: 'var(--size-xxsmall)' }}
                     className={`type ${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.instructions.replace(
@@ -307,6 +308,7 @@ export default class FacilitatorInfo extends React.Component<
                     }}
                   />
                 ),
+                spacingModifier: 'LARGE',
               },
             ]}
             border={['BOTTOM']}

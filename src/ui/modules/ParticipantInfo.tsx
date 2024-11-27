@@ -78,7 +78,7 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
               {
                 node: (
                   <div
-                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    style={{ paddingBottom: 'var(--size-xxsmall)' }}
                     className={`type ${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.description.replace(
@@ -88,6 +88,7 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
                     }}
                   />
                 ),
+                spacingModifier: 'LARGE',
               },
             ]}
             border={['BOTTOM']}
@@ -118,7 +119,7 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
               {
                 node: (
                   <div
-                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    style={{ paddingBottom: 'var(--size-xxsmall)' }}
                     className={`type ${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.instructions.replace(
@@ -128,6 +129,7 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
                     }}
                   />
                 ),
+                spacingModifier: 'LARGE',
               },
             ]}
             border={['BOTTOM']}
