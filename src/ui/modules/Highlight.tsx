@@ -1,4 +1,4 @@
-import { Dialog, Icon, Message, texts } from '@a_ng_d/figmug-ui'
+import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
 import { HighlightDigest, Language } from '../../types/app'
@@ -79,9 +79,9 @@ export default class Highlight extends React.Component<
           onClose={this.props.onCloseHighlight}
         >
           <div className="onboarding__callout--centered">
-            <Message
-              icon="warning"
-              messages={[locals[this.props.lang].error.announcements]}
+            <SemanticMessage
+              type="WARNING"
+              message={locals[this.props.lang].error.announcements}
             />
           </div>
         </Dialog>

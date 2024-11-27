@@ -6,6 +6,7 @@ import {
   Icon,
   Input,
   Message,
+  SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 
@@ -273,27 +274,25 @@ export default class ExternalActivities extends React.Component<
         )}
         {this.state.activitiesListStatus === 'ERROR' && (
           <div className="onboarding__callout--centered">
-            <Message
-              icon="warning"
-              messages={[locals[this.props.lang].error.fetchActivity]}
+            <SemanticMessage
+              type="ERROR"
+              message={locals[this.props.lang].error.fetchActivity}
             />
           </div>
         )}
         {this.state.activitiesListStatus === 'EMPTY' && (
           <div className="onboarding__callout--centered">
-            <Message
-              icon="info"
-              messages={[
-                locals[this.props.lang].warning.noSelfActivityOnRemote,
-              ]}
+            <SemanticMessage
+              type="NEUTRAL"
+              message={locals[this.props.lang].warning.noSelfActivityOnRemote}
             />
           </div>
         )}
         {this.state.activitiesListStatus === 'NO_RESULT' && (
           <div className="onboarding__callout--centered">
-            <Message
-              icon="info"
-              messages={[locals[this.props.lang].info.noResult]}
+            <SemanticMessage
+              type="NEUTRAL"
+              message={locals[this.props.lang].info.noResult}
             />
           </div>
         )}
@@ -394,38 +393,39 @@ export default class ExternalActivities extends React.Component<
     } else {
       fragment = (
         <div className="onboarding__callout--centered">
-          <Message
-            icon="info"
-            messages={[locals[this.props.lang].activities.signInFirst.message]}
-          />
-          <div className="onboarding__actions">
-            <Button
-              type="primary"
-              label={locals[this.props.lang].activities.signInFirst.signIn}
-              isLoading={this.state.isSignInActionLoading}
-              action={async () => {
-                this.setState({ isSignInActionLoading: true })
-                signIn(this.props.userIdentity.id)
-                  .finally(() => {
-                    this.setState({ isSignInActionLoading: false })
-                  })
-                  .catch((error) => {
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'SEND_MESSAGE',
-                          message:
-                            error.message === 'Authentication timeout'
-                              ? locals[this.props.lang].error.timeout
-                              : locals[this.props.lang].error.authentication,
+          <SemanticMessage
+            type="NEUTRAL"
+            message={locals[this.props.lang].activities.signInFirst.message}
+            orientation="VERTICAL"
+            action={
+              <Button
+                type="primary"
+                label={locals[this.props.lang].activities.signInFirst.signIn}
+                isLoading={this.state.isSignInActionLoading}
+                action={async () => {
+                  this.setState({ isSignInActionLoading: true })
+                  signIn(this.props.userIdentity.id)
+                    .finally(() => {
+                      this.setState({ isSignInActionLoading: false })
+                    })
+                    .catch((error) => {
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SEND_MESSAGE',
+                            message:
+                              error.message === 'Authentication timeout'
+                                ? locals[this.props.lang].error.timeout
+                                : locals[this.props.lang].error.authentication,
+                          },
                         },
-                      },
-                      '*'
-                    )
-                  })
-              }}
-            />
-          </div>
+                        '*'
+                      )
+                    })
+                }}
+              />
+            }
+          />
         </div>
       )
     }

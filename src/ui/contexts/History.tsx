@@ -6,7 +6,7 @@ import {
   DropdownOption,
   FeatureStatus,
   Menu,
-  Message,
+  SemanticMessage,
   SimpleItem,
   layouts,
   texts,
@@ -532,9 +532,9 @@ export default class History extends React.Component<
             </ul>
           ) : (
             <div className="onboarding__callout--centered">
-              <Message
-                icon="info"
-                messages={[locals[this.props.lang].history.noIdea]}
+              <SemanticMessage
+                type="NEUTRAL"
+                message={locals[this.props.lang].history.noIdea}
               />
             </div>
           )}
