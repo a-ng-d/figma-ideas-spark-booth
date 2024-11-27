@@ -191,6 +191,7 @@ export default class FacilitatorInfo extends React.Component<
                       }
                     />
                   ))(),
+                spacingModifier: 'LARGE',
               },
               {
                 node: (
