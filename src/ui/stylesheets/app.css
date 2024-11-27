@@ -53,13 +53,14 @@ div.idea-edit {
   border-top: 1px solid var(--figma-color-border);
   display: flex;
   align-items: flex-start;
-  gap: var(--size-xxsmall);
+  gap: var(--size-xxxsmall);
 }
 
 div.idea-edit__text {
   flex: 1;
   display: flex;
   align-items: flex-start;
+  gap: var(--size-xxsmall);
 }
 
 div.idea-edit__text .input,
