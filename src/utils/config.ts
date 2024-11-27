@@ -1,11 +1,16 @@
 import { Feature } from '@a_ng_d/figmug-ui'
 import { Service } from '../types/app'
 
+// Limitations
 export const trialTime = 48
 export const oldTrialTime = 72
-
 export const pageSize = 20
 
+// Versions
+export const userConsentVersion = '2024.01'
+export const trialVersion = '2024.01'
+
+// URLs
 export const authWorkerUrl =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8787'
@@ -27,9 +32,7 @@ export const activitiesStorageName =
     ? 'Palette screenshots'
     : 'palette.screenshots'
 
-export const userConsentVersion = '2024.01'
-export const trialVersion = '2024.01'
-
+// External URLs
 export const documentationUrl = ''
 export const repositoryUrl = ''
 export const supportEmail = ''
@@ -38,6 +41,7 @@ export const trialUrl = ''
 export const requestsUrl = ''
 export const networkUrl = ''
 
+// Note colors
 export const grayColor = '#AFBCCF'
 export const redColor = '#FFAFA3'
 export const orangeColor = '#FFC470'
@@ -48,6 +52,7 @@ export const violetColor = '#D9B8FF'
 export const pinkColor = '#FFBDF2'
 export const lightGrayColor = '#E6E6E6'
 
+// Features
 export const features: Array<Feature<Service>> =
   process.env.NODE_ENV === 'development'
     ? [
