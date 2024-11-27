@@ -314,7 +314,7 @@ export const locals: { [key: string]: any } = {
     },
     info: {
       noResult: 'No activity match your search',
-      inviteParticipants: `Invite participants to join the FigmJam board and tell them to open ${glossary.name}`,
+      inviteParticipants: `Invite participants to join the FigJam board and tell them to open ${glossary.name}`,
       signOut: '☻ See you later',
     },
     generic: {},
