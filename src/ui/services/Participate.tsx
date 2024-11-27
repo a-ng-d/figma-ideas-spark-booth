@@ -203,11 +203,8 @@ export default class Participate extends React.Component<
               </Feature>
               <Feature
                 isActive={
-                  Participate.features(
-                    this.props.planStatus
-                  ).PARTICIPATE_END.isActive() &&
                   this.props.session.facilitator.id !==
-                    this.props.userIdentity.id
+                  this.props.userIdentity.id
                 }
               >
                 <Menu
@@ -215,25 +212,6 @@ export default class Participate extends React.Component<
                   type="ICON"
                   icon="ellipses"
                   options={[
-                    {
-                      label: this.state.isFlaggedAsDone
-                        ? locals[this.props.lang].participate.unflagAsDone
-                        : locals[this.props.lang].participate.flagAsDone,
-                      type: 'OPTION',
-                      isActive: Participate.features(
-                        this.props.planStatus
-                      ).PARTICIPATE_FINISH.isActive(),
-                      isBlocked: Participate.features(
-                        this.props.planStatus
-                      ).PARTICIPATE_FINISH.isBlocked(),
-                      isNew: Participate.features(
-                        this.props.planStatus
-                      ).PARTICIPATE_FINISH.isNew(),
-                      action: this.finishHandler,
-                    },
-                    {
-                      type: 'SEPARATOR',
-                    },
                     {
                       label: locals[this.props.lang].participate.endSession,
                       type: 'OPTION',
@@ -251,6 +229,31 @@ export default class Participate extends React.Component<
                   ]}
                   alignment="BOTTOM_RIGHT"
                 />
+                <Feature
+                  isActive={
+                    Participate.features(
+                      this.props.planStatus
+                    ).PARTICIPATE_END.isActive() &&
+                    this.props.session.facilitator.id !==
+                      this.props.userIdentity.id
+                  }
+                >
+                  <Button
+                    type="primary"
+                    label={
+                      this.state.isFlaggedAsDone
+                        ? locals[this.props.lang].participate.unflagAsDone
+                        : locals[this.props.lang].participate.flagAsDone
+                    }
+                    isBlocked={Participate.features(
+                      this.props.planStatus
+                    ).PARTICIPATE_FINISH.isBlocked()}
+                    isNew={Participate.features(
+                      this.props.planStatus
+                    ).PARTICIPATE_FINISH.isNew()}
+                    action={this.finishHandler}
+                  />
+                </Feature>
               </Feature>
             </div>
           }
