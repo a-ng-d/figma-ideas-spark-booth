@@ -4,7 +4,7 @@ import {
   ConsentConfiguration,
   FeatureStatus,
   Message,
-  SectionTitle,
+  Section,
   SemanticMessage,
   SimpleItem,
   layouts,
@@ -103,110 +103,110 @@ export default class FacilitatorInfo extends React.Component<
             this.props.planStatus
           ).PARTICIPATE_INFO_IDEAS.isActive()}
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.sessionIdeas}
-                  indicator={this.props.ideas.length.toString()}
-                />
-              }
-              isListItem={false}
-              alignment="CENTER"
-            />
-            {this.props.ideas.length === 0 ? (
-              <Message
-                icon="draft"
-                messages={[
-                  locals[this.props.lang].participate.noParticipantIdea,
-                ]}
-              />
-            ) : (
-              <div className="group__item group__item--tight">
-                <ul>
-                  {Object.values(sortedIdeas).map((ideas, index) => (
-                    <SimpleItem
-                      key={index}
-                      leftPartSlot={
-                        <div className={layouts['snackbar--medium']}>
-                          <ColorChip color={ideas[0].type.hex} />
-                          <span
-                            className={`type ${texts['type']}`}
-                          >{`${ideas.length} ${ideas[0].type.name}`}</span>
-                        </div>
-                      }
+          <Section
+            label={locals[this.props.lang].participate.info.sessionIdeas}
+            indicator={this.props.ideas.length.toString()}
+            childrens={[
+              {
+                node: (() =>
+                  this.props.ideas.length === 0 ? (
+                    <Message
+                      icon="draft"
+                      messages={[
+                        locals[this.props.lang].participate.noParticipantIdea,
+                      ]}
                     />
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+                  ) : (
+                    <ul>
+                      {Object.values(sortedIdeas).map((ideas, index) => (
+                        <SimpleItem
+                          key={index}
+                          leftPartSlot={
+                            <div className={layouts['snackbar--medium']}>
+                              <ColorChip color={ideas[0].type.hex} />
+                              <span
+                                className={`type ${texts['type']}`}
+                              >{`${ideas.length} ${ideas[0].type.name}`}</span>
+                            </div>
+                          }
+                        />
+                      ))}
+                    </ul>
+                  ))(),
+                spacingModifier:
+                  this.props.ideas.length === 0 ? 'NONE' : 'TIGHT',
+              },
+            ]}
+          />
         </Feature>
         <Feature
           isActive={FacilitatorInfo.features(
             this.props.planStatus
           ).PARTICIPATE_INFO_PARTICIPANTS.isActive()}
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.participants}
-                  indicator={this.props.activeParticipants.length.toString()}
-                />
-              }
-              isListItem={false}
-            />
-            <div className="group__item group__item--tight">
-              {this.state.isParticipantsMessageVisible && (
-                <SemanticMessage
-                  type="INFO"
-                  message={locals[this.props.lang].info.inviteParticipants}
-                  action={
-                    <Button
-                      type="icon"
-                      icon="close"
-                      action={() =>
-                        this.setState({ isParticipantsMessageVisible: false })
+          <Section
+            label={locals[this.props.lang].participate.info.participants}
+            indicator={this.props.activeParticipants.length.toString()}
+            childrens={[
+              {
+                node: (() =>
+                  this.state.isParticipantsMessageVisible && (
+                    <SemanticMessage
+                      type="INFO"
+                      message={locals[this.props.lang].info.inviteParticipants}
+                      action={
+                        <Button
+                          type="icon"
+                          icon="close"
+                          action={() =>
+                            this.setState({
+                              isParticipantsMessageVisible: false,
+                            })
+                          }
+                        />
                       }
                     />
-                  }
-                />
-              )}
-              <ul className="list list--fill">
-                {this.props.activeParticipants.map((participant, index) => (
-                  <SimpleItem
-                    key={index}
-                    leftPartSlot={
-                      <div className="user">
-                        <div className="user__avatar">
-                          <img
-                            src={participant.userIdentity.avatar}
-                            alt={participant.userIdentity.fullName}
-                          />
-                        </div>
-                        <span className={`type ${texts['type']}`}>
-                          {participant.userIdentity.fullName}
-                        </span>
-                        <span
-                          className={`type ${texts['type']}  ${texts['type--secondary']}`}
-                        >
-                          {participant.userIdentity.id ===
-                            this.props.userIdentity.id &&
-                            locals[this.props.lang].global.you}
-                        </span>
-                        {participant.hasFinished && (
-                          <Chip>
-                            {locals[this.props.lang].participate.finished}
-                          </Chip>
-                        )}
-                      </div>
-                    }
-                  />
-                ))}
-              </ul>
-            </div>
-          </div>
+                  ))(),
+              },
+              {
+                node: (
+                  <ul className="list list--fill">
+                    {this.props.activeParticipants.map((participant, index) => (
+                      <SimpleItem
+                        key={index}
+                        leftPartSlot={
+                          <div className="user">
+                            <div className="user__avatar">
+                              <img
+                                src={participant.userIdentity.avatar}
+                                alt={participant.userIdentity.fullName}
+                              />
+                            </div>
+                            <span className={`type ${texts['type']}`}>
+                              {participant.userIdentity.fullName}
+                            </span>
+                            <span
+                              className={`type ${texts['type']}  ${texts['type--secondary']}`}
+                            >
+                              {participant.userIdentity.id ===
+                                this.props.userIdentity.id &&
+                                locals[this.props.lang].global.you}
+                            </span>
+                            {participant.hasFinished && (
+                              <Chip>
+                                {locals[this.props.lang].participate.finished}
+                              </Chip>
+                            )}
+                          </div>
+                        }
+                      />
+                    ))}
+                  </ul>
+                ),
+                spacingModifier: 'TIGHT',
+              },
+            ]}
+          />
         </Feature>
         <Feature
           isActive={
@@ -216,28 +216,25 @@ export default class FacilitatorInfo extends React.Component<
             this.props.activity.description !== ''
           }
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.description}
-                />
-              }
-              isListItem={false}
-            />
-            <div className="group__item">
-              <div
-                style={{ paddingLeft: 'var(--size-xxsmall)' }}
-                className={`type ${texts['type']}`}
-                dangerouslySetInnerHTML={{
-                  __html: this.props.activity.description.replace(
-                    /\n/g,
-                    '<br />'
-                  ),
-                }}
-              />
-            </div>
-          </div>
+          <Section
+            label={locals[this.props.lang].participate.info.description}
+            childrens={[
+              {
+                node: (
+                  <div
+                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    className={`type ${texts['type']}`}
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.activity.description.replace(
+                        /\n/g,
+                        '<br />'
+                      ),
+                    }}
+                  />
+                ),
+              },
+            ]}
+          />
         </Feature>
         <Feature
           isActive={
@@ -247,76 +244,75 @@ export default class FacilitatorInfo extends React.Component<
             this.props.activity.instructions !== ''
           }
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.instructions}
-                />
-              }
-              isListItem={false}
-            />
-            <div className="group__item">
-              <div
-                style={{ paddingLeft: 'var(--size-xxsmall)' }}
-                className={`type ${texts['type']}`}
-                dangerouslySetInnerHTML={{
-                  __html: this.props.activity.instructions.replace(
-                    /\n/g,
-                    '<br />'
-                  ),
-                }}
-              />
-            </div>
-          </div>
+          <Section
+            label={locals[this.props.lang].participate.info.instructions}
+            childrens={[
+              {
+                node: (
+                  <div
+                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    className={`type ${texts['type']}`}
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.activity.instructions.replace(
+                        /\n/g,
+                        '<br />'
+                      ),
+                    }}
+                  />
+                ),
+              },
+            ]}
+          />
         </Feature>
         <Feature
           isActive={FacilitatorInfo.features(
             this.props.planStatus
           ).PARTICIPATE_INFO_TYPES.isActive()}
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.types}
-                  indicator={this.props.activity.types.length.toString()}
-                />
-              }
-              isListItem={false}
-            />
-            <div className="group__item group__item--tight">
-              <ul>
-                {this.props.activity.types.map((type, index) => (
-                  <SimpleItem
-                    key={index}
-                    leftPartSlot={
-                      <div
-                        className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
-                      >
-                        <div className="simple-item__param">
-                          <ColorChip color={type.hex} />
-                        </div>
-                        <div
-                          className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
-                        >
-                          <span className={`type type--bold ${texts['type']}`}>
-                            {type.name}
-                          </span>
-                          {type.description !== '' && (
-                            <span className={`type ${texts['type']}`}>
-                              {type.description}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    }
-                    alignment={type.description === '' ? 'CENTER' : 'DEFAULT'}
-                  />
-                ))}
-              </ul>
-            </div>
-          </div>
+          <Section
+            label={locals[this.props.lang].participate.info.types}
+            indicator={this.props.activity.types.length.toString()}
+            childrens={[
+              {
+                node: (
+                  <ul>
+                    {this.props.activity.types.map((type, index) => (
+                      <SimpleItem
+                        key={index}
+                        leftPartSlot={
+                          <div
+                            className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
+                          >
+                            <div className="simple-item__param">
+                              <ColorChip color={type.hex} />
+                            </div>
+                            <div
+                              className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
+                            >
+                              <span
+                                className={`type type--bold ${texts['type']}`}
+                              >
+                                {type.name}
+                              </span>
+                              {type.description !== '' && (
+                                <span className={`type ${texts['type']}`}>
+                                  {type.description}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        }
+                        alignment={
+                          type.description === '' ? 'CENTER' : 'DEFAULT'
+                        }
+                      />
+                    ))}
+                  </ul>
+                ),
+                spacingModifier: 'TIGHT',
+              },
+            ]}
+          />
         </Feature>
       </div>
     )

@@ -1,10 +1,4 @@
-import {
-  FeatureStatus,
-  FormItem,
-  Input,
-  SectionTitle,
-  SimpleItem,
-} from '@a_ng_d/figmug-ui'
+import { FeatureStatus, FormItem, Input, Section } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
@@ -53,34 +47,32 @@ export default class TimerSettings extends React.Component<TimerSettingsProps> {
           this.props.planStatus
         ).SETTINGS_TIMER_MINUTES.isActive()}
       >
-        <div className="group__item">
-          <FormItem
-            label={locals[this.props.lang].settings.timer.minutes.label}
+        <FormItem
+          label={locals[this.props.lang].settings.timer.minutes.label}
+          id="update-timer-minutes"
+          isBlocked={TimerSettings.features(
+            this.props.planStatus
+          ).SETTINGS_TIMER_MINUTES.isBlocked()}
+          isNew={TimerSettings.features(
+            this.props.planStatus
+          ).SETTINGS_TIMER_MINUTES.isNew()}
+        >
+          <Input
             id="update-timer-minutes"
+            type="NUMBER"
+            value={this.props.activity.timer.minutes.toString()}
+            min="0"
+            max="59"
             isBlocked={TimerSettings.features(
               this.props.planStatus
             ).SETTINGS_TIMER_MINUTES.isBlocked()}
-            isNew={TimerSettings.features(
-              this.props.planStatus
-            ).SETTINGS_TIMER_MINUTES.isNew()}
-          >
-            <Input
-              id="update-timer-minutes"
-              type="NUMBER"
-              value={this.props.activity.timer.minutes.toString()}
-              min="0"
-              max="59"
-              isBlocked={TimerSettings.features(
-                this.props.planStatus
-              ).SETTINGS_TIMER_MINUTES.isBlocked()}
-              feature="UPDATE_TIMER_MINUTES"
-              onChange={this.props.onChangeActivities}
-              onFocus={this.props.onChangeActivities}
-              onBlur={this.props.onChangeActivities}
-              onConfirm={this.props.onChangeActivities}
-            />
-          </FormItem>
-        </div>
+            feature="UPDATE_TIMER_MINUTES"
+            onChange={this.props.onChangeActivities}
+            onFocus={this.props.onChangeActivities}
+            onBlur={this.props.onChangeActivities}
+            onConfirm={this.props.onChangeActivities}
+          />
+        </FormItem>
       </Feature>
     )
   }
@@ -92,34 +84,32 @@ export default class TimerSettings extends React.Component<TimerSettingsProps> {
           this.props.planStatus
         ).SETTINGS_TIMER_SECONDS.isActive()}
       >
-        <div className="group__item">
-          <FormItem
-            label={locals[this.props.lang].settings.timer.seconds.label}
+        <FormItem
+          label={locals[this.props.lang].settings.timer.seconds.label}
+          id="update-timer-seconds"
+          isBlocked={TimerSettings.features(
+            this.props.planStatus
+          ).SETTINGS_TIMER_SECONDS.isBlocked()}
+          isNew={TimerSettings.features(
+            this.props.planStatus
+          ).SETTINGS_TIMER_SECONDS.isNew()}
+        >
+          <Input
             id="update-timer-seconds"
+            type="NUMBER"
+            value={this.props.activity.timer.seconds.toString()}
+            min="0"
+            max="59"
             isBlocked={TimerSettings.features(
               this.props.planStatus
             ).SETTINGS_TIMER_SECONDS.isBlocked()}
-            isNew={TimerSettings.features(
-              this.props.planStatus
-            ).SETTINGS_TIMER_SECONDS.isNew()}
-          >
-            <Input
-              id="update-timer-seconds"
-              type="NUMBER"
-              value={this.props.activity.timer.seconds.toString()}
-              min="0"
-              max="59"
-              isBlocked={TimerSettings.features(
-                this.props.planStatus
-              ).SETTINGS_TIMER_SECONDS.isBlocked()}
-              feature="UPDATE_TIMER_SECONDS"
-              onChange={this.props.onChangeActivities}
-              onFocus={this.props.onChangeActivities}
-              onBlur={this.props.onChangeActivities}
-              onConfirm={this.props.onChangeActivities}
-            />
-          </FormItem>
-        </div>
+            feature="UPDATE_TIMER_SECONDS"
+            onChange={this.props.onChangeActivities}
+            onFocus={this.props.onChangeActivities}
+            onBlur={this.props.onChangeActivities}
+            onConfirm={this.props.onChangeActivities}
+          />
+        </FormItem>
       </Feature>
     )
   }
@@ -131,18 +121,17 @@ export default class TimerSettings extends React.Component<TimerSettingsProps> {
           this.props.planStatus
         ).SETTINGS_TIMER.isActive()}
       >
-        <div className="group">
-          <SimpleItem
-            leftPartSlot={
-              <SectionTitle
-                label={locals[this.props.lang].settings.timer.title}
-              />
-            }
-            isListItem={false}
-          />
-          <this.Minutes />
-          <this.Seconds />
-        </div>
+        <Section
+          label={locals[this.props.lang].settings.global.title}
+          childrens={[
+            {
+              node: <this.Minutes />,
+            },
+            {
+              node: <this.Seconds />,
+            },
+          ]}
+        />
       </Feature>
     )
   }

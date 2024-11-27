@@ -1,7 +1,7 @@
 import {
   ConsentConfiguration,
   FeatureStatus,
-  SectionTitle,
+  Section,
   SimpleItem,
   layouts,
   texts,
@@ -62,28 +62,25 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
             this.props.activity.description !== ''
           }
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.description}
-                />
-              }
-              isListItem={false}
-            />
-            <div className="group__item">
-              <div
-                style={{ paddingLeft: 'var(--size-xxsmall)' }}
-                className={`type ${texts['type']}`}
-                dangerouslySetInnerHTML={{
-                  __html: this.props.activity.description.replace(
-                    /\n/g,
-                    '<br />'
-                  ),
-                }}
-              />
-            </div>
-          </div>
+          <Section
+            label={locals[this.props.lang].participate.info.description}
+            childrens={[
+              {
+                node: (
+                  <div
+                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    className={`type ${texts['type']}`}
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.activity.description.replace(
+                        /\n/g,
+                        '<br />'
+                      ),
+                    }}
+                  />
+                ),
+              },
+            ]}
+          />
         </Feature>
         <Feature
           isActive={
@@ -93,76 +90,75 @@ export default class ParticipantInfo extends React.Component<ParticipantInfoProp
             this.props.activity.instructions !== ''
           }
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.instructions}
-                />
-              }
-              isListItem={false}
-            />
-            <div className="group__item">
-              <div
-                style={{ paddingLeft: 'var(--size-xxsmall)' }}
-                className={`type ${texts['type']}`}
-                dangerouslySetInnerHTML={{
-                  __html: this.props.activity.instructions.replace(
-                    /\n/g,
-                    '<br />'
-                  ),
-                }}
-              />
-            </div>
-          </div>
+          <Section
+            label={locals[this.props.lang].participate.info.instructions}
+            childrens={[
+              {
+                node: (
+                  <div
+                    style={{ paddingLeft: 'var(--size-xxsmall)' }}
+                    className={`type ${texts['type']}`}
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.activity.instructions.replace(
+                        /\n/g,
+                        '<br />'
+                      ),
+                    }}
+                  />
+                ),
+              },
+            ]}
+          />
         </Feature>
         <Feature
           isActive={ParticipantInfo.features(
             this.props.planStatus
           ).PARTICIPATE_INFO_TYPES.isActive()}
         >
-          <div className="group">
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].participate.info.types}
-                  indicator={this.props.activity.types.length.toString()}
-                />
-              }
-              isListItem={false}
-            />
-            <div className="group__item group__item--tight">
-              <ul>
-                {this.props.activity.types.map((type, index) => (
-                  <SimpleItem
-                    key={index}
-                    leftPartSlot={
-                      <div
-                        className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
-                      >
-                        <div className="simple-item__param">
-                          <ColorChip color={type.hex} />
-                        </div>
-                        <div
-                          className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
-                        >
-                          <span className={`type type--bold ${texts['type']}`}>
-                            {type.name}
-                          </span>
-                          {type.description !== '' && (
-                            <span className={`type ${texts['type']}`}>
-                              {type.description}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    }
-                    alignment={type.description === '' ? 'CENTER' : 'DEFAULT'}
-                  />
-                ))}
-              </ul>
-            </div>
-          </div>
+          <Section
+            label={locals[this.props.lang].participate.info.types}
+            indicator={this.props.activity.types.length.toString()}
+            childrens={[
+              {
+                node: (
+                  <ul>
+                    {this.props.activity.types.map((type, index) => (
+                      <SimpleItem
+                        key={index}
+                        leftPartSlot={
+                          <div
+                            className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
+                          >
+                            <div className="simple-item__param">
+                              <ColorChip color={type.hex} />
+                            </div>
+                            <div
+                              className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
+                            >
+                              <span
+                                className={`type type--bold ${texts['type']}`}
+                              >
+                                {type.name}
+                              </span>
+                              {type.description !== '' && (
+                                <span className={`type ${texts['type']}`}>
+                                  {type.description}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        }
+                        alignment={
+                          type.description === '' ? 'CENTER' : 'DEFAULT'
+                        }
+                      />
+                    ))}
+                  </ul>
+                ),
+                spacingModifier: 'TIGHT',
+              },
+            ]}
+          />
         </Feature>
       </div>
     )
