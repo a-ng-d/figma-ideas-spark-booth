@@ -27,6 +27,7 @@ interface SelfActivityProps {
   activitiesListStatus: FetchStatus
   isContextActionLoading: Array<boolean>
   isDuplicateToLocalActionLoading: Array<boolean>
+  localActivitiesNumber: number
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
   planStatus: PlanStatus
@@ -43,6 +44,11 @@ interface SelfActivityProps {
 
 export default class SelfActivity extends React.Component<SelfActivityProps> {
   static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_LOCAL: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_LOCAL',
+      planStatus: planStatus,
+    }),
     ACTIVITIES_DUPLICATE: new FeatureStatus({
       features: features,
       featureName: 'ACTIVITIES_DUPLICATE',
@@ -277,7 +283,7 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
                 }
                 isBlocked={SelfActivity.features(
                   this.props.planStatus
-                ).ACTIVITIES_DUPLICATE.isBlocked()}
+                ).ACTIVITIES_LOCAL.isReached(this.props.localActivitiesNumber)}
                 isNew={SelfActivity.features(
                   this.props.planStatus
                 ).ACTIVITIES_DUPLICATE.isNew()}

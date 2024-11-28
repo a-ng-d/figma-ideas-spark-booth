@@ -5,7 +5,12 @@ import {
   Tabs,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
-import { ContextItem, Language, PlanStatus } from '../../types/app'
+import {
+  ContextItem,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   ActivityConfiguration,
   UserConfiguration,
@@ -28,6 +33,7 @@ interface ActivitiesListProps {
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface ActivitiesListStates {
@@ -96,6 +102,7 @@ export default class ActivitiesList extends React.Component<
           >
             <ExternalActivities
               context="SELF"
+              localActivitiesNumber={this.props.activities.length}
               {...this.props}
             />
           </Feature>

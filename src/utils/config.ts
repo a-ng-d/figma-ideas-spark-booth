@@ -90,6 +90,7 @@ export const features: Array<Feature<Service>> =
           isActive: true,
           isPro: false,
           isNew: false,
+          limit: 3,
           type: 'CONTEXT',
           service: ['BROWSE'],
         },

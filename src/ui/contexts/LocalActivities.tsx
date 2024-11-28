@@ -5,11 +5,12 @@ import {
   FeatureStatus,
   layouts,
   SectionTitle,
+  SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
 import features from '../../utils/config'
 import { AppStates } from '../App'
@@ -23,10 +24,16 @@ interface LocalActivitiesProps {
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 export default class LocalActivities extends React.Component<LocalActivitiesProps> {
   static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_LOCAL: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_LOCAL',
+      planStatus: planStatus,
+    }),
     ACTIVITIES_ADD: new FeatureStatus({
       features: features,
       featureName: 'ACTIVITIES_ADD',
@@ -66,7 +73,7 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                 feature="ADD_ACTIVITY"
                 isBlocked={LocalActivities.features(
                   this.props.planStatus
-                ).ACTIVITIES_ADD.isBlocked()}
+                ).ACTIVITIES_LOCAL.isReached(this.props.activities.length)}
                 isNew={LocalActivities.features(
                   this.props.planStatus
                 ).ACTIVITIES_ADD.isNew()}
@@ -74,7 +81,35 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
               />
             </Feature>
           }
+          isListItem={false}
         />
+        <Feature
+          isActive={LocalActivities.features(
+            this.props.planStatus
+          ).ACTIVITIES_LOCAL.isReached(this.props.activities.length)}
+        >
+          <div
+            style={{
+              padding: 'var(--size-xxxsmall) var(--size-xsmall) 0',
+            }}
+          >
+            <SemanticMessage
+              type="INFO"
+              message={locals[this.props.lang].info.maxNumberOfActivities}
+              action={
+                <Button
+                  type="secondary"
+                  label={locals[this.props.lang].plan.tryPro}
+                  action={() =>
+                    this.props.onGetProPlan({
+                      priorityContainerContext: 'TRY',
+                    })
+                  }
+                />
+              }
+            />
+          </div>
+        </Feature>
         <ul className="rich-list">
           {this.props.activities.map(
             (activity: ActivityConfiguration, index) => (

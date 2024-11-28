@@ -1,6 +1,6 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import React from 'react'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,
   UserConfiguration,
@@ -15,6 +15,7 @@ interface ExploreProps {
   userIdentity: UserConfiguration
   planStatus: PlanStatus
   lang: Language
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 export default class Explore extends React.Component<ExploreProps> {
@@ -25,6 +26,7 @@ export default class Explore extends React.Component<ExploreProps> {
         <div className="controls">
           <ExternalActivities
             context="COMMUNITY"
+            localActivitiesNumber={this.props.activities.length}
             {...this.props}
           />
         </div>

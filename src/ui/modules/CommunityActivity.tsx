@@ -23,6 +23,7 @@ interface CommunityActivityProps {
   activitiesListStatus: FetchStatus
   isContextActionLoading: Array<boolean>
   isDuplicateToLocalActionLoading: Array<boolean>
+  localActivitiesNumber: number
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
   planStatus: PlanStatus
@@ -33,6 +34,11 @@ interface CommunityActivityProps {
 
 export default class CommunityActivity extends React.Component<CommunityActivityProps> {
   static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_LOCAL: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_LOCAL',
+      planStatus: planStatus,
+    }),
     ACTIVITIES_DUPLICATE: new FeatureStatus({
       features: features,
       featureName: 'ACTIVITIES_DUPLICATE',
@@ -60,7 +66,7 @@ export default class CommunityActivity extends React.Component<CommunityActivity
               }
               isBlocked={CommunityActivity.features(
                 this.props.planStatus
-              ).ACTIVITIES_DUPLICATE.isBlocked()}
+              ).ACTIVITIES_LOCAL.isReached(this.props.localActivitiesNumber)}
               isNew={CommunityActivity.features(
                 this.props.planStatus
               ).ACTIVITIES_DUPLICATE.isNew()}

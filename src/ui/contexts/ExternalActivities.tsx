@@ -12,7 +12,12 @@ import React from 'react'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
-import { FetchStatus, Language, PlanStatus } from '../../types/app'
+import {
+  FetchStatus,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
 import { ActionsList } from '../../types/models'
@@ -25,11 +30,13 @@ import SelfActivity from '../modules/SelfActivity'
 
 interface ExternalActivitiesProps {
   context: 'SELF' | 'COMMUNITY'
+  localActivitiesNumber: number
   userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface ExternalActivitiesStates {
@@ -48,6 +55,11 @@ export default class ExternalActivities extends React.Component<
   ExternalActivitiesStates
 > {
   static features = (planStatus: PlanStatus) => ({
+    ACTIVITIES_LOCAL: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_LOCAL',
+      planStatus: planStatus,
+    }),
     ACTIVITIES_SEARCH: new FeatureStatus({
       features: features,
       featureName: 'ACTIVITIES_SEARCH',
@@ -485,6 +497,37 @@ export default class ExternalActivities extends React.Component<
                 border={['BOTTOM']}
               />
             )}
+          <Feature
+            isActive={
+              ExternalActivities.features(
+                this.props.planStatus
+              ).ACTIVITIES_LOCAL.isReached(this.props.localActivitiesNumber) &&
+              this.state.activitiesListStatus !== 'SIGN_IN_FIRST' &&
+              this.state.activitiesListStatus !== 'EMPTY'
+            }
+          >
+            <div
+              style={{
+                padding: 'var(--size-xsmall) var(--size-xsmall) 0',
+              }}
+            >
+              <SemanticMessage
+                type="INFO"
+                message={locals[this.props.lang].info.maxNumberOfActivities}
+                action={
+                  <Button
+                    type="secondary"
+                    label={locals[this.props.lang].plan.tryPro}
+                    action={() =>
+                      this.props.onGetProPlan({
+                        priorityContainerContext: 'TRY',
+                      })
+                    }
+                  />
+                }
+              />
+            </div>
+          </Feature>
           {fragment}
         </div>
       </div>
