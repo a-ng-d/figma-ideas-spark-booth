@@ -5,7 +5,12 @@ import {
   Tabs,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
-import { ContextItem, Language, PlanStatus } from '../../types/app'
+import {
+  ContextItem,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -31,6 +36,7 @@ interface BrowseActivitiesProps {
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onRunSession: React.Dispatch<Partial<AppStates>>
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface BrowseActivitiesStates {

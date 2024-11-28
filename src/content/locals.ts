@@ -315,6 +315,9 @@ export const locals: { [key: string]: any } = {
     info: {
       noResult: 'No activity match your search',
       inviteParticipants: `Invite participants to join the FigJam board and tell them to open ${glossary.name}`,
+      maxNumberOfType: 'The maximum number of types is reached',
+      maxNumberOfActivities: 'The maximum number of activities is reached',
+      maxNumberOfParticipants: 'The maximum number of participants is reached',
       signOut: '☻ See you later',
     },
     generic: {},

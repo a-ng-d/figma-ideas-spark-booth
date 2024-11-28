@@ -6,13 +6,14 @@ import {
   Input,
   Section,
   SectionTitle,
+  SemanticMessage,
   SimpleItem,
   SortableList,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,
   ColorConfiguration,
@@ -38,6 +39,7 @@ interface TypesSettingsProps {
   planStatus: PlanStatus
   lang: Language
   onChangeTypes: (types: Array<TypeConfiguration>) => void
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 export default class TypesSettings extends React.Component<TypesSettingsProps> {
@@ -191,7 +193,9 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
                     feature="ADD_TYPE"
                     isBlocked={TypesSettings.features(
                       this.props.planStatus
-                    ).SETTINGS_TYPES_ADD.isBlocked()}
+                    ).SETTINGS_TYPES.isReached(
+                      this.props.activity.types.length
+                    )}
                     isNew={TypesSettings.features(
                       this.props.planStatus
                     ).SETTINGS_TYPES_ADD.isNew()}
@@ -203,6 +207,31 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
             />
           }
           body={[
+            {
+              node: (
+                <Feature
+                  isActive={TypesSettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_TYPES.isReached(this.props.activity.types.length)}
+                >
+                  <SemanticMessage
+                    type="INFO"
+                    message={locals[this.props.lang].info.maxNumberOfType}
+                    action={
+                      <Button
+                        type="secondary"
+                        label={locals[this.props.lang].plan.tryPro}
+                        action={() =>
+                          this.props.onGetProPlan({
+                            priorityContainerContext: 'TRY',
+                          })
+                        }
+                      />
+                    }
+                  />
+                </Feature>
+              ),
+            },
             {
               node: (
                 <SortableList

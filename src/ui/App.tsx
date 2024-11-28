@@ -464,6 +464,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               {...this.state}
               onChangeActivities={(e) => this.setState({ ...this.state, ...e })}
               onRunSession={(e) => this.setState({ ...this.state, ...e })}
+              onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
             />
           </Feature>
           <Feature

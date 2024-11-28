@@ -2,7 +2,7 @@ import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { uid } from 'uid'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -29,6 +29,7 @@ interface ActivitiesProps {
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onRunSession: React.Dispatch<Partial<AppStates>>
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface ActivitiesStates {

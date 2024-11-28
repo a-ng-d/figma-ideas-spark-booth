@@ -16,7 +16,7 @@ import React from 'react'
 import { signIn } from '../../bridges/publication/authentication'
 import p from '../../content/images/publication.webp'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -56,6 +56,7 @@ interface SettingsProps {
   onOpenSessionHistory: React.MouseEventHandler<Element> &
     React.KeyboardEventHandler<Element>
   onCloseActivitySettings: () => void
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface SettingsStates {
