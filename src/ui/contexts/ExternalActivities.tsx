@@ -253,14 +253,11 @@ export default class ExternalActivities extends React.Component<
       <ul
         className={[
           'rich-list',
-          this.state.activitiesListStatus === 'LOADING'
-            ? 'rich-list--loading'
-            : null,
+          this.state.activitiesListStatus === 'LOADING' && 'rich-list--loading',
           this.state.activitiesListStatus === 'ERROR' ||
-          this.state.activitiesListStatus === 'EMPTY' ||
-          this.state.activitiesListStatus === 'NO_RESULT'
-            ? 'rich-list--message'
-            : null,
+            this.state.activitiesListStatus === 'EMPTY' ||
+            (this.state.activitiesListStatus === 'NO_RESULT' &&
+              'rich-list--message'),
         ]
           .filter((n) => n)
           .join(' ')}

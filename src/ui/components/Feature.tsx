@@ -13,6 +13,6 @@ export default class Feature extends React.Component<FeatureProps> {
 
   // Render
   render() {
-    return <>{this.props.isActive ? this.props.children : null}</>
+    return <>{this.props.isActive && this.props.children}</>
   }
 }

@@ -379,12 +379,24 @@ export default class PriorityContainer extends React.Component<
   render() {
     return (
       <>
-        {this.props.context === 'TRY' ? <this.TryPro /> : null}
-        {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
-        {this.props.context === 'WELCOME_TO_PRO' ? <this.WelcomeToPro /> : null}
-        {this.props.context === 'HIGHLIGHT' ? <this.Highlight /> : null}
-        {this.props.context === 'ABOUT' ? <this.About /> : null}
-        {this.props.context === 'REPORT' ? <this.Report /> : null}
+        <Feature isActive={this.props.context === 'TRY'}>
+          <this.TryPro />
+        </Feature>
+        <Feature isActive={this.props.context === 'WELCOME_TO_TRIAL'}>
+          <this.WelcomeToTrial />
+        </Feature>
+        <Feature isActive={this.props.context === 'WELCOME_TO_PRO'}>
+          <this.WelcomeToPro />
+        </Feature>
+        <Feature isActive={this.props.context === 'HIGHLIGHT'}>
+          <this.Highlight />
+        </Feature>
+        <Feature isActive={this.props.context === 'ABOUT'}>
+          <this.About />
+        </Feature>
+        <Feature isActive={this.props.context === 'REPORT'}>
+          <this.Report />
+        </Feature>
       </>
     )
   }
