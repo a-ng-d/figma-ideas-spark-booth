@@ -1,6 +1,6 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
-import { ActiveParticipants } from '../types/configurations'
+import { ActiveParticipant } from '../types/configurations'
 import { ActionsList } from '../types/models'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
@@ -164,7 +164,7 @@ const loadUI = async () => {
       figma.root.getPluginData('activeParticipants')
     )
     activeParticipants = activeParticipants.filter(
-      (participant: ActiveParticipants) =>
+      (participant: ActiveParticipant) =>
         participant.userIdentity.id !== figma.currentUser?.id
     )
     figma.root.setPluginData(
@@ -196,7 +196,7 @@ const loadUI = async () => {
       const self = JSON.parse(
         figma.root.getPluginData('activeParticipants')
       ).find(
-        (participant: ActiveParticipants) =>
+        (participant: ActiveParticipant) =>
           participant.userIdentity.id === figma.currentUser?.id
       )
       if (self.isBlocked) {
@@ -209,7 +209,7 @@ const loadUI = async () => {
 
     if (figma.root.getPluginData('event') === 'SESSION_STARTED') {
       figma.notify(
-        `${locals[lang].success.startSession} ${JSON.parse(figma.root.getPluginData('activeParticipants')).find((participant: ActiveParticipants) => participant.hasStarted).userIdentity.fullName}`
+        `${locals[lang].success.startSession} ${JSON.parse(figma.root.getPluginData('activeParticipants')).find((participant: ActiveParticipant) => participant.hasStarted).userIdentity.fullName}`
       )
       setTimeout(() => {
         figma.root.setPluginData('event', '')
@@ -223,7 +223,7 @@ const loadUI = async () => {
 
     if (figma.root.getPluginData('event') === 'SESSION_ENDED') {
       figma.notify(
-        `${locals[lang].success.endSession} ${JSON.parse(figma.root.getPluginData('activeParticipants')).find((participant: ActiveParticipants) => participant.hasEnded).userIdentity.fullName}`,
+        `${locals[lang].success.endSession} ${JSON.parse(figma.root.getPluginData('activeParticipants')).find((participant: ActiveParticipant) => participant.hasEnded).userIdentity.fullName}`,
         {
           timeout: Infinity,
           button: {

@@ -97,7 +97,7 @@ export interface MetaConfiguration {
   creatorIdentity: CreatorConfiguration
 }
 
-export interface ActiveParticipants {
+export interface ActiveParticipant {
   userIdentity: UserConfiguration
   hasStarted: boolean
   hasEnded: boolean

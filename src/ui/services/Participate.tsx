@@ -14,7 +14,7 @@ import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
-  ActiveParticipants,
+  ActiveParticipant,
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
@@ -35,7 +35,7 @@ interface ParticipateProps {
   activity: ActivityConfiguration
   session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
-  activeParticipants: Array<ActiveParticipants>
+  activeParticipants: Array<ActiveParticipant>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration

@@ -1,12 +1,12 @@
-import { ActiveParticipants } from '../../types/configurations'
+import { ActiveParticipant } from '../../types/configurations'
 
 const updateParticipants = async (options?: {
   hasStarted?: boolean
   hasEnded?: boolean
   hasFinished?: boolean
   isBlocked?: boolean
-}): Promise<Array<ActiveParticipants>> => {
-  let activeParticipants: Array<ActiveParticipants> = JSON.parse(
+}): Promise<Array<ActiveParticipant>> => {
+  let activeParticipants: Array<ActiveParticipant> = JSON.parse(
     figma.root.getPluginData('activeParticipants')
   )
   const isUserIncluded = activeParticipants.find(
@@ -27,7 +27,7 @@ const updateParticipants = async (options?: {
         hasFinished: false,
         isBlocked: false,
         joinedAt: new Date().toISOString(),
-      } as ActiveParticipants,
+      } as ActiveParticipant,
     ]
   } else {
     activeParticipants = activeParticipants.map((participant) => {

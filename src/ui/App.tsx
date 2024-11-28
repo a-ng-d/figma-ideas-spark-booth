@@ -13,7 +13,7 @@ import {
   TrialStatus,
 } from '../types/app'
 import {
-  ActiveParticipants,
+  ActiveParticipant,
   ActivityConfiguration,
   IdeaConfiguration,
   PublicationConfiguration,
@@ -45,7 +45,7 @@ export interface AppStates {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
-  activeParticipants: Array<ActiveParticipants>
+  activeParticipants: Array<ActiveParticipant>
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number

@@ -10,7 +10,7 @@ import React from 'react'
 import { uid } from 'uid'
 import { Language, PlanStatus } from '../../types/app'
 import {
-  ActiveParticipants,
+  ActiveParticipant,
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
@@ -27,7 +27,7 @@ interface CreateIdeasProps {
   activity: ActivityConfiguration
   session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
-  activeParticipants: Array<ActiveParticipants>
+  activeParticipants: Array<ActiveParticipant>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
