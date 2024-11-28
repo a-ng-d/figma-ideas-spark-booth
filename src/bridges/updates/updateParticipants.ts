@@ -4,6 +4,7 @@ const updateParticipants = async (options?: {
   hasStarted?: boolean
   hasEnded?: boolean
   hasFinished?: boolean
+  isBlocked?: boolean
 }): Promise<Array<ActiveParticipants>> => {
   let activeParticipants: Array<ActiveParticipants> = JSON.parse(
     figma.root.getPluginData('activeParticipants')
@@ -24,6 +25,8 @@ const updateParticipants = async (options?: {
         hasStarted: false,
         hasEnded: false,
         hasFinished: false,
+        isBlocked: false,
+        joinedAt: new Date().toISOString(),
       } as ActiveParticipants,
     ]
   } else {
@@ -34,6 +37,7 @@ const updateParticipants = async (options?: {
           hasStarted: options?.hasStarted ?? participant.hasStarted,
           hasEnded: options?.hasEnded ?? participant.hasEnded,
           hasFinished: options?.hasFinished ?? participant.hasFinished,
+          isBlocked: options?.isBlocked ?? participant.isBlocked,
         }
       }
       return participant

@@ -272,6 +272,7 @@ export default class Activities extends React.Component<
         id: this.props.userIdentity.id,
         fullName: this.props.userIdentity.fullName,
         avatar: this.props.userIdentity.avatar,
+        planStatus: this.props.planStatus,
       },
       metrics: {
         startDate: new Date().toISOString(),

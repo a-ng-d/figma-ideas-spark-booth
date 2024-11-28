@@ -6,14 +6,15 @@ const enableTrial = async () => {
   await figma.clientStorage
     .setAsync('trial_start_date', date)
     .then(() => figma.clientStorage.setAsync('trial_version', trialVersion))
-    .then(() =>
+    .then(() => {
       figma.ui.postMessage({
         type: 'ENABLE_TRIAL',
         id: figma.currentUser?.id ?? 'NC',
         date: date,
         trialTime: trialTime,
       })
-    )
+      figma.root.setPluginData('event', 'TRIAL_ENABLED')
+    })
 }
 
 export default enableTrial

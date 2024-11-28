@@ -1,4 +1,5 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
+import { PlanStatus } from './app'
 
 export interface ActivityConfiguration {
   name: string
@@ -80,6 +81,7 @@ export interface FacilitatorConfiguration {
   id: string
   fullName: string
   avatar: string
+  planStatus: PlanStatus
 }
 
 export interface CreatorConfiguration {
@@ -100,4 +102,6 @@ export interface ActiveParticipants {
   hasStarted: boolean
   hasEnded: boolean
   hasFinished: boolean
+  isBlocked: boolean
+  joinedAt: Date | string
 }

@@ -179,6 +179,7 @@ export const locals: { [key: string]: any } = {
       ideas: 'Ideas',
       onGoing: 'Ongoing…',
       finished: 'Finished',
+      blocked: 'Blocked',
       flagAsDone: 'Flag facilitator you are done',
       unflagAsDone: 'Remove flag',
       noSelfIdea: 'You have not added any idea yet',
@@ -311,6 +312,7 @@ export const locals: { [key: string]: any } = {
       unshare: '✓ The activity is no longer shared with the community',
       duplicatedActivity:
         '✓ The activity has been duplicated to the local ones',
+      unblockedParticipation: '✓ You can now participate',
     },
     info: {
       noResult: 'No activity match your search',
@@ -318,6 +320,8 @@ export const locals: { [key: string]: any } = {
       maxNumberOfType: 'The maximum number of types is reached',
       maxNumberOfActivities: 'The maximum number of activities is reached',
       maxNumberOfParticipants: 'The maximum number of participants is reached',
+      blockedParticipation:
+        'Your participation is blocked because the number of participants is reached. You can ask the facilitator to upgrade.',
       signOut: '☻ See you later',
     },
     generic: {},
@@ -329,6 +333,8 @@ export const locals: { [key: string]: any } = {
         'This is quite empty around here! Be the first to share your activity with other users!',
       activityAlreadyExists:
         'This activity is already duplicated to the local ones',
+      blockedParticipations:
+        'Some of your participants are blocked due to the limit reached',
     },
     error: {
       generic: '✕ Something went wrong',

@@ -14,6 +14,7 @@ import endSession from './updates/endSession'
 import startSession from './updates/startSession'
 import updateParticipants from './updates/updateParticipants'
 import updateSingleActivity from './updates/updateSingleActivity'
+import updateSingleSession from './updates/updateSingleSession'
 
 const loadUI = async () => {
   let lastData = ''
@@ -101,18 +102,22 @@ const loadUI = async () => {
       DUPLICATE_ACTIVITY: () => duplicatePublishedActivity(msg.data),
       START_SESSION: () => startSession(msg.data),
       END_SESSION: () => endSession(msg.data),
+      UPDATE_SESSION: () => updateSingleSession(msg.data),
       PUSH_IDEA: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       UPDATE_IDEAS: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
+      BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),
+      UNBLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: false }),
       //
       ADD_TO_BOARD: () => addToBoard(msg.data),
       EXPORT_CSV: () => exportCsv(msg.data),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
+      CHECK_PLAN_STATUS: async () => await checkPlanStatus(),
       //
       OPEN_IN_BROWSER: () => figma.openExternal(msg.url),
       //
@@ -172,7 +177,9 @@ const loadUI = async () => {
     figma.notify(locals[lang].warning.timesUp)
   })
 
-  figma.on('documentchange', (event) => {
+  figma.on('documentchange', async (event) => {
+    await checkPlanStatus()
+
     const rootPluginDataChange = event.documentChanges.find(
       (change) =>
         change.type === 'PROPERTY_CHANGE' &&
@@ -180,6 +187,25 @@ const loadUI = async () => {
         change.node.id === figma.root.id &&
         change.properties.includes('pluginData')
     )
+
+    if (
+      figma.root.getPluginData('event') === 'TRIAL_ENABLED' ||
+      figma.root.getPluginData('event') === 'PRO_PLAN_ENABLED'
+    ) {
+      figma.root.setPluginData('event', '')
+      const self = JSON.parse(
+        figma.root.getPluginData('activeParticipants')
+      ).find(
+        (participant: ActiveParticipants) =>
+          participant.userIdentity.id === figma.currentUser?.id
+      )
+      if (self.isBlocked) {
+        figma.notify(locals[lang].success.unblockedParticipation)
+        updateParticipants({
+          isBlocked: false,
+        })
+      }
+    }
 
     if (figma.root.getPluginData('event') === 'SESSION_STARTED') {
       figma.notify(
@@ -212,6 +238,7 @@ const loadUI = async () => {
           hasStarted: false,
           hasEnded: false,
           hasFinished: false,
+          isBlocked: false,
         })
       }, 3000)
     }

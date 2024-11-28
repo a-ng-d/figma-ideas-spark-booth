@@ -12,7 +12,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActiveParticipants,
   ActivityConfiguration,
@@ -47,6 +47,7 @@ interface ParticipateProps {
     activity: ActivityConfiguration,
     ideas: Array<IdeaConfiguration>
   ) => void
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface ParticipateStates {
@@ -66,6 +67,11 @@ export default class Participate extends React.Component<
   textRef: React.RefObject<Input>
 
   static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE',
+      planStatus: planStatus,
+    }),
     PARTICIPATE_END: new FeatureStatus({
       features: features,
       featureName: 'PARTICIPATE_END',
@@ -134,6 +140,77 @@ export default class Participate extends React.Component<
           ),
       })
     }
+    if (prevProps.planStatus !== this.props.planStatus) {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_SESSION',
+            data: {
+              ...this.props.session,
+              facilitator: {
+                ...this.props.session.facilitator,
+                planStatus: this.props.planStatus,
+              },
+            },
+          },
+        },
+        '*'
+      )
+    }
+  }
+
+  // Direct actions
+  canParticipate = (): boolean => {
+    if (
+      this.props.session.facilitator.planStatus === 'UNPAID' &&
+      !this.canFacilitate() &&
+      this.selfOrder() >
+        Participate.features(this.props.planStatus).PARTICIPATE.result.limit - 1
+    ) {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'BLOCK_PARTICIPANT',
+          },
+        },
+        '*'
+      )
+      return false
+    } else {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UNBLOCK_PARTICIPANT',
+          },
+        },
+        '*'
+      )
+      return true
+    }
+  }
+
+  canFacilitate = (): boolean => {
+    if (this.props.session.facilitator.id === this.props.userIdentity.id) {
+      if (this.props.planStatus === 'UNPAID') return true
+      return true
+    }
+    return false
+  }
+
+  selfOrder = (): number => {
+    return this.props.activeParticipants
+      .filter(
+        (participant) =>
+          participant.userIdentity.id !== this.props.session.facilitator.id
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.joinedAt).getTime() - new Date(a.joinedAt).getTime()
+      )
+      .findIndex(
+        (participant) =>
+          participant.userIdentity.id === this.props.userIdentity.id
+      )
   }
 
   // Handlers
@@ -184,9 +261,7 @@ export default class Participate extends React.Component<
                 isActive={
                   Participate.features(
                     this.props.planStatus
-                  ).PARTICIPATE_END.isActive() &&
-                  this.props.session.facilitator.id ===
-                    this.props.userIdentity.id
+                  ).PARTICIPATE_END.isActive() && this.canFacilitate()
                 }
               >
                 <Button
@@ -201,12 +276,7 @@ export default class Participate extends React.Component<
                   action={() => this.setState({ isDialogOpen: true })}
                 />
               </Feature>
-              <Feature
-                isActive={
-                  this.props.session.facilitator.id !==
-                  this.props.userIdentity.id
-                }
-              >
+              <Feature isActive={!this.canFacilitate()}>
                 <Menu
                   id="open-session-tools"
                   type="ICON"
@@ -233,9 +303,9 @@ export default class Participate extends React.Component<
                   isActive={
                     Participate.features(
                       this.props.planStatus
-                    ).PARTICIPATE_END.isActive() &&
-                    this.props.session.facilitator.id !==
-                      this.props.userIdentity.id
+                    ).PARTICIPATE_FINISH.isActive() &&
+                    !this.canFacilitate() &&
+                    this.canParticipate()
                   }
                 >
                   <Button
@@ -308,7 +378,10 @@ export default class Participate extends React.Component<
                   this.props.planStatus
                 ).PARTICIPATE_UPDATE.isActive()}
               >
-                <UpdateIdeas {...this.props} />
+                <UpdateIdeas
+                  canParticipate={this.canParticipate()}
+                  {...this.props}
+                />
               </Feature>
               <Feature
                 isActive={Participate.features(
@@ -330,9 +403,11 @@ export default class Participate extends React.Component<
             </div>
           </div>
           <Feature
-            isActive={Participate.features(
-              this.props.planStatus
-            ).PARTICIPATE_CREATE.isActive()}
+            isActive={
+              Participate.features(
+                this.props.planStatus
+              ).PARTICIPATE_CREATE.isActive() && this.canParticipate()
+            }
           >
             <CreateIdea {...this.props} />
           </Feature>

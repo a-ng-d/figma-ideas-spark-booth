@@ -72,6 +72,7 @@ export const features: Array<Feature<Service>> =
           isActive: true,
           isPro: false,
           isNew: false,
+          limit: 0,
           type: 'SERVICE',
           service: [],
         },

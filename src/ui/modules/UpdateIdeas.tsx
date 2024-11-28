@@ -7,6 +7,7 @@ import {
   Menu,
   Message,
   SectionTitle,
+  SemanticMessage,
   SimpleItem,
   layouts,
 } from '@a_ng_d/figmug-ui'
@@ -34,6 +35,7 @@ interface UpdateIdeasProps {
   session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
   activeParticipants: Array<ActiveParticipants>
+  canParticipate: boolean
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -46,10 +48,7 @@ interface UpdateIdeasStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class UpdateIdeas extends React.Component<
-  UpdateIdeasProps,
-  UpdateIdeasStates
-> {
+export default class UpdateIdeas extends React.Component<UpdateIdeasProps, UpdateIdeasStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 
@@ -108,6 +107,30 @@ export default class UpdateIdeas extends React.Component<
           ),
       })
     }
+  }
+
+  // Direct actions
+  setMessage = () => {
+    if (!this.props.canParticipate)
+      return (
+        <div
+          style={{
+            padding: '0 var(--size-xsmall)',
+          }}
+        >
+          <SemanticMessage
+            type="INFO"
+            message={locals[this.props.lang].info.blockedParticipation}
+          />
+        </div>
+      )
+    else
+      return (
+        <Message
+          icon="draft"
+          messages={[locals[this.props.lang].participate.noSelfIdea]}
+        />
+      )
   }
 
   // Handlers
@@ -190,10 +213,7 @@ export default class UpdateIdeas extends React.Component<
           isListItem={false}
         />
         {this.state.selfIdeas.length === 0 ? (
-          <Message
-            icon="draft"
-            messages={[locals[this.props.lang].participate.noSelfIdea]}
-          />
+          this.setMessage()
         ) : (
           <ul className="list list--fill">
             {this.state.selfIdeas.map((idea, index) => (

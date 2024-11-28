@@ -13,7 +13,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActiveParticipants,
   ActivityConfiguration,
@@ -34,6 +34,7 @@ interface FacilitatorInfoProps {
   userIdentity: UserConfiguration
   planStatus: PlanStatus
   lang: Language
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface FacilitatorInfoStates {
@@ -193,38 +194,74 @@ export default class FacilitatorInfo extends React.Component<
                   ))(),
               },
               {
+                node: (() =>
+                  this.props.activeParticipants.some(
+                    (participant) => participant.isBlocked
+                  ) && (
+                    <SemanticMessage
+                      type="WARNING"
+                      message={
+                        locals[this.props.lang].warning.blockedParticipations
+                      }
+                      action={
+                        <Button
+                          type="secondary"
+                          label={locals[this.props.lang].plan.tryPro}
+                          action={() =>
+                            this.props.onGetProPlan({
+                              priorityContainerContext: 'TRY',
+                            })
+                          }
+                        />
+                      }
+                    />
+                  ))(),
+              },
+              {
                 node: (
                   <ul className="list list--fill">
-                    {this.props.activeParticipants.map((participant, index) => (
-                      <SimpleItem
-                        key={index}
-                        leftPartSlot={
-                          <div className="user">
-                            <div className="user__avatar">
-                              <img
-                                src={participant.userIdentity.avatar}
-                                alt={participant.userIdentity.fullName}
-                              />
-                            </div>
-                            <span className={`type ${texts['type']}`}>
-                              {participant.userIdentity.fullName}
-                            </span>
-                            <span
-                              className={`type ${texts['type']}  ${texts['type--secondary']}`}
-                            >
+                    {this.props.activeParticipants
+                      .sort(
+                        (a, b) =>
+                          new Date(a.joinedAt).getTime() -
+                          new Date(b.joinedAt).getTime()
+                      )
+                      .map((participant, index) => (
+                        <SimpleItem
+                          key={index}
+                          leftPartSlot={
+                            <div className="user">
+                              <div className="user__avatar">
+                                <img
+                                  src={participant.userIdentity.avatar}
+                                  alt={participant.userIdentity.fullName}
+                                />
+                              </div>
+                              <span className={`type ${texts['type']}`}>
+                                {participant.userIdentity.fullName}
+                              </span>
                               {participant.userIdentity.id ===
-                                this.props.userIdentity.id &&
-                                locals[this.props.lang].global.you}
-                            </span>
-                            {participant.hasFinished && (
-                              <Chip>
-                                {locals[this.props.lang].participate.finished}
-                              </Chip>
-                            )}
-                          </div>
-                        }
-                      />
-                    ))}
+                                this.props.userIdentity.id && (
+                                <span
+                                  className={`type ${texts['type']}  ${texts['type--secondary']}`}
+                                >
+                                  {locals[this.props.lang].global.you}
+                                </span>
+                              )}
+                              {participant.hasFinished && (
+                                <Chip>
+                                  {locals[this.props.lang].participate.finished}
+                                </Chip>
+                              )}
+                              {participant.isBlocked && (
+                                <Chip>
+                                  {locals[this.props.lang].participate.blocked}
+                                </Chip>
+                              )}
+                            </div>
+                          }
+                        />
+                      ))}
                   </ul>
                 ),
                 spacingModifier: 'TIGHT',

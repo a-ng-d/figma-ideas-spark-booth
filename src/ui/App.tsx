@@ -493,6 +493,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               }}
               onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
               onEndSession={this.onEndSession}
+              onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
             />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
