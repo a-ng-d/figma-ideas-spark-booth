@@ -502,8 +502,8 @@ export default class ExternalActivities extends React.Component<
               ExternalActivities.features(
                 this.props.planStatus
               ).ACTIVITIES_LOCAL.isReached(this.props.localActivitiesNumber) &&
-              this.state.activitiesListStatus !== 'SIGN_IN_FIRST' &&
-              this.state.activitiesListStatus !== 'EMPTY'
+              (this.state.activitiesListStatus === 'LOADED' ||
+                this.state.activitiesListStatus === 'COMPLETE')
             }
           >
             <div
