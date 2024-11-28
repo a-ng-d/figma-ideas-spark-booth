@@ -46,6 +46,11 @@ export default class FacilitatorInfo extends React.Component<
   FacilitatorInfoStates
 > {
   static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE',
+      planStatus: planStatus,
+    }),
     PARTICIPATE_INFO_IDEAS: new FeatureStatus({
       features: features,
       featureName: 'PARTICIPATE_INFO_IDEAS',
@@ -200,9 +205,13 @@ export default class FacilitatorInfo extends React.Component<
                   ) && (
                     <SemanticMessage
                       type="WARNING"
-                      message={
-                        locals[this.props.lang].warning.blockedParticipations
-                      }
+                      message={locals[
+                        this.props.lang
+                      ].warning.blockedParticipations.replace(
+                        '$1',
+                        FacilitatorInfo.features(this.props.planStatus)
+                          .PARTICIPATE.result.limit + 1
+                      )}
                       action={
                         <Button
                           type="secondary"

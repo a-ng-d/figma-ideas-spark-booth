@@ -317,11 +317,11 @@ export const locals: { [key: string]: any } = {
     info: {
       noResult: 'No activity match your search',
       inviteParticipants: `Invite participants to join the FigJam board and tell them to open ${glossary.name}`,
-      maxNumberOfType: 'The maximum number of types is reached',
-      maxNumberOfActivities: 'The maximum number of activities is reached',
-      maxNumberOfParticipants: 'The maximum number of participants is reached',
+      maxNumberOfType: 'You cannot add more than $1 types',
+      maxNumberOfActivities: 'You cannot add more than $1 activities',
+      maxNumberOfParticipants: 'You cannot add more than $1 participants',
       blockedParticipation:
-        'Your participation is blocked because the number of participants is reached. You can ask the facilitator to upgrade.',
+        'Your participation is blocked because the maximum number of $1 participants is reached. You can ask the facilitator to upgrade to Pro plan.',
       signOut: '☻ See you later',
     },
     generic: {},
@@ -334,7 +334,7 @@ export const locals: { [key: string]: any } = {
       activityAlreadyExists:
         'This activity is already duplicated to the local ones',
       blockedParticipations:
-        'Some of your participants are blocked due to the limit reached',
+        'Some of your participants cannot create ideas due to the limit of $1 participants reached',
     },
     error: {
       generic: '✕ Something went wrong',

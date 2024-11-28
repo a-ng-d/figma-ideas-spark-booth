@@ -216,7 +216,13 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
                 >
                   <SemanticMessage
                     type="INFO"
-                    message={locals[this.props.lang].info.maxNumberOfType}
+                    message={locals[
+                      this.props.lang
+                    ].info.maxNumberOfType.replace(
+                      '$1',
+                      TypesSettings.features(this.props.planStatus)
+                        .SETTINGS_TYPES.result.limit
+                    )}
                     action={
                       <Button
                         type="secondary"

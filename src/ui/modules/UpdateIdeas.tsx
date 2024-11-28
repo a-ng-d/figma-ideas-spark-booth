@@ -53,6 +53,11 @@ export default class UpdateIdeas extends React.Component<UpdateIdeasProps, Updat
   textRef: React.RefObject<Input>
 
   static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE',
+      planStatus: planStatus,
+    }),
     PARTICIPATE_UPDATE_TYPE: new FeatureStatus({
       features: features,
       featureName: 'PARTICIPATE_UPDATE_TYPE',
@@ -120,7 +125,11 @@ export default class UpdateIdeas extends React.Component<UpdateIdeasProps, Updat
         >
           <SemanticMessage
             type="INFO"
-            message={locals[this.props.lang].info.blockedParticipation}
+            message={locals[this.props.lang].info.blockedParticipation.replace(
+              '$1',
+              UpdateIdeas.features(this.props.planStatus).PARTICIPATE.result
+                .limit + 1
+            )}
           />
         </div>
       )

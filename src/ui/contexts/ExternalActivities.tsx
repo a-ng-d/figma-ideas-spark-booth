@@ -513,7 +513,13 @@ export default class ExternalActivities extends React.Component<
             >
               <SemanticMessage
                 type="INFO"
-                message={locals[this.props.lang].info.maxNumberOfActivities}
+                message={locals[
+                  this.props.lang
+                ].info.maxNumberOfActivities.replace(
+                  '$1',
+                  ExternalActivities.features(this.props.planStatus)
+                    .ACTIVITIES_LOCAL.result.limit
+                )}
                 action={
                   <Button
                     type="secondary"

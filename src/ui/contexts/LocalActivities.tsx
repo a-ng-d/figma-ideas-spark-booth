@@ -95,7 +95,13 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
           >
             <SemanticMessage
               type="INFO"
-              message={locals[this.props.lang].info.maxNumberOfActivities}
+              message={locals[
+                this.props.lang
+              ].info.maxNumberOfActivities.replace(
+                '$1',
+                LocalActivities.features(this.props.planStatus).ACTIVITIES_LOCAL
+                  .result.limit
+              )}
               action={
                 <Button
                   type="secondary"
