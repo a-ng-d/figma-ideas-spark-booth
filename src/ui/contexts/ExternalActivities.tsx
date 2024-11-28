@@ -282,7 +282,7 @@ export default class ExternalActivities extends React.Component<
           />
         )}
         {this.state.activitiesListStatus === 'ERROR' && (
-          <div className="onboarding__callout--centered">
+          <div className="callout--centered">
             <SemanticMessage
               type="WARNING"
               message={locals[this.props.lang].error.fetchActivity}
@@ -290,7 +290,7 @@ export default class ExternalActivities extends React.Component<
           </div>
         )}
         {this.state.activitiesListStatus === 'EMPTY' && (
-          <div className="onboarding__callout--centered">
+          <div className="callout--centered">
             <SemanticMessage
               type="NEUTRAL"
               message={locals[this.props.lang].warning.noSelfActivityOnRemote}
@@ -298,7 +298,7 @@ export default class ExternalActivities extends React.Component<
           </div>
         )}
         {this.state.activitiesListStatus === 'NO_RESULT' && (
-          <div className="onboarding__callout--centered">
+          <div className="callout--centered">
             <SemanticMessage
               type="NEUTRAL"
               message={locals[this.props.lang].info.noResult}
@@ -401,7 +401,7 @@ export default class ExternalActivities extends React.Component<
       fragment = <this.ExternalActivitiesList />
     } else {
       fragment = (
-        <div className="onboarding__callout--centered">
+        <div className="callout--centered">
           <SemanticMessage
             type="NEUTRAL"
             message={locals[this.props.lang].activities.signInFirst.message}

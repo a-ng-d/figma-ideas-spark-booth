@@ -531,7 +531,7 @@ export default class History extends React.Component<
               ))}
             </ul>
           ) : (
-            <div className="onboarding__callout--centered">
+            <div className="callout--centered">
               <SemanticMessage
                 type="NEUTRAL"
                 message={locals[this.props.lang].history.noIdea}

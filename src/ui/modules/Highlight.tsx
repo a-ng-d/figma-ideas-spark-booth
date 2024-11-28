@@ -63,7 +63,7 @@ export default class Highlight extends React.Component<
           actions={{}}
           onClose={this.props.onCloseHighlight}
         >
-          <div className="onboarding__callout--centered">
+          <div className="callout--centered">
             <Icon
               type="PICTO"
               iconName="spinner"
@@ -78,7 +78,7 @@ export default class Highlight extends React.Component<
           actions={{}}
           onClose={this.props.onCloseHighlight}
         >
-          <div className="onboarding__callout--centered">
+          <div className="callout--centered">
             <SemanticMessage
               type="WARNING"
               message={locals[this.props.lang].error.announcements}

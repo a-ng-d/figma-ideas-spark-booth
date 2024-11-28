@@ -27,7 +27,7 @@ export default class Lobby extends React.Component<LobbyProps, LobbyStates> {
   // Render
   render() {
     return (
-      <div className="onboarding__callout--centered">
+      <div className="callout--centered">
         <Message
           icon={this.props.icon}
           messages={this.props.messages}

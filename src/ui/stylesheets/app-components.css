@@ -55,13 +55,13 @@ div.onboarding .label {
   width: auto;
 }
 
-div.onboarding__callout {
+div.callout {
   display: flex;
   flex-direction: column;
   gap: var(--size-xxxsmall);
 }
 
-div.onboarding__callout--centered {
+div.callout--centered {
   margin: auto;
 }
 
