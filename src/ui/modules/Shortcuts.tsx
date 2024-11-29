@@ -6,7 +6,6 @@ import {
   Menu,
   icons,
   layouts,
-  texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { signIn, signOut } from '../../bridges/publication/authentication'
@@ -21,15 +20,16 @@ import features, {
   repositoryUrl,
   requestsUrl,
   supportEmail,
-  trialUrl,
 } from '../../utils/config'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
+import TrialControls from './TrialControls'
 
 interface ShortcutsProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
+  sessionCount: number
   userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
@@ -98,6 +98,11 @@ export default class Shortcuts extends React.Component<
     SHORTCUTS_DOCUMENTATION: new FeatureStatus({
       features: features,
       featureName: 'SHORTCUTS_DOCUMENTATION',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_RUN: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_RUN',
       planStatus: planStatus,
     }),
     GET_PRO_PLAN: new FeatureStatus({
@@ -523,91 +528,7 @@ export default class Shortcuts extends React.Component<
                 this.props.planStatus
               ).GET_PRO_PLAN.isActive()}
             >
-              <div
-                className={['pro-zone', layouts['snackbar--tight']]
-                  .filter((n) => n)
-                  .join(' ')}
-              >
-                {this.props.planStatus === 'UNPAID' &&
-                  this.props.trialStatus !== 'PENDING' && (
-                    <Button
-                      type="compact"
-                      icon="lock-off"
-                      label={
-                        this.props.trialStatus === 'UNUSED'
-                          ? locals[this.props.lang].plan.tryPro
-                          : locals[this.props.lang].plan.getPro
-                      }
-                      isBlocked={Shortcuts.features(
-                        this.props.planStatus
-                      ).GET_PRO_PLAN.isBlocked()}
-                      isNew={Shortcuts.features(
-                        this.props.planStatus
-                      ).GET_PRO_PLAN.isNew()}
-                      action={this.props.onGetProPlan}
-                    />
-                  )}
-                {this.props.trialStatus === 'PENDING' ? (
-                  <div className={`label ${texts.label}`}>
-                    <div className="type type--bold">
-                      {Math.ceil(
-                        this.props.trialRemainingTime > 72
-                          ? this.props.trialRemainingTime / 24
-                          : this.props.trialRemainingTime
-                      )}
-                    </div>
-                    <div>
-                      {Math.ceil(this.props.trialRemainingTime) > 72
-                        ? 'day'
-                        : 'hour'}
-                      {Math.ceil(this.props.trialRemainingTime) <= 1 ? '' : 's'}{' '}
-                      left in this trial
-                    </div>
-                  </div>
-                ) : (
-                  this.props.trialStatus === 'EXPIRED' &&
-                  this.props.planStatus !== 'PAID' && (
-                    <Feature
-                      isActive={Shortcuts.features(
-                        this.props.planStatus
-                      ).SHORTCUTS_REPORTING.isActive()}
-                    >
-                      <div
-                        className={`type ${texts.type} ${texts['type--secondary']} truncated`}
-                      >
-                        <span>{locals[this.props.lang].plan.trialEnded}</span>
-                      </div>
-
-                      <span
-                        className={`type ${texts.type} ${texts['type--secondary']}`}
-                      >
-                        ﹒
-                      </span>
-                      <Button
-                        type="tertiary"
-                        label={locals[this.props.lang].shortcuts.trialFeedback}
-                        isBlocked={Shortcuts.features(
-                          this.props.planStatus
-                        ).SHORTCUTS_REPORTING.isBlocked()}
-                        isNew={Shortcuts.features(
-                          this.props.planStatus
-                        ).SHORTCUTS_REPORTING.isNew()}
-                        action={() =>
-                          parent.postMessage(
-                            {
-                              pluginMessage: {
-                                type: 'OPEN_IN_BROWSER',
-                                url: trialUrl,
-                              },
-                            },
-                            '*'
-                          )
-                        }
-                      />
-                    </Feature>
-                  )
-                )}
-              </div>
+              <TrialControls {...this.props} />
             </Feature>
           }
           border={['TOP']}

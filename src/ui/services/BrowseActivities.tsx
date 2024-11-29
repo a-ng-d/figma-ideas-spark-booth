@@ -33,6 +33,7 @@ interface BrowseActivitiesProps {
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
   planStatus: PlanStatus
+  sessionCount: number
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onRunSession: React.Dispatch<Partial<AppStates>>

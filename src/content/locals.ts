@@ -251,6 +251,19 @@ export const locals: { [key: string]: any } = {
       free: 'Free plan',
       trial: 'Trial',
       trialEnded: 'Your trial has ended',
+      trialTimeDays: {
+        single: '1 day left in this trial',
+        plural: '$1 days left in this trial',
+      },
+      trialTimeHours: {
+        single: '1 hour left in this trial',
+        plural: '$1 hours left in this trial',
+      },
+      sessionCount: {
+        none: 'No session left',
+        single: '1 session left',
+        plural: '$1 sessions left',
+      },
       dev: 'Developer plan',
     },
     proPlan: {

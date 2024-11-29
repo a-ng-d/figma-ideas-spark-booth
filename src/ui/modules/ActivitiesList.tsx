@@ -29,6 +29,7 @@ interface ActivitiesListProps {
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
   planStatus: PlanStatus
+  sessionCount: number
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onOpenActivitySettings: (id: string) => void

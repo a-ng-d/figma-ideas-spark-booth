@@ -2,7 +2,7 @@ import { Feature } from '@a_ng_d/figmug-ui'
 import { Service } from '../types/app'
 
 // Limitations
-export const trialTime = 48
+export const trialTime = 72
 export const oldTrialTime = 72
 export const pageSize = 20
 
@@ -38,7 +38,7 @@ export const documentationUrl = ''
 export const repositoryUrl = ''
 export const supportEmail = ''
 export const feedbackUrl = ''
-export const trialUrl = ''
+export const trialFeedbackUrl = ''
 export const requestsUrl = ''
 export const networkUrl = ''
 
@@ -183,6 +183,7 @@ export const features: Array<Feature<Service>> =
           isPro: false,
           isNew: false,
           type: 'ACTION',
+          limit: 3,
           service: ['BROWSE'],
         },
         {

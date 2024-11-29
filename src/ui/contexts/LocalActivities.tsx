@@ -21,6 +21,7 @@ interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>
   lang: Language
   planStatus: PlanStatus
+  sessionCount: number
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
@@ -166,7 +167,7 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                         feature="RUN_ACTIVITY"
                         isBlocked={LocalActivities.features(
                           this.props.planStatus
-                        ).ACTIVITIES_RUN.isBlocked()}
+                        ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
                         isNew={LocalActivities.features(
                           this.props.planStatus
                         ).ACTIVITIES_RUN.isNew()}

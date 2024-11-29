@@ -2,6 +2,7 @@ import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
 import { ActiveParticipant } from '../types/configurations'
 import { ActionsList } from '../types/models'
+import checkCounts from './checks/checkCounts'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
@@ -37,6 +38,7 @@ const loadUI = async () => {
   checkUserConsent()
     .then(() => checkPlanStatus())
     .then(() => updateParticipants())
+    .then(() => checkCounts())
     .then(async (activeParticipants) => {
       figma.ui.postMessage({
         type: 'CHECK_USER_AUTHENTICATION',

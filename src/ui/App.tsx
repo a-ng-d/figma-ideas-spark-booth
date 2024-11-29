@@ -49,6 +49,7 @@ export interface AppStates {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
+  sessionCount: number
   publicationStatus: PublicationConfiguration
   userIdentity: UserConfiguration
   userSession: UserSession
@@ -123,6 +124,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: trialTime,
+      sessionCount: 0,
       publicationStatus: {
         isPublished: false,
         isShared: false,
@@ -252,6 +254,18 @@ class App extends React.Component<Record<string, never>, AppStates> {
             userConsent: e.data.pluginMessage.userConsent,
           })
 
+        const checkPlanStatus = () =>
+          this.setState({
+            planStatus: e.data.pluginMessage.data.planStatus,
+            trialStatus: e.data.pluginMessage.data.trialStatus,
+            trialRemainingTime: e.data.pluginMessage.data.trialRemainingTime,
+          })
+
+        const checkCounts = () =>
+          this.setState({
+            sessionCount: e.data.pluginMessage.data.sessionCount,
+          })
+
         const handleHighlight = () => {
           this.setState({
             priorityContainerContext:
@@ -264,13 +278,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
             },
           })
         }
-
-        const checkPlanStatus = () =>
-          this.setState({
-            planStatus: e.data.pluginMessage.data.planStatus,
-            trialStatus: e.data.pluginMessage.data.trialStatus,
-            trialRemainingTime: e.data.pluginMessage.data.trialRemainingTime,
-          })
 
         const getActivities = () =>
           this.setState({
@@ -326,6 +333,11 @@ class App extends React.Component<Record<string, never>, AppStates> {
           )
         }
 
+        const countSessions = () =>
+          this.setState({
+            sessionCount: e.data.pluginMessage.data.sessionCount,
+          })
+
         const signOut = (data: UserSession) =>
           this.setState({
             userSession: data,
@@ -334,8 +346,9 @@ class App extends React.Component<Record<string, never>, AppStates> {
         const actions: ActionsList = {
           CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
           CHECK_USER_CONSENT: () => checkUserConsent(),
-          PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
+          CHECK_COUNTS: () => checkCounts(),
+          PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           GET_ACTIVITIES: () => getActivities(),
           GET_SESSIONS: () => getSessions(),
           GET_IDEAS: () => getIdeas(),
@@ -343,6 +356,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           GET_USER: () => getUser(),
           GET_PRO_PLAN: () => getProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
+          COUNT_SESSIONS: () => countSessions(),
           SIGN_OUT: () => signOut(e.data.pluginMessage?.data),
           DEFAULT: () => null,
         }

@@ -42,6 +42,7 @@ interface SettingsProps {
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
+  sessionCount: number
   lang: Language
   onChangeActivities: (
     event:
@@ -278,7 +279,7 @@ export default class Settings extends React.Component<
                   feature="SESSION_RUN"
                   isBlocked={Settings.features(
                     this.props.planStatus
-                  ).ACTIVITIES_RUN.isBlocked()}
+                  ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
                   isNew={Settings.features(
                     this.props.planStatus
                   ).ACTIVITIES_RUN.isNew()}
