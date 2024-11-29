@@ -65,8 +65,9 @@ export default class Activities extends React.Component<
 
     const addActivity = () => {
       const hasAlreadyNewActivity = this.activitiesMessage.data.filter(
-        (activity) => activity.name.includes('New activity')
-      )
+          (activity) => activity.name.includes('New activity')
+        ),
+        now = new Date().toISOString()
 
       this.activitiesMessage.data = this.props.activities
       this.activitiesMessage.data.push({
@@ -94,8 +95,9 @@ export default class Activities extends React.Component<
             isShared: false,
           },
           dates: {
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            createdAt: now,
+            addedAt: now,
+            updatedAt: now,
             publishedAt: '',
           },
           creatorIdentity: {

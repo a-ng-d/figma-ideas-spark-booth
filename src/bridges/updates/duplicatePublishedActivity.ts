@@ -17,6 +17,7 @@ const duplicatePublishedActivity = async (data: ExternalActivitiesData) => {
         id: data.activity_id,
         dates: {
           createdAt: data.created_at,
+          addedAt: new Date().toISOString(),
           updatedAt: data.updated_at,
           publishedAt: data.published_at,
         },

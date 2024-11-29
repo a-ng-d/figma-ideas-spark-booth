@@ -67,6 +67,10 @@ export const locals: { [key: string]: any } = {
     activities: {
       title: 'Local activities',
       newActivity: 'New activity',
+      addFirst: {
+        message: 'Create and configure your own local activities',
+        cta: 'Add your first activity',
+      },
       signInFirst: {
         message: 'Find and reuse your published activities once authentified',
         signIn: 'Sign in to fetch your activities',

@@ -3,6 +3,8 @@ import { lang, locals } from '../content/locals'
 import { ActivityConfiguration } from '../types/configurations'
 import { yellowColor } from './config'
 
+const now = new Date().toISOString()
+
 export const defaultActivity: ActivityConfiguration = {
   name: 'Classic Brainstorming',
   description: 'A classic session with a batch of yellow notes',
@@ -29,7 +31,8 @@ export const defaultActivity: ActivityConfiguration = {
       isShared: false,
     },
     dates: {
-      createdAt: new Date().toISOString(),
+      createdAt: now,
+      addedAt: now,
       updatedAt: '',
       publishedAt: '',
     },

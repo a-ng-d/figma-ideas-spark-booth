@@ -117,9 +117,37 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
             />
           </div>
         </Feature>
+        {this.props.activities.length === 0 && (
+          <div className="callout--centered">
+            <SemanticMessage
+              type="NEUTRAL"
+              message={locals[this.props.lang].activities.addFirst.message}
+              orientation="VERTICAL"
+              action={
+                <Button
+                  type="primary"
+                  label={locals[this.props.lang].activities.addFirst.cta}
+                  feature="ADD_ACTIVITY"
+                  isBlocked={LocalActivities.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_LOCAL.isReached(this.props.activities.length)}
+                  isNew={LocalActivities.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_ADD.isNew()}
+                  action={this.props.onChangeActivities}
+                />
+              }
+            />
+          </div>
+        )}
         <ul className="rich-list">
-          {this.props.activities.map(
-            (activity: ActivityConfiguration, index) => (
+          {this.props.activities
+            .sort(
+              (a, b) =>
+                new Date(b.meta.dates.addedAt ?? 0).getTime() -
+                new Date(a.meta.dates.addedAt ?? 0).getTime()
+            )
+            .map((activity: ActivityConfiguration, index) => (
               <ActionsItem
                 key={index}
                 id={activity.meta.id}
@@ -203,8 +231,7 @@ export default class LocalActivities extends React.Component<LocalActivitiesProp
                     : undefined
                 }
               />
-            )
-          )}
+            ))}
         </ul>
       </div>
     )

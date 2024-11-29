@@ -62,6 +62,7 @@ export interface IdeaConfiguration {
 
 export interface DatesConfiguration {
   createdAt: Date | string
+  addedAt?: Date | string
   updatedAt: Date | string
   publishedAt: Date | string
 }
