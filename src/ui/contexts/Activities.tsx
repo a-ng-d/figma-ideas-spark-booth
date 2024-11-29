@@ -67,7 +67,8 @@ export default class Activities extends React.Component<
       const hasAlreadyNewActivity = this.activitiesMessage.data.filter(
           (activity) => activity.name.includes('New activity')
         ),
-        now = new Date().toISOString()
+        now = new Date().toISOString(),
+        id = uid()
 
       this.activitiesMessage.data = this.props.activities
       this.activitiesMessage.data.push({
@@ -89,7 +90,7 @@ export default class Activities extends React.Component<
           },
         ],
         meta: {
-          id: uid(),
+          id: id,
           publicationStatus: {
             isPublished: false,
             isShared: false,
@@ -107,6 +108,11 @@ export default class Activities extends React.Component<
           },
         },
       } as ActivityConfiguration)
+
+      this.setState({
+        view: 'SETTINGS',
+        openedActivity: id,
+      })
 
       return sendData()
     }
