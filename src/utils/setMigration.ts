@@ -1,12 +1,10 @@
 import { defaultActivity } from './defaultActivity'
 
 const setMigration = () => {
-  const board = figma.root
-
-  const activities = board.getPluginData('activities'),
-    sessions = board.getPluginData('sessions'),
-    ideas = board.getPluginData('ideas'),
-    activeParticipants = board.getPluginData('activeParticipants')
+  const activities = figma.root.getPluginData('activities'),
+    sessions = figma.root.getPluginData('sessions'),
+    ideas = figma.root.getPluginData('ideas'),
+    activeParticipants = figma.root.getPluginData('activeParticipants')
 
   if (activities === '')
     figma.root.setPluginData('activities', JSON.stringify([defaultActivity]))
