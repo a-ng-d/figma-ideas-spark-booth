@@ -48,7 +48,7 @@ export const trackTrialEnablementEvent = (
       options.date + options.trialTime * 3600 * 1000
     ).toISOString(),
     'Trail Time': options.trialTime + ' hours',
-    'Trial Version': '3.2.0',
+    'Trial Version': options.trialVersion,
     ...eventsRecurringProperties,
   })
 }
@@ -66,7 +66,7 @@ export const trackPublicationEvent = (
 ) => {
   if (!consent) return
   mixpanel.identify(id)
-  mixpanel.track('Palette Managed', {
+  mixpanel.track('Activity Managed', {
     Feature: options.feature,
     ...eventsRecurringProperties,
   })

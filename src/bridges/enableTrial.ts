@@ -12,6 +12,7 @@ const enableTrial = async () => {
         id: figma.currentUser?.id ?? 'NC',
         date: date,
         trialTime: trialTime,
+        trialVersion: trialVersion,
       })
       figma.root.setPluginData('event', 'TRIAL_ENABLED')
     })

@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import { locals } from '../content/locals'
+import mixpanel from 'mixpanel-figma'
 import {
   HighlightDigest,
   Language,
@@ -29,6 +30,7 @@ import features, {
 } from '../utils/config'
 import {
   trackPurchaseEvent,
+  trackRunningEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
@@ -65,12 +67,12 @@ export interface AppStates {
 const container = document.getElementById('app'),
   root = createRoot(container)
 
-/*mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN ?? '', {
+mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN ?? '', {
   debug: process.env.NODE_ENV === 'development',
   disable_persistence: true,
   disable_cookie: true,
   opt_out_tracking_by_default: true,
-})*/
+})
 
 /*Sentry.init({
   dsn:
@@ -299,10 +301,19 @@ class App extends React.Component<Record<string, never>, AppStates> {
             activeParticipants: e.data.pluginMessage.data,
           })
 
-        const getUser = () =>
+        const getUser = () => {
           this.setState({
             userIdentity: e.data.pluginMessage.data,
           })
+          trackRunningEvent(
+            e.data.pluginMessage.data.id,
+            this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false
+          )
+        }
+        this.setState({
+          userIdentity: e.data.pluginMessage.data,
+        })
 
         const getProPlan = () => {
           this.setState({
@@ -329,6 +340,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
             {
               date: e.data.pluginMessage.date,
               trialTime: e.data.pluginMessage.trialTime,
+              trialVersion: e.data.pluginMessage.trialVersion,
             }
           )
         }

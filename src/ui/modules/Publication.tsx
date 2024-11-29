@@ -226,7 +226,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'PUBLISH_PALETTE',
+                    feature: 'PUBLISH_ACTIVITY',
                   }
                 )
               })
@@ -280,7 +280,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'PUSH_PALETTE',
+                    feature: 'PUSH_ACTIVITY',
                   }
                 )
               })
@@ -328,7 +328,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'REVERT_PALETTE',
+                    feature: 'REVERT_ACTIVITY',
                   }
                 )
               })
@@ -378,7 +378,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'PULL_PALETTE',
+                    feature: 'PULL_ACTIVITY',
                   }
                 )
               })
@@ -415,7 +415,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'DETACH_PALETTE',
+                    feature: 'DETACH_ACTIVITY',
                   }
                 )
               })
@@ -454,7 +454,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'PULL_PALETTE',
+                    feature: 'PULL_ACTIVITY',
                   }
                 )
               })
@@ -491,7 +491,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'DETACH_PALETTE',
+                    feature: 'DETACH_ACTIVITY',
                   }
                 )
               })
@@ -541,7 +541,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'PUSH_PALETTE',
+                    feature: 'PUSH_ACTIVITY',
                   }
                 )
               })
@@ -587,7 +587,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'UNPUBLISH_PALETTE',
+                    feature: 'UNPUBLISH_ACTIVITY',
                   }
                 )
               })
@@ -626,7 +626,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'DETACH_PALETTE',
+                    feature: 'DETACH_ACTIVITY',
                   }
                 )
               })
@@ -657,7 +657,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'REVERT_PALETTE',
+                    feature: 'REVERT_ACTIVITY',
                   }
                 )
                 parent.postMessage(
@@ -703,7 +703,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'DETACH_PALETTE',
+                    feature: 'DETACH_ACTIVITY',
                   }
                 )
               })
@@ -731,7 +731,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'DETACH_PALETTE',
+                    feature: 'DETACH_ACTIVITY',
                   }
                 )
               })

@@ -23,6 +23,7 @@ ul.list,
 ul.rich-list {
   overflow-y: auto;
   padding: 1px 0;
+  flex: 1;
 }
 
 ul.list--loading,

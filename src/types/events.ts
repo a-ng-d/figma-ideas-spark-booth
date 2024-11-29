@@ -1,22 +1,19 @@
 export interface TrialEvent {
   date: number
   trialTime: number
+  trialVersion: string
 }
 
 export interface PublicationEvent {
   feature:
-    | 'PUBLISH_PALETTE'
-    | 'UNPUBLISH_PALETTE'
-    | 'PUSH_PALETTE'
-    | 'PULL_PALETTE'
-    | 'REUSE_PALETTE'
-    | 'SYNC_PALETTE'
-    | 'REVERT_PALETTE'
-    | 'DETACH_PALETTE'
-    | 'ADD_PALETTE'
-    | 'SHARE_PALETTE'
-}
-
-export interface ImportEvent {
-  feature: 'IMPORT_COOLORS' | 'IMPORT_REALTIME_COLORS' | 'IMPORT_COLOUR_LOVERS'
+    | 'PUBLISH_ACTIVITY'
+    | 'UNPUBLISH_ACTIVITY'
+    | 'PUSH_ACTIVITY'
+    | 'PULL_ACTIVITY'
+    | 'REUSE_ACTIVITY'
+    | 'SYNC_ACTIVITY'
+    | 'REVERT_ACTIVITY'
+    | 'DETACH_ACTIVITY'
+    | 'DUPLICATE_ACTIVITY'
+    | 'SHARE_ACTIVITY'
 }

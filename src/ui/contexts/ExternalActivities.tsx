@@ -219,8 +219,8 @@ export default class ExternalActivities extends React.Component<
           {
             feature:
               this.props.userSession.userId === data[0].creator_id
-                ? 'REUSE_PALETTE'
-                : 'ADD_PALETTE',
+                ? 'REUSE_ACTIVITY'
+                : 'DUPLICATE_ACTIVITY',
           }
         )
 

@@ -157,7 +157,7 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
                             (consent) => consent.id === 'mixpanel'
                           )?.isConsented ?? false,
                           {
-                            feature: 'UNPUBLISH_PALETTE',
+                            feature: 'UNPUBLISH_ACTIVITY',
                           }
                         )
                       })
@@ -236,7 +236,7 @@ export default class SelfActivity extends React.Component<SelfActivityProps> {
                             (consent) => consent.id === 'mixpanel'
                           )?.isConsented ?? false,
                           {
-                            feature: 'SHARE_PALETTE',
+                            feature: 'SHARE_ACTIVITY',
                           }
                         )
                       })
