@@ -3,10 +3,10 @@ import { oldTrialTime, trialTime, trialVersion } from '../../utils/config'
 const checkPlanStatus = async () => {
   // figma.clientStorage.deleteAsync('trial_start_date')
   // figma.clientStorage.deleteAsync('trial_version')
-  figma.clientStorage.setAsync(
-    'trial_start_date',
-    new Date().getTime() - 72 * 60 * 60 * 1000
-  )
+  // figma.clientStorage.setAsync(
+  //   'trial_start_date',
+  //   new Date().getTime() - 72 * 60 * 60 * 1000
+  // )
   // figma.payments?.setPaymentStatusInDevelopment({
   //   type: 'UNPAID',
   // })
