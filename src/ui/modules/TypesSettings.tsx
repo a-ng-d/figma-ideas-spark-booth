@@ -1,5 +1,6 @@
 import {
   Button,
+  ConsentConfiguration,
   Dropdown,
   FeatureStatus,
   FormItem,
@@ -18,6 +19,7 @@ import {
   ActivityConfiguration,
   ColorConfiguration,
   TypeConfiguration,
+  UserConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import features, {
@@ -33,9 +35,13 @@ import features, {
 } from '../../utils/config'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
+import { trackTypeEvent } from '../../utils/eventsTracker'
+import { TypeEvent } from '../../types/events'
 
 interface TypesSettingsProps {
   activity: ActivityConfiguration
+  userIdentity: UserConfiguration
+  userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
   onChangeTypes: (types: Array<TypeConfiguration>) => void
@@ -100,7 +106,17 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
         id: uid(),
         description: '',
       })
+
       this.props.onChangeTypes(types)
+
+      trackTypeEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: currentElement.dataset.feature,
+        } as TypeEvent
+      )
     }
 
     const renameType = () => {
@@ -108,7 +124,17 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
         if (type.id === id) type.name = e.target.value
         return type
       })
+
       this.props.onChangeTypes(types)
+
+      trackTypeEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: currentElement.dataset.feature,
+        } as TypeEvent
+      )
     }
 
     const updateTypeColor = () => {
@@ -131,7 +157,17 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
         }
         return type
       })
+
       this.props.onChangeTypes(types)
+
+      trackTypeEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: currentElement.dataset.feature,
+        } as TypeEvent
+      )
     }
 
     const updateTypeDescription = () => {
@@ -139,6 +175,7 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
         if (type.id === id) type.description = currentElement.value
         return type
       })
+
       this.props.onChangeTypes(types)
     }
 
@@ -146,7 +183,17 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
       const types = this.props.activity.types.filter((type) => {
         return type.id !== id
       })
+
       this.props.onChangeTypes(types)
+
+      trackTypeEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: currentElement.dataset.feature,
+        } as TypeEvent
+      )
     }
 
     const actions: ActionsList = {
@@ -163,6 +210,15 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
 
   onChangeOrder = (types: Array<TypeConfiguration>) => {
     this.props.onChangeTypes(types)
+
+    trackTypeEvent(
+      this.props.userIdentity.id,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'REORDER_TYPES',
+      } as TypeEvent
+    )
   }
 
   render() {
@@ -262,6 +318,7 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
                             isNew={TypesSettings.features(
                               this.props.planStatus
                             ).SETTINGS_TYPES_NAME.isNew()}
+                            onChange={this.typeHandler}
                             onBlur={this.typeHandler}
                             onConfirm={this.typeHandler}
                           />

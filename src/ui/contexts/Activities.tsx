@@ -17,6 +17,8 @@ import { AppStates } from '../App'
 import ActivitiesList from '../modules/ActivitiesList'
 import History from './History'
 import Settings from './Settings'
+import { trackActivityEvent } from '../../utils/eventsTracker'
+import { ActivityEvent } from '../../types/events'
 
 interface ActivitiesProps {
   activities: Array<ActivityConfiguration>
@@ -239,6 +241,15 @@ export default class Activities extends React.Component<
       })
 
       parent.postMessage({ pluginMessage: this.activitiesMessage }, '*')
+
+      trackActivityEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: currentElement.dataset.feature,
+        } as ActivityEvent
+      )
     }
 
     const actions: ActionsList = {

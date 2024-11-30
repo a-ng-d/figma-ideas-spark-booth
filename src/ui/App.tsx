@@ -29,6 +29,7 @@ import features, {
   userConsentVersion,
 } from '../utils/config'
 import {
+  trackEndSessionEvent,
   trackPurchaseEvent,
   trackRunningEvent,
   trackTrialEnablementEvent,
@@ -311,9 +312,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
               ?.isConsented ?? false
           )
         }
-        this.setState({
-          userIdentity: e.data.pluginMessage.data,
-        })
 
         const getProPlan = () => {
           this.setState({
@@ -447,6 +445,23 @@ class App extends React.Component<Record<string, never>, AppStates> {
       return session
     })
 
+    const countByHasFinished = () => {
+      return this.state.activeParticipants.reduce(
+        (acc: { finished: number; unfinished: number }, participant) => {
+          if (
+            participant.hasFinished ||
+            participant.userIdentity.id === this.state.userIdentity.id
+          ) {
+            acc.finished++
+          } else {
+            acc.unfinished++
+          }
+          return acc
+        },
+        { finished: 0, unfinished: 0 }
+      )
+    }
+
     this.setState({
       sessions: sessions,
     })
@@ -464,6 +479,27 @@ class App extends React.Component<Record<string, never>, AppStates> {
         },
       },
       '*'
+    )
+
+    trackEndSessionEvent(
+      this.state.userIdentity.id,
+      this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        activityName: activity.name,
+        activityDescription: activity.description,
+        participantsNumber: currentSession?.metrics.participants ?? 0,
+        finishedParticipantsNumber: countByHasFinished().finished,
+        unfinishedParticipantsNumber: countByHasFinished().unfinished,
+        sessionTimer: activity.timer.minutes * 60 + activity.timer.seconds,
+        sessionDuration:
+          currentSession?.metrics.endDate && currentSession?.metrics.startDate
+            ? (new Date(currentSession.metrics.endDate).getTime() -
+                new Date(currentSession.metrics.startDate).getTime()) /
+              1000
+            : 0,
+        ideasNumber: currentSession?.metrics.ideas ?? 0,
+      }
     )
   }
 

@@ -1,6 +1,12 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import mixpanel from 'mixpanel-figma'
-import { PublicationEvent, TrialEvent } from '../types/events'
+import {
+  ActivityEvent,
+  EndSessionEvent,
+  PublicationEvent,
+  TrialEvent,
+  TypeEvent,
+} from '../types/events'
 import { userConsentVersion } from './config'
 
 const eventsRecurringProperties = {
@@ -67,6 +73,51 @@ export const trackPublicationEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Activity Managed', {
+    Feature: options.feature,
+    ...eventsRecurringProperties,
+  })
+}
+
+export const trackEndSessionEvent = (
+  id: string,
+  consent: boolean,
+  options: EndSessionEvent
+) => {
+  if (!consent) return
+  mixpanel.identify(id)
+  mixpanel.track('Session Ended', {
+    'Activity Name': options.activityName,
+    'Activity Description': options.activityDescription,
+    'Participants Number': options.participantsNumber,
+    'Finished Participants Number': options.finishedParticipantsNumber,
+    'Unfinished Participants Number': options.unfinishedParticipantsNumber,
+    'Session Timer': options.sessionTimer,
+    'Session Duration': options.sessionDuration,
+    'Ideas Number': options.ideasNumber,
+    ...eventsRecurringProperties,
+  })
+}
+export const trackActivityEvent = (
+  id: string,
+  consent: boolean,
+  options: ActivityEvent
+) => {
+  if (!consent) return
+  mixpanel.identify(id)
+  mixpanel.track('Activity Updated', {
+    Feature: options.feature,
+    ...eventsRecurringProperties,
+  })
+}
+
+export const trackTypeEvent = (
+  id: string,
+  consent: boolean,
+  options: TypeEvent
+) => {
+  if (!consent) return
+  mixpanel.identify(id)
+  mixpanel.track('Type Updated', {
     Feature: options.feature,
     ...eventsRecurringProperties,
   })
