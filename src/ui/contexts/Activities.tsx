@@ -10,15 +10,15 @@ import {
   TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
+import { ActivityEvent } from '../../types/events'
 import { ActivitiesMessage } from '../../types/messages'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
+import { trackActivityEvent } from '../../utils/eventsTracker'
 import { AppStates } from '../App'
 import ActivitiesList from '../modules/ActivitiesList'
 import History from './History'
 import Settings from './Settings'
-import { trackActivityEvent } from '../../utils/eventsTracker'
-import { ActivityEvent } from '../../types/events'
 
 interface ActivitiesProps {
   activities: Array<ActivityConfiguration>

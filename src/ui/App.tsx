@@ -1,11 +1,11 @@
 import { Consent, ConsentConfiguration, FeatureStatus } from '@a_ng_d/figmug-ui'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
+import mixpanel from 'mixpanel-figma'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import { locals } from '../content/locals'
-import mixpanel from 'mixpanel-figma'
 import {
   HighlightDigest,
   Language,

@@ -21,6 +21,7 @@ import {
   TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
+import { TypeEvent } from '../../types/events'
 import { ActionsList } from '../../types/models'
 import features, {
   blueColor,
@@ -33,10 +34,9 @@ import features, {
   violetColor,
   yellowColor,
 } from '../../utils/config'
+import { trackTypeEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
-import { trackTypeEvent } from '../../utils/eventsTracker'
-import { TypeEvent } from '../../types/events'
 
 interface TypesSettingsProps {
   activity: ActivityConfiguration
