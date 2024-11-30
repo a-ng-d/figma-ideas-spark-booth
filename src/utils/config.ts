@@ -7,7 +7,7 @@ export const oldTrialTime = 72
 export const pageSize = 20
 
 // Versions
-export const status = 'BETA'
+export const versionStatus = 'BETA'
 export const userConsentVersion = '2024.01'
 export const trialVersion = '2024.01'
 

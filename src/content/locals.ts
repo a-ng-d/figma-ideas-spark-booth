@@ -284,6 +284,10 @@ export const locals: { [key: string]: any } = {
         option: 'Purchase',
       },
     },
+    beta: {
+      message: 'This feature is in beta',
+      cta: 'Give feedback',
+    },
     user: {
       signIn: 'Sign in',
       signOut: 'Sign out',

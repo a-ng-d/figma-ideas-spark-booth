@@ -1,4 +1,11 @@
-import { Consent, ConsentConfiguration, FeatureStatus } from '@a_ng_d/figmug-ui'
+import {
+  Button,
+  Consent,
+  ConsentConfiguration,
+  FeatureStatus,
+  layouts,
+  SemanticMessage,
+} from '@a_ng_d/figmug-ui'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import mixpanel from 'mixpanel-figma'
 import React from 'react'
@@ -25,8 +32,10 @@ import { ActionsList } from '../types/models'
 import { UserSession } from '../types/user'
 import features, {
   announcementsWorkerUrl,
+  feedbackUrl,
   trialTime,
   userConsentVersion,
+  versionStatus,
 } from '../utils/config'
 import {
   trackEndSessionEvent,
@@ -62,6 +71,7 @@ export interface AppStates {
   mustUserConsent: boolean
   highlight: HighlightDigest
   isLoaded: boolean
+  isBetaMessageVisible: boolean
   onGoingStep: string
 }
 
@@ -154,6 +164,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
         status: 'NO_HIGHLIGHT',
       },
       isLoaded: false,
+      isBetaMessageVisible: true,
       onGoingStep: '',
     }
   }
@@ -626,6 +637,45 @@ class App extends React.Component<Record<string, never>, AppStates> {
                 isConsented: true,
               }}
               vendorsList={this.state.userConsent}
+            />
+          </Feature>
+          <Feature
+            isActive={
+              versionStatus === 'BETA' && this.state.isBetaMessageVisible
+            }
+          >
+            <SemanticMessage
+              type="INFO"
+              message={locals[this.state.lang].beta.message}
+              isAnchored={true}
+              action={
+                <div
+                  className={`${layouts['snackbar']} ${layouts['snackbar--medium']}`}
+                >
+                  <Button
+                    type="secondary"
+                    label={locals[this.state.lang].beta.cta}
+                    action={() =>
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            url: feedbackUrl,
+                          },
+                        },
+                        '*'
+                      )
+                    }
+                  />
+                  <Button
+                    type="icon"
+                    icon="close"
+                    action={() =>
+                      this.setState({ isBetaMessageVisible: false })
+                    }
+                  />
+                </div>
+              }
             />
           </Feature>
           <Feature
