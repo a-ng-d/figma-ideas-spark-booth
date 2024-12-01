@@ -8,7 +8,7 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
@@ -50,7 +50,7 @@ interface ExternalActivitiesStates {
   isContextActionLoading: Array<boolean>
 }
 
-export default class ExternalActivities extends React.Component<
+export default class ExternalActivities extends PureComponent<
   ExternalActivitiesProps,
   ExternalActivitiesStates
 > {

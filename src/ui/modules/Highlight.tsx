@@ -1,5 +1,5 @@
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { HighlightDigest, Language } from '../../types/app'
 import { announcementsWorkerUrl } from '../../utils/config'
@@ -17,7 +17,7 @@ interface HighlightStates {
   status: 'LOADING' | 'LOADED' | 'ERROR'
 }
 
-export default class Highlight extends React.Component<
+export default class Highlight extends PureComponent<
   HighlightProps,
   HighlightStates
 > {

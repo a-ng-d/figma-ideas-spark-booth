@@ -6,7 +6,7 @@ import {
   SectionTitle,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
@@ -27,7 +27,7 @@ interface TimerSettingsProps {
   ) => void
 }
 
-export default class TimerSettings extends React.Component<TimerSettingsProps> {
+export default class TimerSettings extends PureComponent<TimerSettingsProps> {
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_TIMER: new FeatureStatus({
       features: features,

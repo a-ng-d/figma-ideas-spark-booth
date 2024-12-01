@@ -8,7 +8,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import mixpanel from 'mixpanel-figma'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { createRoot } from 'react-dom/client'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
@@ -103,7 +103,7 @@ mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN ?? '', {
   replaysOnErrorSampleRate: 1.0,
 })*/
 
-class App extends React.Component<Record<string, never>, AppStates> {
+class App extends PureComponent<Record<string, never>, AppStates> {
   static features = (planStatus: PlanStatus) => ({
     BROWSE: new FeatureStatus({
       features: features,

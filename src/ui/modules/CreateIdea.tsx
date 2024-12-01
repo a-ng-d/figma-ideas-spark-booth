@@ -6,7 +6,7 @@ import {
   Input,
   Menu,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { uid } from 'uid'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -42,7 +42,7 @@ interface CreateIdeasStates {
   currentText: string
 }
 
-export default class CreateIdeas extends React.Component<
+export default class CreateIdeas extends PureComponent<
   CreateIdeasProps,
   CreateIdeasStates
 > {

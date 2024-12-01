@@ -1,5 +1,5 @@
 import { Button, FeatureStatus, layouts, texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
 import features, { trialFeedbackUrl } from '../../utils/config'
@@ -14,7 +14,7 @@ interface TrialControlsProps {
   onGetProPlan: () => void
 }
 
-export default class TrialControls extends React.Component<TrialControlsProps> {
+export default class TrialControls extends PureComponent<TrialControlsProps> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_RUN: new FeatureStatus({
       features: features,

@@ -7,7 +7,7 @@ import {
   SectionTitle,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
@@ -28,7 +28,7 @@ interface GlobalSettingsProps {
   ) => void
 }
 
-export default class GlobalSettings extends React.Component<GlobalSettingsProps> {
+export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_GLOBAL: new FeatureStatus({
       features: features,

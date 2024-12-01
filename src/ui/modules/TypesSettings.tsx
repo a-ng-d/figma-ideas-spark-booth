@@ -11,7 +11,7 @@ import {
   SimpleItem,
   SortableList,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { uid } from 'uid'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
@@ -48,7 +48,7 @@ interface TypesSettingsProps {
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
-export default class TypesSettings extends React.Component<TypesSettingsProps> {
+export default class TypesSettings extends PureComponent<TypesSettingsProps> {
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_TYPES: new FeatureStatus({
       features: features,

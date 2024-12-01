@@ -10,7 +10,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
@@ -59,7 +59,7 @@ interface ParticipateStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class Participate extends React.Component<
+export default class Participate extends PureComponent<
   ParticipateProps,
   ParticipateStates
 > {

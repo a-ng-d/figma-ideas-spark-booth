@@ -4,7 +4,7 @@ import {
   FeatureStatus,
   Tabs,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import {
   ContextItem,
   Language,
@@ -44,7 +44,7 @@ interface BrowseActivitiesStates {
   context: string | undefined
 }
 
-export default class BrowseActivities extends React.Component<
+export default class BrowseActivities extends PureComponent<
   BrowseActivitiesProps,
   BrowseActivitiesStates
 > {

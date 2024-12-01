@@ -8,7 +8,7 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
@@ -28,7 +28,7 @@ interface LocalActivitiesProps {
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
-export default class LocalActivities extends React.Component<LocalActivitiesProps> {
+export default class LocalActivities extends PureComponent<LocalActivitiesProps> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_LOCAL: new FeatureStatus({
       features: features,

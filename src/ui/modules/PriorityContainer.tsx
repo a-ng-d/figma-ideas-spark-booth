@@ -7,7 +7,7 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import * as Sentry from '@sentry/browser'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import cp from '../../content/images/choose_plan.webp'
 import pp from '../../content/images/pro_plan.webp'
 import t from '../../content/images/trial.webp'
@@ -48,7 +48,7 @@ interface PriorityContainerStates {
   userMessage: string
 }
 
-export default class PriorityContainer extends React.Component<
+export default class PriorityContainer extends PureComponent<
   PriorityContainerProps,
   PriorityContainerStates
 > {

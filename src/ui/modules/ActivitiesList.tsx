@@ -4,7 +4,7 @@ import {
   FeatureStatus,
   Tabs,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import {
   ContextItem,
   Language,
@@ -41,7 +41,7 @@ interface ActivitiesListStates {
   context: string | undefined
 }
 
-export default class ActivitiesList extends React.Component<
+export default class ActivitiesList extends PureComponent<
   ActivitiesListProps,
   ActivitiesListStates
 > {

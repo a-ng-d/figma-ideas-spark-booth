@@ -1,5 +1,5 @@
 import { Tooltip } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 interface ColorChipProps {
   color: string
@@ -10,7 +10,7 @@ interface ColorChipStates {
   isTooltipVisible: boolean
 }
 
-export default class ColorChip extends React.Component<
+export default class ColorChip extends PureComponent<
   ColorChipProps,
   ColorChipStates
 > {

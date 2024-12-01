@@ -1,5 +1,5 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,
@@ -18,7 +18,7 @@ interface ExploreProps {
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
-export default class Explore extends React.Component<ExploreProps> {
+export default class Explore extends PureComponent<ExploreProps> {
   // Renders
   render() {
     return (

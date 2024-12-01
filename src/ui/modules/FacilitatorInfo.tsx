@@ -11,7 +11,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
@@ -41,7 +41,7 @@ interface FacilitatorInfoStates {
   isParticipantsMessageVisible: boolean
 }
 
-export default class FacilitatorInfo extends React.Component<
+export default class FacilitatorInfo extends PureComponent<
   FacilitatorInfoProps,
   FacilitatorInfoStates
 > {

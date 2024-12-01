@@ -6,7 +6,7 @@ import {
   FeatureStatus,
   layouts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { FetchStatus, Language, PlanStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
@@ -32,7 +32,7 @@ interface CommunityActivityProps {
   onSelectActivity: () => void
 }
 
-export default class CommunityActivity extends React.Component<CommunityActivityProps> {
+export default class CommunityActivity extends PureComponent<CommunityActivityProps> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_LOCAL: new FeatureStatus({
       features: features,

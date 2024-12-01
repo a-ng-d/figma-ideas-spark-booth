@@ -1,5 +1,5 @@
 import { texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
 import features from '../../utils/config'
@@ -13,7 +13,7 @@ interface AboutProps {
   lang: Language
 }
 
-export default class About extends React.Component<AboutProps> {
+export default class About extends PureComponent<AboutProps> {
   render() {
     return (
       <div className="about controls__control">

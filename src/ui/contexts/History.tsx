@@ -12,7 +12,7 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import FileSaver from 'file-saver'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -43,7 +43,7 @@ interface HistoryStates {
   isDialogOpen: boolean
 }
 
-export default class History extends React.Component<
+export default class History extends PureComponent<
   HistoryProps,
   HistoryStates
 > {

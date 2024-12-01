@@ -12,7 +12,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { signIn } from '../../bridges/publication/authentication'
 import p from '../../content/images/publication.webp'
 import { locals } from '../../content/locals'
@@ -67,7 +67,7 @@ interface SettingsStates {
   isSecondaryActionLoading: boolean
 }
 
-export default class Settings extends React.Component<
+export default class Settings extends PureComponent<
   SettingsProps,
   SettingsStates
 > {

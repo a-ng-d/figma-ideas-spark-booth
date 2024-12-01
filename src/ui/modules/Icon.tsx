@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 interface IconProps {
   size: number
 }
 
-export default class Icon extends React.Component<IconProps> {
+export default class Icon extends PureComponent<IconProps> {
   render() {
     return (
       <svg

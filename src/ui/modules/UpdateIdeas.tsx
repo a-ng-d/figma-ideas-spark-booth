@@ -11,7 +11,7 @@ import {
   SimpleItem,
   layouts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -48,7 +48,7 @@ interface UpdateIdeasStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class UpdateIdeas extends React.Component<
+export default class UpdateIdeas extends PureComponent<
   UpdateIdeasProps,
   UpdateIdeasStates
 > {

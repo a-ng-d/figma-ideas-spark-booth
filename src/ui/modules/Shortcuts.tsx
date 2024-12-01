@@ -7,7 +7,7 @@ import {
   icons,
   layouts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
@@ -45,7 +45,7 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends React.Component<
+export default class Shortcuts extends PureComponent<
   ShortcutsProps,
   ShortcutsStates
 > {

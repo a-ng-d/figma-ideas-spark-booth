@@ -7,7 +7,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -28,7 +28,7 @@ interface ParticipantInfoProps {
   lang: Language
 }
 
-export default class ParticipantInfo extends React.Component<ParticipantInfoProps> {
+export default class ParticipantInfo extends PureComponent<ParticipantInfoProps> {
   static features = (planStatus: PlanStatus) => ({
     PARTICIPATE_INFO_DESCRIPTION: new FeatureStatus({
       features: features,

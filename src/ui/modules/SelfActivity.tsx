@@ -7,7 +7,7 @@ import {
   layouts,
   Menu,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import shareActivity from '../../bridges/publication/shareActivity'
 import unpublishActivity from '../../bridges/publication/unpublishActivity'
 import { locals } from '../../content/locals'
@@ -42,7 +42,7 @@ interface SelfActivityProps {
   onSelectActivity: () => void
 }
 
-export default class SelfActivity extends React.Component<SelfActivityProps> {
+export default class SelfActivity extends PureComponent<SelfActivityProps> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_LOCAL: new FeatureStatus({
       features: features,
