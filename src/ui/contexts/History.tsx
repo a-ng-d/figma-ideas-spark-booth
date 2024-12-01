@@ -500,7 +500,7 @@ export default class History extends PureComponent<
                     >
                       <div
                         className={`${layouts['snackbar--tight']}`}
-                        style={{ flex: '0 0 64px' }}
+                        style={{ flex: '0 0 128px' }}
                       >
                         <ColorChip color={idea.type.hex} />
                         <span
