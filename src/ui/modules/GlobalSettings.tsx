@@ -24,7 +24,7 @@ interface GlobalSettingsProps {
       | React.KeyboardEvent<
           HTMLInputElement | HTMLTextAreaElement | Element | HTMLLIElement
         >
-      | React.MouseEvent<HTMLLIElement | Element, MouseEvent>
+      | React.TargetedEvent<HTMLButtonElement | HTMLLIElement>
   ) => void
 }
 

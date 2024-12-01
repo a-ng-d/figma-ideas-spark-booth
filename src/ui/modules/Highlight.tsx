@@ -7,7 +7,7 @@ import { announcementsWorkerUrl } from '../../utils/config'
 interface HighlightProps {
   highlight: HighlightDigest
   lang: Language
-  onCloseHighlight: React.ReactEventHandler
+  onCloseHighlight: (e: React.MouseEvent<Element>) => void
 }
 
 interface HighlightStates {
@@ -17,10 +17,7 @@ interface HighlightStates {
   status: 'LOADING' | 'LOADED' | 'ERROR'
 }
 
-export default class Highlight extends React.Component<
-  HighlightProps,
-  HighlightStates
-> {
+export default class Highlight extends React.Component<HighlightProps, HighlightStates> {
   constructor(props: HighlightProps) {
     super(props)
     this.state = {
@@ -46,11 +43,11 @@ export default class Highlight extends React.Component<
       })
   }
 
-  goNextSlide = (e: React.SyntheticEvent<Element, Event>) => {
+  goNextSlide = (e: React.MouseEvent<Element>) => {
     if (this.state.position + 1 < this.state.announcements.length)
       this.setState({ position: this.state.position + 1 })
     else {
-      this.props.onCloseHighlight(e)
+      this.props.onCloseHighlight(e as React.MouseEvent<Element>)
       this.setState({ position: 0 })
     }
   }
@@ -103,7 +100,7 @@ export default class Highlight extends React.Component<
                 this.state.position + 1 < this.state.announcements.length
                   ? locals[this.props.lang].highlight.cta.next
                   : locals[this.props.lang].highlight.cta.gotIt,
-              action: (e) => this.goNextSlide(e),
+              action: (e: React.MouseEvent<Element>) => this.goNextSlide(e),
             },
             secondary: (() => {
               if (
@@ -127,7 +124,7 @@ export default class Highlight extends React.Component<
               ? `${this.state.position + 1} of ${this.state.announcements.length}`
               : undefined
           }
-          onClose={(e) => {
+          onClose={(e: React.MouseEvent<Element>) => {
             parent.postMessage(
               {
                 pluginMessage: {

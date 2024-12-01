@@ -36,6 +36,12 @@ module.exports = (env, argv) => ({
   // Webpack tries these extensions for you if you omit the extension like "import './file'"
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    alias: {
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat', // Must be below test-utils
+      'react/jsx-runtime': 'preact/jsx-runtime',
+    },
   },
 
   output: {

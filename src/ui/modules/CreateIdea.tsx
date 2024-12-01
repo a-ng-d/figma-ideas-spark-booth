@@ -162,17 +162,18 @@ export default class CreateIdeas extends React.Component<
               isNew={CreateIdeas.features(
                 this.props.planStatus
               ).PARTICIPATE_CREATE_IDEA.isNew()}
-              onChange={(e) =>
-                e.target.value.length > 0
+              onChange={(e) => {
+                const target = e.target as HTMLInputElement
+                target.value.length > 0
                   ? this.setState({
                       canBeSubmitted: true,
-                      currentText: e.target.value,
+                      currentText: target.value,
                     })
                   : this.setState({
                       canBeSubmitted: false,
-                      currentText: e.target.value,
+                      currentText: target.value,
                     })
-              }
+              }}
               onConfirm={this.onPushIdea}
             />
             <Button

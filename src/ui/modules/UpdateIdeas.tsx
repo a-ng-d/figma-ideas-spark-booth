@@ -48,10 +48,7 @@ interface UpdateIdeasStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class UpdateIdeas extends React.Component<
-  UpdateIdeasProps,
-  UpdateIdeasStates
-> {
+export default class UpdateIdeas extends React.Component<UpdateIdeasProps, UpdateIdeasStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 
@@ -159,12 +156,12 @@ export default class UpdateIdeas extends React.Component<
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ideasHandler = (e: any, type: TypeConfiguration) => {
+  ideasHandler = (e: Event, type: TypeConfiguration) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
         '.simple-item'
       ),
-      currentElement: HTMLInputElement = e.currentTarget
+      currentElement = e.currentTarget as HTMLInputElement
 
     element !== null ? (id = element.getAttribute('data-id')) : (id = null)
 
@@ -303,7 +300,7 @@ export default class UpdateIdeas extends React.Component<
                       isNew={UpdateIdeas.features(
                         this.props.planStatus
                       ).PARTICIPATE_UPDATE_REMOVE.isNew()}
-                      action={(e) => this.ideasHandler(e, idea.type)}
+                      action={(e: Event) => this.ideasHandler(e, idea.type)}
                     />
                   </Feature>
                 }

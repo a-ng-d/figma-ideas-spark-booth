@@ -37,7 +37,7 @@ interface PriorityContainerProps {
   highlight: HighlightDigest
   lang: Language
   onChangePublication: React.Dispatch<Partial<AppStates>>
-  onClose: React.ChangeEventHandler & (() => void)
+  onClose: React.Dispatch<Partial<AppStates>>
 }
 
 interface PriorityContainerStates {
@@ -165,7 +165,11 @@ export default class PriorityContainer extends React.Component<
                 ),
             },
           }}
-          onClose={this.props.onClose}
+          onClose={() =>
+            this.props.onClose({
+              priorityContainerContext: 'EMPTY',
+            })
+          }
         >
           <div className="dialog__cover">
             <img
@@ -197,10 +201,17 @@ export default class PriorityContainer extends React.Component<
           actions={{
             primary: {
               label: locals[this.props.lang].proPlan.welcome.cta,
-              action: this.props.onClose,
+              action: () =>
+                this.props.onClose({
+                  priorityContainerContext: 'EMPTY',
+                }),
             },
           }}
-          onClose={this.props.onClose}
+          onClose={() =>
+            this.props.onClose({
+              priorityContainerContext: 'EMPTY',
+            })
+          }
         >
           <div className="dialog__cover">
             <img
@@ -232,10 +243,17 @@ export default class PriorityContainer extends React.Component<
           actions={{
             primary: {
               label: locals[this.props.lang].proPlan.welcome.cta,
-              action: this.props.onClose,
+              action: () =>
+                this.props.onClose({
+                  priorityContainerContext: 'EMPTY',
+                }),
             },
           }}
-          onClose={this.props.onClose}
+          onClose={() =>
+            this.props.onClose({
+              priorityContainerContext: 'EMPTY',
+            })
+          }
         >
           <div className="dialog__cover">
             <img
@@ -264,7 +282,15 @@ export default class PriorityContainer extends React.Component<
       >
         <Highlight
           {...this.props}
-          onCloseHighlight={this.props.onClose}
+          onCloseHighlight={() =>
+            this.props.onClose({
+              priorityContainerContext: 'EMPTY',
+              highlight: {
+                version: this.props.highlight.version,
+                status: 'NO_HIGHLIGHT',
+              },
+            })
+          }
         />
       </Feature>
     )
@@ -280,7 +306,11 @@ export default class PriorityContainer extends React.Component<
         <Dialog
           title={locals[this.props.lang].about.title}
           actions={{}}
-          onClose={this.props.onClose}
+          onClose={() =>
+            this.props.onClose({
+              priorityContainerContext: 'EMPTY',
+            })
+          }
         >
           <About
             planStatus={this.props.planStatus}
@@ -314,7 +344,11 @@ export default class PriorityContainer extends React.Component<
               action: this.reportHandler,
             },
           }}
-          onClose={this.props.onClose}
+          onClose={() =>
+            this.props.onClose({
+              priorityContainerContext: 'EMPTY',
+            })
+          }
         >
           <div className="dialog__form">
             <div className="dialog__form__item">
@@ -331,7 +365,9 @@ export default class PriorityContainer extends React.Component<
                     locals[this.props.lang].report.fullName.placeholder
                   }
                   onChange={(e) =>
-                    this.setState({ userFullName: e.target.value })
+                    this.setState({
+                      userFullName: (e.target as HTMLInputElement).value,
+                    })
                   }
                 />
               </FormItem>
@@ -346,7 +382,11 @@ export default class PriorityContainer extends React.Component<
                   type="TEXT"
                   value={this.state.userEmail}
                   placeholder={locals[this.props.lang].report.email.placeholder}
-                  onChange={(e) => this.setState({ userEmail: e.target.value })}
+                  onChange={(e) =>
+                    this.setState({
+                      userEmail: (e.target as HTMLInputElement).value,
+                    })
+                  }
                 />
               </FormItem>
             </div>
@@ -364,7 +404,9 @@ export default class PriorityContainer extends React.Component<
                   value={this.state.userMessage}
                   isGrowing
                   onChange={(e) =>
-                    this.setState({ userMessage: e.target.value })
+                    this.setState({
+                      userMessage: (e.target as HTMLInputElement).value,
+                    })
                   }
                 />
               </FormItem>

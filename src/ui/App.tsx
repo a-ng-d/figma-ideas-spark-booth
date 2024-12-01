@@ -576,15 +576,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
               onChangePublication={(e) =>
                 this.setState({ ...this.state, ...e })
               }
-              onClose={() =>
-                this.setState({
-                  priorityContainerContext: 'EMPTY',
-                  highlight: {
-                    version: this.state.highlight.version,
-                    status: 'NO_HIGHLIGHT',
-                  },
-                })
-              }
+              onClose={(e) => this.setState({ ...this.state, ...e })}
             />
           </Feature>
           <Feature

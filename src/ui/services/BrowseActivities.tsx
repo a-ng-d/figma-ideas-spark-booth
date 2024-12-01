@@ -75,7 +75,7 @@ export default class BrowseActivities extends React.Component<
   }
 
   // Handlers
-  navHandler = (e: React.SyntheticEvent) =>
+  navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature,
     })

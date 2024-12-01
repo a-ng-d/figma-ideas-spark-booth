@@ -6,7 +6,7 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 import { supabase } from '../../bridges/publication/authentication'
 import detachActivity from '../../bridges/publication/detachActivity'
@@ -35,7 +35,7 @@ interface PublicationProps {
   lang: Language
   onLoadPrimaryAction: (e: boolean) => void
   onLoadSecondaryAction: (e: boolean) => void
-  onClosePublication: React.ReactEventHandler
+  onClosePublication: (e: React.MouseEvent<Element>) => void
 }
 
 interface PublicationStates {
@@ -46,13 +46,13 @@ interface PublicationStates {
 interface PublicationAction {
   label: string
   state: 'LOADING' | 'DEFAULT' | 'DISABLED'
-  action: React.EventHandler<React.SyntheticEvent> | (() => void)
+  action: () => void | Promise<void> | null
 }
 
 interface PublicationOption {
   label: string
   state: boolean
-  action: React.EventHandler<React.SyntheticEvent> | (() => void)
+  action: () => void | (() => Promise<void>) | null
 }
 
 interface PublicationActions {
@@ -60,7 +60,7 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends React.Component<
+export default class Publication extends PureComponent<
   PublicationProps,
   PublicationStates
 > {
