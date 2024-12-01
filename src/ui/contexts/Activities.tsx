@@ -41,10 +41,7 @@ interface ActivitiesStates {
   openedSessionHistory?: string
 }
 
-export default class Activities extends PureComponent<
-  ActivitiesProps,
-  ActivitiesStates
-> {
+export default class Activities extends PureComponent<ActivitiesProps, ActivitiesStates> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {
@@ -61,10 +58,6 @@ export default class Activities extends PureComponent<
   }
 
   // Handlers
-
-  handleActivitiesChange = (value: Partial<AppStates>) =>
-    this.props.onChangeActivities(value)
-
   activitiesHandler = (e: Event) => {
     const currentElement = e.currentTarget as HTMLInputElement
 
@@ -359,7 +352,7 @@ export default class Activities extends PureComponent<
         fragment = (
           <ActivitiesList
             {...this.props}
-            onChangeActivities={(value) => this.handleActivitiesChange(value)}
+            onChangeActivities={this.activitiesHandler}
             onOpenActivitySettings={(e) =>
               this.setState({
                 view: 'SETTINGS',

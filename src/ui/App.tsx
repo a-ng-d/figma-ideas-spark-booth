@@ -8,7 +8,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import mixpanel from 'mixpanel-figma'
-import React, { PureComponent } from 'react'
+import React, { createPortal, PureComponent } from 'react'
 import { createRoot } from 'react-dom/client'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
@@ -570,14 +570,19 @@ class App extends PureComponent<Record<string, never>, AppStates> {
             />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
-            <PriorityContainer
-              context={this.state.priorityContainerContext}
-              {...this.state}
-              onChangePublication={(e) =>
-                this.setState({ ...this.state, ...e })
-              }
-              onClose={(e) => this.setState({ ...this.state, ...e })}
-            />
+            {document.getElementById('modal') &&
+              createPortal(
+                <PriorityContainer
+                  context={this.state.priorityContainerContext}
+                  {...this.state}
+                  onChangePublication={(e) =>
+                    this.setState({ ...this.state, ...e })
+                  }
+                  onClose={(e) => this.setState({ ...this.state, ...e })}
+                />,
+                document.getElementById('modal') ??
+                  document.createElement('app')
+              )}
           </Feature>
           <Feature
             isActive={

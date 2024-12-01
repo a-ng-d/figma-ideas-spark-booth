@@ -12,7 +12,7 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import FileSaver from 'file-saver'
-import React, { PureComponent } from 'react'
+import React, { createPortal, PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
@@ -453,33 +453,42 @@ export default class History extends PureComponent<
             this.state.isDialogOpen
           }
         >
-          <Dialog
-            title={locals[this.props.lang].settings.deleteSessionDialog.title}
-            actions={{
-              destructive: {
-                label:
-                  locals[this.props.lang].settings.deleteSessionDialog.delete,
-                action: () => this.props.onDeleteSession(this.props.sessionId),
-              },
-              secondary: {
-                label:
-                  locals[this.props.lang].settings.deleteSessionDialog.cancel,
-                action: () => this.setState({ isDialogOpen: false }),
-              },
-            }}
-            onClose={() => this.setState({ isDialogOpen: false })}
-          >
-            <div className="dialog__text">
-              <p className={`type ${texts.type}`}>
-                {locals[
-                  this.props.lang
-                ].settings.deleteSessionDialog.message.replace(
-                  '$1',
-                  setFriendlyDate(this.props.sessionDate, this.props.lang)
-                )}
-              </p>
-            </div>
-          </Dialog>
+          {document.getElementById('modal') &&
+            createPortal(
+              <Dialog
+                title={
+                  locals[this.props.lang].settings.deleteSessionDialog.title
+                }
+                actions={{
+                  destructive: {
+                    label:
+                      locals[this.props.lang].settings.deleteSessionDialog
+                        .delete,
+                    action: () =>
+                      this.props.onDeleteSession(this.props.sessionId),
+                  },
+                  secondary: {
+                    label:
+                      locals[this.props.lang].settings.deleteSessionDialog
+                        .cancel,
+                    action: () => this.setState({ isDialogOpen: false }),
+                  },
+                }}
+                onClose={() => this.setState({ isDialogOpen: false })}
+              >
+                <div className="dialog__text">
+                  <p className={`type ${texts.type}`}>
+                    {locals[
+                      this.props.lang
+                    ].settings.deleteSessionDialog.message.replace(
+                      '$1',
+                      setFriendlyDate(this.props.sessionDate, this.props.lang)
+                    )}
+                  </p>
+                </div>
+              </Dialog>,
+              document.getElementById('modal') ?? document.createElement('app')
+            )}
         </Feature>
         <div className="control__block">
           {this.state.ideas.length > 0 ? (

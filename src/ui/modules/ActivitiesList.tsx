@@ -18,7 +18,6 @@ import {
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { setContexts } from '../../utils/setContexts'
-import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import ExternalActivities from '../contexts/ExternalActivities'
 import LocalActivities from '../contexts/LocalActivities'
@@ -31,7 +30,7 @@ interface ActivitiesListProps {
   planStatus: PlanStatus
   sessionCount: number
   lang: Language
-  onChangeActivities: React.Dispatch<Partial<AppStates>>
+  onChangeActivities: React.MouseEventHandler<HTMLButtonElement>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void

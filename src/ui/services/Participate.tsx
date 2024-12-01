@@ -10,7 +10,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React, { createPortal, PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
@@ -336,39 +336,48 @@ export default class Participate extends PureComponent<
             ).PARTICIPATE_END.isActive() && this.state.isDialogOpen
           }
         >
-          <Dialog
-            title={
-              this.props.session.facilitator.id !== this.props.userIdentity.id
-                ? locals[this.props.lang].participate.endSessionDialog
-                    .participantTitle
-                : locals[this.props.lang].participate.endSessionDialog
-                    .facilitatorTitle
-            }
-            actions={{
-              destructive: {
-                label: locals[this.props.lang].participate.endSession,
-                action: () =>
-                  this.props.onEndSession(
-                    this.props.activity,
-                    this.props.ideas.filter(
-                      (idea) => idea.sessionId === this.props.session.id
-                    )
-                  ),
-              },
-              secondary: {
-                label:
-                  locals[this.props.lang].participate.endSessionDialog.cancel,
-                action: () => this.setState({ isDialogOpen: false }),
-              },
-            }}
-            onClose={() => this.setState({ isDialogOpen: false })}
-          >
-            <div className="dialog__text">
-              <p className={`type ${texts.type}`}>
-                {locals[this.props.lang].participate.endSessionDialog.message}
-              </p>
-            </div>
-          </Dialog>
+          {document.getElementById('modal') &&
+            createPortal(
+              <Dialog
+                title={
+                  this.props.session.facilitator.id !==
+                  this.props.userIdentity.id
+                    ? locals[this.props.lang].participate.endSessionDialog
+                        .participantTitle
+                    : locals[this.props.lang].participate.endSessionDialog
+                        .facilitatorTitle
+                }
+                actions={{
+                  destructive: {
+                    label: locals[this.props.lang].participate.endSession,
+                    action: () =>
+                      this.props.onEndSession(
+                        this.props.activity,
+                        this.props.ideas.filter(
+                          (idea) => idea.sessionId === this.props.session.id
+                        )
+                      ),
+                  },
+                  secondary: {
+                    label:
+                      locals[this.props.lang].participate.endSessionDialog
+                        .cancel,
+                    action: () => this.setState({ isDialogOpen: false }),
+                  },
+                }}
+                onClose={() => this.setState({ isDialogOpen: false })}
+              >
+                <div className="dialog__text">
+                  <p className={`type ${texts.type}`}>
+                    {
+                      locals[this.props.lang].participate.endSessionDialog
+                        .message
+                    }
+                  </p>
+                </div>
+              </Dialog>,
+              document.getElementById('modal') ?? document.createElement('app')
+            )}
         </Feature>
         <section className="controller">
           <div className="controls">

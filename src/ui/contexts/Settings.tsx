@@ -12,7 +12,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React, { createPortal, PureComponent } from 'react'
 import { signIn } from '../../bridges/publication/authentication'
 import p from '../../content/images/publication.webp'
 import { locals } from '../../content/locals'
@@ -299,34 +299,42 @@ export default class Settings extends PureComponent<
             ).ACTIVITIES_DELETE.isActive() && this.state.isDeleteDialogOpen
           }
         >
-          <Dialog
-            title={locals[this.props.lang].settings.deleteActivityDialog.title}
-            actions={{
-              destructive: {
-                label:
-                  locals[this.props.lang].settings.deleteActivityDialog.delete,
-                feature: 'DELETE_ACTIVITY',
-                action: this.props.onChangeActivities,
-              },
-              secondary: {
-                label:
-                  locals[this.props.lang].settings.deleteActivityDialog.cancel,
-                action: () => this.setState({ isDeleteDialogOpen: false }),
-              },
-            }}
-            onClose={() => this.setState({ isDeleteDialogOpen: false })}
-          >
-            <div className="dialog__text">
-              <p className={`type ${texts.type}`}>
-                {locals[
-                  this.props.lang
-                ].settings.deleteActivityDialog.message.replace(
-                  '$1',
-                  this.props.activity.name
-                )}
-              </p>
-            </div>
-          </Dialog>
+          {document.getElementById('modal') &&
+            createPortal(
+              <Dialog
+                title={
+                  locals[this.props.lang].settings.deleteActivityDialog.title
+                }
+                actions={{
+                  destructive: {
+                    label:
+                      locals[this.props.lang].settings.deleteActivityDialog
+                        .delete,
+                    feature: 'DELETE_ACTIVITY',
+                    action: this.props.onChangeActivities,
+                  },
+                  secondary: {
+                    label:
+                      locals[this.props.lang].settings.deleteActivityDialog
+                        .cancel,
+                    action: () => this.setState({ isDeleteDialogOpen: false }),
+                  },
+                }}
+                onClose={() => this.setState({ isDeleteDialogOpen: false })}
+              >
+                <div className="dialog__text">
+                  <p className={`type ${texts.type}`}>
+                    {locals[
+                      this.props.lang
+                    ].settings.deleteActivityDialog.message.replace(
+                      '$1',
+                      this.props.activity.name
+                    )}
+                  </p>
+                </div>
+              </Dialog>,
+              document.getElementById('modal') ?? document.createElement('app')
+            )}
         </Feature>
         <Feature
           isActive={
@@ -334,63 +342,69 @@ export default class Settings extends PureComponent<
             this.state.isPublicationDialogOpen
           }
         >
-          {this.props.userSession.connectionStatus === 'UNCONNECTED' ? (
-            <Dialog
-              title={locals[this.props.lang].publication.titleSignIn}
-              actions={{
-                primary: {
-                  label: locals[this.props.lang].publication.signIn,
-                  state: this.state.isPrimaryActionLoading
-                    ? 'LOADING'
-                    : 'DEFAULT',
-                  action: async () => {
-                    this.setState({ isPrimaryActionLoading: true })
-                    signIn(this.props.userIdentity.id)
-                      .then(() => {
-                        trackSignInEvent(
-                          this.props.userIdentity.id,
-                          this.props.userConsent.find(
-                            (consent) => consent.id === 'mixpanel'
-                          )?.isConsented ?? false
-                        )
-                      })
-                      .finally(() => {
-                        this.setState({ isPrimaryActionLoading: false })
-                      })
-                      .catch((error) => {
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'SEND_MESSAGE',
-                              message:
-                                error.message === 'Authentication timeout'
-                                  ? locals[this.props.lang].error.timeout
-                                  : locals[this.props.lang].error
-                                      .authentication,
+          {this.props.userSession.connectionStatus === 'UNCONNECTED' &&
+          document.getElementById('modal') ? (
+            createPortal(
+              <Dialog
+                title={locals[this.props.lang].publication.titleSignIn}
+                actions={{
+                  primary: {
+                    label: locals[this.props.lang].publication.signIn,
+                    state: this.state.isPrimaryActionLoading
+                      ? 'LOADING'
+                      : 'DEFAULT',
+                    action: async () => {
+                      this.setState({ isPrimaryActionLoading: true })
+                      signIn(this.props.userIdentity.id)
+                        .then(() => {
+                          trackSignInEvent(
+                            this.props.userIdentity.id,
+                            this.props.userConsent.find(
+                              (consent) => consent.id === 'mixpanel'
+                            )?.isConsented ?? false
+                          )
+                        })
+                        .finally(() => {
+                          this.setState({ isPrimaryActionLoading: false })
+                        })
+                        .catch((error) => {
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'SEND_MESSAGE',
+                                message:
+                                  error.message === 'Authentication timeout'
+                                    ? locals[this.props.lang].error.timeout
+                                    : locals[this.props.lang].error
+                                        .authentication,
+                              },
                             },
-                          },
-                          '*'
-                        )
-                      })
+                            '*'
+                          )
+                        })
+                    },
                   },
-                },
-              }}
-              onClose={() => this.setState({ isPublicationDialogOpen: false })}
-            >
-              <div className="dialog__cover">
-                <img
-                  src={p}
-                  style={{
-                    width: '100%',
-                  }}
-                />
-              </div>
-              <div className="dialog__text">
-                <p className={`type ${texts.type}`}>
-                  {locals[this.props.lang].publication.message}
-                </p>
-              </div>
-            </Dialog>
+                }}
+                onClose={() =>
+                  this.setState({ isPublicationDialogOpen: false })
+                }
+              >
+                <div className="dialog__cover">
+                  <img
+                    src={p}
+                    style={{
+                      width: '100%',
+                    }}
+                  />
+                </div>
+                <div className="dialog__text">
+                  <p className={`type ${texts.type}`}>
+                    {locals[this.props.lang].publication.message}
+                  </p>
+                </div>
+              </Dialog>,
+              document.getElementById('modal') ?? document.createElement('app')
+            )
           ) : (
             <Publication
               {...this.props}

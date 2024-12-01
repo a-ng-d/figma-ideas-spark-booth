@@ -13,7 +13,6 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
 import features from '../../utils/config'
-import { AppStates } from '../App'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
@@ -22,7 +21,7 @@ interface LocalActivitiesProps {
   lang: Language
   planStatus: PlanStatus
   sessionCount: number
-  onChangeActivities: React.Dispatch<Partial<AppStates>>
+  onChangeActivities: React.MouseEventHandler<HTMLButtonElement>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
