@@ -83,13 +83,12 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
   })
 
   // Handlers
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  typeHandler = (e: any) => {
+  typeHandler = (e: Event) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
         '.draggable-item'
       ),
-      currentElement: HTMLInputElement = e.currentTarget
+      currentElement = e.currentTarget as HTMLInputElement
 
     element !== null ? (id = element.getAttribute('data-id')) : (id = null)
 
@@ -121,7 +120,7 @@ export default class TypesSettings extends React.Component<TypesSettingsProps> {
 
     const renameType = () => {
       const types = this.props.activity.types.map((type) => {
-        if (type.id === id) type.name = e.target.value
+        if (type.id === id) type.name = (e.target as HTMLInputElement).value
         return type
       })
 

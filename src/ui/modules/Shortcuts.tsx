@@ -125,10 +125,10 @@ export default class Shortcuts extends React.Component<
   }
 
   // Direct actions
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onHold = (e: any) => {
-    const shiftX = e.target.offsetWidth - e.nativeEvent.layerX
-    const shiftY = e.target.offsetHeight - e.nativeEvent.layerY
+  onHold = (e: MouseEvent) => {
+    const target = e.target as HTMLElement
+    const shiftX = target.offsetWidth - e.layerX
+    const shiftY = target.offsetHeight - e.layerY
     window.onmousemove = (e) => this.onResize(e, shiftX, shiftY)
     window.onmouseup = this.onRelease
   }

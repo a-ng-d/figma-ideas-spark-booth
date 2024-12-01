@@ -41,10 +41,7 @@ interface ActivitiesStates {
   openedSessionHistory?: string
 }
 
-export default class Activities extends React.Component<
-  ActivitiesProps,
-  ActivitiesStates
-> {
+export default class Activities extends React.Component<ActivitiesProps, ActivitiesStates> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {
@@ -61,9 +58,12 @@ export default class Activities extends React.Component<
   }
 
   // Handlers
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  activitiesHandler = (e: any) => {
-    const currentElement: HTMLInputElement = e.currentTarget
+
+  handleActivitiesChange = (value: Partial<AppStates>) =>
+    this.props.onChangeActivities(value)
+
+  activitiesHandler = (e: Event) => {
+    const currentElement = e.currentTarget as HTMLInputElement
 
     const addActivity = () => {
       const hasAlreadyNewActivity = this.activitiesMessage.data.filter(
@@ -356,7 +356,7 @@ export default class Activities extends React.Component<
         fragment = (
           <ActivitiesList
             {...this.props}
-            onChangeActivities={this.activitiesHandler}
+            onChangeActivities={(value) => this.handleActivitiesChange(value)}
             onOpenActivitySettings={(e) =>
               this.setState({
                 view: 'SETTINGS',
