@@ -17,7 +17,10 @@ interface HighlightStates {
   status: 'LOADING' | 'LOADED' | 'ERROR'
 }
 
-export default class Highlight extends React.Component<HighlightProps, HighlightStates> {
+export default class Highlight extends React.Component<
+  HighlightProps,
+  HighlightStates
+> {
   constructor(props: HighlightProps) {
     super(props)
     this.state = {

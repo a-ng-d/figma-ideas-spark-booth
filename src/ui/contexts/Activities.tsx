@@ -41,7 +41,10 @@ interface ActivitiesStates {
   openedSessionHistory?: string
 }
 
-export default class Activities extends React.Component<ActivitiesProps, ActivitiesStates> {
+export default class Activities extends React.Component<
+  ActivitiesProps,
+  ActivitiesStates
+> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {
