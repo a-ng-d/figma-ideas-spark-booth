@@ -1,6 +1,6 @@
 {
   "name": "figma-ideas-spark-booth",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Ideas Spark Booth is a FigJam plugin that allows your large team to brainstorm secretly and anonymously.",
   "main": "code.js",
   "scripts": {
