@@ -278,7 +278,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                       TypesSettings.features(this.props.planStatus)
                         .SETTINGS_TYPES.result.limit
                     )}
-                    action={
+                    actionsSlot={
                       <Button
                         type="secondary"
                         label={locals[this.props.lang].plan.tryPro}

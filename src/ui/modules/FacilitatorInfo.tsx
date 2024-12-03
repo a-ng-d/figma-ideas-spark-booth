@@ -184,7 +184,7 @@ export default class FacilitatorInfo extends PureComponent<
                     <SemanticMessage
                       type="INFO"
                       message={locals[this.props.lang].info.inviteParticipants}
-                      action={
+                      actionsSlot={
                         <Button
                           type="icon"
                           icon="close"
@@ -212,7 +212,7 @@ export default class FacilitatorInfo extends PureComponent<
                         FacilitatorInfo.features(this.props.planStatus)
                           .PARTICIPATE.result.limit + 1
                       )}
-                      action={
+                      actionsSlot={
                         <Button
                           type="secondary"
                           label={locals[this.props.lang].plan.tryPro}

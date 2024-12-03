@@ -406,7 +406,7 @@ export default class ExternalActivities extends PureComponent<
             type="NEUTRAL"
             message={locals[this.props.lang].activities.signInFirst.message}
             orientation="VERTICAL"
-            action={
+            actionsSlot={
               <Button
                 type="primary"
                 label={locals[this.props.lang].activities.signInFirst.signIn}
@@ -520,7 +520,7 @@ export default class ExternalActivities extends PureComponent<
                   ExternalActivities.features(this.props.planStatus)
                     .ACTIVITIES_LOCAL.result.limit
                 )}
-                action={
+                actionsSlot={
                   <Button
                     type="secondary"
                     label={locals[this.props.lang].plan.tryPro}

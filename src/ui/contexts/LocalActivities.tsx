@@ -102,7 +102,7 @@ export default class LocalActivities extends PureComponent<LocalActivitiesProps>
                 LocalActivities.features(this.props.planStatus).ACTIVITIES_LOCAL
                   .result.limit
               )}
-              action={
+              actionsSlot={
                 <Button
                   type="secondary"
                   label={locals[this.props.lang].plan.tryPro}
@@ -122,7 +122,7 @@ export default class LocalActivities extends PureComponent<LocalActivitiesProps>
               type="NEUTRAL"
               message={locals[this.props.lang].activities.addFirst.message}
               orientation="VERTICAL"
-              action={
+              actionsSlot={
                 <Button
                   type="primary"
                   label={locals[this.props.lang].activities.addFirst.cta}

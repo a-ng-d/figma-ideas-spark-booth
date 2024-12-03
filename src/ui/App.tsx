@@ -645,7 +645,7 @@ class App extends PureComponent<Record<string, never>, AppStates> {
               type="INFO"
               message={locals[this.state.lang].beta.message}
               isAnchored={true}
-              action={
+              actionsSlot={
                 <div
                   className={`${layouts['snackbar']} ${layouts['snackbar--medium']}`}
                 >
