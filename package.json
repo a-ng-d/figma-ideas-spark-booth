@@ -73,6 +73,7 @@
     "mixpanel-figma": "^2.0.4",
     "react": "npm:@preact/compat",
     "react-dom": "npm:@preact/compat",
-    "uid": "^2.0.2"
+    "uid": "^2.0.2",
+    "yup": "^1.4.0"
   }
 }

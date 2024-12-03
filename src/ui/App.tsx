@@ -14,6 +14,7 @@ import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import { locals } from '../content/locals'
 import {
+  AppStatus,
   HighlightDigest,
   Language,
   PlanStatus,
@@ -52,6 +53,11 @@ import BrowseActivities from './services/BrowseActivities'
 import Participate from './services/Participate'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
+import {
+  validateActivitiesStructure,
+  validateIdeasStructure,
+  validateSessionsStructure,
+} from '../utils/checkDataSchema'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
@@ -70,7 +76,7 @@ export interface AppStates {
   lang: Language
   mustUserConsent: boolean
   highlight: HighlightDigest
-  isLoaded: boolean
+  appStatus: AppStatus
   isBetaMessageVisible: boolean
   onGoingStep: string
 }
@@ -163,14 +169,21 @@ class App extends PureComponent<Record<string, never>, AppStates> {
         version: '',
         status: 'NO_HIGHLIGHT',
       },
-      isLoaded: false,
+      appStatus: 'LOADING',
       isBetaMessageVisible: true,
       onGoingStep: '',
     }
   }
 
   componentDidMount = () => {
-    setTimeout(() => this.setState({ isLoaded: true }), 1000)
+    setTimeout(
+      () =>
+        this.setState({
+          appStatus:
+            this.state.appStatus === 'LOADING' ? 'LOADED' : 'CORRUPTED',
+        }),
+      1000
+    )
     fetch(
       `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
     )
@@ -293,20 +306,47 @@ class App extends PureComponent<Record<string, never>, AppStates> {
           })
         }
 
-        const getActivities = () =>
-          this.setState({
-            activities: e.data.pluginMessage.data,
-          })
+        const getActivities = () => {
+          validateActivitiesStructure(e.data.pluginMessage.data)
+            .then(() =>
+              this.setState({
+                activities: e.data.pluginMessage.data,
+              })
+            )
+            .catch(() =>
+              this.setState({
+                appStatus: 'CORRUPTED',
+              })
+            )
+        }
 
-        const getSessions = () =>
-          this.setState({
-            sessions: e.data.pluginMessage.data,
-          })
+        const getSessions = () => {
+          validateSessionsStructure(e.data.pluginMessage.data)
+            .then(() =>
+              this.setState({
+                sessions: e.data.pluginMessage.data,
+              })
+            )
+            .catch(() =>
+              this.setState({
+                appStatus: 'CORRUPTED',
+              })
+            )
+        }
 
-        const getIdeas = () =>
-          this.setState({
-            ideas: e.data.pluginMessage.data,
-          })
+        const getIdeas = () => {
+          validateIdeasStructure(e.data.pluginMessage.data)
+            .then(() =>
+              this.setState({
+                ideas: e.data.pluginMessage.data,
+              })
+            )
+            .catch(() =>
+              this.setState({
+                appStatus: 'CORRUPTED',
+              })
+            )
+        }
 
         const getActiveParticipants = () =>
           this.setState({
@@ -516,14 +556,13 @@ class App extends PureComponent<Record<string, never>, AppStates> {
 
   // Render
   render() {
-    const runningSession = this.state.sessions?.find(
-        (session) => session.isRunning
-      ),
-      runningSessionActivity = this.state.activities.find(
-        (activity) => activity.meta.id === runningSession?.activityId
-      )
-
-    if (this.state.isLoaded)
+    if (this.state.appStatus === 'LOADED') {
+      const runningSession = this.state.sessions?.find(
+          (session) => session.isRunning
+        ),
+        runningSessionActivity = this.state.activities.find(
+          (activity) => activity.meta.id === runningSession?.activityId
+        )
       return (
         <main className="ui">
           <Feature
@@ -700,6 +739,15 @@ class App extends PureComponent<Record<string, never>, AppStates> {
               onUpdateConsent={() => this.setState({ mustUserConsent: true })}
             />
           </Feature>
+        </main>
+      )
+    } else if (this.state.appStatus === 'CORRUPTED')
+      return (
+        <main className="ui">
+          <SemanticMessage
+            type="ERROR"
+            message={locals[this.state.lang].error.corruptedData}
+          />
         </main>
       )
   }

@@ -1,3 +1,5 @@
+export type AppStatus = 'LOADING' | 'LOADED' | 'CORRUPTED'
+
 export type Service = 'BROWSE' | 'PARTICIPATE'
 
 export type Context =
