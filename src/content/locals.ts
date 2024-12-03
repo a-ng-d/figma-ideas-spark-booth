@@ -271,7 +271,7 @@ export const locals: { [key: string]: any } = {
       },
     },
     beta: {
-      message: 'This feature is in beta',
+      message: `${glossary.name} is currently in beta. We are working hard to improve it. If you have any feedback, please let us know!`,
       cta: 'Give feedback',
     },
     user: {
