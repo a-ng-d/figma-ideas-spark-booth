@@ -64,7 +64,7 @@ export const features: Array<Feature<Service>> =
           isPro: false,
           isNew: false,
           type: 'SERVICE',
-          service: [],
+          service: ['BROWSE'],
         },
         {
           name: 'PARTICIPATE',
@@ -74,7 +74,7 @@ export const features: Array<Feature<Service>> =
           isNew: false,
           limit: 0,
           type: 'SERVICE',
-          service: [],
+          service: ['PARTICIPATE'],
         },
         {
           name: 'ACTIVITIES',
@@ -662,6 +662,15 @@ export const features: Array<Feature<Service>> =
           isPro: false,
           isNew: false,
           type: 'DIVISION',
+          service: ['BROWSE', 'PARTICIPATE'],
+        },
+        {
+          name: 'CORRUPTED_DATA',
+          description: '',
+          isActive: true,
+          isPro: false,
+          isNew: false,
+          type: 'SERVICE',
           service: ['BROWSE', 'PARTICIPATE'],
         },
       ]

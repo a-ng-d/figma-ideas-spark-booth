@@ -56,6 +56,7 @@ import {
   validateIdeasStructure,
   validateSessionsStructure,
 } from '../utils/checkDataSchema'
+import CorruptedData from './services/CorruptedData'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
@@ -79,7 +80,10 @@ export interface AppStates {
   onGoingStep: string
 }
 
-export default class App extends PureComponent<Record<string, never>, AppStates> {
+export default class App extends PureComponent<
+  Record<string, never>,
+  AppStates
+> {
   static features = (planStatus: PlanStatus) => ({
     BROWSE: new FeatureStatus({
       features: features,
@@ -714,10 +718,7 @@ export default class App extends PureComponent<Record<string, never>, AppStates>
     } else if (this.state.appStatus === 'CORRUPTED')
       return (
         <main className="ui">
-          <SemanticMessage
-            type="ERROR"
-            message={locals[this.state.lang].error.corruptedData}
-          />
+          <CorruptedData {...this.state} />
         </main>
       )
   }
