@@ -1,7 +1,7 @@
 {
-  "name": "figma-ideas-brainstorming-booth",
+  "name": "figma-ideas-spark-booth",
   "version": "0.0.0-development",
-  "description": "",
+  "description": "Ideas Spark Booth is a FigJam plugin that allows your large team to brainstorm secretly and anonymously.",
   "main": "code.js",
   "scripts": {
     "start": "npm-run-all -p start:auth_worker start:announcements_worker start:auth_lobby start:dev",
@@ -20,10 +20,10 @@
     "lint:watch": "esw ./src/** --fix --watch --ext .ts,.tsx .",
     "format": "npx prettier './src' --write"
   },
-  "keywords": [],
+  "keywords": ["brainstorming", "ideas", "spark", "booth"],
   "author": "Aurélien Grimaud",
   "licence": "MIT",
-  "repository": "https://github.com/a-ng-d/figma-ideas-brainstorming-booth",
+  "repository": "https://github.com/a-ng-d/figma-ideas-spark-booth",
   "devDependencies": {
     "@figma/eslint-plugin-figma-plugins": "^0.15.0",
     "@figma/plugin-typings": "^1.89.0",
@@ -60,11 +60,6 @@
   },
   "dependencies": {
     "@a_ng_d/figmug-ui": "^0.110.5",
-    "@a-ng-d/figmug.modules.do-camel-case": "^0.0.4",
-    "@a-ng-d/figmug.modules.do-kebab-case": "^0.0.4",
-    "@a-ng-d/figmug.modules.do-map": "^0.0.3",
-    "@a-ng-d/figmug.modules.do-pascal-case": "^0.0.3",
-    "@a-ng-d/figmug.modules.do-snake-case": "^0.0.4",
     "@sentry/react": "^8.8.0",
     "@sentry/webpack-plugin": "^2.18.0",
     "@supabase/supabase-js": "^2.44.2",
