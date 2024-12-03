@@ -5,9 +5,9 @@ export const lang = 'en-US'
 const glossary: {
   [key: string]: string
 } = {
-  name: 'Ideas Brainstorming Booth',
+  name: 'Ideas Spark Booth',
   tagline: 'Brainstorm secretly 🤫 with your team',
-  url: 'ideas.yelbo.lt',
+  url: 'isb.yelbolt.co',
   author: 'Aurélien Grimaud',
   license: 'MIT',
 }
