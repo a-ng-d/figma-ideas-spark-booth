@@ -60,7 +60,7 @@ export default class CommunityActivity extends PureComponent<CommunityActivityPr
           >
             <Button
               type="secondary"
-              label={locals[this.props.lang].actions.duplicateToLocal}
+              label={locals[this.props.lang].activities.duplicateToLocal}
               isLoading={
                 this.props.isDuplicateToLocalActionLoading[this.props.index]
               }

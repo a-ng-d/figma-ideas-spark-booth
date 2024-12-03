@@ -229,7 +229,7 @@ const loadUI = async () => {
         {
           timeout: Infinity,
           button: {
-            text: locals[lang].global.close,
+            text: locals[lang].close,
             action: () => figma.closePlugin(),
           },
         }

@@ -8,6 +8,8 @@ const glossary: {
   name: 'Ideas Brainstorming Booth',
   tagline: 'Brainstorm secretly 🤫 with your team',
   url: 'ideas.yelbo.lt',
+  author: 'Aurélien Grimaud',
+  license: 'MIT',
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,27 +18,14 @@ export const locals: { [key: string]: any } = {
     name: glossary.name,
     tagline: glossary.tagline,
     url: glossary.url,
-    global: {
-      description: {
-        label: 'Description',
-        placeholder: "What's it for?",
-      },
-      close: `Close ${glossary.name}`,
-      you: 'You',
-    },
-    onboarding: {},
-    shortcuts: {
-      feedback: 'Give feedback',
-      trialFeedback: 'How was it?',
-      news: "What's new",
-      about: 'About',
-    },
+    close: `Close ${glossary.name}`,
     publication: {
       titlePublish: 'Publish activity',
       titleSynchronize: 'Synchronize activity',
       titleSignIn: 'Publish or Synchronize activities',
       message:
         'Publish your activity as a single source of truth and reuse it in other FigJam documents. You can also distribute your activities by sharing them with the community.',
+      signIn: 'Sign in to publish or synchronize',
       share: 'Share with the community',
       unshare: 'Remove from the community',
       statusShared: 'Shared',
@@ -52,10 +41,6 @@ export const locals: { [key: string]: any } = {
       synchronize: 'Synchronize…',
       revert: 'Revert',
       detach: 'Detach',
-      signIn: 'Sign in to publish or synchronize',
-    },
-    actions: {
-      duplicateToLocal: 'Duplicate to local',
     },
     relaunch: {},
     contexts: {
@@ -80,6 +65,7 @@ export const locals: { [key: string]: any } = {
         loadMore: 'Load more activities',
         completeList: 'The activities list is complete',
       },
+      duplicateToLocal: 'Duplicate to local',
     },
     sessions: {
       newSession: 'New session',
@@ -205,6 +191,16 @@ export const locals: { [key: string]: any } = {
         cancel: 'Cancel',
       },
     },
+    shortcuts: {
+      documentation: 'Read the documentation',
+      feedback: 'Give feedback',
+      email: 'Contact support',
+      news: "What's new",
+      repository: 'Repository',
+      discuss: 'Start a discussion',
+      request: 'Post a feature request',
+      follow: 'Follow us',
+    },
     report: {
       title: 'Report a bug',
       fullName: {
@@ -224,22 +220,11 @@ export const locals: { [key: string]: any } = {
     },
     about: {
       title: `About ${glossary.name}`,
-      repository: 'Repository',
-      getHelp: {
-        title: 'Have help',
-        documentation: 'Read the documentation',
-        email: 'Contact support',
-      },
-      beInvolved: {
-        title: 'Get involved',
-        issue: 'Report a bug',
-        discuss: 'Start a discussion',
-        request: 'Post a feature request',
-      },
-      giveSupport: {
-        title: 'Give support',
-        follow: 'Follow us',
-      },
+      createdBy: 'Created and maintained by ',
+      author: glossary.author,
+      sourceCode: 'Source code',
+      isLicensed: ' is licensed under ',
+      license: glossary.license,
     },
     highlight: {
       cta: {
@@ -263,6 +248,7 @@ export const locals: { [key: string]: any } = {
         single: '1 hour left in this trial',
         plural: '$1 hours left in this trial',
       },
+      trialFeedback: 'How was it?',
       sessionCount: {
         none: 'No session left',
         single: '1 session left',
@@ -293,6 +279,7 @@ export const locals: { [key: string]: any } = {
       signOut: 'Sign out',
       welcomeMessage: 'Hello $[]',
       updateConsent: 'Manage your cookies',
+      you: 'You',
       cookies: {
         welcome: `${glossary.name} uses cookies to understand how you use our plugin and to improve your experience.`,
         vendors:
@@ -345,7 +332,6 @@ export const locals: { [key: string]: any } = {
         'Your participation is blocked because the maximum number of $1 participants is reached. You can ask the facilitator to upgrade to Pro plan.',
       signOut: '☻ See you later',
     },
-    generic: {},
     warning: {
       timesUp: 'The time is up!',
       noSelfactivityOnRemote:

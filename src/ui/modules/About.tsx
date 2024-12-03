@@ -34,7 +34,7 @@ export default class About extends PureComponent<AboutProps> {
                       ?.isActive
                   }
                 >
-                  <span>﹒</span>
+                  <span>・</span>
                   <p className={`type ${texts.type}`}>
                     {this.props.planStatus === 'UNPAID'
                       ? locals[this.props.lang].plan.free
@@ -49,13 +49,13 @@ export default class About extends PureComponent<AboutProps> {
           </div>
           <div>
             <p className={`type ${texts.type}`}>
-              Created and maintained by{' '}
+              {locals[this.props.lang].about.createdBy}
               <a
                 href="https://uicp.link/author"
                 target="_blank"
                 rel="noreferrer"
               >
-                Aurélien Grimaud
+                {locals[this.props.lang].about.author}
               </a>
             </p>
             <p className={`type ${texts.type}`}>
@@ -64,15 +64,15 @@ export default class About extends PureComponent<AboutProps> {
                 target="_blank"
                 rel="noreferrer"
               >
-                Source code
-              </a>{' '}
-              is licensed under{' '}
+                {locals[this.props.lang].about.sourceCode}
+              </a>
+              {locals[this.props.lang].about.isLicensed}
               <a
                 href="https://uicp.link/license"
                 target="_blank"
                 rel="noreferrer"
               >
-                MIT
+                {locals[this.props.lang].about.license}
               </a>
             </p>
           </div>

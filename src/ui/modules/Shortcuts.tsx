@@ -360,7 +360,7 @@ export default class Shortcuts extends PureComponent<
                       action: () => this.props.onReOpenHighlight(),
                     },
                     {
-                      label: locals[this.props.lang].about.repository,
+                      label: locals[this.props.lang].shortcuts.repository,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus
@@ -410,7 +410,7 @@ export default class Shortcuts extends PureComponent<
                       },
                     },
                     {
-                      label: locals[this.props.lang].about.beInvolved.request,
+                      label: locals[this.props.lang].shortcuts.request,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus
@@ -433,7 +433,7 @@ export default class Shortcuts extends PureComponent<
                         ),
                     },
                     {
-                      label: locals[this.props.lang].about.beInvolved.issue,
+                      label: locals[this.props.lang].report.title,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus
@@ -447,7 +447,7 @@ export default class Shortcuts extends PureComponent<
                       action: this.props.onReOpenReport,
                     },
                     {
-                      label: locals[this.props.lang].about.getHelp.email,
+                      label: locals[this.props.lang].shortcuts.email,
                       position: 0,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
@@ -488,7 +488,7 @@ export default class Shortcuts extends PureComponent<
                       action: this.props.onReOpenAbout,
                     },
                     {
-                      label: locals[this.props.lang].about.giveSupport.follow,
+                      label: locals[this.props.lang].shortcuts.follow,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus

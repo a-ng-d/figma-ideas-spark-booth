@@ -254,7 +254,7 @@ export default class FacilitatorInfo extends PureComponent<
                                 <span
                                   className={`type ${texts['type']}  ${texts['type--secondary']}`}
                                 >
-                                  {locals[this.props.lang].global.you}
+                                  {locals[this.props.lang].user.you}
                                 </span>
                               )}
                               {participant.hasFinished && (
