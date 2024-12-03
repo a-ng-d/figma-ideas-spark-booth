@@ -200,7 +200,9 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
 
       this.activitiesMessage.data = this.props.activities.map((item) => {
         if (item.meta.id === this.state.openedActivity) {
-          item.timer.minutes = minutes
+          if (minutes >= 60 && item.timer.seconds > 0) item.timer.minutes = 59
+          else item.timer.minutes = minutes
+
           item.meta.dates.updatedAt = new Date().toISOString()
         }
 

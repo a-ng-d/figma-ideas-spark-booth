@@ -317,7 +317,6 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                             isNew={TypesSettings.features(
                               this.props.planStatus
                             ).SETTINGS_TYPES_NAME.isNew()}
-                            onChange={this.typeHandler}
                             onBlur={this.typeHandler}
                             onConfirm={this.typeHandler}
                           />
@@ -476,7 +475,6 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                               isNew={TypesSettings.features(
                                 this.props.planStatus
                               ).SETTINGS_TYPES_DESCRIPTION.isNew()}
-                              onChange={this.typeHandler}
                               onBlur={this.typeHandler}
                               onConfirm={this.typeHandler}
                             />

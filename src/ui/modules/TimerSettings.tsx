@@ -69,12 +69,11 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
             type="NUMBER"
             value={this.props.activity.timer.minutes.toString()}
             min="0"
-            max="59"
+            max="60"
             isBlocked={TimerSettings.features(
               this.props.planStatus
             ).SETTINGS_TIMER_MINUTES.isBlocked()}
             feature="UPDATE_TIMER_MINUTES"
-            onChange={this.props.onChangeActivities}
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
             onConfirm={this.props.onChangeActivities}
@@ -111,7 +110,6 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
               this.props.planStatus
             ).SETTINGS_TIMER_SECONDS.isBlocked()}
             feature="UPDATE_TIMER_SECONDS"
-            onChange={this.props.onChangeActivities}
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
             onConfirm={this.props.onChangeActivities}

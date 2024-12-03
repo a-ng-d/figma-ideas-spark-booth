@@ -94,7 +94,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             isBlocked={GlobalSettings.features(
               this.props.planStatus
             ).SETTINGS_NAME.isBlocked()}
-            onChange={this.props.onChangeActivities}
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
             onConfirm={this.props.onChangeActivities}
