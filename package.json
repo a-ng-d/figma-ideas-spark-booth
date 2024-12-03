@@ -1,6 +1,6 @@
 {
   "name": "figma-ideas-spark-booth",
-  "version": "0.0.0-development",
+  "version": "0.0.0-beta.0",
   "description": "Ideas Spark Booth is a FigJam plugin that allows your large team to brainstorm secretly and anonymously.",
   "main": "code.js",
   "scripts": {
@@ -20,7 +20,12 @@
     "lint:watch": "esw ./src/** --fix --watch --ext .ts,.tsx .",
     "format": "npx prettier './src' --write"
   },
-  "keywords": ["brainstorming", "ideas", "spark", "booth"],
+  "keywords": [
+    "brainstorming",
+    "ideas",
+    "spark",
+    "booth"
+  ],
   "author": "Aurélien Grimaud",
   "licence": "MIT",
   "repository": "https://github.com/a-ng-d/figma-ideas-spark-booth",
