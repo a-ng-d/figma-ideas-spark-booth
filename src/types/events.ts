@@ -50,3 +50,7 @@ export interface TypeEvent {
     | 'REMOVE_ITEM'
     | 'REORDER_TYPES'
 }
+
+export interface FatalErrorEvent {
+  data: 'ACTIVITIES' | 'SESSIONS' | 'IDEAS'
+}

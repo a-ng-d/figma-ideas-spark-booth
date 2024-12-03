@@ -12,7 +12,6 @@ import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import { locals } from '../content/locals'
 import {
-  AppStatus,
   HighlightDigest,
   Language,
   PlanStatus,
@@ -42,6 +41,7 @@ import {
   trackRunningEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
+  trackFatalErrorEvent,
 } from '../utils/eventsTracker'
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
@@ -75,15 +75,13 @@ export interface AppStates {
   lang: Language
   mustUserConsent: boolean
   highlight: HighlightDigest
-  appStatus: AppStatus
+  isLoaded: boolean
+  isCorrupted: boolean
   isBetaMessageVisible: boolean
   onGoingStep: string
 }
 
-export default class App extends PureComponent<
-  Record<string, never>,
-  AppStates
-> {
+export default class App extends PureComponent<Record<string, never>, AppStates> {
   static features = (planStatus: PlanStatus) => ({
     BROWSE: new FeatureStatus({
       features: features,
@@ -143,7 +141,8 @@ export default class App extends PureComponent<
         version: '',
         status: 'NO_HIGHLIGHT',
       },
-      appStatus: 'LOADING',
+      isLoaded: false,
+      isCorrupted: false,
       isBetaMessageVisible: true,
       onGoingStep: '',
     }
@@ -153,8 +152,7 @@ export default class App extends PureComponent<
     setTimeout(
       () =>
         this.setState({
-          appStatus:
-            this.state.appStatus === 'LOADING' ? 'LOADED' : 'CORRUPTED',
+          isLoaded: true,
         }),
       1000
     )
@@ -287,11 +285,20 @@ export default class App extends PureComponent<
                 activities: e.data.pluginMessage.data,
               })
             )
-            .catch(() =>
+            .catch(() => {
               this.setState({
-                appStatus: 'CORRUPTED',
+                isCorrupted: true,
               })
-            )
+              trackFatalErrorEvent(
+                e.data.pluginMessage.data.id,
+                this.state.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                {
+                  data: 'ACTIVITIES',
+                }
+              )
+            })
         }
 
         const getSessions = () => {
@@ -301,11 +308,20 @@ export default class App extends PureComponent<
                 sessions: e.data.pluginMessage.data,
               })
             )
-            .catch(() =>
+            .catch(() => {
               this.setState({
-                appStatus: 'CORRUPTED',
+                isCorrupted: true,
               })
-            )
+              trackFatalErrorEvent(
+                e.data.pluginMessage.data.id,
+                this.state.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                {
+                  data: 'SESSIONS',
+                }
+              )
+            })
         }
 
         const getIdeas = () => {
@@ -315,11 +331,20 @@ export default class App extends PureComponent<
                 ideas: e.data.pluginMessage.data,
               })
             )
-            .catch(() =>
+            .catch(() => {
               this.setState({
-                appStatus: 'CORRUPTED',
+                isCorrupted: true,
               })
-            )
+              trackFatalErrorEvent(
+                e.data.pluginMessage.data.id,
+                this.state.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                {
+                  data: 'IDEAS',
+                }
+              )
+            })
         }
 
         const getActiveParticipants = () =>
@@ -528,197 +553,208 @@ export default class App extends PureComponent<
     )
   }
 
-  // Render
-  render() {
-    if (this.state.appStatus === 'LOADED') {
-      const runningSession = this.state.sessions?.find(
-          (session) => session.isRunning
-        ),
-        runningSessionActivity = this.state.activities.find(
-          (activity) => activity.meta.id === runningSession?.activityId
-        )
-      return (
-        <main className="ui">
-          <Feature
-            isActive={
-              App.features(this.props.planStatus).BROWSE.isActive() &&
-              this.state.sessions?.find((session) => session.isRunning) ===
-                undefined
-            }
-          >
-            <BrowseActivities
-              {...this.state}
-              onChangeActivities={(e) => this.setState({ ...this.state, ...e })}
-              onRunSession={(e) => this.setState({ ...this.state, ...e })}
-              onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              App.features(this.props.planStatus).PARTICIPATE.isActive() &&
-              this.state.sessions?.find((session) => session.isRunning) !==
-                undefined
-            }
-          >
-            <Participate
-              {...this.state}
-              activity={runningSessionActivity ?? ({} as ActivityConfiguration)}
-              session={runningSession ?? ({} as SessionConfiguration)}
-              ideas={this.state.ideas}
-              onPushIdea={(e) => {
-                this.setState({ ideas: [...this.state.ideas, e] })
+  // Templates
+  Controls = () => {
+    const runningSession = this.state.sessions?.find(
+      (session) => session.isRunning
+    )
+    const runningSessionActivity = this.state.activities.find(
+      (activity) => activity.meta.id === runningSession?.activityId
+    )
+
+    return (
+      <>
+        <Feature
+          isActive={
+            App.features(this.props.planStatus).BROWSE.isActive() &&
+            this.state.sessions?.find((session) => session.isRunning) ===
+              undefined
+          }
+        >
+          <BrowseActivities
+            {...this.state}
+            onChangeActivities={(e) => this.setState({ ...this.state, ...e })}
+            onRunSession={(e) => this.setState({ ...this.state, ...e })}
+            onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
+          />
+        </Feature>
+        <Feature
+          isActive={
+            App.features(this.props.planStatus).PARTICIPATE.isActive() &&
+            this.state.sessions?.find((session) => session.isRunning) !==
+              undefined
+          }
+        >
+          <Participate
+            {...this.state}
+            activity={runningSessionActivity ?? ({} as ActivityConfiguration)}
+            session={runningSession ?? ({} as SessionConfiguration)}
+            ideas={this.state.ideas}
+            onPushIdea={(e) => {
+              this.setState({ ideas: [...this.state.ideas, e] })
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'PUSH_IDEA',
+                    data: [...this.state.ideas, e],
+                  },
+                },
+                '*'
+              )
+            }}
+            onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
+            onEndSession={this.onEndSession}
+            onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
+          />
+        </Feature>
+      </>
+    )
+  }
+
+  Base = () => {
+    return (
+      <>
+        <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
+          {document.getElementById('modal') &&
+            createPortal(
+              <PriorityContainer
+                context={this.state.priorityContainerContext}
+                {...this.state}
+                onChangePublication={(e) =>
+                  this.setState({ ...this.state, ...e })
+                }
+                onClose={(e) => this.setState({ ...this.state, ...e })}
+              />,
+              document.getElementById('modal') ?? document.createElement('app')
+            )}
+        </Feature>
+        <Feature
+          isActive={
+            this.state.mustUserConsent &&
+            App.features(this.props.planStatus).CONSENT.isActive()
+          }
+        >
+          <Consent
+            welcomeMessage={locals[this.state.lang].user.cookies.welcome}
+            vendorsMessage={locals[this.state.lang].user.cookies.vendors}
+            privacyPolicy={{
+              label: locals[this.state.lang].user.cookies.privacyPolicy,
+              action: () =>
                 parent.postMessage(
                   {
                     pluginMessage: {
-                      type: 'PUSH_IDEA',
-                      data: [...this.state.ideas, e],
+                      type: 'OPEN_IN_BROWSER',
+                      url: 'https://uicp.link/privacy',
                     },
                   },
                   '*'
-                )
-              }}
-              onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
-              onEndSession={this.onEndSession}
-              onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
-            />
-          </Feature>
-          <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
-            {document.getElementById('modal') &&
-              createPortal(
-                <PriorityContainer
-                  context={this.state.priorityContainerContext}
-                  {...this.state}
-                  onChangePublication={(e) =>
-                    this.setState({ ...this.state, ...e })
-                  }
-                  onClose={(e) => this.setState({ ...this.state, ...e })}
-                />,
-                document.getElementById('modal') ??
-                  document.createElement('app')
-              )}
-          </Feature>
-          <Feature
-            isActive={
-              this.state.mustUserConsent &&
-              App.features(this.props.planStatus).CONSENT.isActive()
-            }
-          >
-            <Consent
-              welcomeMessage={locals[this.state.lang].user.cookies.welcome}
-              vendorsMessage={locals[this.state.lang].user.cookies.vendors}
-              privacyPolicy={{
-                label: locals[this.state.lang].user.cookies.privacyPolicy,
-                action: () =>
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'OPEN_IN_BROWSER',
-                        url: 'https://uicp.link/privacy',
-                      },
-                    },
-                    '*'
-                  ),
-              }}
-              moreDetailsLabel={locals[this.state.lang].user.cookies.customize}
-              lessDetailsLabel={locals[this.state.lang].user.cookies.back}
-              consentActions={{
-                consent: {
-                  label: locals[this.state.lang].user.cookies.consent,
-                  action: this.userConsentHandler,
-                },
-                deny: {
-                  label: locals[this.state.lang].user.cookies.deny,
-                  action: this.userConsentHandler,
-                },
-                save: {
-                  label: locals[this.state.lang].user.cookies.save,
-                  action: this.userConsentHandler,
-                },
-                close: {
-                  action: () => this.setState({ mustUserConsent: false }),
-                },
-              }}
-              validVendor={{
-                name: locals[this.state.lang].vendors.functional.name,
-                id: 'functional',
-                icon: '',
-                description:
-                  locals[this.state.lang].vendors.functional.description,
-                isConsented: true,
-              }}
-              vendorsList={this.state.userConsent}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              versionStatus === 'BETA' && this.state.isBetaMessageVisible
-            }
-          >
-            <SemanticMessage
-              type="INFO"
-              message={locals[this.state.lang].beta.message}
-              isAnchored={true}
-              actionsSlot={
-                <div
-                  className={`${layouts['snackbar']} ${layouts['snackbar--medium']}`}
-                >
-                  <Button
-                    type="secondary"
-                    label={locals[this.state.lang].beta.cta}
-                    action={() =>
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'OPEN_IN_BROWSER',
-                            url: feedbackUrl,
-                          },
+                ),
+            }}
+            moreDetailsLabel={locals[this.state.lang].user.cookies.customize}
+            lessDetailsLabel={locals[this.state.lang].user.cookies.back}
+            consentActions={{
+              consent: {
+                label: locals[this.state.lang].user.cookies.consent,
+                action: this.userConsentHandler,
+              },
+              deny: {
+                label: locals[this.state.lang].user.cookies.deny,
+                action: this.userConsentHandler,
+              },
+              save: {
+                label: locals[this.state.lang].user.cookies.save,
+                action: this.userConsentHandler,
+              },
+              close: {
+                action: () => this.setState({ mustUserConsent: false }),
+              },
+            }}
+            validVendor={{
+              name: locals[this.state.lang].vendors.functional.name,
+              id: 'functional',
+              icon: '',
+              description:
+                locals[this.state.lang].vendors.functional.description,
+              isConsented: true,
+            }}
+            vendorsList={this.state.userConsent}
+          />
+        </Feature>
+        <Feature
+          isActive={versionStatus === 'BETA' && this.state.isBetaMessageVisible}
+        >
+          <SemanticMessage
+            type="INFO"
+            message={locals[this.state.lang].beta.message}
+            isAnchored={true}
+            actionsSlot={
+              <div
+                className={`${layouts['snackbar']} ${layouts['snackbar--medium']}`}
+              >
+                <Button
+                  type="secondary"
+                  label={locals[this.state.lang].beta.cta}
+                  action={() =>
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'OPEN_IN_BROWSER',
+                          url: feedbackUrl,
                         },
-                        '*'
-                      )
-                    }
-                  />
-                  <Button
-                    type="icon"
-                    icon="close"
-                    action={() =>
-                      this.setState({ isBetaMessageVisible: false })
-                    }
-                  />
-                </div>
-              }
-            />
-          </Feature>
-          <Feature
-            isActive={App.features(this.props.planStatus).SHORTCUTS.isActive()}
-          >
-            <Shortcuts
-              {...this.state}
-              onReOpenHighlight={() =>
-                this.setState({ priorityContainerContext: 'HIGHLIGHT' })
-              }
-              onReOpenAbout={() =>
-                this.setState({ priorityContainerContext: 'ABOUT' })
-              }
-              onReOpenReport={() =>
-                this.setState({ priorityContainerContext: 'REPORT' })
-              }
-              onGetProPlan={() => {
-                if (this.state.trialStatus === 'EXPIRED')
-                  parent.postMessage(
-                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                    '*'
-                  )
-                else this.setState({ priorityContainerContext: 'TRY' })
-              }}
-              onUpdateConsent={() => this.setState({ mustUserConsent: true })}
-            />
-          </Feature>
-        </main>
-      )
-    } else if (this.state.appStatus === 'CORRUPTED')
+                      },
+                      '*'
+                    )
+                  }
+                />
+                <Button
+                  type="icon"
+                  icon="close"
+                  action={() => this.setState({ isBetaMessageVisible: false })}
+                />
+              </div>
+            }
+          />
+        </Feature>
+        <Feature
+          isActive={App.features(this.props.planStatus).SHORTCUTS.isActive()}
+        >
+          <Shortcuts
+            {...this.state}
+            onReOpenHighlight={() =>
+              this.setState({ priorityContainerContext: 'HIGHLIGHT' })
+            }
+            onReOpenAbout={() =>
+              this.setState({ priorityContainerContext: 'ABOUT' })
+            }
+            onReOpenReport={() =>
+              this.setState({ priorityContainerContext: 'REPORT' })
+            }
+            onGetProPlan={() => {
+              if (this.state.trialStatus === 'EXPIRED')
+                parent.postMessage(
+                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                  '*'
+                )
+              else this.setState({ priorityContainerContext: 'TRY' })
+            }}
+            onUpdateConsent={() => this.setState({ mustUserConsent: true })}
+          />
+        </Feature>
+      </>
+    )
+  }
+
+  // Render
+  render() {
+    if (this.state.isLoaded)
       return (
         <main className="ui">
-          <CorruptedData {...this.state} />
+          {this.state.isCorrupted ? (
+            <CorruptedData {...this.state} />
+          ) : (
+            <this.Controls />
+          )}
+          <this.Base />
         </main>
       )
   }

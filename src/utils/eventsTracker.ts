@@ -3,6 +3,7 @@ import mixpanel from 'mixpanel-figma'
 import {
   ActivityEvent,
   EndSessionEvent,
+  FatalErrorEvent,
   PublicationEvent,
   TrialEvent,
   TypeEvent,
@@ -30,15 +31,23 @@ export const trackUserConsentEvent = (consent: Array<ConsentConfiguration>) => {
 }
 
 export const trackSignInEvent = (id: string, consent: boolean) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Signed in', { ...eventsRecurringProperties })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Signed in', { ...eventsRecurringProperties })
+  } catch (error) {
+    return true
+  }
 }
 
 export const trackSignOutEvent = (id: string, consent: boolean) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Signed out', { ...eventsRecurringProperties })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Signed out', { ...eventsRecurringProperties })
+  } catch (error) {
+    return true
+  }
 }
 
 export const trackTrialEnablementEvent = (
@@ -46,23 +55,31 @@ export const trackTrialEnablementEvent = (
   consent: boolean,
   options: TrialEvent
 ) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Trial Enabled', {
-    'Trial Start Date': new Date(options.date).toISOString(),
-    'Trial End Date': new Date(
-      options.date + options.trialTime * 3600 * 1000
-    ).toISOString(),
-    'Trail Time': options.trialTime + ' hours',
-    'Trial Version': options.trialVersion,
-    ...eventsRecurringProperties,
-  })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Trial Enabled', {
+      'Trial Start Date': new Date(options.date).toISOString(),
+      'Trial End Date': new Date(
+        options.date + options.trialTime * 3600 * 1000
+      ).toISOString(),
+      'Trail Time': options.trialTime + ' hours',
+      'Trial Version': options.trialVersion,
+      ...eventsRecurringProperties,
+    })
+  } catch (error) {
+    return true
+  }
 }
 
 export const trackPurchaseEvent = (id: string, consent: boolean) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Purchase Enabled', { ...eventsRecurringProperties })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Purchase Enabled', { ...eventsRecurringProperties })
+  } catch (error) {
+    return true
+  }
 }
 
 export const trackPublicationEvent = (
@@ -70,12 +87,16 @@ export const trackPublicationEvent = (
   consent: boolean,
   options: PublicationEvent
 ) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Activity Managed', {
-    Feature: options.feature,
-    ...eventsRecurringProperties,
-  })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Activity Managed', {
+      Feature: options.feature,
+      ...eventsRecurringProperties,
+    })
+  } catch (error) {
+    return true
+  }
 }
 
 export const trackEndSessionEvent = (
@@ -83,31 +104,39 @@ export const trackEndSessionEvent = (
   consent: boolean,
   options: EndSessionEvent
 ) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Session Ended', {
-    'Activity Name': options.activityName,
-    'Activity Description': options.activityDescription,
-    'Participants Number': options.participantsNumber,
-    'Finished Participants Number': options.finishedParticipantsNumber,
-    'Unfinished Participants Number': options.unfinishedParticipantsNumber,
-    'Session Timer': options.sessionTimer,
-    'Session Duration': options.sessionDuration,
-    'Ideas Number': options.ideasNumber,
-    ...eventsRecurringProperties,
-  })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Session Ended', {
+      'Activity Name': options.activityName,
+      'Activity Description': options.activityDescription,
+      'Participants Number': options.participantsNumber,
+      'Finished Participants Number': options.finishedParticipantsNumber,
+      'Unfinished Participants Number': options.unfinishedParticipantsNumber,
+      'Session Timer': options.sessionTimer,
+      'Session Duration': options.sessionDuration,
+      'Ideas Number': options.ideasNumber,
+      ...eventsRecurringProperties,
+    })
+  } catch (error) {
+    return true
+  }
 }
 export const trackActivityEvent = (
   id: string,
   consent: boolean,
   options: ActivityEvent
 ) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Activity Updated', {
-    Feature: options.feature,
-    ...eventsRecurringProperties,
-  })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Activity Updated', {
+      Feature: options.feature,
+      ...eventsRecurringProperties,
+    })
+  } catch (error) {
+    return true
+  }
 }
 
 export const trackTypeEvent = (
@@ -115,10 +144,31 @@ export const trackTypeEvent = (
   consent: boolean,
   options: TypeEvent
 ) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Type Updated', {
-    Feature: options.feature,
-    ...eventsRecurringProperties,
-  })
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Type Updated', {
+      Feature: options.feature,
+      ...eventsRecurringProperties,
+    })
+  } catch (error) {
+    return true
+  }
+}
+
+export const trackFatalErrorEvent = (
+  id: string,
+  consent: boolean,
+  options: FatalErrorEvent
+) => {
+  if (!consent) return true
+  try {
+    mixpanel.identify(id)
+    mixpanel.track('Type Updated', {
+      Data: options.data,
+      ...eventsRecurringProperties,
+    })
+  } catch (error) {
+    return true
+  }
 }
