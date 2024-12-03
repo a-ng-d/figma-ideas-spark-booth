@@ -20,10 +20,14 @@ export default class CorruptedData extends PureComponent<CorruptedDataProps> {
     return (
       <section className="controller">
         <div className="controls">
-          <SemanticMessage
-            type="ERROR"
-            message={locals[this.props.lang].error.corruptedData}
-          />
+          <div className="controls__control">
+            <div className="callout--centered">
+              <SemanticMessage
+                type="ERROR"
+                message={locals[this.props.lang].error.corruptedData}
+              />
+            </div>
+          </div>
         </div>
       </section>
     )

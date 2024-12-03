@@ -28,7 +28,7 @@ const activitySchema = Yup.object().shape({
     dates: Yup.object().shape({
       createdAt: Yup.string().required(),
       addedAt: Yup.string().nullable(),
-      updatedAt: Yup.string().required(),
+      updatedAt: Yup.string().nullable(),
       publishedAt: Yup.string().nullable(),
     }),
     publicationStatus: Yup.object().shape({
@@ -98,7 +98,6 @@ export const validateSessionsStructure = async (
   data: Array<SessionConfiguration>
 ) => {
   if (!Array.isArray(data)) throw new Error()
-
   for (const session of data) {
     try {
       await sessionSchema.validate(session)
