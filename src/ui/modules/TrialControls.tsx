@@ -135,7 +135,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         </span>
         <Button
           type="tertiary"
-          label={locals[this.props.lang].shortcuts.trialFeedback}
+          label={locals[this.props.lang].plan.trialFeedback}
           isBlocked={TrialControls.features(
             this.props.planStatus
           ).SHORTCUTS_FEEDBACK.isBlocked()}
