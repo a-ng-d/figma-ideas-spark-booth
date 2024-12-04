@@ -1,4 +1,5 @@
 import mixpanel from 'mixpanel-figma'
+import * as Sentry from '@sentry/react'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
@@ -13,7 +14,7 @@ mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN ?? '', {
   opt_out_tracking_by_default: true,
 })
 
-/*Sentry.init({
+Sentry.init({
   dsn:
     process.env.NODE_ENV === 'development'
       ? undefined
@@ -23,12 +24,12 @@ mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN ?? '', {
     Sentry.replayIntegration(),
     Sentry.feedbackIntegration({
       colorScheme: 'system',
+      autoInject: false,
     }),
   ],
   tracesSampleRate: 1.0,
-  tracePropagationTargets: ['localhost', /^https:\/\/yourserver\.io\/api/],
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
-})*/
+})
 
 root.render(<App />)

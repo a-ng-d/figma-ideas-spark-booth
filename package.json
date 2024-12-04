@@ -66,7 +66,7 @@
   "dependencies": {
     "@a_ng_d/figmug-ui": "^0.110.5",
     "@sentry/react": "^8.8.0",
-    "@sentry/webpack-plugin": "^2.18.0",
+    "@sentry/webpack-plugin": "^2.22.6",
     "@supabase/supabase-js": "^2.44.2",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
