@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 interface IconProps {
   size: number

@@ -1,5 +1,6 @@
 import { Button, FeatureStatus, layouts, texts } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
 import features, { trialFeedbackUrl } from '../../utils/config'

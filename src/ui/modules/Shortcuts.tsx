@@ -7,7 +7,8 @@ import {
   icons,
   layouts,
 } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'

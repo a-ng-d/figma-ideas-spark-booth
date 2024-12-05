@@ -11,7 +11,8 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {

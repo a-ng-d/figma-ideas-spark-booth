@@ -6,7 +6,8 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { supabase } from '../../bridges/publication/authentication'
 import detachActivity from '../../bridges/publication/detachActivity'

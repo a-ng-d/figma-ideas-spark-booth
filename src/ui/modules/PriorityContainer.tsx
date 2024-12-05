@@ -7,7 +7,8 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import * as Sentry from '@sentry/browser'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 import cp from '../../content/images/choose_plan.webp'
 import pp from '../../content/images/pro_plan.webp'
 import t from '../../content/images/trial.webp'

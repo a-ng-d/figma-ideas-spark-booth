@@ -6,7 +6,8 @@ import {
   Input,
   Menu,
 } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { uid } from 'uid'
 import { Language, PlanStatus } from '../../types/app'
 import {

@@ -1,5 +1,6 @@
 import { FeatureStatus, SemanticMessage } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import features from '../../utils/config'

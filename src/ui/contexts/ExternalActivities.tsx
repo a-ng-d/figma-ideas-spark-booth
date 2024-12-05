@@ -8,7 +8,8 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
