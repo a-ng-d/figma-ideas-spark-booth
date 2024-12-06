@@ -688,9 +688,7 @@ export default class App extends PureComponent<Record<string, never>, AppStates>
             message={locals[this.state.lang].beta.message}
             isAnchored={true}
             actionsSlot={
-              <div
-                className={`${layouts['snackbar']} ${layouts['snackbar--medium']}`}
-              >
+              <div className={`${layouts['snackbar--medium']}`}>
                 <Button
                   type="secondary"
                   label={locals[this.state.lang].beta.cta}

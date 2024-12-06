@@ -205,9 +205,7 @@ export default class LocalActivities extends PureComponent<LocalActivitiesProps>
                   </>
                 }
                 complementSlot={
-                  <div
-                    className={`${layouts['snackbar']} ${layouts['snackbar--tight']}`}
-                  >
+                  <div className={`${layouts['snackbar--tight']}`}>
                     {activity.types.map((type, index) => (
                       <ColorChip
                         key={index}

@@ -473,9 +473,6 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                               isBlocked={TypesSettings.features(
                                 this.props.planStatus
                               ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
-                              isNew={TypesSettings.features(
-                                this.props.planStatus
-                              ).SETTINGS_TYPES_DESCRIPTION.isNew()}
                               onBlur={this.typeHandler}
                               onConfirm={this.typeHandler}
                             />
