@@ -316,6 +316,12 @@ export default class History extends PureComponent<
                   isDisabled={History.features(
                     this.props.planStatus
                   ).HISTORY_SORT.isBlocked()}
+                  isBlocked={History.features(
+                    this.props.planStatus
+                  ).HISTORY_SORT.isBlocked()}
+                  isNew={History.features(
+                    this.props.planStatus
+                  ).HISTORY_SORT.isNew()}
                   alignment="RIGHT"
                 />
               </Feature>

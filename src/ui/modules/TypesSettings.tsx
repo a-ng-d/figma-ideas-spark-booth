@@ -429,6 +429,9 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                               ]}
                               selected={type.color}
                               alignment="FILL"
+                              isBlocked={TypesSettings.features(
+                                this.props.planStatus
+                              ).SETTINGS_TYPES_COLOR.isBlocked()}
                               isNew={TypesSettings.features(
                                 this.props.planStatus
                               ).SETTINGS_TYPES_COLOR.isNew()}
@@ -456,9 +459,6 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                             isBlocked={TypesSettings.features(
                               this.props.planStatus
                             ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
-                            isNew={TypesSettings.features(
-                              this.props.planStatus
-                            ).SETTINGS_TYPES_DESCRIPTION.isNew()}
                           >
                             <Input
                               id="color-description"
@@ -473,6 +473,9 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                               isBlocked={TypesSettings.features(
                                 this.props.planStatus
                               ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                              isNew={TypesSettings.features(
+                                this.props.planStatus
+                              ).SETTINGS_TYPES_DESCRIPTION.isNew()}
                               onBlur={this.typeHandler}
                               onConfirm={this.typeHandler}
                             />

@@ -61,9 +61,6 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
           isBlocked={TimerSettings.features(
             this.props.planStatus
           ).SETTINGS_TIMER_MINUTES.isBlocked()}
-          isNew={TimerSettings.features(
-            this.props.planStatus
-          ).SETTINGS_TIMER_MINUTES.isNew()}
         >
           <Input
             id="update-timer-minutes"
@@ -74,6 +71,9 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
             isBlocked={TimerSettings.features(
               this.props.planStatus
             ).SETTINGS_TIMER_MINUTES.isBlocked()}
+            isNew={TimerSettings.features(
+              this.props.planStatus
+            ).SETTINGS_TIMER_MINUTES.isNew()}
             feature="UPDATE_TIMER_MINUTES"
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
@@ -97,9 +97,6 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
           isBlocked={TimerSettings.features(
             this.props.planStatus
           ).SETTINGS_TIMER_SECONDS.isBlocked()}
-          isNew={TimerSettings.features(
-            this.props.planStatus
-          ).SETTINGS_TIMER_SECONDS.isNew()}
         >
           <Input
             id="update-timer-seconds"
@@ -110,6 +107,9 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
             isBlocked={TimerSettings.features(
               this.props.planStatus
             ).SETTINGS_TIMER_SECONDS.isBlocked()}
+            isNew={TimerSettings.features(
+              this.props.planStatus
+            ).SETTINGS_TIMER_SECONDS.isNew()}
             feature="UPDATE_TIMER_SECONDS"
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}

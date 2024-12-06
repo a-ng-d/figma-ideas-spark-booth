@@ -82,9 +82,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
           isBlocked={GlobalSettings.features(
             this.props.planStatus
           ).SETTINGS_NAME.isBlocked()}
-          isNew={GlobalSettings.features(
-            this.props.planStatus
-          ).SETTINGS_NAME.isNew()}
         >
           <Input
             id="update-activity-name"
@@ -95,6 +92,9 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             isBlocked={GlobalSettings.features(
               this.props.planStatus
             ).SETTINGS_NAME.isBlocked()}
+            isNew={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isNew()}
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
             onConfirm={this.props.onChangeActivities}
@@ -117,9 +117,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
           isBlocked={GlobalSettings.features(
             this.props.planStatus
           ).SETTINGS_DESCRIPTION.isBlocked()}
-          isNew={GlobalSettings.features(
-            this.props.planStatus
-          ).SETTINGS_DESCRIPTION.isNew()}
         >
           <Input
             id="update-activity-description"
@@ -132,6 +129,9 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             isBlocked={GlobalSettings.features(
               this.props.planStatus
             ).SETTINGS_DESCRIPTION.isBlocked()}
+            isNew={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_DESCRIPTION.isNew()}
             isGrowing={true}
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
@@ -155,9 +155,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
           isBlocked={GlobalSettings.features(
             this.props.planStatus
           ).SETTINGS_INSTRUCTIONS.isBlocked()}
-          isNew={GlobalSettings.features(
-            this.props.planStatus
-          ).SETTINGS_INSTRUCTIONS.isNew()}
         >
           <Input
             id="update-activity-instructions"
@@ -170,6 +167,9 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             isBlocked={GlobalSettings.features(
               this.props.planStatus
             ).SETTINGS_INSTRUCTIONS.isBlocked()}
+            isNew={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_INSTRUCTIONS.isNew()}
             isGrowing={true}
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
@@ -234,6 +234,9 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
               },
             ]}
             selected={this.props.activity.groupedBy}
+            isBlocked={GlobalSettings.features(
+              this.props.planStatus
+            ).SETTINGS_GROUPED_BY.isBlocked()}
             isNew={GlobalSettings.features(
               this.props.planStatus
             ).SETTINGS_GROUPED_BY.isNew()}
