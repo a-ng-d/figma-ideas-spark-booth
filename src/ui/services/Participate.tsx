@@ -5,8 +5,8 @@ import {
   ConsentConfiguration,
   Dialog,
   Input,
-  Menu,
   layouts,
+  Menu,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'

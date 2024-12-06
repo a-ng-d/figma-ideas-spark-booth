@@ -7,8 +7,8 @@ import {
   Menu,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 import shareActivity from '../../bridges/publication/shareActivity'
 import unpublishActivity from '../../bridges/publication/unpublishActivity'
 import { locals } from '../../content/locals'

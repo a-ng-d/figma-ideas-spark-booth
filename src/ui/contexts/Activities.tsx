@@ -1,6 +1,6 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 import { uid } from 'uid'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
@@ -42,7 +42,10 @@ interface ActivitiesStates {
   openedSessionHistory?: string
 }
 
-export default class Activities extends PureComponent<ActivitiesProps, ActivitiesStates> {
+export default class Activities extends PureComponent<
+  ActivitiesProps,
+  ActivitiesStates
+> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {

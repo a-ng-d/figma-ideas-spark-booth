@@ -1,5 +1,5 @@
-import mixpanel from 'mixpanel-figma'
 import * as Sentry from '@sentry/react'
+import mixpanel from 'mixpanel-figma'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'

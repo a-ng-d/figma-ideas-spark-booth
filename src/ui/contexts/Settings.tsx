@@ -5,10 +5,10 @@ import {
   ConsentConfiguration,
   Dialog,
   Icon,
+  layouts,
   Section,
   SectionTitle,
   SimpleItem,
-  layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'

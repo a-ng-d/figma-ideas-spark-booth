@@ -1,6 +1,6 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,

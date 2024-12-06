@@ -1,6 +1,6 @@
 import { Tooltip } from '@a_ng_d/figmug-ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 interface ColorChipProps {
   color: string

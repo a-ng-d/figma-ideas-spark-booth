@@ -28,6 +28,11 @@ import {
 } from '../types/configurations'
 import { ActionsList } from '../types/models'
 import { UserSession } from '../types/user'
+import {
+  validateActivitiesStructure,
+  validateIdeasStructure,
+  validateSessionsStructure,
+} from '../utils/checkDataSchema'
 import features, {
   announcementsWorkerUrl,
   feedbackUrl,
@@ -37,26 +42,21 @@ import features, {
 } from '../utils/config'
 import {
   trackEndSessionEvent,
+  trackFatalErrorEvent,
   trackPurchaseEvent,
   trackRunningEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
-  trackFatalErrorEvent,
 } from '../utils/eventsTracker'
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
 import PriorityContainer from './modules/PriorityContainer'
 import Shortcuts from './modules/Shortcuts'
 import BrowseActivities from './services/BrowseActivities'
+import CorruptedData from './services/CorruptedData'
 import Participate from './services/Participate'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
-import {
-  validateActivitiesStructure,
-  validateIdeasStructure,
-  validateSessionsStructure,
-} from '../utils/checkDataSchema'
-import CorruptedData from './services/CorruptedData'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
