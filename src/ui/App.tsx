@@ -2,10 +2,10 @@ import {
   Button,
   Consent,
   ConsentConfiguration,
-  FeatureStatus,
   layouts,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import React, { createPortal, PureComponent } from 'react'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
@@ -81,7 +81,10 @@ export interface AppStates {
   onGoingStep: string
 }
 
-export default class App extends PureComponent<Record<string, never>, AppStates> {
+export default class App extends PureComponent<
+  Record<string, never>,
+  AppStates
+> {
   static features = (planStatus: PlanStatus) => ({
     BROWSE: new FeatureStatus({
       features: features,
@@ -756,4 +759,4 @@ export default class App extends PureComponent<Record<string, never>, AppStates>
         </main>
       )
   }
-} 
+}

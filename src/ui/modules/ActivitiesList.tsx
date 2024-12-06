@@ -1,11 +1,7 @@
-import {
-  Bar,
-  ConsentConfiguration,
-  FeatureStatus,
-  Tabs,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 import {
   ContextItem,
   Language,

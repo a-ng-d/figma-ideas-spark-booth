@@ -1,11 +1,11 @@
 import {
   ConsentConfiguration,
   Dialog,
-  FeatureStatus,
   FormItem,
   Input,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import * as Sentry from '@sentry/browser'
 import React from 'react'
 import { PureComponent } from 'preact/compat'

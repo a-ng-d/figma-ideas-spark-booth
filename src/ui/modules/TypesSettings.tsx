@@ -2,7 +2,6 @@ import {
   Button,
   ConsentConfiguration,
   Dropdown,
-  FeatureStatus,
   FormItem,
   Input,
   Section,
@@ -11,6 +10,7 @@ import {
   SimpleItem,
   SortableList,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { uid } from 'uid'

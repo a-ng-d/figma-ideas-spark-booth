@@ -5,6 +5,7 @@ import { locals } from '../../content/locals'
 import { HighlightDigest, Language } from '../../types/app'
 import { announcementsWorkerUrl } from '../../utils/config'
 
+
 interface HighlightProps {
   highlight: HighlightDigest
   lang: Language

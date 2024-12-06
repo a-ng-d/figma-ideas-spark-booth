@@ -3,10 +3,10 @@ import {
   Button,
   Chip,
   ConsentConfiguration,
-  FeatureStatus,
   layouts,
   Menu,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import shareActivity from '../../bridges/publication/shareActivity'

@@ -4,7 +4,6 @@ import {
   Chip,
   ConsentConfiguration,
   Dialog,
-  FeatureStatus,
   Icon,
   Section,
   SectionTitle,
@@ -12,6 +11,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { createPortal, PureComponent } from 'react'
 import { signIn } from '../../bridges/publication/authentication'
 import p from '../../content/images/publication.webp'

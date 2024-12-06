@@ -2,12 +2,12 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
-  FeatureStatus,
   Icon,
   Input,
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 

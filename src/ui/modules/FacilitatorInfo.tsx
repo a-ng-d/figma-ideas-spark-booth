@@ -2,7 +2,6 @@ import {
   Button,
   Chip,
   ConsentConfiguration,
-  FeatureStatus,
   Message,
   Section,
   SectionTitle,
@@ -11,6 +10,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { locals } from '../../content/locals'

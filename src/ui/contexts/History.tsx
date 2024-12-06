@@ -4,13 +4,13 @@ import {
   Dialog,
   Dropdown,
   DropdownOption,
-  FeatureStatus,
   Menu,
   SemanticMessage,
   SimpleItem,
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
 import React, { createPortal, PureComponent } from 'react'
 import { locals } from '../../content/locals'

@@ -1,6 +1,5 @@
 import {
   Dropdown,
-  FeatureStatus,
   FormItem,
   Input,
   Section,
@@ -14,6 +13,7 @@ import { Language, PlanStatus } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
 import features from '../../utils/config'
 import Feature from '../components/Feature'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 
 interface GlobalSettingsProps {
   activity: ActivityConfiguration
