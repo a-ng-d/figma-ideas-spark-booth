@@ -38,7 +38,9 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
 
   // Templates
   SessionCount = () => (
-    <div className={`type ${texts.type} ${texts['type--secondary']} truncated`}>
+    <div
+      className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
+    >
       {TrialControls.features(this.props.planStatus).ACTIVITIES_RUN.result
         .limit -
         this.props.sessionCount <=
@@ -63,7 +65,9 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
   )
 
   RemainingTime = () => (
-    <div className={`type ${texts.type} ${texts['type--secondary']} truncated`}>
+    <div
+      className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
+    >
       {Math.ceil(this.props.trialRemainingTime) > 72 && (
         <span>
           {locals[this.props.lang].plan.trialTimeDays.plural.replace(
@@ -122,7 +126,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         ・
       </span>
       <div
-        className={`type ${texts.type} ${texts['type--secondary']} truncated`}
+        className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
       >
         <span>{locals[this.props.lang].plan.trialEnded}</span>
       </div>
