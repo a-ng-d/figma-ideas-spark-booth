@@ -34,7 +34,7 @@ import features, {
   redColor,
   violetColor,
   yellowColor,
-} from '../../utils/config'
+} from '../../config'
 import { trackTypeEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'

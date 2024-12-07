@@ -3,7 +3,7 @@ import {
   MetaConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import { activitiesDbTableName } from '../../utils/config'
+import { activitiesDbTableName } from '../../config'
 import { supabase } from './authentication'
 
 const publishActivity = async (

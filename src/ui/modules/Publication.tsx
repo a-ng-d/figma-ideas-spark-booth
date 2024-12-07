@@ -22,7 +22,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import { activitiesDbTableName } from '../../utils/config'
+import { activitiesDbTableName } from '../../config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
 

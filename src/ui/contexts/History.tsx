@@ -20,7 +20,7 @@ import {
   IdeaConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
-import features from '../../utils/config'
+import features from '../../config'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'

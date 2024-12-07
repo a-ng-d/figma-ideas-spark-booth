@@ -39,7 +39,7 @@ import features, {
   trialTime,
   userConsentVersion,
   versionStatus,
-} from '../utils/config'
+} from '../config'
 import {
   trackEndSessionEvent,
   trackFatalErrorEvent,

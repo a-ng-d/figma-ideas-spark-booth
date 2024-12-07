@@ -13,7 +13,7 @@ import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
-import features from '../../utils/config'
+import features from '../../config'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 

@@ -8,7 +8,7 @@ import {
   TrialEvent,
   TypeEvent,
 } from '../types/events'
-import { userConsentVersion } from './config'
+import { userConsentVersion } from '../config'
 
 const eventsRecurringProperties = {
   Env: process.env.NODE_ENV === 'development' ? 'Dev' : 'Prod',

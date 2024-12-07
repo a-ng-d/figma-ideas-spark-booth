@@ -2,7 +2,7 @@ import {
   ActivityConfiguration,
   MetaConfiguration,
 } from '../../types/configurations'
-import { activitiesDbTableName } from '../../utils/config'
+import { activitiesDbTableName } from '../../config'
 import { supabase } from './authentication'
 
 const unpublishActivity = async (

@@ -23,7 +23,7 @@ import {
 } from '../../types/configurations'
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
+import features from '../../config'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import CreateIdea from '../modules/CreateIdea'

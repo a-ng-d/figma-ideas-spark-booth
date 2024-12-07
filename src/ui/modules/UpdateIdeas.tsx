@@ -26,7 +26,7 @@ import {
 import { IdeasMessage } from '../../types/messages'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
+import features from '../../config'
 import { AppStates } from '../App'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'

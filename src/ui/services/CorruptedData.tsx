@@ -4,7 +4,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
-import features from '../../utils/config'
+import features from '../../config'
 
 interface CorruptedDataProps {
   lang: Language

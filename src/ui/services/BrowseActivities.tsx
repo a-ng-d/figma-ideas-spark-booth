@@ -15,7 +15,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
+import features from '../../config'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'

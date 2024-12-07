@@ -25,7 +25,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
+import features from '../../config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'

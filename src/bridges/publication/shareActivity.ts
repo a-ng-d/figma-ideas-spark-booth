@@ -1,4 +1,4 @@
-import { activitiesDbTableName } from '../../utils/config'
+import { activitiesDbTableName } from '../../config'
 import { supabase } from './authentication'
 
 const shareActivity = async (id: string, isShared: boolean): Promise<void> => {

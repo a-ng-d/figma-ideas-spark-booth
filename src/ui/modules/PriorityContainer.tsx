@@ -22,7 +22,7 @@ import {
 } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
+import features from '../../config'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import About from './About'
