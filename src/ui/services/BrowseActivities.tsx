@@ -3,6 +3,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import {
+  Context,
   ContextItem,
   Language,
   PlanStatus,
@@ -38,7 +39,7 @@ interface BrowseActivitiesProps {
 }
 
 interface BrowseActivitiesStates {
-  context: string | undefined
+  context: Context | ''
 }
 
 export default class BrowseActivities extends PureComponent<
@@ -74,7 +75,7 @@ export default class BrowseActivities extends PureComponent<
   // Handlers
   navHandler = (e: Event) =>
     this.setState({
-      context: (e.target as HTMLElement).dataset.feature,
+      context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
   // Renders
