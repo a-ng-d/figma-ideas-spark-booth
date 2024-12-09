@@ -122,33 +122,27 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
 
   render() {
     return (
-      <Feature
-        isActive={TimerSettings.features(
-          this.props.planStatus
-        ).SETTINGS_TIMER.isActive()}
-      >
-        <Section
-          title={
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].settings.timer.title}
-                />
-              }
-              isListItem={false}
-            />
-          }
-          body={[
-            {
-              node: <this.Minutes />,
-            },
-            {
-              node: <this.Seconds />,
-            },
-          ]}
-          border={['BOTTOM']}
-        />
-      </Feature>
+      <Section
+        title={
+          <SimpleItem
+            leftPartSlot={
+              <SectionTitle
+                label={locals[this.props.lang].settings.timer.title}
+              />
+            }
+            isListItem={false}
+          />
+        }
+        body={[
+          {
+            node: <this.Minutes />,
+          },
+          {
+            node: <this.Seconds />,
+          },
+        ]}
+        border={['BOTTOM']}
+      />
     )
   }
 }

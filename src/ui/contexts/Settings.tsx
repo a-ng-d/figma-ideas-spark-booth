@@ -92,6 +92,21 @@ export default class Settings extends PureComponent<
       featureName: 'PUBLICATION',
       planStatus: planStatus,
     }),
+    SETTINGS_GLOBAL: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GLOBAL',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TYPES: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TYPES',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TIMER: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TIMER',
+      planStatus: planStatus,
+    }),
     HISTORY: new FeatureStatus({
       features: features,
       featureName: 'HISTORY',
@@ -423,9 +438,28 @@ export default class Settings extends PureComponent<
           )}
         </Feature>
         <div className="control__block control__block--no-padding">
-          <GlobalSettings {...this.props} />
-          <TimerSettings {...this.props} />
-          <TypesSettings {...this.props} />
+          <Feature
+            isActive={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_GLOBAL.isActive()}
+          >
+            <GlobalSettings {...this.props} />
+          </Feature>
+          <Feature
+            isActive={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_TIMER.isActive()}
+          >
+            <TimerSettings {...this.props} />
+          </Feature>
+          <Feature
+            isActive={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_TYPES.isActive()}
+          >
+            <TypesSettings {...this.props} />
+          </Feature>
+
           {this.props.sessions.length > 0 && <this.History />}
         </div>
       </div>

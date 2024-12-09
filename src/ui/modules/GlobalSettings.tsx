@@ -31,11 +31,6 @@ interface GlobalSettingsProps {
 
 export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
   static features = (planStatus: PlanStatus) => ({
-    SETTINGS_GLOBAL: new FeatureStatus({
-      features: features,
-      featureName: 'SETTINGS_GLOBAL',
-      planStatus: planStatus,
-    }),
     SETTINGS_NAME: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS_NAME',
