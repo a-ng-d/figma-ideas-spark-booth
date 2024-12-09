@@ -263,10 +263,10 @@ export default class Activities extends PureComponent<
       UPDATE_GROUPED_BY: () => updateGroupedBy(),
       UPDATE_TIMER_MINUTES: () => updateTimerMinutes(),
       UPDATE_TIMER_SECONDS: () => updateTimerSeconds(),
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[currentElement.dataset.feature ?? 'NULL']?.()
+    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
   typesHandler = (types: Array<TypeConfiguration>) => {

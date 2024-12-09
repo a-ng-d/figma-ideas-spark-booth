@@ -205,10 +205,10 @@ export default class UpdateIdeas extends PureComponent<
       UPDATE_IDEA: () => updateIdea(),
       REMOVE_IDEA: () => removeIdea(),
       UPDATE_TYPE: () => updateIdeaType(),
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[currentElement.dataset.feature ?? 'NULL']?.()
+    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
   // Renders

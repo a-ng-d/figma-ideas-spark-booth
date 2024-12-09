@@ -202,10 +202,10 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
       UPDATE_COLOR: () => updateTypeColor(),
       UPDATE_DESCRIPTION: () => updateTypeDescription(),
       REMOVE_ITEM: () => removeType(),
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[currentElement.dataset.feature ?? 'NULL']?.()
+    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
   onChangeOrder = (types: Array<TypeConfiguration>) => {

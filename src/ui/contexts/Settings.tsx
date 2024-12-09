@@ -459,7 +459,6 @@ export default class Settings extends PureComponent<
           >
             <TypesSettings {...this.props} />
           </Feature>
-
           {this.props.sessions.length > 0 && <this.History />}
         </div>
       </div>
