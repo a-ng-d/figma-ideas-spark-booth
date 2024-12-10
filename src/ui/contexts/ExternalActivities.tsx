@@ -483,7 +483,7 @@ export default class ExternalActivities extends PureComponent<
                           (e.target as HTMLInputElement).value
                         )
                       }}
-                      onCleared={(e) => {
+                      onClear={(e) => {
                         this.setState({
                           activitiesSearchQuery: '',
                           activitiesListStatus: 'LOADING',
