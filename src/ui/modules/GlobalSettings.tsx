@@ -198,7 +198,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
                 value: 'PARTICIPANT',
                 feature: 'UPDATE_GROUPED_BY',
                 type: 'OPTION',
-                position: 0,
                 isActive: GlobalSettings.features(
                   this.props.planStatus
                 ).SETTINGS_GROUPED_BY_PARTICIPANT.isActive(),
@@ -214,7 +213,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
                 label: locals[this.props.lang].settings.global.groupedBy.type,
                 value: 'TYPE',
                 feature: 'UPDATE_GROUPED_BY',
-                position: 1,
                 type: 'OPTION',
                 isActive: GlobalSettings.features(
                   this.props.planStatus
