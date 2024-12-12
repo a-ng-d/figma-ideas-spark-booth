@@ -430,7 +430,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                       this.props.planStatus
                     ).SETTINGS_TYPES_DESCRIPTION.isActive()}
                   >
-                    <div className="draggable-list__param">
+                    <div className="draggable-item__param">
                       <FormItem
                         id="type-description"
                         label={
