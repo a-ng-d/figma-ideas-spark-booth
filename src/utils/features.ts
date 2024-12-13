@@ -628,12 +628,10 @@ export const doSpecificMode = (
   const newFeatures = new Set(newFeature)
 
   return features.map((feature) => {
-    if (proFeatures.has(feature.name)) {
-      feature.isPro = true
-    }
-    if (newFeatures.has(feature.name)) {
-      feature.isNew = true
-    }
+    if (proFeatures.has(feature.name)) feature.isPro = true
+
+    if (newFeatures.has(feature.name)) feature.isNew = true
+
     return feature
   })
 }

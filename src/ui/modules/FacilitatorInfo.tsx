@@ -90,9 +90,8 @@ export default class FacilitatorInfo extends PureComponent<
     const sortedIdeas = this.props.ideas.reduce(
       (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
         const { type } = idea
-        if (!acc[type.name]) {
-          acc[type.name] = []
-        }
+        if (!acc[type.name]) acc[type.name] = []
+
         acc[type.name].push(idea)
         return acc
       },

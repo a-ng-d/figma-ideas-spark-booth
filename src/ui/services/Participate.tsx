@@ -126,7 +126,7 @@ export default class Participate extends PureComponent<
   }
 
   componentDidUpdate(prevProps: Readonly<ParticipateProps>): void {
-    if (prevProps.ideas !== this.props.ideas) {
+    if (prevProps.ideas !== this.props.ideas)
       this.setState({
         selfIdeas: this.props.ideas
           .filter(
@@ -139,8 +139,8 @@ export default class Participate extends PureComponent<
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           ),
       })
-    }
-    if (prevProps.planStatus !== this.props.planStatus) {
+
+    if (prevProps.planStatus !== this.props.planStatus)
       parent.postMessage(
         {
           pluginMessage: {
@@ -156,7 +156,6 @@ export default class Participate extends PureComponent<
         },
         '*'
       )
-    }
   }
 
   // Direct actions
@@ -215,7 +214,7 @@ export default class Participate extends PureComponent<
 
   // Handlers
   finishHandler = (): void => {
-    if (!this.state.isFlaggedAsDone) {
+    if (!this.state.isFlaggedAsDone)
       parent.postMessage(
         {
           pluginMessage: {
@@ -224,7 +223,7 @@ export default class Participate extends PureComponent<
         },
         '*'
       )
-    } else {
+    else
       parent.postMessage(
         {
           pluginMessage: {
@@ -233,7 +232,6 @@ export default class Participate extends PureComponent<
         },
         '*'
       )
-    }
 
     this.setState({ isFlaggedAsDone: !this.state.isFlaggedAsDone })
   }

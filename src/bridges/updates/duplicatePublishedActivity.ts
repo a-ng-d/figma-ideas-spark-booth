@@ -44,9 +44,7 @@ const duplicatePublishedActivity = async (data: ExternalActivitiesData) => {
     existingActivities.push(newActivity)
     figma.root.setPluginData('activities', JSON.stringify(existingActivities))
     figma.notify(locals[lang].success.duplicatedActivity)
-  } else {
-    figma.notify(locals[lang].warning.activityAlreadyExists)
-  }
+  } else figma.notify(locals[lang].warning.activityAlreadyExists)
 }
 
 export default duplicatePublishedActivity

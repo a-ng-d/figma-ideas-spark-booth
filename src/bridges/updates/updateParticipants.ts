@@ -13,7 +13,7 @@ const updateParticipants = async (options?: {
     (participant) => participant.userIdentity.id === figma.currentUser?.id
   )
 
-  if (isUserIncluded === undefined) {
+  if (isUserIncluded === undefined)
     activeParticipants = [
       ...activeParticipants,
       {
@@ -29,9 +29,9 @@ const updateParticipants = async (options?: {
         joinedAt: new Date().toISOString(),
       } as ActiveParticipant,
     ]
-  } else {
+  else
     activeParticipants = activeParticipants.map((participant) => {
-      if (participant.userIdentity.id === figma.currentUser?.id) {
+      if (participant.userIdentity.id === figma.currentUser?.id)
         return {
           ...participant,
           hasStarted: options?.hasStarted ?? participant.hasStarted,
@@ -39,10 +39,9 @@ const updateParticipants = async (options?: {
           hasFinished: options?.hasFinished ?? participant.hasFinished,
           isBlocked: options?.isBlocked ?? participant.isBlocked,
         }
-      }
+
       return participant
     })
-  }
 
   figma.root.setPluginData(
     'activeParticipants',

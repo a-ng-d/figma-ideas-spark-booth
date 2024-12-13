@@ -112,9 +112,9 @@ export default class ExternalActivities extends PureComponent<
       prevProps.userSession.connectionStatus !==
         this.props.userSession.connectionStatus &&
       this.state.activitiesList.length === 0
-    ) {
+    )
       this.callUICPAgent(1, '')
-    }
+
     if (
       prevProps.userSession.connectionStatus !==
         this.props.userSession.connectionStatus &&
@@ -178,7 +178,7 @@ export default class ExternalActivities extends PureComponent<
         .ilike('name', `%${searchQuery}%`))
     }
 
-    if (!error) {
+    if (!error)
       this.setState({
         activitiesList: this.state.activitiesList.concat(
           data as Array<ExternalActivitiesData>
@@ -190,7 +190,7 @@ export default class ExternalActivities extends PureComponent<
         ),
         isLoadMoreActionLoading: false,
       })
-    } else
+    else
       this.setState({
         activitiesListStatus: 'ERROR',
       })
@@ -202,7 +202,7 @@ export default class ExternalActivities extends PureComponent<
       .select('*')
       .eq('activity_id', id)
 
-    if (!error && data.length > 0) {
+    if (!error && data.length > 0)
       try {
         parent.postMessage(
           {
@@ -229,14 +229,14 @@ export default class ExternalActivities extends PureComponent<
       } catch {
         throw error
       }
-    } else throw error
+    else throw error
   }
 
   // Templates
   ExternalActivitiesList = () => {
     let fragment
 
-    if (this.state.activitiesListStatus === 'LOADED') {
+    if (this.state.activitiesListStatus === 'LOADED')
       fragment = (
         <Button
           type="secondary"
@@ -254,7 +254,7 @@ export default class ExternalActivities extends PureComponent<
           }}
         />
       )
-    } else if (this.state.activitiesListStatus === 'COMPLETE')
+    else if (this.state.activitiesListStatus === 'COMPLETE')
       fragment = (
         <Message
           icon="check"
@@ -398,9 +398,9 @@ export default class ExternalActivities extends PureComponent<
   render() {
     let fragment
 
-    if (this.state.activitiesListStatus !== 'SIGN_IN_FIRST') {
+    if (this.state.activitiesListStatus !== 'SIGN_IN_FIRST')
       fragment = <this.ExternalActivitiesList />
-    } else {
+    else
       fragment = (
         <div className="callout--centered">
           <SemanticMessage
@@ -438,7 +438,6 @@ export default class ExternalActivities extends PureComponent<
           />
         </div>
       )
-    }
 
     return (
       <div className="controls__control">

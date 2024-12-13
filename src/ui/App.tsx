@@ -482,9 +482,8 @@ export default class App extends PureComponent<
         ideas.reduce(
           (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
             const { userIdentity } = idea
-            if (!acc[userIdentity.fullName]) {
-              acc[userIdentity.fullName] = []
-            }
+            if (!acc[userIdentity.fullName]) acc[userIdentity.fullName] = []
+
             acc[userIdentity.fullName].push(idea)
             return acc
           },
@@ -504,11 +503,9 @@ export default class App extends PureComponent<
           if (
             participant.hasFinished ||
             participant.userIdentity.id === this.state.userIdentity.id
-          ) {
+          )
             acc.finished++
-          } else {
-            acc.unfinished++
-          }
+          else acc.unfinished++
           return acc
         },
         { finished: 0, unfinished: 0 }

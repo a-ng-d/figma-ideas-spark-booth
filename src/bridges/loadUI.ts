@@ -248,39 +248,38 @@ const loadUI = async () => {
     if (
       rootPluginDataChange !== undefined &&
       dataDidUpdate(figma.root.getPluginData('activities'))
-    ) {
+    )
       figma.ui.postMessage({
         type: 'GET_ACTIVITIES',
         data: JSON.parse(figma.root.getPluginData('activities')),
       })
-    }
+
     if (
       rootPluginDataChange !== undefined &&
       dataDidUpdate(figma.root.getPluginData('sessions'))
-    ) {
+    )
       figma.ui.postMessage({
         type: 'GET_SESSIONS',
         data: JSON.parse(figma.root.getPluginData('sessions')),
       })
-    }
+
     if (
       rootPluginDataChange !== undefined &&
       dataDidUpdate(figma.root.getPluginData('ideas'))
-    ) {
+    )
       figma.ui.postMessage({
         type: 'GET_IDEAS',
         data: JSON.parse(figma.root.getPluginData('ideas')),
       })
-    }
+
     if (
       rootPluginDataChange !== undefined &&
       dataDidUpdate(figma.root.getPluginData('activeParticipants'))
-    ) {
+    )
       figma.ui.postMessage({
         type: 'GET_ACTIVE_PARTICIPANTS',
         data: JSON.parse(figma.root.getPluginData('activeParticipants')),
       })
-    }
   })
 
   const dataDidUpdate = (data: string) => {

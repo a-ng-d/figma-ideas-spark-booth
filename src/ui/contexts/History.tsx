@@ -115,9 +115,8 @@ export default class History extends PureComponent<
       this.props.ideas.reduce(
         (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
           const { type } = idea
-          if (!acc[type.color]) {
-            acc[type.color] = []
-          }
+          if (!acc[type.color]) acc[type.color] = []
+
           acc[type.color].push(idea)
           return acc
         },
@@ -136,20 +135,20 @@ export default class History extends PureComponent<
               filteredBy: entries[1][0].type.id,
               ideas:
                 (() => {
-                  if (this.state.sortedBy === 'MOST_RECENT') {
+                  if (this.state.sortedBy === 'MOST_RECENT')
                     return this.onSortMostRecent(
                       this.props.ideas.filter(
                         (idea) => idea.type.id === entries[1][0].type.id
                       )
                     )
-                  }
-                  if (this.state.sortedBy === 'OLDEST') {
+
+                  if (this.state.sortedBy === 'OLDEST')
                     return this.onSortMostRecent(
                       this.props.ideas.filter(
                         (idea) => idea.type.id === entries[1][0].type.id
                       )
                     )
-                  }
+
                   return []
                 })() || [],
             }),
@@ -160,9 +159,8 @@ export default class History extends PureComponent<
       this.props.ideas.reduce(
         (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
           const { userIdentity } = idea
-          if (!acc[userIdentity.fullName]) {
-            acc[userIdentity.fullName] = []
-          }
+          if (!acc[userIdentity.fullName]) acc[userIdentity.fullName] = []
+
           acc[userIdentity.fullName].push(idea)
           return acc
         },
@@ -185,22 +183,22 @@ export default class History extends PureComponent<
               filteredBy: entries[1][0].userIdentity.id,
               ideas:
                 (() => {
-                  if (this.state.sortedBy === 'MOST_RECENT') {
+                  if (this.state.sortedBy === 'MOST_RECENT')
                     return this.onSortMostRecent(
                       this.props.ideas.filter(
                         (idea) =>
                           idea.userIdentity.id === entries[1][0].userIdentity.id
                       )
                     )
-                  }
-                  if (this.state.sortedBy === 'OLDEST') {
+
+                  if (this.state.sortedBy === 'OLDEST')
                     return this.onSortMostRecent(
                       this.props.ideas.filter(
                         (idea) =>
                           idea.userIdentity.id === entries[1][0].userIdentity.id
                       )
                     )
-                  }
+
                   return []
                 })() || [],
             }),
@@ -216,12 +214,12 @@ export default class History extends PureComponent<
             filteredBy: 'NONE',
             ideas:
               (() => {
-                if (this.state.sortedBy === 'MOST_RECENT') {
+                if (this.state.sortedBy === 'MOST_RECENT')
                   return this.onSortMostRecent(this.props.ideas)
-                }
-                if (this.state.sortedBy === 'OLDEST') {
+
+                if (this.state.sortedBy === 'OLDEST')
                   return this.onSortMostRecent(this.props.ideas)
-                }
+
                 return []
               })() || [],
           }),

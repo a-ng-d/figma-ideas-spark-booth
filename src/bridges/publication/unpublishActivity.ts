@@ -33,7 +33,7 @@ const unpublishActivity = async (
       },
     }
 
-    if (!isRemote) {
+    if (!isRemote)
       parent.postMessage(
         {
           pluginMessage: {
@@ -48,7 +48,6 @@ const unpublishActivity = async (
         },
         '*'
       )
-    }
 
     return activityPublicationDetails
   } else throw error

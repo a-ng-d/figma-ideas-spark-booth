@@ -13,9 +13,8 @@ const addToBoard = async (data: {
     const sortedIdeasByParticipant = data.ideas.reduce(
       (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
         const { userIdentity } = idea
-        if (!acc[userIdentity.fullName]) {
-          acc[userIdentity.fullName] = []
-        }
+        if (!acc[userIdentity.fullName]) acc[userIdentity.fullName] = []
+
         acc[userIdentity.fullName].push(idea)
         return acc
       },
@@ -31,9 +30,8 @@ const addToBoard = async (data: {
     const sortedIdeasByType = data.ideas.reduce(
       (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
         const { type } = idea
-        if (!acc[type.name]) {
-          acc[type.name] = []
-        }
+        if (!acc[type.name]) acc[type.name] = []
+
         acc[type.name].push(idea)
         return acc
       },

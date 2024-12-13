@@ -85,26 +85,24 @@ export const validateActivitiesStructure = async (
 ) => {
   if (!Array.isArray(data)) throw new Error()
 
-  for (const activity of data) {
+  for (const activity of data)
     try {
       await activitySchema.validate(activity)
     } catch (error) {
       throw new Error()
     }
-  }
 }
 
 export const validateSessionsStructure = async (
   data: Array<SessionConfiguration>
 ) => {
   if (!Array.isArray(data)) throw new Error()
-  for (const session of data) {
+  for (const session of data)
     try {
       await sessionSchema.validate(session)
     } catch (error) {
       throw new Error()
     }
-  }
 }
 
 export const validateIdeasStructure = async (
@@ -112,11 +110,10 @@ export const validateIdeasStructure = async (
 ) => {
   if (!Array.isArray(data)) throw new Error()
 
-  for (const idea of data) {
+  for (const idea of data)
     try {
       await ideaSchema.validate(idea)
     } catch (error) {
       throw new Error()
     }
-  }
 }

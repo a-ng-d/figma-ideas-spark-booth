@@ -102,7 +102,7 @@ export default class UpdateIdeas extends PureComponent<
 
   // Lyfecycle
   componentDidUpdate(prevProps: Readonly<UpdateIdeasProps>): void {
-    if (prevProps.ideas !== this.props.ideas) {
+    if (prevProps.ideas !== this.props.ideas)
       this.setState({
         selfIdeas: this.props.ideas
           .filter(
@@ -115,7 +115,6 @@ export default class UpdateIdeas extends PureComponent<
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           ),
       })
-    }
   }
 
   // Direct actions
