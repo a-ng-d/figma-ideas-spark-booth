@@ -8,11 +8,11 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
+import features from '../../config'
 import { locals } from '../../content/locals'
 import { FetchStatus, Language, PlanStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
-import features from '../../config'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 

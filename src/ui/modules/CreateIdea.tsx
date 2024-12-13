@@ -9,6 +9,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
+import features from '../../config'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActiveParticipant,
@@ -20,7 +21,6 @@ import {
 } from '../../types/configurations'
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
-import features from '../../config'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 

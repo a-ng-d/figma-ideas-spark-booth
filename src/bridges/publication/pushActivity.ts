@@ -1,9 +1,9 @@
+import { activitiesDbTableName } from '../../config'
 import {
   ActivityConfiguration,
   MetaConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import { activitiesDbTableName } from '../../config'
 import { supabase } from './authentication'
 
 const pushActivity = async (

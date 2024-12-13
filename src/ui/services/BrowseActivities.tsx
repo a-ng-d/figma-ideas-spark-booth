@@ -2,6 +2,7 @@ import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
+import features from '../../config'
 import {
   Context,
   ContextItem,
@@ -16,7 +17,6 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features from '../../config'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'

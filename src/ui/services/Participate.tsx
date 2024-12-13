@@ -11,6 +11,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { createPortal, PureComponent } from 'react'
+import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
@@ -23,7 +24,6 @@ import {
 } from '../../types/configurations'
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
-import features from '../../config'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import CreateIdea from '../modules/CreateIdea'

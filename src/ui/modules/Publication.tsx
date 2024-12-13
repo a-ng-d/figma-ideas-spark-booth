@@ -15,6 +15,7 @@ import publishActivity from '../../bridges/publication/publishActivity'
 import pullActivity from '../../bridges/publication/pullActivity'
 import pushActivity from '../../bridges/publication/pushActivity'
 import unpublishActivity from '../../bridges/publication/unpublishActivity'
+import { activitiesDbTableName } from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PublicationStatus } from '../../types/app'
 import {
@@ -22,7 +23,6 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import { activitiesDbTableName } from '../../config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
 

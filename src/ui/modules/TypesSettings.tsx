@@ -14,16 +14,6 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
-import { locals } from '../../content/locals'
-import { Language, PlanStatus, PriorityContext } from '../../types/app'
-import {
-  ActivityConfiguration,
-  ColorConfiguration,
-  TypeConfiguration,
-  UserConfiguration,
-} from '../../types/configurations'
-import { TypeEvent } from '../../types/events'
-import { ActionsList } from '../../types/models'
 import features, {
   blueColor,
   grayColor,
@@ -35,6 +25,16 @@ import features, {
   violetColor,
   yellowColor,
 } from '../../config'
+import { locals } from '../../content/locals'
+import { Language, PlanStatus, PriorityContext } from '../../types/app'
+import {
+  ActivityConfiguration,
+  ColorConfiguration,
+  TypeConfiguration,
+  UserConfiguration,
+} from '../../types/configurations'
+import { TypeEvent } from '../../types/events'
+import { ActionsList } from '../../types/models'
 import { trackTypeEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'

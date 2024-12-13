@@ -1,5 +1,5 @@
-import { ActivityConfiguration } from '../../types/configurations'
 import { activitiesDbTableName } from '../../config'
+import { ActivityConfiguration } from '../../types/configurations'
 import { supabase } from './authentication'
 
 const pullActivity = async (

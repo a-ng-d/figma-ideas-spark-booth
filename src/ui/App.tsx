@@ -10,6 +10,13 @@ import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import React, { createPortal, PureComponent } from 'react'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
+import features, {
+  announcementsWorkerUrl,
+  feedbackUrl,
+  trialTime,
+  userConsentVersion,
+  versionStatus,
+} from '../config'
 import { locals } from '../content/locals'
 import {
   HighlightDigest,
@@ -33,13 +40,6 @@ import {
   validateIdeasStructure,
   validateSessionsStructure,
 } from '../utils/checkDataSchema'
-import features, {
-  announcementsWorkerUrl,
-  feedbackUrl,
-  trialTime,
-  userConsentVersion,
-  versionStatus,
-} from '../config'
 import {
   trackEndSessionEvent,
   trackFatalErrorEvent,

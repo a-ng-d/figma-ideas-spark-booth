@@ -2,9 +2,9 @@ import { SemanticMessage } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
+import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
-import features from '../../config'
 
 interface CorruptedDataProps {
   lang: Language

@@ -14,6 +14,7 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { createPortal, PureComponent } from 'react'
 import { signIn } from '../../bridges/publication/authentication'
+import features from '../../config'
 import p from '../../content/images/publication.webp'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
@@ -25,7 +26,6 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features from '../../config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'

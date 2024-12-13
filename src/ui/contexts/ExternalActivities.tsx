@@ -12,6 +12,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
+import features, { activitiesDbTableName, pageSize } from '../../config'
 import { locals } from '../../content/locals'
 import {
   FetchStatus,
@@ -23,7 +24,6 @@ import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
-import features, { activitiesDbTableName, pageSize } from '../../config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 import CommunityActivity from '../modules/CommunityActivity'
