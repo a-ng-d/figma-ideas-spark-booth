@@ -265,7 +265,9 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
               >
                 <SemanticMessage
                   type="INFO"
-                  message={locals[this.props.lang].info.maxNumberOfType.replace(
+                  message={locals[
+                    this.props.lang
+                  ].info.maxNumberOfTypes.replace(
                     '$1',
                     TypesSettings.features(this.props.planStatus).SETTINGS_TYPES
                       .result.limit

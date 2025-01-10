@@ -325,7 +325,7 @@ export const locals: { [key: string]: any } = {
     info: {
       noResult: 'No activity match your search',
       inviteParticipants: `Invite participants to join the FigJam board and tell them to open ${glossary.name}`,
-      maxNumberOfType: 'You cannot add more than $1 types',
+      maxNumberOfTypes: 'You cannot add more than $1 types',
       maxNumberOfActivities: 'You cannot add more than $1 activities',
       maxNumberOfParticipants: 'You cannot add more than $1 participants',
       blockedParticipation:
