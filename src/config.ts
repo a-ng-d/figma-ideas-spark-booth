@@ -1,6 +1,7 @@
 import { doSpecificMode, featuresScheme } from './utils/features'
 
 // Limitations
+export const isTrialEnabled = false
 export const trialTime = 72
 export const oldTrialTime = 72
 export const pageSize = 20

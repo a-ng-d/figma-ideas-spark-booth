@@ -13,6 +13,7 @@ import { signIn, signOut } from '../../bridges/publication/authentication'
 import features, {
   documentationUrl,
   feedbackUrl,
+  isTrialEnabled,
   networkUrl,
   repositoryUrl,
   requestsUrl,
@@ -167,6 +168,25 @@ export default class Shortcuts extends PureComponent<
 
   // Render
   render() {
+    let fragment = null
+
+    if (isTrialEnabled || this.props.trialStatus !== 'UNUSED')
+      fragment = <TrialControls {...this.props} />
+    else if (
+      this.props.planStatus === 'UNPAID' &&
+      this.props.trialStatus === 'UNUSED'
+    )
+      fragment = (
+        <Button
+          type="compact"
+          icon="lock-off"
+          label={locals[this.props.lang].plan.getPro}
+          action={() =>
+            parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+          }
+        />
+      )
+
     return (
       <>
         <Bar
@@ -542,7 +562,7 @@ export default class Shortcuts extends PureComponent<
                 this.props.planStatus
               ).GET_PRO_PLAN.isActive()}
             >
-              <TrialControls {...this.props} />
+              {fragment}
             </Feature>
           }
           border={['TOP']}
