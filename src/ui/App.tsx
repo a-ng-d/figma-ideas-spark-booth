@@ -573,9 +573,9 @@ export default class App extends PureComponent<
         >
           <BrowseActivities
             {...this.state}
-            onChangeActivities={(e) => this.setState({ ...this.state, ...e })}
-            onRunSession={(e) => this.setState({ ...this.state, ...e })}
-            onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
+            onChangeActivities={(e) => this.setState({ ...e })}
+            onRunSession={(e) => this.setState({ ...e })}
+            onGetProPlan={(e) => this.setState({ ...e })}
           />
         </Feature>
         <Feature
@@ -602,9 +602,9 @@ export default class App extends PureComponent<
                 '*'
               )
             }}
-            onChangeIdeas={(e) => this.setState({ ...this.state, ...e })}
+            onChangeIdeas={(e) => this.setState({ ...e })}
             onEndSession={this.onEndSession}
-            onGetProPlan={(e) => this.setState({ ...this.state, ...e })}
+            onGetProPlan={(e) => this.setState({ ...e })}
           />
         </Feature>
       </>
@@ -623,7 +623,7 @@ export default class App extends PureComponent<
                 onChangePublication={(e) =>
                   this.setState({ ...this.state, ...e })
                 }
-                onClose={(e) => this.setState({ ...this.state, ...e })}
+                onClose={(e) => this.setState({ ...e })}
               />,
               document.getElementById('modal') ?? document.createElement('app')
             )}
