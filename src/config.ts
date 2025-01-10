@@ -40,6 +40,7 @@ export const feedbackUrl = ''
 export const trialFeedbackUrl = ''
 export const requestsUrl = ''
 export const networkUrl = ''
+export const authorUrl = ''
 
 // Note colors
 export const grayColor = '#AFBCCF'
