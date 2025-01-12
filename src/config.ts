@@ -1,4 +1,4 @@
-import { doSpecificMode, featuresScheme } from './utils/features'
+import { doSpecificMode, featuresScheme } from './stores/features'
 
 // Limitations
 export const isTrialEnabled = false
