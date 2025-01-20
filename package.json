@@ -64,8 +64,8 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@a_ng_d/figmug-ui": "^0.113.8",
-    "@a_ng_d/figmug-utils": "^0.1.2",
+    "@a_ng_d/figmug-ui": "^0.118.9",
+    "@a_ng_d/figmug-utils": "^0.1.4",
     "@sentry/react": "^8.8.0",
     "@sentry/webpack-plugin": "^2.22.6",
     "@supabase/supabase-js": "^2.44.2",
