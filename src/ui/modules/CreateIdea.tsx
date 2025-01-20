@@ -175,7 +175,7 @@ export default class CreateIdeas extends PureComponent<
                       currentText: target.value,
                     })
               }}
-              onConfirm={this.onPushIdea}
+              onValid={this.onPushIdea}
             />
             <Button
               type="icon"

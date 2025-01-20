@@ -85,7 +85,7 @@ export default class SelfActivity extends PureComponent<SelfActivityProps> {
           <>
             <Menu
               id="publication-options"
-              icon="ellipsis"
+              icon="ellipses"
               options={[
                 {
                   label: locals[this.props.lang].publication.unpublish,

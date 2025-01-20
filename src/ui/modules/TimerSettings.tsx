@@ -77,7 +77,6 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
             feature="UPDATE_TIMER_MINUTES"
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
-            onConfirm={this.props.onChangeActivities}
           />
         </FormItem>
       </Feature>
@@ -113,7 +112,6 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
             feature="UPDATE_TIMER_SECONDS"
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
-            onConfirm={this.props.onChangeActivities}
           />
         </FormItem>
       </Feature>

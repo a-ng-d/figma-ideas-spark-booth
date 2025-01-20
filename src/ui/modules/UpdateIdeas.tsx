@@ -280,7 +280,6 @@ export default class UpdateIdeas extends PureComponent<
                             this.props.planStatus
                           ).PARTICIPATE_UPDATE_IDEA.isNew()}
                           onBlur={(e) => this.ideasHandler(e, idea.type)}
-                          onConfirm={(e) => this.ideasHandler(e, idea.type)}
                         />
                       </div>
                     </Feature>
