@@ -30,6 +30,7 @@ import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,
   ColorConfiguration,
+  SessionConfiguration,
   TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
@@ -41,6 +42,7 @@ import Feature from '../components/Feature'
 
 interface TypesSettingsProps {
   activity: ActivityConfiguration
+  sessions: Array<SessionConfiguration>
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
@@ -471,7 +473,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
             spacingModifier: 'NONE',
           },
         ]}
-        border={['BOTTOM']}
+        border={this.props.sessions.length > 0 ? ['BOTTOM'] : undefined}
       />
     )
   }
