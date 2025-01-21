@@ -387,8 +387,8 @@ export default class Participate extends PureComponent<
                 ).PARTICIPATE_UPDATE.isActive()}
               >
                 <UpdateIdeas
-                  canParticipate={this.canParticipate()}
                   {...this.props}
+                  canParticipate={this.canParticipate()}
                 />
               </Feature>
               <Feature

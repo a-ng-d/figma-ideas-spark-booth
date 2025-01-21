@@ -99,9 +99,9 @@ export default class ActivitiesList extends PureComponent<
             ).ACTIVITIES_SELF.isActive()}
           >
             <ExternalActivities
+              {...this.props}
               context="SELF"
               localActivitiesNumber={this.props.activities.length}
-              {...this.props}
             />
           </Feature>
         )

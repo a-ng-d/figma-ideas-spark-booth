@@ -26,9 +26,9 @@ export default class Explore extends PureComponent<ExploreProps> {
       <section className="controller">
         <div className="controls">
           <ExternalActivities
+            {...this.props}
             context="COMMUNITY"
             localActivitiesNumber={this.props.activities.length}
-            {...this.props}
           />
         </div>
       </section>
