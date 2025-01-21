@@ -5,6 +5,7 @@ import {
   SessionConfiguration,
 } from '../../types/configurations'
 import addToBoard from '../export/addToBoard'
+import addToSlides from '../export/addToSlides'
 import updateParticipants from './updateParticipants'
 
 const endSession = async (data: {
@@ -18,11 +19,18 @@ const endSession = async (data: {
 
   updateParticipants({ hasEnded: true })
 
-  addToBoard({
-    activity: data.activity,
-    sessionDate: data.session.metrics.startDate,
-    ideas: data.ideas,
-  })
+  if (figma.editorType === 'figjam')
+    addToBoard({
+      activity: data.activity,
+      sessionDate: data.session.metrics.startDate,
+      ideas: data.ideas,
+    })
+  else if (figma.editorType === 'slides')
+    addToSlides({
+      activity: data.activity,
+      sessionDate: data.session.metrics.startDate,
+      ideas: data.ideas,
+    })
 
   figma.timer?.stop()
 
