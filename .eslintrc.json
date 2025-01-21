@@ -20,8 +20,8 @@
   },
   "plugins": [
     "react",
-    "@typescript-eslint",
-    "@figma/figma-plugins"
+    "@figma/figma-plugins",
+    "@typescript-eslint"
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": [1],
