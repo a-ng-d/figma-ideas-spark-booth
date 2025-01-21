@@ -3,7 +3,8 @@
   "id": "1390404737632443408",
   "api": "1.0.0",
   "editorType": [
-    "figjam"
+    "figjam",
+    "slides"
   ],
   "relaunchButtons": [
   ],
