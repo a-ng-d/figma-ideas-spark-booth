@@ -3,6 +3,7 @@ import mixpanel from 'mixpanel-figma'
 import { userConsentVersion } from '../config'
 import {
   ActivityEvent,
+  EditorEvent,
   EndSessionEvent,
   FatalErrorEvent,
   PublicationEvent,
@@ -48,6 +49,19 @@ export const trackSignOutEvent = (id: string, consent: boolean) => {
   } catch (error) {
     return true
   }
+}
+
+export const trackEditorEvent = (
+  id: string,
+  consent: boolean,
+  options: EditorEvent
+) => {
+  if (!consent) return
+  mixpanel.identify(id)
+  mixpanel.track('Editor Run', {
+    Editor: options.editor,
+    ...eventsRecurringProperties,
+  })
 }
 
 export const trackTrialEnablementEvent = (

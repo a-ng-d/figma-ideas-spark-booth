@@ -20,6 +20,7 @@ import features, {
 } from '../config'
 import { locals } from '../content/locals'
 import {
+  EditorType,
   HighlightDigest,
   Language,
   PlanStatus,
@@ -42,6 +43,7 @@ import {
   validateSessionsStructure,
 } from '../utils/checkDataSchema'
 import {
+  trackEditorEvent,
   trackEndSessionEvent,
   trackFatalErrorEvent,
   trackPurchaseEvent,
@@ -64,6 +66,7 @@ export interface AppStates {
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
   activeParticipants: Array<ActiveParticipant>
+  editorType: EditorType
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
@@ -116,6 +119,7 @@ export default class App extends PureComponent<
       sessions: [],
       ideas: [],
       activeParticipants: [],
+      editorType: 'figjam',
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: trialTime,
@@ -269,6 +273,23 @@ export default class App extends PureComponent<
             sessionCount: e.data.pluginMessage.data.sessionCount,
           })
 
+        const checkEditorType = () => {
+          this.setState({ editorType: e.data.pluginMessage.data })
+          setTimeout(
+            () =>
+              trackEditorEvent(
+                e.data.pluginMessage.id,
+                this.state.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                {
+                  editor: e.data.pluginMessage.data,
+                }
+              ),
+            1000
+          )
+        }
+
         const handleHighlight = () => {
           this.setState({
             priorityContainerContext:
@@ -412,6 +433,7 @@ export default class App extends PureComponent<
           CHECK_USER_CONSENT: () => checkUserConsent(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
           CHECK_COUNTS: () => checkCounts(),
+          CHECK_EDITOR_TYPE: () => checkEditorType(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           GET_ACTIVITIES: () => getActivities(),
           GET_SESSIONS: () => getSessions(),

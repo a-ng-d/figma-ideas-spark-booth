@@ -3,6 +3,7 @@ import { windowSize } from '../types/app'
 import { ActiveParticipant } from '../types/configurations'
 import { ActionsList } from '../types/models'
 import checkCounts from './checks/checkCounts'
+import checkEditorType from './checks/checkEditorType'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
@@ -36,6 +37,7 @@ const loadUI = async () => {
 
   // Checks
   checkUserConsent()
+    .then(() => checkEditorType())
     .then(() => checkPlanStatus())
     .then(() => updateParticipants())
     .then(() => checkCounts())

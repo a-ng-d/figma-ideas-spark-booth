@@ -15,7 +15,7 @@ export type FilterOptions =
   | 'VIOLET'
   | 'BLUE'
 
-export type EditorType = 'figma' | 'figjam' | 'dev'
+export type EditorType = 'figma' | 'figjam' | 'dev' | 'slides'
 
 export type PlanStatus = 'UNPAID' | 'PAID' | 'NOT_SUPPORTED'
 

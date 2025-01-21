@@ -1,3 +1,9 @@
+import { EditorType } from './app'
+
+export interface EditorEvent {
+  editor: EditorType
+}
+
 export interface TrialEvent {
   date: number
   trialTime: number
