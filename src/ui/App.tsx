@@ -618,12 +618,19 @@ export default class App extends PureComponent<
           {document.getElementById('modal') &&
             createPortal(
               <PriorityContainer
-                context={this.state.priorityContainerContext}
                 {...this.state}
-                onChangePublication={(e) =>
-                  this.setState({ ...this.state, ...e })
+                context={this.state.priorityContainerContext}
+                rawData={this.state}
+                onChangePublication={(e) => this.setState({ ...e })}
+                onClose={() =>
+                  this.setState({
+                    priorityContainerContext: 'EMPTY',
+                    highlight: {
+                      version: this.state.highlight.version,
+                      status: 'NO_HIGHLIGHT',
+                    },
+                  })
                 }
-                onClose={(e) => this.setState({ ...e })}
               />,
               document.getElementById('modal') ?? document.createElement('app')
             )}

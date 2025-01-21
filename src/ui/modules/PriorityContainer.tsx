@@ -5,10 +5,12 @@ import {
   Input,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import * as Sentry from '@sentry/browser'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
+
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { UserConfiguration } from 'src/types/configurations'
 import features from '../../config'
 import cp from '../../content/images/choose_plan.webp'
 import pp from '../../content/images/pro_plan.webp'
@@ -21,7 +23,6 @@ import {
   PriorityContext,
   TrialStatus,
 } from '../../types/app'
-import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -30,15 +31,16 @@ import Highlight from './Highlight'
 
 interface PriorityContainerProps {
   context: PriorityContext
+  rawData: AppStates
   planStatus: PlanStatus
   trialStatus: TrialStatus
-  userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
+  userConsent: Array<ConsentConfiguration>
   userSession: UserSession
   highlight: HighlightDigest
   lang: Language
   onChangePublication: React.Dispatch<Partial<AppStates>>
-  onClose: React.Dispatch<Partial<AppStates>>
+  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 interface PriorityContainerStates {
@@ -53,17 +55,12 @@ export default class PriorityContainer extends PureComponent<
   PriorityContainerProps,
   PriorityContainerStates
 > {
-  counter: number
+  private counter: number
 
   static features = (planStatus: PlanStatus) => ({
     GET_PRO_PLAN: new FeatureStatus({
       features: features,
       featureName: 'GET_PRO_PLAN',
-      planStatus: planStatus,
-    }),
-    SHORTCUTS_FEEDBACK: new FeatureStatus({
-      features: features,
-      featureName: 'SHORTCUTS_FEEDBACK',
       planStatus: planStatus,
     }),
     SHORTCUTS_HIGHLIGHT: new FeatureStatus({
@@ -76,9 +73,14 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'SHORTCUTS_ABOUT',
       planStatus: planStatus,
     }),
-    SHORTCUTS_REPORTING: new FeatureStatus({
+    PUBLICATION: new FeatureStatus({
       features: features,
-      featureName: 'SHORTCUTS_REPORTING',
+      featureName: 'PUBLICATION',
+      planStatus: planStatus,
+    }),
+    REPORT: new FeatureStatus({
+      features: features,
+      featureName: 'REPORT',
       planStatus: planStatus,
     }),
   })
@@ -166,11 +168,7 @@ export default class PriorityContainer extends PureComponent<
                 ),
             },
           }}
-          onClose={() =>
-            this.props.onClose({
-              priorityContainerContext: 'EMPTY',
-            })
-          }
+          onClose={this.props.onClose}
         >
           <div className="dialog__cover">
             <img
@@ -202,17 +200,10 @@ export default class PriorityContainer extends PureComponent<
           actions={{
             primary: {
               label: locals[this.props.lang].proPlan.welcome.cta,
-              action: () =>
-                this.props.onClose({
-                  priorityContainerContext: 'EMPTY',
-                }),
+              action: this.props.onClose,
             },
           }}
-          onClose={() =>
-            this.props.onClose({
-              priorityContainerContext: 'EMPTY',
-            })
-          }
+          onClose={this.props.onClose}
         >
           <div className="dialog__cover">
             <img
@@ -244,17 +235,10 @@ export default class PriorityContainer extends PureComponent<
           actions={{
             primary: {
               label: locals[this.props.lang].proPlan.welcome.cta,
-              action: () =>
-                this.props.onClose({
-                  priorityContainerContext: 'EMPTY',
-                }),
+              action: this.props.onClose,
             },
           }}
-          onClose={() =>
-            this.props.onClose({
-              priorityContainerContext: 'EMPTY',
-            })
-          }
+          onClose={this.props.onClose}
         >
           <div className="dialog__cover">
             <img
@@ -283,15 +267,27 @@ export default class PriorityContainer extends PureComponent<
       >
         <Highlight
           {...this.props}
-          onCloseHighlight={() =>
-            this.props.onClose({
-              priorityContainerContext: 'EMPTY',
-              highlight: {
-                version: this.props.highlight.version,
-                status: 'NO_HIGHLIGHT',
-              },
-            })
-          }
+          onCloseHighlight={() => {
+            if (
+              this.props.highlight.version !== undefined ||
+              this.props.highlight.version !== ''
+            )
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'SET_ITEMS',
+                    items: [
+                      {
+                        key: 'highlight_version',
+                        value: this.props.highlight.version,
+                      },
+                    ],
+                  },
+                },
+                '*'
+              )
+            this.props.onClose()
+          }}
         />
       </Feature>
     )
@@ -307,11 +303,7 @@ export default class PriorityContainer extends PureComponent<
         <Dialog
           title={locals[this.props.lang].about.title}
           actions={{}}
-          onClose={() =>
-            this.props.onClose({
-              priorityContainerContext: 'EMPTY',
-            })
-          }
+          onClose={this.props.onClose}
         >
           <About
             planStatus={this.props.planStatus}
@@ -328,7 +320,7 @@ export default class PriorityContainer extends PureComponent<
       <Feature
         isActive={PriorityContainer.features(
           this.props.planStatus
-        ).SHORTCUTS_REPORTING.isActive()}
+        ).REPORT.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].report.title}
@@ -337,18 +329,14 @@ export default class PriorityContainer extends PureComponent<
               label: locals[this.props.lang].report.cta,
               state: (() => {
                 if (this.state.userMessage === '') return 'DISABLED'
-
                 if (this.state.isPrimaryActionLoading) return 'LOADING'
+
                 return 'DEFAULT'
               })(),
               action: this.reportHandler,
             },
           }}
-          onClose={() =>
-            this.props.onClose({
-              priorityContainerContext: 'EMPTY',
-            })
-          }
+          onClose={this.props.onClose}
         >
           <div className="dialog__form">
             <div className="dialog__form__item">
@@ -359,6 +347,7 @@ export default class PriorityContainer extends PureComponent<
               >
                 <Input
                   type="TEXT"
+                  id="type-fullname"
                   value={this.state.userFullName}
                   isAutoFocus={true}
                   placeholder={
@@ -380,6 +369,7 @@ export default class PriorityContainer extends PureComponent<
               >
                 <Input
                   type="TEXT"
+                  id="type-email"
                   value={this.state.userEmail}
                   placeholder={locals[this.props.lang].report.email.placeholder}
                   onChange={(e) =>
@@ -398,6 +388,7 @@ export default class PriorityContainer extends PureComponent<
               >
                 <Input
                   type="LONG_TEXT"
+                  id="type-message"
                   placeholder={
                     locals[this.props.lang].report.message.placeholder
                   }
@@ -421,24 +412,12 @@ export default class PriorityContainer extends PureComponent<
   render() {
     return (
       <>
-        <Feature isActive={this.props.context === 'TRY'}>
-          <this.TryPro />
-        </Feature>
-        <Feature isActive={this.props.context === 'WELCOME_TO_TRIAL'}>
-          <this.WelcomeToTrial />
-        </Feature>
-        <Feature isActive={this.props.context === 'WELCOME_TO_PRO'}>
-          <this.WelcomeToPro />
-        </Feature>
-        <Feature isActive={this.props.context === 'HIGHLIGHT'}>
-          <this.Highlight />
-        </Feature>
-        <Feature isActive={this.props.context === 'ABOUT'}>
-          <this.About />
-        </Feature>
-        <Feature isActive={this.props.context === 'REPORT'}>
-          <this.Report />
-        </Feature>
+        {this.props.context === 'TRY' && <this.TryPro />}
+        {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
+        {this.props.context === 'WELCOME_TO_PRO' && <this.WelcomeToPro />}
+        {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
+        {this.props.context === 'ABOUT' && <this.About />}
+        {this.props.context === 'REPORT' && <this.Report />}
       </>
     )
   }
