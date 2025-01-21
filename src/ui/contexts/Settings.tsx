@@ -12,7 +12,8 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import React, { createPortal, PureComponent } from 'react'
+import React from 'react'
+import { createPortal, PureComponent } from 'preact/compat'
 import { signIn } from '../../bridges/publication/authentication'
 import features from '../../config'
 import p from '../../content/images/publication.webp'

@@ -7,7 +7,8 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import React, { createPortal, PureComponent } from 'react'
+import React from 'react'
+import { createPortal, PureComponent } from 'preact/compat'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import features, {
