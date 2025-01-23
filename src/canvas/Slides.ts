@@ -12,6 +12,7 @@ export default class Slides {
   activityName: string
   sessionDate: string | Date
   sessionFacilitator: UserConfiguration
+  participants: Array<UserConfiguration>
   ideas: { [key: string]: Array<IdeaConfiguration> }
   stickyGap: number
   sectionGap: number
@@ -90,11 +91,13 @@ export default class Slides {
   constructor(
     activity: ActivityConfiguration,
     session: SessionConfiguration,
-    ideas: { [key: string]: Array<IdeaConfiguration> }
+    ideas: { [key: string]: Array<IdeaConfiguration> },
+    participants: Array<UserConfiguration>
   ) {
     this.activityName = activity.name
     ;(this.sessionDate = session.metrics.startDate),
       (this.sessionFacilitator = session.facilitator)
+    this.participants = participants
     this.ideas = ideas
     this.stickyGap = 32
     this.sectionGap = 200
@@ -182,8 +185,10 @@ export default class Slides {
           family: Slides.slideAccentLabel.fontFamily,
           style: Slides.slideAccentLabel.fontWeight,
         }
-        if (width !== 'AUTO') nameNode.layoutSizingHorizontal = 'FILL'
-        else nameNode.layoutSizingHorizontal = 'HUG'
+        if (width !== 'AUTO') {
+          nameNode.layoutSizingHorizontal = 'FILL'
+          nameNode.textTruncation = 'ENDING'
+        } else nameNode.layoutSizingHorizontal = 'HUG'
         nameNode.fills = [this.solidPaint(Slides.darkColor)]
       })
 
@@ -300,6 +305,47 @@ export default class Slides {
       'AUTO'
     )
     facilitatorNode.appendChild(facilitatorPersonNode)
+
+    // Participants
+    const participantsNode = figma.createFrame()
+    layoutNode.appendChild(participantsNode)
+    participantsNode.name = '_participants'
+    participantsNode.layoutMode = 'VERTICAL'
+    participantsNode.layoutSizingHorizontal = 'FILL'
+    participantsNode.itemSpacing = Slides.gaps.small
+    participantsNode.fills = []
+
+    // Participants Label
+    const participantsLabelNode = figma.createText()
+    participantsNode.appendChild(participantsLabelNode)
+    participantsLabelNode.name = '_label'
+    participantsLabelNode.characters = 'Participants'
+    participantsLabelNode.layoutSizingHorizontal = 'FILL'
+    participantsLabelNode.textAutoResize = 'WIDTH_AND_HEIGHT'
+    participantsLabelNode.fontSize = Slides.slideLabel.fontSize
+    participantsLabelNode.fontName = {
+      family: Slides.slideLabel.fontFamily,
+      style: Slides.slideLabel.fontWeight,
+    }
+    participantsLabelNode.fills = [this.solidPaint(Slides.darkColor)]
+
+    // Participants List
+    const participantsListNode = figma.createFrame()
+    participantsNode.appendChild(participantsListNode)
+    participantsListNode.name = '_list'
+    participantsListNode.layoutMode = 'HORIZONTAL'
+    participantsListNode.layoutSizingHorizontal = 'FILL'
+    participantsListNode.layoutSizingVertical = 'HUG'
+    participantsListNode.layoutWrap = 'WRAP'
+    participantsListNode.itemSpacing = Slides.gaps.medium
+    participantsListNode.counterAxisSpacing = null
+    participantsListNode.maxHeight = 416
+    participantsListNode.fills = []
+    this.participants.forEach((participant) => {
+      participantsListNode.appendChild(
+        this.makePerson(participant.avatar, participant.fullName, 538)
+      )
+    })
 
     return slideNode
   }
