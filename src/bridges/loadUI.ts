@@ -9,6 +9,7 @@ import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
 import addToBoard from './export/addToBoard'
+import addToSlides from './export/addToSlides'
 import exportCsv from './export/exportCsv'
 import getProPlan from './getProPlan'
 import duplicatePublishedActivity from './updates/duplicatePublishedActivity'
@@ -117,6 +118,7 @@ const loadUI = async () => {
       UNBLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: false }),
       //
       ADD_TO_BOARD: () => addToBoard(msg.data),
+      ADD_TO_SLIDES: () => addToSlides(msg.data),
       EXPORT_CSV: () => exportCsv(msg.data),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),

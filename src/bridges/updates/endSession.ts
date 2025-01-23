@@ -28,7 +28,7 @@ const endSession = async (data: {
   else if (figma.editorType === 'slides')
     addToSlides({
       activity: data.activity,
-      sessionDate: data.session.metrics.startDate,
+      session: data.session,
       ideas: data.ideas,
     })
 

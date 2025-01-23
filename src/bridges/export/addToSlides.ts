@@ -2,11 +2,12 @@ import Slides from '../../canvas/Slides'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
+  SessionConfiguration,
 } from '../../types/configurations'
 
 const addToSlides = async (data: {
   activity: ActivityConfiguration
-  sessionDate: Date | string
+  session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
 }) => {
   if (data.activity.groupedBy === 'PARTICIPANT' && data.ideas.length > 0) {
@@ -21,7 +22,7 @@ const addToSlides = async (data: {
       {} as { [key: string]: IdeaConfiguration[] }
     )
 
-    new Slides(data.activity, data.sessionDate, sortedIdeasByParticipant)
+    new Slides(data.activity, data.session, sortedIdeasByParticipant)
   } else if (data.activity.groupedBy === 'TYPE' && data.ideas.length > 0) {
     const sortedIdeasByType = data.ideas.reduce(
       (acc: { [key: string]: IdeaConfiguration[] }, idea) => {
@@ -34,7 +35,7 @@ const addToSlides = async (data: {
       {} as { [key: string]: IdeaConfiguration[] }
     )
 
-    new Slides(data.activity, data.sessionDate, sortedIdeasByType)
+    new Slides(data.activity, data.session, sortedIdeasByType)
   }
 }
 
