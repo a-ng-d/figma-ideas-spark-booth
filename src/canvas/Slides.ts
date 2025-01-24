@@ -7,6 +7,9 @@ import {
   UserConfiguration,
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
+import { colors, gaps, textStyles } from './partials/tokens'
+import Member from './partials/Member'
+import Members from './partials/Members'
 
 export default class Slides {
   activityName: string
@@ -30,63 +33,6 @@ export default class Slides {
     vertical: 128,
     horizontal: 128,
   }
-  static gaps = {
-    xsmall: 8,
-    small: 16,
-    medium: 24,
-    large: 32,
-  }
-  static documentTitle = {
-    fontFamily: 'Martian Mono',
-    fontSize: 96,
-    fontWeight: 'ExtraBold',
-    lineHeight: {
-      unit: 'AUTO',
-    },
-  }
-  static slideTitle = {
-    fontFamily: 'Martian Mono',
-    fontSize: 80,
-    fontWeight: 'Bold',
-    lineHeight: {
-      unit: 'AUTO',
-    },
-  }
-  static slideSubTitle = {
-    fontFamily: 'Sora',
-    fontSize: 32,
-    fontWeight: 'SemiBold',
-    lineHeight: {
-      unit: 'AUTO',
-    },
-  }
-  static slideAccentLabel = {
-    fontFamily: 'Sora',
-    fontSize: 40,
-    fontWeight: 'SemiBold',
-    lineHeight: {
-      unit: 'AUTO',
-    },
-  }
-  static slideLabel = {
-    fontFamily: 'Sora',
-    fontSize: 32,
-    fontWeight: 'Regular',
-    lineHeight: {
-      unit: 'AUTO',
-    },
-  }
-  static slideText = {
-    fontFamily: 'Sora',
-    fontSize: 32,
-    fontWeight: 'Regular',
-    lineHeight: {
-      value: 150,
-      unit: 'PERCENT',
-    },
-  }
-  static lightColor = 'FFFEC3'
-  static darkColor = '493200'
 
   constructor(
     activity: ActivityConfiguration,
@@ -140,101 +86,11 @@ export default class Slides {
     return slideNode
   }
 
-  makeAvatar = async (avatarUrl: string) => {
-    const avatarNode = figma.createEllipse()
-    avatarNode.name = '_avatar'
-    avatarNode.resize(64, 64)
-    avatarNode.fills = [
-      {
-        type: 'SOLID',
-        color: { r: 0.9, g: 0.9, b: 0.9 },
-      },
-    ]
-
-    figma.createImageAsync(avatarUrl).then(async (image: Image) => {
-      avatarNode.fills = [
-        {
-          type: 'IMAGE',
-          imageHash: image.hash,
-          scaleMode: 'FILL',
-        },
-      ]
-
-      return avatarNode
-    })
-
-    return avatarNode
-  }
-
-  makePerson = (avatarUrl: string, name: string, width: number | 'AUTO') => {
-    // Base
-    const personNode = figma.createFrame()
-    personNode.name = '_person'
-    personNode.layoutMode = 'HORIZONTAL'
-    personNode.counterAxisSizingMode = 'AUTO'
-    personNode.counterAxisAlignItems = 'CENTER'
-    personNode.itemSpacing = Slides.gaps.small
-    personNode.fills = []
-    if (width !== 'AUTO') personNode.resize(width, 100)
-    else personNode.primaryAxisSizingMode = 'AUTO'
-
-    // Avatars
-    const avatarsNode = figma.createFrame()
-    personNode.appendChild(avatarsNode)
-    avatarsNode.name = '_avatars'
-    avatarsNode.layoutMode = 'HORIZONTAL'
-    avatarsNode.layoutSizingHorizontal = 'HUG'
-    avatarsNode.layoutSizingVertical = 'HUG'
-    avatarsNode.itemSpacing = -32
-    avatarsNode.itemReverseZIndex = true
-    avatarsNode.fills = []
-
-    this.makeAvatar(avatarUrl)
-      .then((avatarNode) => {
-        avatarsNode.appendChild(avatarNode)
-      })
-      .finally(() => {
-        // Name
-        const nameNode = figma.createText()
-        personNode.appendChild(nameNode)
-        nameNode.name = '_label'
-        nameNode.characters = name
-        nameNode.textAutoResize = 'WIDTH_AND_HEIGHT'
-        nameNode.fontSize = Slides.slideAccentLabel.fontSize
-        nameNode.fontName = {
-          family: Slides.slideAccentLabel.fontFamily,
-          style: Slides.slideAccentLabel.fontWeight,
-        }
-        if (width !== 'AUTO') {
-          nameNode.layoutSizingHorizontal = 'FILL'
-          nameNode.textTruncation = 'ENDING'
-        } else nameNode.layoutSizingHorizontal = 'HUG'
-        nameNode.fills = [this.solidPaint(Slides.darkColor)]
-      })
-
-    return personNode
-  }
-
-  hideLabel = (target: TextNode) => {
-    target.visible = false
-  }
-
-  pushAvatar = (target: FrameNode, avatarUrl: string) => {
-    this.makeAvatar(avatarUrl).then((avatarNode) => {
-      target.appendChild(avatarNode)
-    })
-  }
-
-  pushRemainedPersons = (target: TextNode, value: number) => {
-    target.visible = true
-    target.characters = `+${value}`
-  }
-
   makeSessionSlide = () => {
     // Base
     const slideNode = figma.createSlide()
     slideNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`
-    slideNode.fills = [this.solidPaint(Slides.lightColor)]
+    slideNode.fills = [this.solidPaint(colors.lightColor)]
     slideNode.layoutGrids = [
       {
         pattern: 'ROWS',
@@ -276,7 +132,7 @@ export default class Slides {
     headerNode.layoutMode = 'VERTICAL'
     headerNode.layoutSizingHorizontal = 'FILL'
     headerNode.layoutSizingVertical = 'HUG'
-    headerNode.itemSpacing = Slides.gaps.small
+    headerNode.itemSpacing = gaps.small
     headerNode.fills = []
 
     // Activity
@@ -287,12 +143,12 @@ export default class Slides {
     activityNode.layoutSizingVertical = 'HUG'
     activityNode.characters = `${this.activityName}・Session`
     activityNode.textAutoResize = 'WIDTH_AND_HEIGHT'
-    activityNode.fontSize = Slides.slideSubTitle.fontSize
+    activityNode.fontSize = textStyles.slideSubTitle.fontSize
     activityNode.fontName = {
-      family: Slides.slideSubTitle.fontFamily,
-      style: Slides.slideSubTitle.fontWeight,
+      family: textStyles.slideSubTitle.fontFamily,
+      style: textStyles.slideSubTitle.fontWeight,
     }
-    activityNode.fills = [this.solidPaint(Slides.darkColor)]
+    activityNode.fills = [this.solidPaint(colors.darkColor)]
 
     // Session Date
     const sessionNode = figma.createText()
@@ -302,12 +158,12 @@ export default class Slides {
     sessionNode.layoutSizingVertical = 'HUG'
     sessionNode.characters = setFriendlyDate(this.sessionDate, lang)
     sessionNode.textAutoResize = 'WIDTH_AND_HEIGHT'
-    sessionNode.fontSize = Slides.slideTitle.fontSize
+    sessionNode.fontSize = textStyles.slideTitle.fontSize
     sessionNode.fontName = {
-      family: Slides.slideTitle.fontFamily,
-      style: Slides.slideTitle.fontWeight,
+      family: textStyles.slideTitle.fontFamily,
+      style: textStyles.slideTitle.fontWeight,
     }
-    sessionNode.fills = [this.solidPaint(Slides.darkColor)]
+    sessionNode.fills = [this.solidPaint(colors.darkColor)]
 
     // Facilitator
     const facilitatorNode = figma.createFrame()
@@ -317,7 +173,7 @@ export default class Slides {
     facilitatorNode.layoutSizingHorizontal = 'FILL'
     facilitatorNode.layoutSizingVertical = 'HUG'
     facilitatorNode.counterAxisAlignItems = 'CENTER'
-    facilitatorNode.itemSpacing = Slides.gaps.large
+    facilitatorNode.itemSpacing = gaps.large
     facilitatorNode.fills = []
 
     // Facilitator Label
@@ -326,19 +182,19 @@ export default class Slides {
     facilitatorLabelNode.name = '_label'
     facilitatorLabelNode.characters = 'Facilitated by'
     facilitatorLabelNode.textAutoResize = 'WIDTH_AND_HEIGHT'
-    facilitatorLabelNode.fontSize = Slides.slideLabel.fontSize
+    facilitatorLabelNode.fontSize = textStyles.slideLabel.fontSize
     facilitatorLabelNode.fontName = {
-      family: Slides.slideLabel.fontFamily,
-      style: Slides.slideLabel.fontWeight,
+      family: textStyles.slideLabel.fontFamily,
+      style: textStyles.slideLabel.fontWeight,
     }
-    facilitatorLabelNode.fills = [this.solidPaint(Slides.darkColor)]
+    facilitatorLabelNode.fills = [this.solidPaint(colors.darkColor)]
 
     // Facilitator Person
-    const facilitatorPersonNode = this.makePerson(
+    const facilitatorPersonNode = new Member(
       this.sessionFacilitator.avatar,
       this.sessionFacilitator.fullName,
       'AUTO'
-    )
+    ).memberNode
     facilitatorNode.appendChild(facilitatorPersonNode)
 
     // Participants
@@ -347,7 +203,7 @@ export default class Slides {
     participantsNode.name = '_participants'
     participantsNode.layoutMode = 'VERTICAL'
     participantsNode.layoutSizingHorizontal = 'FILL'
-    participantsNode.itemSpacing = Slides.gaps.small
+    participantsNode.itemSpacing = gaps.small
     participantsNode.fills = []
 
     // Participants Label
@@ -357,12 +213,12 @@ export default class Slides {
     participantsLabelNode.characters = 'Participants'
     participantsLabelNode.layoutSizingHorizontal = 'FILL'
     participantsLabelNode.textAutoResize = 'WIDTH_AND_HEIGHT'
-    participantsLabelNode.fontSize = Slides.slideLabel.fontSize
+    participantsLabelNode.fontSize = textStyles.slideLabel.fontSize
     participantsLabelNode.fontName = {
-      family: Slides.slideLabel.fontFamily,
-      style: Slides.slideLabel.fontWeight,
+      family: textStyles.slideLabel.fontFamily,
+      style: textStyles.slideLabel.fontWeight,
     }
-    participantsLabelNode.fills = [this.solidPaint(Slides.darkColor)]
+    participantsLabelNode.fills = [this.solidPaint(colors.darkColor)]
 
     // Participants List
     const participantsListNode = figma.createFrame()
@@ -372,7 +228,7 @@ export default class Slides {
     participantsListNode.layoutSizingHorizontal = 'FILL'
     participantsListNode.layoutSizingVertical = 'HUG'
     participantsListNode.layoutWrap = 'WRAP'
-    participantsListNode.itemSpacing = Slides.gaps.medium
+    participantsListNode.itemSpacing = gaps.medium
     participantsListNode.counterAxisSpacing = null
     participantsListNode.maxHeight = 416
     participantsListNode.fills = []
@@ -384,30 +240,24 @@ export default class Slides {
     )
     const allParticipants = [...this.participants, ...duplicatedParticipants]
 
-    let lastChild: FrameNode
+    let remainingParticipants: Array<UserConfiguration> = []
     allParticipants.forEach((participant, index) => {
-      if (index < 14)
+      if (index <= 13)
         participantsListNode.appendChild(
-          this.makePerson(participant.avatar, participant.fullName, 538)
+          new Member(participant.avatar, participant.fullName, 538).memberNode
         )
-      else if (index === 14) {
-        lastChild = this.makePerson(
-          participant.avatar,
-          participant.fullName,
-          538
+      else if (index === 14 && allParticipants.length <= 14)
+        participantsListNode.appendChild(
+          new Member(participant.avatar, participant.fullName, 538).memberNode
         )
-        participantsListNode.appendChild(lastChild)
-      } else if (index >= 15) {
-        const avatars = lastChild.children[0] as FrameNode
-        //const text = lastChild.children[1] as TextNode
-
-        //this.hideLabel(text)
-        this.pushAvatar(avatars, participant.avatar)
-      } else if (index < 27) {
-        //const text = lastChild.children[1] as TextNode
-        //this.pushRemainedPersons(text, index)
-      }
+      else if (index > 14)
+        remainingParticipants = [...remainingParticipants, participant]
     })
+
+    if (remainingParticipants.length > 0)
+      participantsListNode.appendChild(
+        new Members(remainingParticipants, 538).membersNode
+      )
 
     return slideNode
   }
