@@ -42,21 +42,6 @@ export default class Member {
     return avatarNode
   }
 
-  hideLabel = (target: TextNode) => {
-    target.visible = false
-  }
-
-  pushAvatar = (target: FrameNode, avatarUrl: string) => {
-    this.makeAvatar(avatarUrl).then((avatarNode) => {
-      target.appendChild(avatarNode)
-    })
-  }
-
-  pushRemainedPersons = (target: TextNode, value: number) => {
-    target.visible = true
-    target.characters = `+${value}`
-  }
-
   makeMember = () => {
     // Base
     const memberNode = figma.createFrame()

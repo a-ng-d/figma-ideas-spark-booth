@@ -18,14 +18,12 @@ export default class StickyNote {
   }
 
   makeStickyNote = () => {
-    // Base
     const stickyNode = figma.createSticky()
     stickyNode.text.characters = this.idea
     stickyNode.authorVisible = false
     stickyNode.isWideWidth = true
     stickyNode.fills = [this.solidPaint(this.hex)]
 
-    // Sizing
     if (this.x !== undefined) stickyNode.x = this.x
     if (this.y !== undefined) stickyNode.y = this.y
 

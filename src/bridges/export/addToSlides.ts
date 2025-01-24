@@ -11,14 +11,16 @@ const addToSlides = async (data: {
   session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
 }) => {
-  const participantsSet: Set<UserConfiguration> = data.ideas.reduce(
-    (acc: Set<UserConfiguration>, idea) => {
+  const participantsMap = data.ideas.reduce(
+    (acc: Map<string, UserConfiguration>, idea) => {
       const { userIdentity } = idea
-      acc.add(userIdentity)
+      acc.set(userIdentity.id, userIdentity)
       return acc
     },
-    new Set<UserConfiguration>()
+    new Map<string, UserConfiguration>()
   )
+
+  const participantsSet = new Set<UserConfiguration>(participantsMap.values())
 
   const participantsList = Array.from(participantsSet)
     //.filter((user) => user.id !== data.session.facilitator.id)
