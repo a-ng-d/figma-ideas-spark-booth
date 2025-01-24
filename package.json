@@ -73,6 +73,7 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "mixpanel-figma": "^2.0.4",
+    "moment": "^2.30.1",
     "react": "npm:@preact/compat",
     "react-dom": "npm:@preact/compat",
     "uid": "^2.0.2",
