@@ -16,7 +16,7 @@ export const textStyles = {
   },
   slideTitle: {
     fontFamily: 'Martian Mono',
-    fontSize: 80,
+    fontSize: 64,
     fontWeight: 'Bold',
     lineHeight: {
       unit: 'AUTO',
