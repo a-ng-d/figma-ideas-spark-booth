@@ -10,6 +10,7 @@ import setFriendlyDate from '../utils/setFriendlyDate'
 import { colors, gaps, textStyles } from './partials/tokens'
 import Member from './partials/Member'
 import Members from './partials/Members'
+import StickyNote from './partials/StickyNote'
 
 export default class Slides {
   activityName: string
@@ -50,23 +51,6 @@ export default class Slides {
     this.sectionPadding = 80
     this.solidPaint = figma.util.solidPaint
     this.nodes = this.makeClassification()
-  }
-
-  makeStickyNote = (idea: IdeaConfiguration, hex: HexModel) => {
-    // Base
-    const stickyNode = figma.createSticky()
-    stickyNode.text.characters = idea.text
-    stickyNode.authorVisible = false
-    stickyNode.isWideWidth = true
-    stickyNode.fills = [this.solidPaint(hex)]
-
-    // Sizing
-    stickyNode.x = Slides.stickyX
-    stickyNode.y = Slides.stickyY
-    Slides.stickyX = Slides.stickyX + this.stickyGap
-    Slides.stickyY = Slides.stickyY + this.stickyGap
-
-    return stickyNode
   }
 
   makeSlide = (
@@ -164,8 +148,10 @@ export default class Slides {
     ideasNode.counterAxisSpacing = null
     ideasNode.fills = []
 
-    const stickyNotes = ideas.map((idea) => this.makeStickyNote(idea, hex))
-    stickyNotes.flat().forEach((note) => ideasNode.appendChild(note))
+    const stickyNotes = ideas.map((idea) => new StickyNote(idea.text, hex))
+    stickyNotes
+      .flat()
+      .forEach((note) => ideasNode.appendChild(note.stickyNoteNode))
 
     return slideNode
   }
