@@ -170,7 +170,8 @@ export default class Settings extends PureComponent<
                             >
                               {setFriendlyDate(
                                 session.metrics.startDate,
-                                this.props.lang
+                                this.props.lang,
+                                'RELATIVE'
                               )}
                             </span>
                             <span

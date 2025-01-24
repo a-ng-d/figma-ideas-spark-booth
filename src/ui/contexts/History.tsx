@@ -270,7 +270,11 @@ export default class History extends PureComponent<
                 action={this.props.onCloseSessionHistory}
               />
               <span className={`${texts['type']} type`}>
-                {setFriendlyDate(this.props.sessionDate, this.props.lang)}
+                {setFriendlyDate(
+                  this.props.sessionDate,
+                  this.props.lang,
+                  'RELATIVE'
+                )}
               </span>
             </div>
           }
@@ -487,7 +491,11 @@ export default class History extends PureComponent<
                       this.props.lang
                     ].settings.deleteSessionDialog.message.replace(
                       '$1',
-                      setFriendlyDate(this.props.sessionDate, this.props.lang)
+                      setFriendlyDate(
+                        this.props.sessionDate,
+                        this.props.lang,
+                        'RELATIVE'
+                      )
                     )}
                   </p>
                 </div>

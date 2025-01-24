@@ -156,7 +156,7 @@ export default class Slides {
     sessionNode.name = '_session-date'
     sessionNode.layoutSizingHorizontal = 'FILL'
     sessionNode.layoutSizingVertical = 'HUG'
-    sessionNode.characters = setFriendlyDate(this.sessionDate, lang)
+    sessionNode.characters = setFriendlyDate(this.sessionDate, lang, 'LONG')
     sessionNode.textAutoResize = 'WIDTH_AND_HEIGHT'
     sessionNode.fontSize = textStyles.slideTitle.fontSize
     sessionNode.fontName = {
