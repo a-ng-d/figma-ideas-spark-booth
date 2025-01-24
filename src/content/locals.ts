@@ -162,6 +162,7 @@ export const locals: { [key: string]: any } = {
       },
       noIdea: 'This session has no idea',
       addToBoard: 'Add to board',
+      addToSlides: 'Add to slides',
       exportCsv: 'Export as CSV',
       deleteSession: 'Delete session',
     },

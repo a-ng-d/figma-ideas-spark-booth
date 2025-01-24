@@ -6,6 +6,7 @@ import features from '../../config'
 import {
   Context,
   ContextItem,
+  EditorType,
   Language,
   PlanStatus,
   PriorityContext,
@@ -30,6 +31,7 @@ interface BrowseActivitiesProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
+  editorType: EditorType
   planStatus: PlanStatus
   sessionCount: number
   lang: Language

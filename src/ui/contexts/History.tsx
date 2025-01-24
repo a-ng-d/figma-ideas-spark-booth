@@ -16,10 +16,11 @@ import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
 import features from '../../config'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { EditorType, Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
+  SessionConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import setFriendlyDate from '../../utils/setFriendlyDate'
@@ -29,8 +30,9 @@ import Feature from '../components/Feature'
 interface HistoryProps {
   activity: ActivityConfiguration
   sessionId: string
-  sessionDate: string | Date
+  session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
+  editorType: EditorType
   planStatus: PlanStatus
   lang: Language
   onDeleteSession: (sessionId: string) => void
@@ -97,7 +99,7 @@ export default class History extends PureComponent<
         })
         FileSaver.saveAs(
           blob,
-          `${this.props.activity.name}_${this.props.sessionDate}.csv`
+          `${this.props.activity.name}_${this.props.session.metrics.startDate}.csv`
         )
       }
 
@@ -271,7 +273,7 @@ export default class History extends PureComponent<
               />
               <span className={`${texts['type']} type`}>
                 {setFriendlyDate(
-                  this.props.sessionDate,
+                  this.props.session.metrics.startDate,
                   this.props.lang,
                   'RELATIVE'
                 )}
@@ -352,7 +354,8 @@ export default class History extends PureComponent<
                               type: 'EXPORT_CSV',
                               data: {
                                 activity: this.props.activity,
-                                sessionDate: this.props.sessionDate,
+                                sessionDate:
+                                  this.props.session.metrics.startDate,
                                 ideas: this.props.ideas,
                               },
                             },
@@ -428,7 +431,11 @@ export default class History extends PureComponent<
               >
                 <Button
                   type="secondary"
-                  label={locals[this.props.lang].history.addToBoard}
+                  label={
+                    this.props.editorType === 'figjam'
+                      ? locals[this.props.lang].history.addToBoard
+                      : locals[this.props.lang].history.addToSlides
+                  }
                   isBlocked={History.features(
                     this.props.planStatus
                   ).HISTORY_ADD_TO_BOARD.isBlocked()}
@@ -439,10 +446,13 @@ export default class History extends PureComponent<
                     parent.postMessage(
                       {
                         pluginMessage: {
-                          type: 'ADD_TO_BOARD',
+                          type:
+                            this.props.editorType === 'figjam'
+                              ? 'ADD_TO_BOARD'
+                              : 'ADD_TO_SLIDES',
                           data: {
                             activity: this.props.activity,
-                            sessionDate: this.props.sessionDate,
+                            session: this.props.session,
                             ideas: this.props.ideas,
                           },
                         },
@@ -492,7 +502,7 @@ export default class History extends PureComponent<
                     ].settings.deleteSessionDialog.message.replace(
                       '$1',
                       setFriendlyDate(
-                        this.props.sessionDate,
+                        this.props.session.metrics.startDate,
                         this.props.lang,
                         'RELATIVE'
                       )

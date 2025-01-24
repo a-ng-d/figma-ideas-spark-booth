@@ -22,7 +22,7 @@ const endSession = async (data: {
   if (figma.editorType === 'figjam')
     addToBoard({
       activity: data.activity,
-      sessionDate: data.session.metrics.startDate,
+      session: data.session,
       ideas: data.ideas,
     })
   else if (figma.editorType === 'slides')

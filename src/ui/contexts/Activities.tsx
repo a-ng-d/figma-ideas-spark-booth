@@ -3,7 +3,12 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus, PriorityContext } from '../../types/app'
+import {
+  EditorType,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -28,6 +33,7 @@ interface ActivitiesProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
+  editorType: EditorType
   planStatus: PlanStatus
   sessionCount: number
   lang: Language
@@ -412,10 +418,10 @@ export default class Activities extends PureComponent<
               ) ?? ({} as ActivityConfiguration)
             }
             sessionId={this.state.openedSessionHistory ?? 'Session id'}
-            sessionDate={
+            session={
               this.props.sessions.find(
                 (session) => session.id === this.state.openedSessionHistory
-              )?.metrics.startDate ?? 'Session date'
+              ) ?? ({} as SessionConfiguration)
             }
             ideas={this.props.ideas.filter(
               (idea) => idea.sessionId === this.state.openedSessionHistory

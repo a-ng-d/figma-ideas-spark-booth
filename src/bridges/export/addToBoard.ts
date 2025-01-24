@@ -2,11 +2,12 @@ import Classification from '../../canvas/Classification'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
+  SessionConfiguration,
 } from '../../types/configurations'
 
 const addToBoard = async (data: {
   activity: ActivityConfiguration
-  sessionDate: Date | string
+  session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
 }) => {
   if (data.activity.groupedBy === 'PARTICIPANT' && data.ideas.length > 0) {
@@ -23,7 +24,7 @@ const addToBoard = async (data: {
 
     new Classification(
       data.activity,
-      data.sessionDate,
+      data.session.metrics.startDate,
       sortedIdeasByParticipant
     )
   } else if (data.activity.groupedBy === 'TYPE' && data.ideas.length > 0) {
@@ -38,7 +39,11 @@ const addToBoard = async (data: {
       {} as { [key: string]: IdeaConfiguration[] }
     )
 
-    new Classification(data.activity, data.sessionDate, sortedIdeasByType)
+    new Classification(
+      data.activity,
+      data.session.metrics.startDate,
+      sortedIdeasByType
+    )
   }
 }
 
