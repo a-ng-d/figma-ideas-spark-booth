@@ -140,6 +140,32 @@ export default class Slides {
     return slideNode
   }
 
+  makeAvatar = async (avatarUrl: string) => {
+    const avatarNode = figma.createEllipse()
+    avatarNode.name = '_avatar'
+    avatarNode.resize(64, 64)
+    avatarNode.fills = [
+      {
+        type: 'SOLID',
+        color: { r: 0.9, g: 0.9, b: 0.9 },
+      },
+    ]
+
+    figma.createImageAsync(avatarUrl).then(async (image: Image) => {
+      avatarNode.fills = [
+        {
+          type: 'IMAGE',
+          imageHash: image.hash,
+          scaleMode: 'FILL',
+        },
+      ]
+
+      return avatarNode
+    })
+
+    return avatarNode
+  }
+
   makePerson = (avatarUrl: string, name: string, width: number | 'AUTO') => {
     // Base
     const personNode = figma.createFrame()
@@ -149,35 +175,29 @@ export default class Slides {
     personNode.counterAxisAlignItems = 'CENTER'
     personNode.itemSpacing = Slides.gaps.small
     personNode.fills = []
-    if (width !== 'AUTO') personNode.resize(width, 64)
+    if (width !== 'AUTO') personNode.resize(width, 100)
     else personNode.primaryAxisSizingMode = 'AUTO'
 
-    // Avatar
-    figma
-      .createImageAsync(avatarUrl)
-      .then(async (image: Image) => {
-        // Avatar
-        const avatarNode = figma.createEllipse()
-        personNode.appendChild(avatarNode)
-        avatarNode.name = '_avatar'
-        avatarNode.resize(64, 64)
-        avatarNode.fills = [
-          {
-            type: 'SOLID',
-            color: { r: 0.9, g: 0.9, b: 0.9 },
-          },
-          {
-            type: 'IMAGE',
-            imageHash: image.hash,
-            scaleMode: 'FILL',
-          },
-        ]
+    // Avatars
+    const avatarsNode = figma.createFrame()
+    personNode.appendChild(avatarsNode)
+    avatarsNode.name = '_avatars'
+    avatarsNode.layoutMode = 'HORIZONTAL'
+    avatarsNode.layoutSizingHorizontal = 'HUG'
+    avatarsNode.layoutSizingVertical = 'HUG'
+    avatarsNode.itemSpacing = -32
+    avatarsNode.itemReverseZIndex = true
+    avatarsNode.fills = []
+
+    this.makeAvatar(avatarUrl)
+      .then((avatarNode) => {
+        avatarsNode.appendChild(avatarNode)
       })
       .finally(() => {
         // Name
         const nameNode = figma.createText()
         personNode.appendChild(nameNode)
-        nameNode.name = '_name'
+        nameNode.name = '_label'
         nameNode.characters = name
         nameNode.textAutoResize = 'WIDTH_AND_HEIGHT'
         nameNode.fontSize = Slides.slideAccentLabel.fontSize
@@ -193,6 +213,21 @@ export default class Slides {
       })
 
     return personNode
+  }
+
+  hideLabel = (target: TextNode) => {
+    target.visible = false
+  }
+
+  pushAvatar = (target: FrameNode, avatarUrl: string) => {
+    this.makeAvatar(avatarUrl).then((avatarNode) => {
+      target.appendChild(avatarNode)
+    })
+  }
+
+  pushRemainedPersons = (target: TextNode, value: number) => {
+    target.visible = true
+    target.characters = `+${value}`
   }
 
   makeSessionSlide = () => {
@@ -341,10 +376,37 @@ export default class Slides {
     participantsListNode.counterAxisSpacing = null
     participantsListNode.maxHeight = 416
     participantsListNode.fills = []
-    this.participants.forEach((participant) => {
-      participantsListNode.appendChild(
-        this.makePerson(participant.avatar, participant.fullName, 538)
-      )
+
+    const participantToDuplicate = this.participants[0]
+    const duplicationCount = 40
+    const duplicatedParticipants = Array(duplicationCount).fill(
+      participantToDuplicate
+    )
+    const allParticipants = [...this.participants, ...duplicatedParticipants]
+
+    let lastChild: FrameNode
+    allParticipants.forEach((participant, index) => {
+      if (index < 14)
+        participantsListNode.appendChild(
+          this.makePerson(participant.avatar, participant.fullName, 538)
+        )
+      else if (index === 14) {
+        lastChild = this.makePerson(
+          participant.avatar,
+          participant.fullName,
+          538
+        )
+        participantsListNode.appendChild(lastChild)
+      } else if (index >= 15) {
+        const avatars = lastChild.children[0] as FrameNode
+        //const text = lastChild.children[1] as TextNode
+
+        //this.hideLabel(text)
+        this.pushAvatar(avatars, participant.avatar)
+      } else if (index < 27) {
+        //const text = lastChild.children[1] as TextNode
+        //this.pushRemainedPersons(text, index)
+      }
     })
 
     return slideNode
