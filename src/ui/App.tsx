@@ -547,9 +547,10 @@ export default class App extends PureComponent<
       Object.keys(sortedIdeas).map((type) => ({
         type: type,
         count: sortedIdeas[type].length,
+        color: sortedIdeas[type][0].type.hex,
       })),
-      800,
-      400,
+      1200,
+      600,
       'STRING'
     )
 
