@@ -19,17 +19,6 @@ export default class Slides {
   solidPaint: (hex: HexModel) => Paint
   rowNode: SlideRowNode
 
-  static stickyX = 0
-  static stickyY = 0
-  static sectionX = 0
-  static sectionY = 0
-  static slideWidth = 1920
-  static slideHeight = 1080
-  static slideGaps = {
-    vertical: 128,
-    horizontal: 128,
-  }
-
   constructor(
     activity: ActivityConfiguration,
     session: SessionConfiguration,
@@ -46,7 +35,6 @@ export default class Slides {
   }
 
   makeClassification = () => {
-    // Base
     const rowNode = figma.createSlideRow()
     rowNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`
 
