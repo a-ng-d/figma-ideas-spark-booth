@@ -138,8 +138,6 @@ export default class SessionSlide {
     const allParticipants = [...this.participants, ...duplicatedParticipants]
     let remainingParticipants: Array<UserConfiguration> = []
 
-    console.log(allParticipants.length)
-
     allParticipants.forEach((participant, index) => {
       if (index <= 13)
         this.participantsSlot?.appendChild(
