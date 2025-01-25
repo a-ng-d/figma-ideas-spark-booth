@@ -6,6 +6,7 @@ import {
   Dialog,
   Icon,
   layouts,
+  Menu,
   Section,
   SectionTitle,
   SimpleItem,
@@ -18,7 +19,12 @@ import { signIn } from '../../bridges/publication/authentication'
 import features from '../../config'
 import p from '../../content/images/publication.webp'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus, PriorityContext } from '../../types/app'
+import {
+  EditorType,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -42,6 +48,7 @@ interface SettingsProps {
   userSession: UserSession
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
+  editorType: EditorType
   planStatus: PlanStatus
   sessionCount: number
   lang: Language
@@ -76,6 +83,21 @@ export default class Settings extends PureComponent<
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
       featureName: 'ACTIVITIES_DELETE',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_OVERVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_OVERVIEW',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_REPORT: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_REPORT',
+      planStatus: planStatus,
+    }),
+    ACTIVITIES_EXPORT_JSON: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_EXPORT_JSON',
       planStatus: planStatus,
     }),
     ACTIVITIES_PUBLISH: new FeatureStatus({
@@ -228,23 +250,86 @@ export default class Settings extends PureComponent<
           }
           rightPartSlot={
             <div className={layouts['snackbar--medium']}>
-              <Feature
-                isActive={Settings.features(
-                  this.props.planStatus
-                ).ACTIVITIES_DELETE.isActive()}
-              >
-                <Button
-                  type="icon"
-                  icon="trash"
-                  isBlocked={Settings.features(
-                    this.props.planStatus
-                  ).ACTIVITIES_DELETE.isBlocked()}
-                  isNew={Settings.features(
-                    this.props.planStatus
-                  ).ACTIVITIES_DELETE.isNew()}
-                  action={() => this.setState({ isDeleteDialogOpen: true })}
-                />
-              </Feature>
+              <Menu
+                type="ICON"
+                icon="ellipses"
+                options={[
+                  {
+                    label: locals[this.props.lang].settings.actions.overview,
+                    type: 'OPTION',
+                    isActive: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_OVERVIEW.isActive(),
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_OVERVIEW.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_OVERVIEW.isNew(),
+                    action: () => {
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'ADD_OVERVIEW_TO_SLIDES',
+                            data: {
+                              activity: this.props.activity,
+                            },
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                  },
+                  {
+                    label: locals[this.props.lang].settings.actions.report,
+                    type: 'OPTION',
+                    isActive:
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_REPORT.isActive() &&
+                      this.props.editorType === 'slides',
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_REPORT.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_REPORT.isNew(),
+                    action: () => null,
+                  },
+                  {
+                    label: locals[this.props.lang].settings.actions.exportJson,
+                    type: 'OPTION',
+                    isActive: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_JSON.isActive(),
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_JSON.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_JSON.isNew(),
+                    action: () => null,
+                  },
+                  {
+                    type: 'SEPARATOR',
+                  },
+                  {
+                    label: locals[this.props.lang].settings.actions.delete,
+                    type: 'OPTION',
+                    isActive: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_DELETE.isActive(),
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_DELETE.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_DELETE.isNew(),
+                    action: () => this.setState({ isDeleteDialogOpen: true }),
+                  },
+                ]}
+                alignment="BOTTOM_RIGHT"
+              />
               <Feature
                 isActive={Settings.features(
                   this.props.planStatus
@@ -256,8 +341,8 @@ export default class Settings extends PureComponent<
                     label={
                       this.props.userSession.userId ===
                       this.props.activity.meta.creatorIdentity.id
-                        ? locals[this.props.lang].settings.global.publish
-                        : locals[this.props.lang].settings.global.synchronize
+                        ? locals[this.props.lang].settings.actions.publish
+                        : locals[this.props.lang].settings.actions.synchronize
                     }
                     isBlocked={Settings.features(
                       this.props.planStatus
@@ -272,7 +357,7 @@ export default class Settings extends PureComponent<
                 ) : (
                   <Button
                     type="secondary"
-                    label={locals[this.props.lang].settings.global.publish}
+                    label={locals[this.props.lang].settings.actions.publish}
                     isBlocked={Settings.features(
                       this.props.planStatus
                     ).ACTIVITIES_PUBLISH.isBlocked()}

@@ -5,6 +5,7 @@ import setMigration from './utils/setMigration'
 figma.loadFontAsync({ family: 'Inter', style: 'Regular' })
 figma.loadFontAsync({ family: 'Inter', style: 'Medium' })
 figma.loadFontAsync({ family: 'Martian Mono', style: 'Bold' })
+figma.loadFontAsync({ family: 'Martian Mono', style: 'ExtraBold' })
 figma.loadFontAsync({ family: 'Sora', style: 'SemiBold' })
 figma.loadFontAsync({ family: 'Sora', style: 'Regular' })
 

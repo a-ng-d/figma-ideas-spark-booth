@@ -8,6 +8,7 @@ import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
+import addOverviewToSlides from './export/addOverviewToSlides'
 import addToBoard from './export/addToBoard'
 import addToSlides from './export/addToSlides'
 import exportCsv from './export/exportCsv'
@@ -119,6 +120,7 @@ const loadUI = async () => {
       //
       ADD_TO_BOARD: () => addToBoard(msg.data),
       ADD_TO_SLIDES: () => addToSlides(msg.data),
+      ADD_OVERVIEW_TO_SLIDES: () => addOverviewToSlides(msg.data),
       EXPORT_CSV: () => exportCsv(msg.data),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),

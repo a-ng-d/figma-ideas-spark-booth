@@ -72,6 +72,15 @@ export const locals: { [key: string]: any } = {
       endSession: 'session has ended',
     },
     settings: {
+      actions: {
+        publish: 'Publish activity',
+        synchronize: 'Synchronize activity',
+        signIn: 'Sign in to publish',
+        overview: 'Add overview to slides',
+        report: 'Add a report to slides',
+        exportJson: 'Export full activity (JSON)',
+        delete: 'Delete activity',
+      },
       global: {
         title: 'Global settings',
         name: {
@@ -90,10 +99,6 @@ export const locals: { [key: string]: any } = {
           participant: 'Participant',
           type: 'Type',
         },
-        publish: 'Publish activity',
-        synchronize: 'Synchronize activity',
-        signIn: 'Sign in to publish',
-        delete: 'Delete activity',
       },
       timer: {
         title: 'Timer',

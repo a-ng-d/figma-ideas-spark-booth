@@ -2,6 +2,7 @@ import { lang, locals } from '../../content/locals'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Chart from '../partials/Chart'
 import Header from '../partials/Header'
+import Layout from '../partials/Layout'
 import Slide from '../partials/Slide'
 import Timer from '../partials/Timer'
 import { chartSizes, colors, gaps, textStyles } from '../partials/tokens'
@@ -26,31 +27,6 @@ export default class AnalysisSlide {
       new Date(options.sessionStartDate).getTime()
     this.stringifiedChart = options.stringifiedChart
     this.analysisSlideNode = this.makeAnalysisSlide()
-  }
-
-  makeDashboard = () => {
-    const dashboardNode = figma.createFrame()
-    dashboardNode.name = '_dashboard'
-    dashboardNode.layoutMode = 'HORIZONTAL'
-    dashboardNode.primaryAxisSizingMode = 'AUTO'
-    dashboardNode.counterAxisSizingMode = 'FIXED'
-    dashboardNode.itemSpacing = gaps.large
-    dashboardNode.fills = []
-    dashboardNode.resize(100, chartSizes.height)
-    dashboardNode.clipsContent = false
-
-    const duration = this.makeDuration()
-    const chart = this.makeChart()
-
-    dashboardNode.appendChild(duration)
-    dashboardNode.appendChild(chart)
-
-    duration.layoutSizingHorizontal = 'HUG'
-    duration.layoutSizingVertical = 'FILL'
-    chart.layoutSizingHorizontal = 'FILL'
-    chart.layoutSizingVertical = 'FILL'
-
-    return dashboardNode
   }
 
   makeChart = () => {
@@ -97,13 +73,18 @@ export default class AnalysisSlide {
       title: locals[lang].consolisation.analysis,
       color: colors.darkColor,
     })
-    const dashboard = this.makeDashboard()
+    const layout = new Layout({
+      leftSlot: this.makeDuration(),
+      rightSlot: this.makeChart(),
+    }).makeOneThird()
 
     slide.layoutNode.appendChild(header.headerNode)
-    slide.layoutNode.appendChild(dashboard)
+    slide.layoutNode.appendChild(layout)
 
     header.headerNode.layoutSizingHorizontal = 'FILL'
-    dashboard.layoutSizingHorizontal = 'FILL'
+    layout.layoutSizingHorizontal = 'FILL'
+    layout.layoutSizingVertical = 'FILL'
+    layout.maxHeight = chartSizes.height
 
     return slide.slideNode
   }
