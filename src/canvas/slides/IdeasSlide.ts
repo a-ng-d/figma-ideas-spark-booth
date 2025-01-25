@@ -51,7 +51,7 @@ export default class IdeasSlide {
   makeIdeaSlide = () => {
     const slide = new Slide({
       name: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}・${this.typeName}`,
-      color: this.ideas[0].type.hex + '20',
+      color: this.ideas[0].type.hex + '33',
     })
     const header = new Header({
       upTitle: setFriendlyDate(this.sessionDate, lang, 'LONG'),
