@@ -43,12 +43,12 @@ export default class Slides {
     rowNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`
 
     rowNode.appendChild(
-      new SessionSlide(
-        this.activityName,
-        this.sessionDate,
-        this.sessionFacilitator,
-        this.participants
-      ).sessionSlideNode
+      new SessionSlide({
+        activityName: this.activityName,
+        sessionDate: this.sessionDate,
+        sessionFacilitator: this.sessionFacilitator,
+        participants: this.participants,
+      }).sessionSlideNode
     )
     rowNode.appendChild(
       new ChartSlide({
@@ -69,15 +69,16 @@ export default class Slides {
       )
       splitIdeas.forEach((ideas, index) => {
         rowNode.appendChild(
-          new IdeasSlide(
-            this.activityName,
-            name,
-            this.sessionDate,
-            ideas,
-            splitIdeas.length > 1
-              ? `${index + 1} / ${splitIdeas.length}`
-              : undefined
-          ).ideaSlideNode
+          new IdeasSlide({
+            activityName: this.activityName,
+            typeName: name,
+            sessionDate: this.sessionDate,
+            ideas: ideas,
+            indicator:
+              splitIdeas.length > 1
+                ? `${index + 1} / ${splitIdeas.length}`
+                : undefined,
+          }).ideaSlideNode
         )
       })
     })

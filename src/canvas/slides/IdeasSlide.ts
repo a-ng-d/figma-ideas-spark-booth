@@ -16,18 +16,18 @@ export default class IdeasSlide {
   solidPaint: (hex: HexModel) => Paint
   ideaSlideNode: SlideNode
 
-  constructor(
-    activityName: string,
-    typeName: string,
-    sessionDate: string | Date,
-    ideas: Array<IdeaConfiguration>,
+  constructor(options: {
+    activityName: string
+    typeName: string
+    sessionDate: string | Date
+    ideas: Array<IdeaConfiguration>
     indicator?: string
-  ) {
-    this.activityName = activityName
-    this.typeName = typeName
-    this.sessionDate = sessionDate
-    this.ideas = ideas
-    this.indicator = indicator
+  }) {
+    this.activityName = options.activityName
+    this.typeName = options.typeName
+    this.sessionDate = options.sessionDate
+    this.ideas = options.ideas
+    this.indicator = options.indicator
     this.solidPaint = figma.util.solidPaint
     this.ideaSlideNode = this.makeIdeaSlide()
   }

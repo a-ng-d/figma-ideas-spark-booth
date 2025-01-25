@@ -17,16 +17,16 @@ export default class SessionSlide {
   sessionSlideNode: SlideNode
   participantsSlot: FrameNode | null
 
-  constructor(
-    activityName: string,
-    sessionDate: string | Date,
-    sessionFacilitator: UserConfiguration,
+  constructor(options: {
+    activityName: string
+    sessionDate: string | Date
+    sessionFacilitator: UserConfiguration
     participants: Array<UserConfiguration>
-  ) {
-    this.activityName = activityName
-    this.sessionDate = sessionDate
-    this.sessionFacilitator = sessionFacilitator
-    this.participants = participants
+  }) {
+    this.activityName = options.activityName
+    this.sessionDate = options.sessionDate
+    this.sessionFacilitator = options.sessionFacilitator
+    this.participants = options.participants
     this.solidPaint = figma.util.solidPaint
     this.sessionSlideNode = this.makeSessionSlide()
     this.participantsSlot = null
