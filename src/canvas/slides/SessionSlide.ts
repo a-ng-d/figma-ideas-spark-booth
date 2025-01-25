@@ -117,7 +117,7 @@ export default class SessionSlide {
       color: colors.lightColor,
     })
     const header = new Header({
-      upTitle: `${this.activityName}・Session`,
+      upTitle: this.activityName,
       title: setFriendlyDate(this.sessionDate, lang, 'LONG'),
       downTitle: this.makeFacilitator(),
       color: colors.darkColor,

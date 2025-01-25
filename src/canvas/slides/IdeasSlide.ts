@@ -54,7 +54,7 @@ export default class IdeasSlide {
       color: this.ideas[0].type.hex + '33',
     })
     const header = new Header({
-      upTitle: setFriendlyDate(this.sessionDate, lang, 'LONG'),
+      upTitle: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang, 'LONG')}`,
       title: this.typeName,
       color: colors.lightColor,
       indicator: this.indicator !== undefined ? this.indicator : undefined,
