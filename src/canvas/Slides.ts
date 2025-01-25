@@ -12,13 +12,13 @@ import IdeasSlide from './slides/IdeasSlide'
 import AnalysisSlide from './slides/AnalysisSlide'
 
 export default class Slides {
-  activityName: string
-  sessionStartDate: string | Date
-  sessionEndDate: string | Date
-  sessionFacilitator: UserConfiguration
-  ideas: { [key: string]: Array<IdeaConfiguration> }
-  participants: Array<UserConfiguration>
-  stringifiedChart: string
+  private activityName: string
+  private sessionStartDate: string | Date
+  private sessionEndDate: string | Date
+  private sessionFacilitator: UserConfiguration
+  private ideas: { [key: string]: Array<IdeaConfiguration> }
+  private participants: Array<UserConfiguration>
+  private stringifiedChart: string
   solidPaint: (hex: HexModel) => Paint
   rowNode: SlideRowNode
 

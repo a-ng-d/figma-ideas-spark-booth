@@ -9,10 +9,10 @@ import Slide from '../partials/Slide'
 import { colors, gaps, textStyles } from '../partials/tokens'
 
 export default class SessionSlide {
-  activityName: string
-  sessionStartDate: string | Date
-  sessionFacilitator: UserConfiguration
-  participants: Array<UserConfiguration>
+  private activityName: string
+  private sessionStartDate: string | Date
+  private sessionFacilitator: UserConfiguration
+  private participants: Array<UserConfiguration>
   solidPaint: (hex: HexModel) => Paint
   sessionSlideNode: SlideNode
   participantsSlot: FrameNode | null

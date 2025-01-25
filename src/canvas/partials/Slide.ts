@@ -1,8 +1,8 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 
 export default class Slide {
-  name: string
-  color: HexModel
+  private name: string
+  private color: HexModel
   solidPaint: (hex: HexModel) => Paint
   slideNode: SlideNode
   layoutNode: FrameNode

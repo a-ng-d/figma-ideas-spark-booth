@@ -1,10 +1,10 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 
 export default class StickyNote {
-  idea: string
-  color: HexModel
-  x?: number
-  y?: number
+  private idea: string
+  private color: HexModel
+  private x?: number
+  private y?: number
   solidPaint: (hex: HexModel) => Paint
   stickyNoteNode: StickyNode
 

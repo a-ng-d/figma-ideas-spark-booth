@@ -8,11 +8,11 @@ import StickyNote from '../partials/StickyNote'
 import { colors, gaps } from '../partials/tokens'
 
 export default class IdeasSlide {
-  activityName: string
-  typeName: string
-  sessionStartDate: string | Date
-  ideas: Array<IdeaConfiguration>
-  indicator?: string
+  private activityName: string
+  private typeName: string
+  private sessionStartDate: string | Date
+  private ideas: Array<IdeaConfiguration>
+  private indicator?: string
   solidPaint: (hex: HexModel) => Paint
   ideaSlideNode: SlideNode
 

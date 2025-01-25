@@ -2,11 +2,11 @@ import { HexModel } from '@a_ng_d/figmug-ui'
 import { gaps, textStyles } from './tokens'
 
 export default class Header {
-  upTitleLabel: string
-  titleLabel: string
-  downTitleNode?: FrameNode
-  indicator?: string
-  color: HexModel
+  private upTitleLabel: string
+  private titleLabel: string
+  private downTitleNode?: FrameNode
+  private indicator?: string
+  private color: HexModel
   solidPaint: (hex: HexModel) => Paint
   headerNode: FrameNode
 
