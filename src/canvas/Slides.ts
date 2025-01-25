@@ -9,11 +9,12 @@ import {
 import setFriendlyDate from '../utils/setFriendlyDate'
 import SessionSlide from './slides/SessionSlide'
 import IdeasSlide from './slides/IdeasSlide'
-import ChartSlide from './slides/ChartSlide'
+import AnalysisSlide from './slides/AnalysisSlide'
 
 export default class Slides {
   activityName: string
-  sessionDate: string | Date
+  sessionStartDate: string | Date
+  sessionEndDate: string | Date
   sessionFacilitator: UserConfiguration
   ideas: { [key: string]: Array<IdeaConfiguration> }
   participants: Array<UserConfiguration>
@@ -29,7 +30,8 @@ export default class Slides {
     stringifiedChart: string
   }) {
     this.activityName = options.activity.name
-    this.sessionDate = options.session.metrics.startDate
+    this.sessionStartDate = options.session.metrics.startDate
+    this.sessionEndDate = options.session.metrics.endDate
     this.sessionFacilitator = options.session.facilitator
     this.ideas = options.ideas
     this.participants = options.participants
@@ -40,23 +42,24 @@ export default class Slides {
 
   makeClassification = () => {
     const rowNode = figma.createSlideRow()
-    rowNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`
+    rowNode.name = `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}`
 
     rowNode.appendChild(
       new SessionSlide({
         activityName: this.activityName,
-        sessionDate: this.sessionDate,
+        sessionStartDate: this.sessionStartDate,
         sessionFacilitator: this.sessionFacilitator,
         participants: this.participants,
       }).sessionSlideNode
     )
     rowNode.appendChild(
-      new ChartSlide({
+      new AnalysisSlide({
         activityName: this.activityName,
-        sessionDate: this.sessionDate,
+        sessionStartDate: this.sessionStartDate,
+        sessionEndDate: this.sessionEndDate,
         ideas: this.ideas,
         stringifiedChart: this.stringifiedChart,
-      }).chartSlideNode
+      }).analysisSlideNode
     )
     Object.entries(this.ideas).forEach(([name, ideas]) => {
       const splitIdeas = ideas.reduce(
@@ -72,7 +75,7 @@ export default class Slides {
           new IdeasSlide({
             activityName: this.activityName,
             typeName: name,
-            sessionDate: this.sessionDate,
+            sessionStartDate: this.sessionStartDate,
             ideas: ideas,
             indicator:
               splitIdeas.length > 1

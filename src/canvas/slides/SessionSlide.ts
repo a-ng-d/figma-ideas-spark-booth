@@ -10,7 +10,7 @@ import { colors, gaps, textStyles } from '../partials/tokens'
 
 export default class SessionSlide {
   activityName: string
-  sessionDate: string | Date
+  sessionStartDate: string | Date
   sessionFacilitator: UserConfiguration
   participants: Array<UserConfiguration>
   solidPaint: (hex: HexModel) => Paint
@@ -19,12 +19,12 @@ export default class SessionSlide {
 
   constructor(options: {
     activityName: string
-    sessionDate: string | Date
+    sessionStartDate: string | Date
     sessionFacilitator: UserConfiguration
     participants: Array<UserConfiguration>
   }) {
     this.activityName = options.activityName
-    this.sessionDate = options.sessionDate
+    this.sessionStartDate = options.sessionStartDate
     this.sessionFacilitator = options.sessionFacilitator
     this.participants = options.participants
     this.solidPaint = figma.util.solidPaint
@@ -113,12 +113,12 @@ export default class SessionSlide {
 
   makeSessionSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`,
+      name: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}`,
       color: colors.lightColor,
     })
     const header = new Header({
       upTitle: this.activityName,
-      title: setFriendlyDate(this.sessionDate, lang, 'LONG'),
+      title: setFriendlyDate(this.sessionStartDate, lang, 'LONG'),
       downTitle: this.makeFacilitator(),
       color: colors.darkColor,
     })

@@ -1,51 +1,47 @@
-import { lang } from '../../content/locals'
+import { lang, locals } from '../../content/locals'
 import { IdeaConfiguration } from '../../types/configurations'
 import setFriendlyDate from '../../utils/setFriendlyDate'
-import BarChart from '../partials/Chart'
+import Chart from '../partials/Chart'
 import Header from '../partials/Header'
 import Slide from '../partials/Slide'
 import { colors } from '../partials/tokens'
 
-export default class ChartSlide {
+export default class AnalysisSlide {
   private activityName: string
-  private sessionDate: string | Date
+  private sessionStartDate: string | Date
+  private duration: number
   private ideas: { [key: string]: Array<IdeaConfiguration> }
   private stringifiedChart: string
-  chartSlideNode: SlideNode
+  analysisSlideNode: SlideNode
 
   constructor(options: {
     activityName: string
-    sessionDate: string | Date
+    sessionStartDate: string | Date
+    sessionEndDate: string | Date
     ideas: { [key: string]: Array<IdeaConfiguration> }
     stringifiedChart: string
   }) {
     this.activityName = options.activityName
-    this.sessionDate = options.sessionDate
+    this.sessionStartDate = options.sessionStartDate
+    this.duration =
+      new Date(options.sessionStartDate).getTime() -
+      new Date(options.sessionEndDate).getTime()
     this.ideas = options.ideas
     this.stringifiedChart = options.stringifiedChart
-    this.chartSlideNode = this.makeChartSlide()
+    this.analysisSlideNode = this.makeAnalysisSlide()
   }
 
-  prepareData = () => {
-    const data = Object.keys(this.ideas).map((type: string) => ({
-      type: type,
-      count: this.ideas[type].length,
-    }))
-
-    return data
-  }
-
-  makeChartSlide = () => {
+  makeAnalysisSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}・${'Chart'}`,
+      name: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}・${locals[lang].consolisation.analysis}`,
       color: colors.lightColor,
     })
     const header = new Header({
-      upTitle: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang, 'LONG')}`,
-      title: 'Chart',
+      upTitle: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang, 'LONG')}`,
+      title: locals[lang].consolisation.analysis,
       color: colors.darkColor,
     })
-    const chart = new BarChart({
+    const chart = new Chart({
       stringifiedChart: this.stringifiedChart,
     })
 

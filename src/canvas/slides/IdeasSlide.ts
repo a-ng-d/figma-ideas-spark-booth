@@ -10,7 +10,7 @@ import { colors, gaps } from '../partials/tokens'
 export default class IdeasSlide {
   activityName: string
   typeName: string
-  sessionDate: string | Date
+  sessionStartDate: string | Date
   ideas: Array<IdeaConfiguration>
   indicator?: string
   solidPaint: (hex: HexModel) => Paint
@@ -19,13 +19,13 @@ export default class IdeasSlide {
   constructor(options: {
     activityName: string
     typeName: string
-    sessionDate: string | Date
+    sessionStartDate: string | Date
     ideas: Array<IdeaConfiguration>
     indicator?: string
   }) {
     this.activityName = options.activityName
     this.typeName = options.typeName
-    this.sessionDate = options.sessionDate
+    this.sessionStartDate = options.sessionStartDate
     this.ideas = options.ideas
     this.indicator = options.indicator
     this.solidPaint = figma.util.solidPaint
@@ -50,11 +50,11 @@ export default class IdeasSlide {
 
   makeIdeaSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}・${this.typeName}`,
+      name: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}・${this.typeName}`,
       color: this.ideas[0].type.hex + '33',
     })
     const header = new Header({
-      upTitle: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang, 'LONG')}`,
+      upTitle: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang, 'LONG')}`,
       title: this.typeName,
       color: colors.lightColor,
       indicator: this.indicator !== undefined ? this.indicator : undefined,

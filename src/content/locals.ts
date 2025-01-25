@@ -192,6 +192,9 @@ export const locals: { [key: string]: any } = {
         cancel: 'Cancel',
       },
     },
+    consolisation: {
+      analysis: 'Session at a glance',
+    },
     shortcuts: {
       documentation: 'Read the documentation',
       news: "What's new",
