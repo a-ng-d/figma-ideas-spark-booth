@@ -32,6 +32,7 @@
   "devDependencies": {
     "@figma/eslint-plugin-figma-plugins": "^0.15.0",
     "@figma/plugin-typings": "^1.107.0-beta.1",
+    "@types/d3": "^7.4.3",
     "@types/file-saver": "^2.0.5",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
@@ -69,6 +70,7 @@
     "@sentry/react": "^8.8.0",
     "@sentry/webpack-plugin": "^2.22.6",
     "@supabase/supabase-js": "^2.44.2",
+    "d3": "^7.9.0",
     "figma-plugin-ds": "^1.0.1",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
