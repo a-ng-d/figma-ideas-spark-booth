@@ -5,20 +5,23 @@ export default class Header {
   upTitleLabel: string
   titleLabel: string
   downTitleNode?: FrameNode
-  hex: HexModel
+  indicator?: string
+  color: HexModel
   solidPaint: (hex: HexModel) => Paint
   headerNode: FrameNode
 
-  constructor(
-    upTitle: string,
-    title: string,
-    hex: HexModel,
+  constructor(options: {
+    upTitle: string
+    title: string
     downTitle?: FrameNode
-  ) {
-    this.upTitleLabel = upTitle
-    this.titleLabel = title
-    this.downTitleNode = downTitle
-    this.hex = hex
+    indicator?: string
+    color: HexModel
+  }) {
+    this.upTitleLabel = options.upTitle
+    this.titleLabel = options.title
+    this.downTitleNode = options.downTitle
+    this.indicator = options.indicator
+    this.color = options.color
     this.solidPaint = figma.util.solidPaint
     this.headerNode = this.makeHeader()
   }
@@ -33,9 +36,18 @@ export default class Header {
     headerNode.itemSpacing = gaps.small
     headerNode.fills = []
 
+    // Up
+    const upNode = figma.createFrame()
+    headerNode.appendChild(upNode)
+    upNode.name = '_up'
+    upNode.layoutMode = 'HORIZONTAL'
+    upNode.layoutSizingHorizontal = 'FILL'
+    upNode.layoutSizingVertical = 'HUG'
+    upNode.fills = []
+
     // Up Title
     const upTitleNode = figma.createText()
-    headerNode.appendChild(upTitleNode)
+    upNode.appendChild(upTitleNode)
     upTitleNode.name = '_up-title'
     upTitleNode.layoutSizingHorizontal = 'FILL'
     upTitleNode.layoutSizingVertical = 'HUG'
@@ -46,7 +58,7 @@ export default class Header {
       family: textStyles.slideSubTitle.fontFamily,
       style: textStyles.slideSubTitle.fontWeight,
     }
-    upTitleNode.fills = [this.solidPaint(this.hex)]
+    upTitleNode.fills = [this.solidPaint(this.color)]
 
     // Title
     const titleNode = figma.createText()
@@ -61,11 +73,28 @@ export default class Header {
       family: textStyles.slideTitle.fontFamily,
       style: textStyles.slideTitle.fontWeight,
     }
-    titleNode.fills = [this.solidPaint(this.hex)]
+    titleNode.fills = [this.solidPaint(this.color)]
 
     // Down Title
     if (this.downTitleNode !== undefined)
       headerNode.appendChild(this.downTitleNode)
+
+    // Indicator
+    if (this.indicator !== undefined) {
+      const indicatorNode = figma.createText()
+      upNode.appendChild(indicatorNode)
+      indicatorNode.name = '_indicator'
+      indicatorNode.layoutSizingHorizontal = 'HUG'
+      indicatorNode.layoutSizingVertical = 'HUG'
+      indicatorNode.characters = this.indicator
+      indicatorNode.textAutoResize = 'WIDTH_AND_HEIGHT'
+      indicatorNode.fontSize = textStyles.slideSubTitle.fontSize
+      indicatorNode.fontName = {
+        family: textStyles.slideSubTitle.fontFamily,
+        style: textStyles.slideSubTitle.fontWeight,
+      }
+      indicatorNode.fills = [this.solidPaint(this.color)]
+    }
 
     return headerNode
   }

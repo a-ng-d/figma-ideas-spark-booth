@@ -19,13 +19,13 @@ export default class SessionSlide {
 
   constructor(
     activityName: string,
-    sessionData: string | Date,
+    sessionDate: string | Date,
     sessionFacilitator: UserConfiguration,
     participants: Array<UserConfiguration>
   ) {
     this.activityName = activityName
-    ;(this.sessionDate = sessionData),
-      (this.sessionFacilitator = sessionFacilitator)
+    this.sessionDate = sessionDate
+    this.sessionFacilitator = sessionFacilitator
     this.participants = participants
     this.solidPaint = figma.util.solidPaint
     this.sessionSlideNode = this.makeSessionSlide()
@@ -116,12 +116,12 @@ export default class SessionSlide {
       `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`,
       colors.lightColor
     )
-    const header = new Header(
-      `${this.activityName}・Session`,
-      setFriendlyDate(this.sessionDate, lang, 'LONG'),
-      colors.darkColor,
-      this.makeFacilitator()
-    )
+    const header = new Header({
+      upTitle: `${this.activityName}・Session`,
+      title: setFriendlyDate(this.sessionDate, lang, 'LONG'),
+      downTitle: this.makeFacilitator(),
+      color: colors.darkColor,
+    })
     const participantsNode = this.makeParticipants()
 
     slide.layoutNode.appendChild(header.headerNode)
