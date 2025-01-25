@@ -55,6 +55,14 @@ export const textStyles = {
       unit: 'PERCENT',
     },
   },
+  slideDataViz: {
+    fontFamily: 'Sora',
+    fontSize: 10,
+    fontWeight: 'Regular',
+    lineHeight: {
+      unit: 'AUTO',
+    },
+  },
 }
 
 export const colors = {

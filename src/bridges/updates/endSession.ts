@@ -3,6 +3,7 @@ import {
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
+  UserConfiguration,
 } from '../../types/configurations'
 import addToBoard from '../export/addToBoard'
 import addToSlides from '../export/addToSlides'
@@ -12,7 +13,9 @@ const endSession = async (data: {
   activity: ActivityConfiguration
   sessions: Array<SessionConfiguration>
   session: SessionConfiguration
-  ideas: Array<IdeaConfiguration>
+  ideas: { [key: string]: Array<IdeaConfiguration> }
+  participants: Array<UserConfiguration>
+  stringifiedChart: string
 }) => {
   figma.root.setPluginData('sessions', JSON.stringify(data.sessions))
   figma.root.setPluginData('event', 'SESSION_ENDED')
@@ -30,6 +33,8 @@ const endSession = async (data: {
       activity: data.activity,
       session: data.session,
       ideas: data.ideas,
+      participants: data.participants,
+      stringifiedChart: data.stringifiedChart,
     })
 
   figma.timer?.stop()

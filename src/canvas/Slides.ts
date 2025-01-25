@@ -9,27 +9,31 @@ import {
 import setFriendlyDate from '../utils/setFriendlyDate'
 import SessionSlide from './slides/SessionSlide'
 import IdeasSlide from './slides/IdeasSlide'
+import ChartSlide from './slides/ChartSlide'
 
 export default class Slides {
   activityName: string
   sessionDate: string | Date
   sessionFacilitator: UserConfiguration
-  participants: Array<UserConfiguration>
   ideas: { [key: string]: Array<IdeaConfiguration> }
+  participants: Array<UserConfiguration>
+  stringifiedChart: string
   solidPaint: (hex: HexModel) => Paint
   rowNode: SlideRowNode
 
-  constructor(
-    activity: ActivityConfiguration,
-    session: SessionConfiguration,
-    ideas: { [key: string]: Array<IdeaConfiguration> },
+  constructor(options: {
+    activity: ActivityConfiguration
+    session: SessionConfiguration
+    ideas: { [key: string]: Array<IdeaConfiguration> }
     participants: Array<UserConfiguration>
-  ) {
-    this.activityName = activity.name
-    ;(this.sessionDate = session.metrics.startDate),
-      (this.sessionFacilitator = session.facilitator)
-    this.participants = participants
-    this.ideas = ideas
+    stringifiedChart: string
+  }) {
+    this.activityName = options.activity.name
+    this.sessionDate = options.session.metrics.startDate
+    this.sessionFacilitator = options.session.facilitator
+    this.ideas = options.ideas
+    this.participants = options.participants
+    this.stringifiedChart = options.stringifiedChart
     this.solidPaint = figma.util.solidPaint
     this.rowNode = this.makeClassification()
   }
@@ -45,6 +49,14 @@ export default class Slides {
         this.sessionFacilitator,
         this.participants
       ).sessionSlideNode
+    )
+    rowNode.appendChild(
+      new ChartSlide({
+        activityName: this.activityName,
+        sessionDate: this.sessionDate,
+        ideas: this.ideas,
+        stringifiedChart: this.stringifiedChart,
+      }).chartSlideNode
     )
     Object.entries(this.ideas).forEach(([name, ideas]) => {
       const splitIdeas = ideas.reduce(

@@ -26,6 +26,9 @@ import { ActionsList } from '../../types/models'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
+import sortIdeas from '../../utils/sortIdeas'
+import setBarChart from '../../utils/setBarChart'
+import setParticipantsList from '../../utils/setParticipantsList'
 
 interface HistoryProps {
   activity: ActivityConfiguration
@@ -443,6 +446,20 @@ export default class History extends PureComponent<
                     this.props.planStatus
                   ).HISTORY_ADD_TO_BOARD.isNew()}
                   action={() => {
+                    const sortedIdeas = sortIdeas(
+                      this.props.ideas,
+                      this.props.activity.groupedBy
+                    )
+                    const stringifiedChart = setBarChart(
+                      Object.keys(sortedIdeas).map((type) => ({
+                        type: type,
+                        count: sortedIdeas[type].length,
+                      })),
+                      800,
+                      400,
+                      'STRING'
+                    )
+
                     parent.postMessage(
                       {
                         pluginMessage: {
@@ -453,7 +470,9 @@ export default class History extends PureComponent<
                           data: {
                             activity: this.props.activity,
                             session: this.props.session,
-                            ideas: this.props.ideas,
+                            ideas: sortedIdeas,
+                            participants: setParticipantsList(this.props.ideas),
+                            stringifiedChart: stringifiedChart,
                           },
                         },
                       },

@@ -60,6 +60,9 @@ import CorruptedData from './services/CorruptedData'
 import Participate from './services/Participate'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
+import setParticipantsList from '../utils/setParticipantsList'
+import setBarChart from '../utils/setBarChart'
+import sortIdeas from '../utils/sortIdeas'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
@@ -539,6 +542,17 @@ export default class App extends PureComponent<
       sessions: sessions,
     })
 
+    const sortedIdeas = sortIdeas(ideas, activity.groupedBy)
+    const stringifiedChart = setBarChart(
+      Object.keys(sortedIdeas).map((type) => ({
+        type: type,
+        count: sortedIdeas[type].length,
+      })),
+      800,
+      400,
+      'STRING'
+    )
+
     parent.postMessage(
       {
         pluginMessage: {
@@ -547,7 +561,9 @@ export default class App extends PureComponent<
             activity: activity,
             sessions: sessions,
             session: currentSession,
-            ideas: ideas,
+            ideas: sortedIdeas,
+            participants: setParticipantsList(ideas),
+            stringifiedChart: stringifiedChart,
           },
         },
       },
