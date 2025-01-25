@@ -63,6 +63,7 @@ import './stylesheets/app.css'
 import setParticipantsList from '../utils/setParticipantsList'
 import setBarChart from '../utils/setBarChart'
 import sortIdeas from '../utils/sortIdeas'
+import { chartSizes } from '../canvas/partials/tokens'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
@@ -549,8 +550,8 @@ export default class App extends PureComponent<
         count: sortedIdeas[type].length,
         color: sortedIdeas[type][0].type.hex,
       })),
-      1200,
-      600,
+      chartSizes.width,
+      chartSizes.height,
       'STRING'
     )
 

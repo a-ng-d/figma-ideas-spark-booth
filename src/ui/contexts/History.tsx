@@ -29,6 +29,7 @@ import Feature from '../components/Feature'
 import sortIdeas from '../../utils/sortIdeas'
 import setBarChart from '../../utils/setBarChart'
 import setParticipantsList from '../../utils/setParticipantsList'
+import { chartSizes } from '../../canvas/partials/tokens'
 
 interface HistoryProps {
   activity: ActivityConfiguration
@@ -456,8 +457,8 @@ export default class History extends PureComponent<
                         count: sortedIdeas[type].length,
                         color: sortedIdeas[type][0].type.hex,
                       })),
-                      1200,
-                      600,
+                      chartSizes.width,
+                      chartSizes.height,
                       'STRING'
                     )
 

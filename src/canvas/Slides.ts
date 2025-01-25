@@ -57,7 +57,6 @@ export default class Slides {
         activityName: this.activityName,
         sessionStartDate: this.sessionStartDate,
         sessionEndDate: this.sessionEndDate,
-        ideas: this.ideas,
         stringifiedChart: this.stringifiedChart,
       }).analysisSlideNode
     )

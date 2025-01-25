@@ -194,6 +194,8 @@ export const locals: { [key: string]: any } = {
     },
     consolisation: {
       analysis: 'Session at a glance',
+      participants: 'Participants',
+      duration: 'Duration',
     },
     shortcuts: {
       documentation: 'Read the documentation',

@@ -5,6 +5,11 @@ export const gaps = {
   large: 32,
 }
 
+export const chartSizes = {
+  width: 1200,
+  height: 600,
+}
+
 export const textStyles = {
   documentTitle: {
     fontFamily: 'Martian Mono',
@@ -63,10 +68,19 @@ export const textStyles = {
       unit: 'AUTO',
     },
   },
+  slideTimer: {
+    fontFamily: 'Martian Mono',
+    fontSize: 56,
+    fontWeight: 'Bold',
+    lineHeight: {
+      unit: 'AUTO',
+    },
+  },
 }
 
 export const colors = {
   lightColor: 'FFFEC3',
+  onLightColor: 'FEE8A8',
   darkColor: '493200',
   grayColor: 'AFBCCF',
   redColor: 'FFAFA3',

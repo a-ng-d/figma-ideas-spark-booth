@@ -18,6 +18,7 @@ export default class Chart {
     chartNode.primaryAxisAlignItems = 'CENTER'
     chartNode.counterAxisAlignItems = 'CENTER'
     chartNode.fills = []
+    chartNode.clipsContent = false
 
     const vectorNode = figma.createNodeFromSvg(this.stringifiedChart)
     vectorNode.name = '_chart-vectors'
