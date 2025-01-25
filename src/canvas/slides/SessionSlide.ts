@@ -1,5 +1,5 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
-import { lang } from '../../content/locals'
+import { lang, locals } from '../../content/locals'
 import { UserConfiguration } from '../../types/configurations'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Header from '../partials/Header'
@@ -83,7 +83,7 @@ export default class SessionSlide {
     const participantsLabelNode = figma.createText()
     participantsNode.appendChild(participantsLabelNode)
     participantsLabelNode.name = '_label'
-    participantsLabelNode.characters = 'Participants'
+    participantsLabelNode.characters = locals[lang].consolisation.participants
     participantsLabelNode.layoutSizingHorizontal = 'FILL'
     participantsLabelNode.textAutoResize = 'WIDTH_AND_HEIGHT'
     participantsLabelNode.fontSize = textStyles.slideLabel.fontSize

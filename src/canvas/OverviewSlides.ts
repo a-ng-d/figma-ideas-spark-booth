@@ -1,4 +1,5 @@
 import { ActivityConfiguration } from '../types/configurations'
+import InstructionsSlide from './slides/InstructionsSlide'
 import titleSlide from './slides/TitleSlide'
 
 export default class OverviewSlides {
@@ -19,6 +20,12 @@ export default class OverviewSlides {
         activityName: this.activity.name,
         activityDescription: this.activity.description,
       }).titleSlideNode
+    )
+    rowNode.appendChild(
+      new InstructionsSlide({
+        activityName: this.activity.name,
+        activityInstructions: this.activity.instructions,
+      }).instructionsSlideNode
     )
 
     return rowNode

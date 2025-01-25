@@ -201,6 +201,8 @@ export const locals: { [key: string]: any } = {
       analysis: 'Session at a glance',
       participants: 'Participants',
       duration: 'Duration',
+      instructions: 'Instructions',
+      types: 'Types',
     },
     shortcuts: {
       documentation: 'Read the documentation',

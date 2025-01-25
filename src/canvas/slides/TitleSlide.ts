@@ -71,10 +71,11 @@ export default class titleSlide {
 
     slide.layoutNode.appendChild(layout.makeThreeOne())
 
+    layout.layoutNode.layoutSizingHorizontal = 'FILL'
+    layout.layoutNode.layoutSizingVertical = 'FILL'
+
     if (layout.leftSlot !== undefined) {
       layout.leftSlot.layoutSizingHorizontal = 'FILL'
-      layout.layoutNode.layoutSizingHorizontal = 'FILL'
-      layout.layoutNode.layoutSizingVertical = 'FILL'
       layout.leftNode.primaryAxisAlignItems = 'CENTER'
     }
 
