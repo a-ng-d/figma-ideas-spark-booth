@@ -59,11 +59,11 @@ export default class SessionSlide {
     facilitatorLabelNode.fills = [this.solidPaint(colors.darkColor)]
 
     // Facilitator Member
-    const facilitatorMemberNode = new Member(
-      this.sessionFacilitator.avatar,
-      this.sessionFacilitator.fullName,
-      'AUTO'
-    ).memberNode
+    const facilitatorMemberNode = new Member({
+      avatarUrl: this.sessionFacilitator.avatar,
+      name: this.sessionFacilitator.fullName,
+      width: 'AUTO',
+    }).memberNode
     facilitatorNode.appendChild(facilitatorMemberNode)
 
     return facilitatorNode
@@ -112,10 +112,10 @@ export default class SessionSlide {
   }
 
   makeSessionSlide = () => {
-    const slide = new Slide(
-      `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`,
-      colors.lightColor
-    )
+    const slide = new Slide({
+      name: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`,
+      color: colors.lightColor,
+    })
     const header = new Header({
       upTitle: `${this.activityName}・Session`,
       title: setFriendlyDate(this.sessionDate, lang, 'LONG'),
@@ -143,19 +143,19 @@ export default class SessionSlide {
     allParticipants.forEach((participant, index) => {
       if (index <= 13)
         this.participantsSlot?.appendChild(
-          new Member(
-            participant.avatar,
-            participant.fullName,
-            SessionSlide.participantWidth
-          ).memberNode
+          new Member({
+            avatarUrl: participant.avatar,
+            name: participant.fullName,
+            width: SessionSlide.participantWidth,
+          }).memberNode
         )
       if (index >= 14 && allParticipants.length <= 15)
         this.participantsSlot?.appendChild(
-          new Member(
-            participant.avatar,
-            participant.fullName,
-            SessionSlide.participantWidth
-          ).memberNode
+          new Member({
+            avatarUrl: participant.avatar,
+            name: participant.fullName,
+            width: SessionSlide.participantWidth,
+          }).memberNode
         )
       if (index >= 14 && allParticipants.length > 15)
         remainingParticipants = [...remainingParticipants, participant]
@@ -163,8 +163,10 @@ export default class SessionSlide {
 
     if (remainingParticipants.length > 0)
       this.participantsSlot?.appendChild(
-        new Members(remainingParticipants, SessionSlide.participantWidth)
-          .membersNode
+        new Members({
+          members: remainingParticipants,
+          width: SessionSlide.participantWidth,
+        }).membersNode
       )
 
     return slide.slideNode

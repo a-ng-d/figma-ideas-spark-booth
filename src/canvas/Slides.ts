@@ -74,7 +74,9 @@ export default class Slides {
             name,
             this.sessionDate,
             ideas,
-            `${index + 1} / ${splitIdeas.length}`
+            splitIdeas.length > 1
+              ? `${index + 1} / ${splitIdeas.length}`
+              : undefined
           ).ideaSlideNode
         )
       })

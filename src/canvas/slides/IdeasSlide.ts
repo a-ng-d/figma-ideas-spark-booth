@@ -49,10 +49,10 @@ export default class IdeasSlide {
   }
 
   makeIdeaSlide = () => {
-    const slide = new Slide(
-      `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}・${this.typeName}`,
-      this.ideas[0].type.hex + '20'
-    )
+    const slide = new Slide({
+      name: `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}・${this.typeName}`,
+      color: this.ideas[0].type.hex + '20',
+    })
     const header = new Header({
       upTitle: setFriendlyDate(this.sessionDate, lang, 'LONG'),
       title: this.typeName,
@@ -69,7 +69,7 @@ export default class IdeasSlide {
     ideasNode.layoutSizingVertical = 'HUG'
 
     const stickyNotes = this.ideas.map(
-      (idea) => new StickyNote(idea.text, idea.type.hex)
+      (idea) => new StickyNote({ idea: idea.text, color: idea.type.hex })
     )
     stickyNotes
       .flat()

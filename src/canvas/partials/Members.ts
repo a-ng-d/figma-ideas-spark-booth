@@ -8,9 +8,12 @@ export default class Members {
   private solidPaint: (hex: HexModel) => Paint
   membersNode: FrameNode
 
-  constructor(members: Array<UserConfiguration>, width: number | 'AUTO') {
-    this.members = members
-    this.width = width
+  constructor(options: {
+    members: Array<UserConfiguration>
+    width: number | 'AUTO'
+  }) {
+    this.members = options.members
+    this.width = options.width
     this.solidPaint = figma.util.solidPaint
     this.membersNode = this.makeMembers()
   }

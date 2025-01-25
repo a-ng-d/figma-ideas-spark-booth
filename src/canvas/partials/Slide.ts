@@ -2,7 +2,7 @@ import { HexModel } from '@a_ng_d/figmug-ui'
 
 export default class Slide {
   name: string
-  hex: HexModel
+  color: HexModel
   solidPaint: (hex: HexModel) => Paint
   slideNode: SlideNode
   layoutNode: FrameNode
@@ -14,9 +14,9 @@ export default class Slide {
     horizontal: 128,
   }
 
-  constructor(name: string, hex: HexModel) {
-    this.name = name
-    this.hex = hex
+  constructor(options: { name: string; color: HexModel }) {
+    this.name = options.name
+    this.color = options.color
     this.solidPaint = figma.util.solidPaint
     this.slideNode = this.makeSlide()
     this.layoutNode = this.makeLayout()
@@ -25,7 +25,7 @@ export default class Slide {
   makeSlide = () => {
     const slideNode = figma.createSlide()
     slideNode.name = this.name
-    slideNode.fills = [this.solidPaint(this.hex)]
+    slideNode.fills = [this.solidPaint(this.color)]
     slideNode.layoutGrids = [
       {
         pattern: 'ROWS',

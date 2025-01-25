@@ -8,10 +8,14 @@ export default class Member {
   private solidPaint: (hex: HexModel) => Paint
   memberNode: FrameNode
 
-  constructor(avatarUrl: string, name: string, width: number | 'AUTO') {
-    this.avatarUrl = avatarUrl
-    this.name = name
-    this.width = width
+  constructor(options: {
+    avatarUrl: string
+    name: string
+    width: number | 'AUTO'
+  }) {
+    this.avatarUrl = options.avatarUrl
+    this.name = options.name
+    this.width = options.width
     this.solidPaint = figma.util.solidPaint
     this.memberNode = this.makeMember()
   }
