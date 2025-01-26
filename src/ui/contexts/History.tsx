@@ -468,7 +468,7 @@ export default class History extends PureComponent<
                           type:
                             this.props.editorType === 'figjam'
                               ? 'ADD_TO_BOARD'
-                              : 'ADD_TO_SLIDES',
+                              : 'ADD_SESSION_TO_SLIDES',
                           data: {
                             activity: this.props.activity,
                             session: this.props.session,

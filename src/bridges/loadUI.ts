@@ -10,7 +10,7 @@ import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
 import addOverviewToSlides from './export/addOverviewToSlides'
 import addToBoard from './export/addToBoard'
-import addToSlides from './export/addToSlides'
+import addSessionToSlides from './export/addToSlides'
 import exportCsv from './export/exportCsv'
 import getProPlan from './getProPlan'
 import duplicatePublishedActivity from './updates/duplicatePublishedActivity'
@@ -119,7 +119,7 @@ const loadUI = async () => {
       UNBLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: false }),
       //
       ADD_TO_BOARD: () => addToBoard(msg.data),
-      ADD_TO_SLIDES: () => addToSlides(msg.data),
+      ADD_SESSION_TO_SLIDES: () => addSessionToSlides(msg.data),
       ADD_OVERVIEW_TO_SLIDES: () => addOverviewToSlides(msg.data),
       EXPORT_CSV: () => exportCsv(msg.data),
       //

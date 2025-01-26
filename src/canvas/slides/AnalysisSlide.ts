@@ -76,15 +76,21 @@ export default class AnalysisSlide {
     const layout = new Layout({
       leftSlot: this.makeDuration(),
       rightSlot: this.makeChart(),
-    }).makeOneThird()
+    })
 
     slide.layoutNode.appendChild(header.headerNode)
-    slide.layoutNode.appendChild(layout)
+    slide.layoutNode.appendChild(layout.makeOneThird())
 
     header.headerNode.layoutSizingHorizontal = 'FILL'
-    layout.layoutSizingHorizontal = 'FILL'
-    layout.layoutSizingVertical = 'FILL'
-    layout.maxHeight = chartSizes.height
+    layout.layoutNode.layoutSizingHorizontal = 'FILL'
+    layout.layoutNode.layoutSizingVertical = 'FILL'
+    layout.layoutNode.maxHeight = chartSizes.height
+
+    if (layout.leftSlot !== undefined && layout.rightSlot !== undefined) {
+      layout.leftSlot.layoutSizingHorizontal = 'FILL'
+      layout.rightSlot.layoutSizingHorizontal = 'FILL'
+      layout.rightSlot.layoutSizingVertical = 'FILL'
+    }
 
     return slide.slideNode
   }

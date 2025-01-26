@@ -66,9 +66,11 @@ export default class InstructionsSlide {
     layout.layoutNode.layoutSizingHorizontal = 'FILL'
     layout.layoutNode.layoutSizingVertical = 'FILL'
 
-    if (layout.leftSlot !== undefined && layout.rightNode !== undefined) {
+    if (layout.leftSlot !== undefined && layout.rightSlot !== undefined) {
       layout.leftSlot.layoutSizingHorizontal = 'FILL'
-      layout.rightNode.layoutSizingHorizontal = 'FILL'
+      layout.rightSlot.layoutSizingHorizontal = 'FILL'
+      layout.rightSlot.layoutSizingVertical = 'FILL'
+      layout.rightSlot.textTruncation = 'ENDING'
     }
 
     return slide.slideNode

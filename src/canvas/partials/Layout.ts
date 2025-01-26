@@ -21,34 +21,29 @@ export default class Layout<T extends SceneNode> {
     this.layoutNode.primaryAxisSizingMode = 'AUTO'
     this.layoutNode.counterAxisSizingMode = 'AUTO'
     this.layoutNode.itemSpacing = gaps.large
+    this.layoutNode.clipsContent = false
     this.layoutNode.fills = []
 
     // Left Part
-    const leftNode = figma.createFrame()
-    this.layoutNode.insertChild(0, leftNode)
-    leftNode.name = '_left'
-    leftNode.layoutMode = 'VERTICAL'
-    leftNode.layoutSizingHorizontal = 'FILL'
-    leftNode.layoutSizingVertical = 'FILL'
-    leftNode.maxWidth = 400
-    leftNode.fills = []
-    if (this.leftSlot !== undefined) {
-      this.leftNode = leftNode
-      leftNode.appendChild(this.leftSlot)
-    }
+    this.layoutNode.insertChild(0, this.leftNode)
+    this.leftNode.name = '_left'
+    this.leftNode.layoutMode = 'VERTICAL'
+    this.leftNode.layoutSizingHorizontal = 'FILL'
+    this.leftNode.layoutSizingVertical = 'FILL'
+    this.leftNode.maxWidth = 400
+    this.leftNode.clipsContent = false
+    this.leftNode.fills = []
+    if (this.leftSlot !== undefined) this.leftNode.appendChild(this.leftSlot)
 
     // Right Part
-    const rightNode = figma.createFrame()
-    this.layoutNode.insertChild(1, rightNode)
-    rightNode.name = '_right'
-    rightNode.layoutMode = 'VERTICAL'
-    rightNode.layoutSizingHorizontal = 'FILL'
-    rightNode.layoutSizingVertical = 'FILL'
-    rightNode.fills = []
-    if (this.rightSlot !== undefined) {
-      this.rightNode = rightNode
-      rightNode.appendChild(this.rightSlot)
-    }
+    this.layoutNode.insertChild(1, this.rightNode)
+    this.rightNode.name = '_right'
+    this.rightNode.layoutMode = 'VERTICAL'
+    this.rightNode.layoutSizingHorizontal = 'FILL'
+    this.rightNode.layoutSizingVertical = 'FILL'
+    this.rightNode.clipsContent = false
+    this.rightNode.fills = []
+    if (this.rightSlot !== undefined) this.rightNode.appendChild(this.rightSlot)
 
     return this.layoutNode
   }
@@ -59,34 +54,29 @@ export default class Layout<T extends SceneNode> {
     this.layoutNode.primaryAxisSizingMode = 'AUTO'
     this.layoutNode.counterAxisSizingMode = 'AUTO'
     this.layoutNode.itemSpacing = gaps.large
+    this.layoutNode.clipsContent = false
     this.layoutNode.fills = []
 
     // Left Part
-    const leftNode = figma.createFrame()
-    this.layoutNode.insertChild(0, leftNode)
-    leftNode.name = '_left'
-    leftNode.layoutMode = 'VERTICAL'
-    leftNode.layoutSizingHorizontal = 'FILL'
-    leftNode.layoutSizingVertical = 'FILL'
-    leftNode.fills = []
-    if (this.leftSlot !== undefined) {
-      this.leftNode = leftNode
-      leftNode.appendChild(this.leftSlot)
-    }
+    this.layoutNode.insertChild(0, this.leftNode)
+    this.leftNode.name = '_left'
+    this.leftNode.layoutMode = 'VERTICAL'
+    this.leftNode.layoutSizingHorizontal = 'FILL'
+    this.leftNode.layoutSizingVertical = 'FILL'
+    this.leftNode.clipsContent = false
+    this.leftNode.fills = []
+    if (this.leftSlot !== undefined) this.leftNode.appendChild(this.leftSlot)
 
     // Right Part
-    const rightNode = figma.createFrame()
-    this.layoutNode.insertChild(1, rightNode)
-    rightNode.name = '_right'
-    rightNode.layoutMode = 'VERTICAL'
-    rightNode.layoutSizingHorizontal = 'FILL'
-    rightNode.layoutSizingVertical = 'FILL'
-    rightNode.maxWidth = 400
-    rightNode.fills = []
-    if (this.rightSlot !== undefined) {
-      this.rightNode = rightNode
-      rightNode.appendChild(this.rightSlot)
-    }
+    this.layoutNode.insertChild(1, this.rightNode)
+    this.rightNode.name = '_right'
+    this.rightNode.layoutMode = 'VERTICAL'
+    this.rightNode.layoutSizingHorizontal = 'FILL'
+    this.rightNode.layoutSizingVertical = 'FILL'
+    this.rightNode.maxWidth = 400
+    this.rightNode.clipsContent = false
+    this.rightNode.fills = []
+    if (this.rightSlot !== undefined) this.rightNode.appendChild(this.rightSlot)
 
     return this.layoutNode
   }

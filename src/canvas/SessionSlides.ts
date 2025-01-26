@@ -7,11 +7,11 @@ import {
   UserConfiguration,
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
-import SessionSlide from './slides/SessionSlide'
-import IdeasSlide from './slides/IdeasSlide'
 import AnalysisSlide from './slides/AnalysisSlide'
+import IdeasSlide from './slides/IdeasSlide'
+import SessionSlide from './slides/SessionSlide'
 
-export default class Slides {
+export default class SessionSlides {
   private activityName: string
   private sessionStartDate: string | Date
   private sessionEndDate: string | Date

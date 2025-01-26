@@ -6,7 +6,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import addToBoard from '../export/addToBoard'
-import addToSlides from '../export/addToSlides'
+import addSessionToSlides from '../export/addToSlides'
 import updateParticipants from './updateParticipants'
 
 const endSession = async (data: {
@@ -29,7 +29,7 @@ const endSession = async (data: {
       ideas: data.ideas,
     })
   else if (figma.editorType === 'slides')
-    addToSlides({
+    addSessionToSlides({
       activity: data.activity,
       session: data.session,
       ideas: data.ideas,

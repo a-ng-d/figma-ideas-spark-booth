@@ -1,4 +1,4 @@
-import Slides from '../../canvas/Slides'
+import SessionSlides from '../../canvas/SessionSlides'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -6,14 +6,14 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 
-const addToSlides = async (data: {
+const addSessionToSlides = async (data: {
   activity: ActivityConfiguration
   session: SessionConfiguration
   ideas: { [key: string]: Array<IdeaConfiguration> }
   participants: Array<UserConfiguration>
   stringifiedChart: string
 }) => {
-  new Slides({
+  new SessionSlides({
     activity: data.activity,
     session: data.session,
     ideas: data.ideas,
@@ -22,4 +22,4 @@ const addToSlides = async (data: {
   })
 }
 
-export default addToSlides
+export default addSessionToSlides
