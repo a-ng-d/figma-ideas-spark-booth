@@ -10,7 +10,7 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
 import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
@@ -52,7 +52,10 @@ interface HistoryStates {
   isActionLoading: boolean
 }
 
-export default class History extends PureComponent<HistoryProps, HistoryStates> {
+export default class History extends PureComponent<
+  HistoryProps,
+  HistoryStates
+> {
   static features = (planStatus: PlanStatus) => ({
     HISTORY_FILTER: new FeatureStatus({
       features: features,
@@ -67,6 +70,11 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
     HISTORY_EXPORT_CSV: new FeatureStatus({
       features: features,
       featureName: 'HISTORY_EXPORT_CSV',
+      planStatus: planStatus,
+    }),
+    HISTORY_EXPORT_JSON: new FeatureStatus({
+      features: features,
+      featureName: 'HISTORY_EXPORT_JSON',
       planStatus: planStatus,
     }),
     HISTORY_ADD_TO_BOARD: new FeatureStatus({
@@ -108,7 +116,7 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
   // Handlers
   handleMessage = (e: MessageEvent) => {
     const actions: ActionsList = {
-      EXPORT_CSV: () => this.exportCsv(e.data.pluginMessage?.data),
+      EXPORT_CSV: () => this.onExportCsv(e.data.pluginMessage?.data),
       STOP_LOADER: () =>
         this.setState({
           isSecondaryLoading: false,
@@ -117,21 +125,6 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
     }
 
     return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
-  }
-
-  // Handlers
-  exportCsv = (data: string) => {
-    const blob = new Blob([data], {
-      type: 'text/csv;charset=utf-8',
-    })
-    FileSaver.saveAs(
-      blob,
-      `${this.props.activity.name}_${this.props.session.metrics.startDate}.csv`
-    )
-
-    this.setState({
-      isActionLoading: false,
-    })
   }
 
   typesHandler = (): Array<DropdownOption> => {
@@ -268,6 +261,7 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
     ]
   }
 
+  // Direct Actions
   onSortMostRecent = (ideas: Array<IdeaConfiguration>) =>
     ideas.sort(
       (a, b) =>
@@ -279,6 +273,43 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
       (a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     )
+
+  onExportCsv = (data: string) => {
+    this.setState({
+      isActionLoading: false,
+    })
+
+    const blob = new Blob([data], {
+      type: 'text/csv;charset=utf-8',
+    })
+    FileSaver.saveAs(
+      blob,
+      `${new Case(this.props.activity.name).doSnakeCase()}_${this.props.session.metrics.startDate}.csv`
+    )
+  }
+
+  onExportJson = () => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    const json = JSON.stringify({
+      session: this.props.session,
+      ideas: this.props.ideas,
+    })
+
+    const blob = new Blob([json], {
+      type: 'application/json;charset=utf-8',
+    })
+    FileSaver.saveAs(
+      blob,
+      `${new Case(this.props.activity.name).doSnakeCase()}_${this.props.session.metrics.startDate}.json`
+    )
+
+    this.setState({
+      isActionLoading: false,
+    })
+  }
 
   render() {
     return (
@@ -390,6 +421,20 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
                       },
                     },
                     {
+                      label: locals[this.props.lang].history.exportJson,
+                      type: 'OPTION',
+                      isActive: History.features(
+                        this.props.planStatus
+                      ).HISTORY_EXPORT_JSON.isActive(),
+                      isBlocked: History.features(
+                        this.props.planStatus
+                      ).HISTORY_EXPORT_JSON.isBlocked(),
+                      isNew: History.features(
+                        this.props.planStatus
+                      ).HISTORY_EXPORT_JSON.isNew(),
+                      action: () => this.onExportJson(),
+                    },
+                    {
                       type: 'SEPARATOR',
                     },
                     {
@@ -470,6 +515,10 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
                     this.props.planStatus
                   ).HISTORY_ADD_TO_BOARD.isNew()}
                   action={() => {
+                    this.setState({
+                      isSecondaryLoading: true,
+                    })
+
                     const sortedIdeas = sortIdeas(
                       this.props.ideas,
                       this.props.activity.groupedBy
@@ -484,10 +533,6 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
                       chartSizes.height,
                       'STRING'
                     )
-
-                    this.setState({
-                      isSecondaryLoading: true,
-                    })
 
                     parent.postMessage(
                       {

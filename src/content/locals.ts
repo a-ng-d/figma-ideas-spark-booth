@@ -77,8 +77,8 @@ export const locals: { [key: string]: any } = {
         synchronize: 'Synchronize activity',
         signIn: 'Sign in to publish',
         overview: 'Add overview to slides',
-        report: 'Add a report to slides',
-        exportJson: 'Export full activity (JSON)',
+        report: 'Add report to slides',
+        exportJson: 'Export the activity (JSON)',
         delete: 'Delete activity',
       },
       global: {
@@ -168,7 +168,8 @@ export const locals: { [key: string]: any } = {
       noIdea: 'This session has no idea',
       addToBoard: 'Add to board',
       addToSlides: 'Add to slides',
-      exportCsv: 'Export as CSV',
+      exportCsv: 'Export to CSV…',
+      exportJson: 'Export to JSON…',
       deleteSession: 'Delete session',
     },
     participate: {

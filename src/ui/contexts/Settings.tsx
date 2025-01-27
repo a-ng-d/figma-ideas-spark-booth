@@ -12,7 +12,7 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
 import { signIn } from '../../bridges/publication/authentication'
@@ -45,6 +45,7 @@ import setBarChart from '../../utils/setBarChart'
 import { chartSizes } from '../../canvas/partials/tokens'
 import setParticipantsList from '../../utils/setParticipantsList'
 import { ActionsList } from 'src/types/models'
+import FileSaver from 'file-saver'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -81,7 +82,10 @@ interface SettingsStates {
   isActionLoading: boolean
 }
 
-export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+export default class Settings extends PureComponent<
+  SettingsProps,
+  SettingsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -175,6 +179,10 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
 
   // Direct Actionss
   onAddReport = () => {
+    this.setState({
+      isActionLoading: true,
+    })
+
     const sortedSessionsData = this.props.sessions
       .map((session) => {
         const ideas = this.props.ideas.filter(
@@ -218,10 +226,28 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
       },
       '*'
     )
+  }
 
-    this.setState({
-      isActionLoading: true,
+  onExportJson = () => {
+    const activityIdeas = this.props.sessions
+      .map((session) => {
+        return this.props.ideas.filter((idea) => idea.sessionId === session.id)
+      })
+      .flat()
+
+    const json = JSON.stringify({
+      activity: this.props.activity,
+      sessions: this.props.sessions,
+      ideas: activityIdeas,
     })
+
+    const blob = new Blob([json], {
+      type: 'application/json;charset=utf-8',
+    })
+    FileSaver.saveAs(
+      blob,
+      `${new Case(this.props.activity.name).doSnakeCase()}_${new Date().toISOString()}.json`
+    )
   }
 
   // Templates
@@ -389,7 +415,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
                     isNew: Settings.features(
                       this.props.planStatus
                     ).ACTIVITIES_EXPORT_JSON.isNew(),
-                    action: () => null,
+                    action: () => this.onExportJson(),
                   },
                   {
                     type: 'SEPARATOR',
