@@ -30,7 +30,7 @@ export default class titleSlide {
     blockNode.layoutMode = 'VERTICAL'
     blockNode.primaryAxisSizingMode = 'AUTO'
     blockNode.counterAxisSizingMode = 'AUTO'
-    blockNode.itemSpacing = gaps.small
+    blockNode.itemSpacing = gaps.regular
     blockNode.fills = []
 
     // Title

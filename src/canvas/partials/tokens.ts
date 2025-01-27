@@ -1,8 +1,35 @@
+const scale = {
+  xs: 4,
+  s: 8,
+  d: 16,
+  m: 24,
+  xm: 32,
+  xxm: 40,
+  l: 48,
+  xl: 56,
+  xxl: 64,
+  h: 96,
+}
+
+const typefaces = {
+  title: 'Martian Mono',
+  text: 'Sora',
+}
+
 export const gaps = {
-  xsmall: 8,
-  small: 16,
-  medium: 24,
-  large: 32,
+  small: scale.s,
+  regular: scale.d,
+  medium: scale.m,
+  large: scale.xm,
+}
+
+export const radius = {
+  small: scale.s,
+  medium: scale.d,
+}
+
+export const sizes = {
+  medium: scale.l,
 }
 
 export const chartSizes = {
@@ -12,48 +39,57 @@ export const chartSizes = {
 
 export const textStyles = {
   documentTitle: {
-    fontFamily: 'Martian Mono',
-    fontSize: 96,
+    fontFamily: typefaces.title,
+    fontSize: scale.h,
     fontWeight: 'ExtraBold',
     lineHeight: {
       unit: 'AUTO',
     },
   },
   slideTitle: {
-    fontFamily: 'Martian Mono',
-    fontSize: 64,
+    fontFamily: typefaces.title,
+    fontSize: scale.xxl,
     fontWeight: 'Bold',
     lineHeight: {
       unit: 'AUTO',
     },
   },
   slideSubTitle: {
-    fontFamily: 'Sora',
-    fontSize: 32,
+    fontFamily: typefaces.text,
+    fontSize: scale.xm,
     fontWeight: 'SemiBold',
     lineHeight: {
       unit: 'AUTO',
     },
   },
   slideAccentLabel: {
-    fontFamily: 'Sora',
-    fontSize: 40,
+    fontFamily: typefaces.text,
+    fontSize: scale.xm,
     fontWeight: 'SemiBold',
     lineHeight: {
       unit: 'AUTO',
     },
   },
   slideLabel: {
-    fontFamily: 'Sora',
-    fontSize: 32,
+    fontFamily: typefaces.text,
+    fontSize: scale.xm,
     fontWeight: 'Regular',
     lineHeight: {
       unit: 'AUTO',
     },
   },
+  slideAccentText: {
+    fontFamily: typefaces.text,
+    fontSize: scale.xxm,
+    fontWeight: 'Regular',
+    lineHeight: {
+      value: 150,
+      unit: 'PERCENT',
+    },
+  },
   slideText: {
-    fontFamily: 'Sora',
-    fontSize: 32,
+    fontFamily: typefaces.text,
+    fontSize: scale.xm,
     fontWeight: 'Regular',
     lineHeight: {
       value: 150,
@@ -61,16 +97,16 @@ export const textStyles = {
     },
   },
   slideDataViz: {
-    fontFamily: 'Sora',
-    fontSize: 16,
+    fontFamily: typefaces.text,
+    fontSize: scale.d,
     fontWeight: 'Regular',
     lineHeight: {
       unit: 'AUTO',
     },
   },
   slideTimer: {
-    fontFamily: 'Martian Mono',
-    fontSize: 56,
+    fontFamily: typefaces.title,
+    fontSize: scale.xl,
     fontWeight: 'Bold',
     lineHeight: {
       unit: 'AUTO',

@@ -16,7 +16,7 @@ export default class Layout<T extends SceneNode, U extends SceneNode> {
   }
 
   makeOneThird = () => {
-    this.layoutNode.name = '_layout'
+    this.layoutNode.name = '_layout-one-third'
     this.layoutNode.layoutMode = 'HORIZONTAL'
     this.layoutNode.primaryAxisSizingMode = 'AUTO'
     this.layoutNode.counterAxisSizingMode = 'AUTO'

@@ -3,7 +3,7 @@ import { max } from 'd3-array'
 import { axisBottom, axisLeft } from 'd3-axis'
 import { scaleBand, scaleLinear } from 'd3-scale'
 import { create } from 'd3-selection'
-import { colors, textStyles } from '../canvas/partials/tokens'
+import { colors, radius, textStyles } from '../canvas/partials/tokens'
 
 const setBarChart = (
   data: Array<{ type: string; count: number; color: HexModel }>,
@@ -67,8 +67,8 @@ const setBarChart = (
     .attr('fill', (d) => d.color)
     .attr('stroke', `#${colors.darkColor}`)
     .attr('stroke-width', 1)
-    .attr('rx', 16)
-    .attr('ry', 16)
+    .attr('rx', radius.medium)
+    .attr('ry', radius.medium)
 
   const svgNode = svg.node()
 

@@ -1,4 +1,4 @@
-import { colors, gaps, textStyles } from './tokens'
+import { colors, gaps, radius, textStyles } from './tokens'
 
 export default class Timer {
   private duration: number
@@ -10,7 +10,6 @@ export default class Timer {
   }
 
   formatTime = () => {
-    console.log(this.duration)
     const minutes = Math.floor((this.duration % 3600000) / 60000)
     const seconds = Math.floor((this.duration % 60000) / 1000)
 
@@ -23,10 +22,10 @@ export default class Timer {
     timerNode.layoutMode = 'HORIZONTAL'
     timerNode.primaryAxisSizingMode = 'AUTO'
     timerNode.counterAxisSizingMode = 'AUTO'
-    timerNode.itemSpacing = gaps.xsmall
+    timerNode.itemSpacing = gaps.small
     timerNode.verticalPadding = gaps.medium
     timerNode.horizontalPadding = gaps.medium
-    timerNode.cornerRadius = 16
+    timerNode.cornerRadius = radius.medium
     timerNode.fills = [figma.util.solidPaint(colors.onLightColor)]
 
     const timerLabelNode = figma.createText()

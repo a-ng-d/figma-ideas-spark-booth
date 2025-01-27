@@ -53,7 +53,7 @@ export default class Members {
     membersNode.layoutMode = 'HORIZONTAL'
     membersNode.counterAxisSizingMode = 'AUTO'
     membersNode.counterAxisAlignItems = 'CENTER'
-    membersNode.itemSpacing = gaps.small
+    membersNode.itemSpacing = gaps.regular
     membersNode.fills = []
     if (this.width !== 'AUTO') membersNode.resize(this.width, 100)
     else membersNode.primaryAxisSizingMode = 'AUTO'

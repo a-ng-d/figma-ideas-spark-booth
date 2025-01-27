@@ -3,7 +3,7 @@ import { TypeConfiguration } from 'src/types/configurations'
 import { lang, locals } from '../../content/locals'
 import Layout from '../partials/Layout'
 import Slide from '../partials/Slide'
-import { colors, textStyles } from '../partials/tokens'
+import { colors, gaps, sizes, textStyles } from '../partials/tokens'
 
 export default class TypesSlide {
   private activityName: string
@@ -52,8 +52,8 @@ export default class TypesSlide {
     const colorNode = figma.createRectangle()
     typeNode.appendChild(colorNode)
     colorNode.name = '_color'
-    colorNode.resize(48, 48)
-    colorNode.cornerRadius = 8
+    colorNode.resize(sizes.medium, sizes.medium)
+    colorNode.cornerRadius = gaps.small
     colorNode.fills = [this.solidPaint(color)]
     colorNode.strokes = [this.solidPaint(colors.darkColor + '20')]
     colorNode.strokeAlign = 'INSIDE'
@@ -64,7 +64,7 @@ export default class TypesSlide {
     textNode.name = '_text'
     textNode.layoutMode = 'VERTICAL'
     textNode.layoutSizingHorizontal = 'FILL'
-    textNode.itemSpacing = 8
+    textNode.itemSpacing = gaps.small
     textNode.fills = []
 
     // Name
@@ -110,7 +110,7 @@ export default class TypesSlide {
     typesNode.layoutMode = 'VERTICAL'
     typesNode.primaryAxisSizingMode = 'AUTO'
     typesNode.counterAxisSizingMode = 'AUTO'
-    typesNode.itemSpacing = 32
+    typesNode.itemSpacing = gaps.large
     typesNode.fills = []
 
     this.activityTypes.forEach((type) => {
