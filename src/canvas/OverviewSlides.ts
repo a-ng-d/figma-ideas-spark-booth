@@ -46,12 +46,14 @@ export default class OverviewSlides {
         activityTimer: this.activity.timer,
       }).titleSlideNode
     )
-    rowNode.appendChild(
-      new InstructionsSlide({
-        activityName: this.activity.name,
-        activityInstructions: this.activity.instructions,
-      }).instructionsSlideNode
-    )
+    
+    if (this.activity.instructions !== '')
+      rowNode.appendChild(
+        new InstructionsSlide({
+          activityName: this.activity.name,
+          activityInstructions: this.activity.instructions,
+        }).instructionsSlideNode
+      )
 
     const typeSlides = this.splitDescriptions(this.activity.types, 700)
     typeSlides.forEach((types, index) => {

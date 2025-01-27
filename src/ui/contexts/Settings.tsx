@@ -40,6 +40,10 @@ import GlobalSettings from '../modules/GlobalSettings'
 import Publication from '../modules/Publication'
 import TimerSettings from '../modules/TimerSettings'
 import TypesSettings from '../modules/TypesSettings'
+import sortIdeas from '../../utils/sortIdeas'
+import setBarChart from '../../utils/setBarChart'
+import { chartSizes } from '../../canvas/partials/tokens'
+import setParticipantsList from '../../utils/setParticipantsList'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -145,6 +149,54 @@ export default class Settings extends PureComponent<
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
     }
+  }
+
+  // Direct actions
+  onAddReport = () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'ADD_OVERVIEW_TO_SLIDES',
+          data: {
+            activity: this.props.activity,
+          },
+        },
+      },
+      '*'
+    )
+    this.props.sessions.forEach((session) => {
+      const ideas = this.props.ideas.filter(
+        (idea) => idea.sessionId === session.id
+      )
+      const sortedIdeas = sortIdeas(ideas, this.props.activity.groupedBy)
+      const stringifiedChart = setBarChart(
+        Object.keys(sortedIdeas).map((type) => ({
+          type: type,
+          count: sortedIdeas[type].length,
+          color: sortedIdeas[type][0].type.hex,
+        })),
+        chartSizes.width,
+        chartSizes.height,
+        'STRING'
+      )
+
+      if (Object.keys(sortedIdeas).length > 0)
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'ADD_SESSION_TO_SLIDES',
+              data: {
+                activity: this.props.activity,
+                session: session,
+                ideas: sortedIdeas,
+                participants: setParticipantsList(this.props.ideas),
+                stringifiedChart: stringifiedChart,
+              },
+            },
+          },
+          '*'
+        )
+  })
   }
 
   // Templates
@@ -294,7 +346,7 @@ export default class Settings extends PureComponent<
                     isNew: Settings.features(
                       this.props.planStatus
                     ).ACTIVITIES_REPORT.isNew(),
-                    action: () => null,
+                    action: () => this.onAddReport(),
                   },
                   {
                     label: locals[this.props.lang].settings.actions.exportJson,
