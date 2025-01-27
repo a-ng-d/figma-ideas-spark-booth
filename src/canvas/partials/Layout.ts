@@ -1,13 +1,13 @@
 import { gaps } from './tokens'
 
-export default class Layout<T extends SceneNode> {
+export default class Layout<T extends SceneNode, U extends SceneNode> {
   leftSlot?: T
-  rightSlot?: T
+  rightSlot?: U
   layoutNode: FrameNode
   leftNode: FrameNode
   rightNode: FrameNode
 
-  constructor(options: { leftSlot?: T; rightSlot?: T }) {
+  constructor(options: { leftSlot?: T; rightSlot?: U }) {
     this.leftSlot = options.leftSlot
     this.rightSlot = options.rightSlot
     this.layoutNode = figma.createFrame()
