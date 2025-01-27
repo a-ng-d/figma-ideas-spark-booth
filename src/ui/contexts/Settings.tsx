@@ -203,6 +203,11 @@ export default class Settings extends PureComponent<
         }
       })
       .filter((session) => session !== null)
+      .sort(
+        (a, b) =>
+          new Date(a.session.metrics.startDate).getTime() -
+          new Date(b.session.metrics.startDate).getTime()
+      )
 
     parent.postMessage(
       {
