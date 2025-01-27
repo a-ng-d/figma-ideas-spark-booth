@@ -18,6 +18,7 @@ export default class CorruptedData extends PureComponent<CorruptedDataProps> {
       planStatus: planStatus,
     }),
   })
+
   render() {
     return (
       <section className="controller">

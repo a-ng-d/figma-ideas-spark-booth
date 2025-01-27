@@ -129,7 +129,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
     }
   }
 
-  // Direct Actionss
+  // Direct Actions
   onHold = (e: MouseEvent) => {
     const target = e.target as HTMLElement
     const shiftX = target.offsetWidth - e.layerX

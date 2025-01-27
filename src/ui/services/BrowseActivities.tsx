@@ -80,7 +80,7 @@ export default class BrowseActivities extends PureComponent<
       context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
-  // Renders
+  // Render
   render() {
     let fragment
 

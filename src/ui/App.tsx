@@ -491,7 +491,7 @@ export default class App extends PureComponent<Record<string, never>, AppStates>
     trackUserConsentEvent(e)
   }
 
-  // Direct Actionss
+  // Direct Actions
   onEndSession = (
     activity: ActivityConfiguration,
     ideas: Array<IdeaConfiguration>

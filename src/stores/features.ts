@@ -357,6 +357,15 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE'],
   },
   {
+    name: 'HISTORY_IMPORT',
+    description: '',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE'],
+  },
+  {
     name: 'HISTORY_ADD_TO_BOARD',
     description: '',
     isActive: true,

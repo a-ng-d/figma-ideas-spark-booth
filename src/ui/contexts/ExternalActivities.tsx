@@ -132,7 +132,7 @@ export default class ExternalActivities extends PureComponent<
       })
   }
 
-  // Direct Actionss
+  // Direct Actions
   updateStatus = (
     batch: Array<ExternalActivitiesData>,
     currentPage: number,

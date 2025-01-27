@@ -118,6 +118,7 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
     )
   }
 
+  // Render
   render() {
     return (
       <Section

@@ -114,7 +114,7 @@ export default class UpdateIdeas extends PureComponent<UpdateIdeasProps, UpdateI
       })
   }
 
-  // Direct Actionss
+  // Direct Actions
   setMessage = () => {
     if (!this.props.canParticipate)
       return (
@@ -207,7 +207,7 @@ export default class UpdateIdeas extends PureComponent<UpdateIdeasProps, UpdateI
     return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
-  // Renders
+  // Render
   render() {
     return (
       <div className="control__block control__block--list">

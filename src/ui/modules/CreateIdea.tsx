@@ -87,7 +87,7 @@ export default class CreateIdeas extends PureComponent<CreateIdeasProps, CreateI
     })
   }
 
-  // Direct Actionss
+  // Direct Actions
   onPushIdea = () => {
     const idea: IdeaConfiguration = {
       id: uid(),
@@ -112,7 +112,7 @@ export default class CreateIdeas extends PureComponent<CreateIdeasProps, CreateI
     }
   }
 
-  // Renders
+  // Render
   render() {
     return (
       <div className="idea-edit">

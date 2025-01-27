@@ -20,7 +20,6 @@ interface ExploreProps {
 }
 
 export default class Explore extends PureComponent<ExploreProps> {
-  // Renders
   render() {
     return (
       <section className="controller">

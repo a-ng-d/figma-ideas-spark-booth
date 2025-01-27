@@ -177,7 +177,7 @@ export default class Settings extends PureComponent<
     return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
-  // Direct Actionss
+  // Direct Actions
   onAddReport = () => {
     this.setState({
       isActionLoading: true,
@@ -329,6 +329,7 @@ export default class Settings extends PureComponent<
     )
   }
 
+  // Render
   render() {
     return (
       <div className="controls__control">

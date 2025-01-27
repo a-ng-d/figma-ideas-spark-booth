@@ -98,7 +98,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       })
   }
 
-  // Direct Actionss
+  // Direct Actions
   callUICPAgent = async () => {
     const localUserId = this.props.userSession.userId,
       localPublicationDate = new Date(
@@ -790,6 +790,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
     return actions[publicationStatus]
   }
 
+  // Render
   render() {
     return (
       <Dialog

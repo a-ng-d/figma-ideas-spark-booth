@@ -223,6 +223,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
     )
   }
 
+  // Render
   render() {
     return (
       <Section

@@ -289,7 +289,7 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
     parent.postMessage({ pluginMessage: this.activitiesMessage }, '*')
   }
 
-  // Direct Actionss
+  // Direct Actions
   onRunSession = (activityId: string) => {
     const newSession: SessionConfiguration = {
       id: uid(),

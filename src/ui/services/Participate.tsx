@@ -156,7 +156,7 @@ export default class Participate extends PureComponent<ParticipateProps, Partici
       )
   }
 
-  // Direct Actionss
+  // Direct Actions
   canParticipate = (): boolean => {
     if (
       this.props.session.facilitator.planStatus === 'UNPAID' &&
@@ -234,7 +234,7 @@ export default class Participate extends PureComponent<ParticipateProps, Partici
     this.setState({ isFlaggedAsDone: !this.state.isFlaggedAsDone })
   }
 
-  // Renders
+  // Render
   render() {
     return (
       <>
