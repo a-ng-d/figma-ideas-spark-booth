@@ -25,7 +25,7 @@ export default class Layout<T extends SceneNode, U extends SceneNode> {
     this.layoutNode.fills = []
 
     // Left Part
-    this.layoutNode.insertChild(0, this.leftNode)
+    this.layoutNode.appendChild(this.leftNode)
     this.leftNode.name = '_left'
     this.leftNode.layoutMode = 'VERTICAL'
     this.leftNode.layoutSizingHorizontal = 'FILL'
@@ -36,7 +36,7 @@ export default class Layout<T extends SceneNode, U extends SceneNode> {
     if (this.leftSlot !== undefined) this.leftNode.appendChild(this.leftSlot)
 
     // Right Part
-    this.layoutNode.insertChild(1, this.rightNode)
+    this.layoutNode.appendChild(this.rightNode)
     this.rightNode.name = '_right'
     this.rightNode.layoutMode = 'VERTICAL'
     this.rightNode.layoutSizingHorizontal = 'FILL'
@@ -58,7 +58,7 @@ export default class Layout<T extends SceneNode, U extends SceneNode> {
     this.layoutNode.fills = []
 
     // Left Part
-    this.layoutNode.insertChild(0, this.leftNode)
+    this.layoutNode.appendChild(this.leftNode)
     this.leftNode.name = '_left'
     this.leftNode.layoutMode = 'VERTICAL'
     this.leftNode.layoutSizingHorizontal = 'FILL'
@@ -68,7 +68,7 @@ export default class Layout<T extends SceneNode, U extends SceneNode> {
     if (this.leftSlot !== undefined) this.leftNode.appendChild(this.leftSlot)
 
     // Right Part
-    this.layoutNode.insertChild(1, this.rightNode)
+    this.layoutNode.appendChild(this.rightNode)
     this.rightNode.name = '_right'
     this.rightNode.layoutMode = 'VERTICAL'
     this.rightNode.layoutSizingHorizontal = 'FILL'

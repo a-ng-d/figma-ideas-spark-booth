@@ -48,12 +48,11 @@ interface HistoryStates {
   sortedBy: 'MOST_RECENT' | 'OLDEST'
   filteredBy: string
   isDialogOpen: boolean
+  isSecondaryLoading: boolean
+  isActionLoading: boolean
 }
 
-export default class History extends PureComponent<
-  HistoryProps,
-  HistoryStates
-> {
+export default class History extends PureComponent<HistoryProps, HistoryStates> {
   static features = (planStatus: PlanStatus) => ({
     HISTORY_FILTER: new FeatureStatus({
       features: features,
@@ -92,31 +91,49 @@ export default class History extends PureComponent<
       sortedBy: 'MOST_RECENT',
       filteredBy: 'NONE',
       isDialogOpen: false,
+      isSecondaryLoading: false,
+      isActionLoading: false,
     }
   }
 
+  // Lifecycle
   componentDidMount = () => {
-    onmessage = (e: MessageEvent) => {
-      const exportCsv = (data: string) => {
-        const blob = new Blob([data], {
-          type: 'text/csv;charset=utf-8',
-        })
-        FileSaver.saveAs(
-          blob,
-          `${this.props.activity.name}_${this.props.session.metrics.startDate}.csv`
-        )
-      }
+    window.addEventListener('message', this.handleMessage)
+  }
 
-      const actions: ActionsList = {
-        EXPORT_CSV: () => exportCsv(e.data.pluginMessage?.data),
-        DEFAULT: () => null,
-      }
-
-      return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
-    }
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
   }
 
   // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      EXPORT_CSV: () => this.exportCsv(e.data.pluginMessage?.data),
+      STOP_LOADER: () =>
+        this.setState({
+          isSecondaryLoading: false,
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
+  }
+
+  // Handlers
+  exportCsv = (data: string) => {
+    const blob = new Blob([data], {
+      type: 'text/csv;charset=utf-8',
+    })
+    FileSaver.saveAs(
+      blob,
+      `${this.props.activity.name}_${this.props.session.metrics.startDate}.csv`
+    )
+
+    this.setState({
+      isActionLoading: false,
+    })
+  }
+
   typesHandler = (): Array<DropdownOption> => {
     const types = Object.entries(
       this.props.ideas.reduce(
@@ -352,6 +369,10 @@ export default class History extends PureComponent<
                         this.props.planStatus
                       ).HISTORY_EXPORT_CSV.isNew(),
                       action: () => {
+                        this.setState({
+                          isActionLoading: true,
+                        })
+
                         parent.postMessage(
                           {
                             pluginMessage: {
@@ -387,6 +408,7 @@ export default class History extends PureComponent<
                     },
                   ]}
                   alignment="BOTTOM_RIGHT"
+                  state={this.state.isActionLoading ? 'LOADING' : 'DEFAULT'}
                 />
               ) : (
                 <Feature
@@ -440,6 +462,7 @@ export default class History extends PureComponent<
                       ? locals[this.props.lang].history.addToBoard
                       : locals[this.props.lang].history.addToSlides
                   }
+                  isLoading={this.state.isSecondaryLoading}
                   isBlocked={History.features(
                     this.props.planStatus
                   ).HISTORY_ADD_TO_BOARD.isBlocked()}
@@ -461,6 +484,10 @@ export default class History extends PureComponent<
                       chartSizes.height,
                       'STRING'
                     )
+
+                    this.setState({
+                      isSecondaryLoading: true,
+                    })
 
                     parent.postMessage(
                       {
