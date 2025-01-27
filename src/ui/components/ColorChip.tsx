@@ -27,11 +27,11 @@ export default class ColorChip extends PureComponent<
       <div
         className="color-chip"
         style={{ backgroundColor: this.props.color }}
-        onMouseOver={() => {
+        onMouseEnter={() => {
           if (this.props.helper !== undefined)
             this.setState({ isTooltipVisible: true })
         }}
-        onMouseOut={() => this.setState({ isTooltipVisible: false })}
+        onMouseLeave={() => this.setState({ isTooltipVisible: false })}
       >
         {this.state.isTooltipVisible && <Tooltip>{this.props.helper}</Tooltip>}
       </div>
