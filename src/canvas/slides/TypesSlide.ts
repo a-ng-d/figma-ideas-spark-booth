@@ -8,15 +8,18 @@ import { colors, textStyles } from '../partials/tokens'
 export default class TypesSlide {
   private activityName: string
   private activityTypes: Array<TypeConfiguration>
+  private indicator?: string
   solidPaint: (hex: HexModel) => Paint
   typesSlideNode: SlideNode
 
   constructor(options: {
     activityName: string
     activityTypes: Array<TypeConfiguration>
+    indicator?: string
   }) {
     this.activityName = options.activityName
     this.activityTypes = options.activityTypes
+    this.indicator = options.indicator
     this.solidPaint = figma.util.solidPaint
     this.typesSlideNode = this.makeTypesSlide()
   }
@@ -24,7 +27,7 @@ export default class TypesSlide {
   makeTitle = () => {
     const titleNode = figma.createText()
     titleNode.name = '_title'
-    titleNode.characters = locals[lang].consolisation.types
+    titleNode.characters = `${locals[lang].consolisation.types}${this.indicator !== undefined ? `・${this.indicator}` : ''}`
     titleNode.textAutoResize = 'WIDTH_AND_HEIGHT'
     titleNode.fontSize = textStyles.slideAccentLabel.fontSize
     titleNode.fontName = {
