@@ -61,10 +61,7 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
+export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
   counter: number
 
   constructor(props: PublicationProps) {
@@ -101,7 +98,7 @@ export default class Publication extends PureComponent<
       })
   }
 
-  // Direct actions
+  // Direct Actionss
   callUICPAgent = async () => {
     const localUserId = this.props.userSession.userId,
       localPublicationDate = new Date(

@@ -81,10 +81,7 @@ interface SettingsStates {
   isActionLoading: boolean
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -176,7 +173,7 @@ export default class Settings extends PureComponent<
     return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
-  // Direct actions
+  // Direct Actionss
   onAddReport = () => {
     const sortedSessionsData = this.props.sessions
       .map((session) => {

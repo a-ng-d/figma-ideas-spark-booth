@@ -60,10 +60,7 @@ interface ParticipateStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class Participate extends PureComponent<
-  ParticipateProps,
-  ParticipateStates
-> {
+export default class Participate extends PureComponent<ParticipateProps, ParticipateStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 
@@ -159,7 +156,7 @@ export default class Participate extends PureComponent<
       )
   }
 
-  // Direct actions
+  // Direct Actionss
   canParticipate = (): boolean => {
     if (
       this.props.session.facilitator.planStatus === 'UNPAID' &&

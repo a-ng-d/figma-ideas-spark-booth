@@ -53,10 +53,7 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
   static features = (planStatus: PlanStatus) => ({
     SHORTCUTS_HIGHLIGHT: new FeatureStatus({
       features: features,
@@ -132,7 +129,7 @@ export default class Shortcuts extends PureComponent<
     }
   }
 
-  // Direct actions
+  // Direct Actionss
   onHold = (e: MouseEvent) => {
     const target = e.target as HTMLElement
     const shiftX = target.offsetWidth - e.layerX

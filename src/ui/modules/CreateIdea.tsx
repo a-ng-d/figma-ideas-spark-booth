@@ -43,10 +43,7 @@ interface CreateIdeasStates {
   currentText: string
 }
 
-export default class CreateIdeas extends PureComponent<
-  CreateIdeasProps,
-  CreateIdeasStates
-> {
+export default class CreateIdeas extends PureComponent<CreateIdeasProps, CreateIdeasStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 
@@ -90,7 +87,7 @@ export default class CreateIdeas extends PureComponent<
     })
   }
 
-  // Direct actions
+  // Direct Actionss
   onPushIdea = () => {
     const idea: IdeaConfiguration = {
       id: uid(),

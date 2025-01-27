@@ -48,10 +48,7 @@ interface ActivitiesStates {
   openedSessionHistory?: string
 }
 
-export default class Activities extends PureComponent<
-  ActivitiesProps,
-  ActivitiesStates
-> {
+export default class Activities extends PureComponent<ActivitiesProps, ActivitiesStates> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {
@@ -292,7 +289,7 @@ export default class Activities extends PureComponent<
     parent.postMessage({ pluginMessage: this.activitiesMessage }, '*')
   }
 
-  // Direct actions
+  // Direct Actionss
   onRunSession = (activityId: string) => {
     const newSession: SessionConfiguration = {
       id: uid(),
