@@ -47,7 +47,7 @@ interface HistoryStates {
   ideas: Array<IdeaConfiguration>
   sortedBy: 'MOST_RECENT' | 'OLDEST'
   filteredBy: string
-  isDialogOpen: boolean
+  isDeleteDialogOpen: boolean
   isSecondaryLoading: boolean
   isActionLoading: boolean
 }
@@ -72,9 +72,9 @@ export default class History extends PureComponent<
       featureName: 'HISTORY_EXPORT_CSV',
       planStatus: planStatus,
     }),
-    HISTORY_EXPORT_JSON: new FeatureStatus({
+    HISTORY_EXPORT_SESSION: new FeatureStatus({
       features: features,
-      featureName: 'HISTORY_EXPORT_JSON',
+      featureName: 'HISTORY_EXPORT_SESSION',
       planStatus: planStatus,
     }),
     HISTORY_ADD_TO_BOARD: new FeatureStatus({
@@ -98,7 +98,7 @@ export default class History extends PureComponent<
       ),
       sortedBy: 'MOST_RECENT',
       filteredBy: 'NONE',
-      isDialogOpen: false,
+      isDeleteDialogOpen: false,
       isSecondaryLoading: false,
       isActionLoading: false,
     }
@@ -421,17 +421,17 @@ export default class History extends PureComponent<
                       },
                     },
                     {
-                      label: locals[this.props.lang].history.exportJson,
+                      label: locals[this.props.lang].history.exportSession,
                       type: 'OPTION',
                       isActive: History.features(
                         this.props.planStatus
-                      ).HISTORY_EXPORT_JSON.isActive(),
+                      ).HISTORY_EXPORT_SESSION.isActive(),
                       isBlocked: History.features(
                         this.props.planStatus
-                      ).HISTORY_EXPORT_JSON.isBlocked(),
+                      ).HISTORY_EXPORT_SESSION.isBlocked(),
                       isNew: History.features(
                         this.props.planStatus
-                      ).HISTORY_EXPORT_JSON.isNew(),
+                      ).HISTORY_EXPORT_SESSION.isNew(),
                       action: () => this.onExportJson(),
                     },
                     {
@@ -449,7 +449,7 @@ export default class History extends PureComponent<
                       isNew: History.features(
                         this.props.planStatus
                       ).HISTORY_DELETE.isNew(),
-                      action: () => this.setState({ isDialogOpen: true }),
+                      action: () => this.setState({ isDeleteDialogOpen: true }),
                     },
                   ]}
                   alignment="BOTTOM_RIGHT"
@@ -471,7 +471,7 @@ export default class History extends PureComponent<
                     isNew={History.features(
                       this.props.planStatus
                     ).HISTORY_DELETE.isNew()}
-                    action={() => this.setState({ isDialogOpen: true })}
+                    action={() => this.setState({ isDeleteDialogOpen: true })}
                   />
                 </Feature>
               )}
@@ -562,37 +562,37 @@ export default class History extends PureComponent<
         <Feature
           isActive={
             History.features(this.props.planStatus).HISTORY_DELETE.isActive() &&
-            this.state.isDialogOpen
+            this.state.isDeleteDialogOpen
           }
         >
           {document.getElementById('modal') &&
             createPortal(
               <Dialog
                 title={
-                  locals[this.props.lang].settings.deleteSessionDialog.title
+                  locals[this.props.lang].history.deleteSessionDialog.title
                 }
                 actions={{
                   destructive: {
                     label:
-                      locals[this.props.lang].settings.deleteSessionDialog
+                      locals[this.props.lang].history.deleteSessionDialog
                         .delete,
                     action: () =>
                       this.props.onDeleteSession(this.props.sessionId),
                   },
                   secondary: {
                     label:
-                      locals[this.props.lang].settings.deleteSessionDialog
+                      locals[this.props.lang].history.deleteSessionDialog
                         .cancel,
-                    action: () => this.setState({ isDialogOpen: false }),
+                    action: () => this.setState({ isDeleteDialogOpen: false }),
                   },
                 }}
-                onClose={() => this.setState({ isDialogOpen: false })}
+                onClose={() => this.setState({ isDeleteDialogOpen: false })}
               >
                 <div className="dialog__text">
                   <p className={`type ${texts.type}`}>
                     {locals[
                       this.props.lang
-                    ].settings.deleteSessionDialog.message.replace(
+                    ].history.deleteSessionDialog.message.replace(
                       '$1',
                       setFriendlyDate(
                         this.props.session.metrics.startDate,

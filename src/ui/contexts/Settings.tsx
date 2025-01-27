@@ -4,6 +4,7 @@ import {
   Chip,
   ConsentConfiguration,
   Dialog,
+  Dropzone,
   Icon,
   layouts,
   Menu,
@@ -77,15 +78,13 @@ interface SettingsProps {
 interface SettingsStates {
   isDeleteDialogOpen: boolean
   isPublicationDialogOpen: boolean
+  isImportDialogOpen: boolean
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
   isActionLoading: boolean
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -102,9 +101,9 @@ export default class Settings extends PureComponent<
       featureName: 'ACTIVITIES_REPORT',
       planStatus: planStatus,
     }),
-    ACTIVITIES_EXPORT_JSON: new FeatureStatus({
+    ACTIVITIES_EXPORT_ALL: new FeatureStatus({
       features: features,
-      featureName: 'ACTIVITIES_EXPORT_JSON',
+      featureName: 'ACTIVITIES_EXPORT_ALL',
       planStatus: planStatus,
     }),
     ACTIVITIES_PUBLISH: new FeatureStatus({
@@ -137,6 +136,11 @@ export default class Settings extends PureComponent<
       featureName: 'SETTINGS_TIMER',
       planStatus: planStatus,
     }),
+    SETTINGS_IMPORT: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_IMPORT',
+      planStatus: planStatus,
+    }),
     HISTORY: new FeatureStatus({
       features: features,
       featureName: 'HISTORY',
@@ -149,6 +153,7 @@ export default class Settings extends PureComponent<
     this.state = {
       isDeleteDialogOpen: false,
       isPublicationDialogOpen: false,
+      isImportDialogOpen: false,
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
       isActionLoading: false,
@@ -405,17 +410,36 @@ export default class Settings extends PureComponent<
                     action: () => this.onAddReport(),
                   },
                   {
-                    label: locals[this.props.lang].settings.actions.exportJson,
+                    type: 'SEPARATOR',
+                  },
+                  {
+                    label:
+                      locals[this.props.lang].settings.actions.importSessions,
                     type: 'OPTION',
                     isActive: Settings.features(
                       this.props.planStatus
-                    ).ACTIVITIES_EXPORT_JSON.isActive(),
+                    ).SETTINGS_IMPORT.isActive(),
                     isBlocked: Settings.features(
                       this.props.planStatus
-                    ).ACTIVITIES_EXPORT_JSON.isBlocked(),
+                    ).SETTINGS_IMPORT.isBlocked(),
                     isNew: Settings.features(
                       this.props.planStatus
-                    ).ACTIVITIES_EXPORT_JSON.isNew(),
+                    ).SETTINGS_IMPORT.isNew(),
+                    action: () => this.setState({ isImportDialogOpen: true }),
+                  },
+                  {
+                    label:
+                      locals[this.props.lang].settings.actions.exportActivity,
+                    type: 'OPTION',
+                    isActive: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_ALL.isActive(),
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_ALL.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_ALL.isNew(),
                     action: () => this.onExportJson(),
                   },
                   {
@@ -632,6 +656,52 @@ export default class Settings extends PureComponent<
               }
             />
           )}
+        </Feature>
+        <Feature
+          isActive={
+            Settings.features(
+              this.props.planStatus
+            ).SETTINGS_IMPORT.isActive() && this.state.isImportDialogOpen
+          }
+        >
+          {document.getElementById('modal') &&
+            createPortal(
+              <Dialog
+                title={
+                  locals[this.props.lang].settings.importSessionsDialog.title
+                }
+                onClose={() => this.setState({ isImportDialogOpen: false })}
+              >
+                <div
+                  style={{
+                    padding: 'var(--size-xxsmall)',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
+                  <Dropzone
+                    message={
+                      locals[this.props.lang].settings.importSessionsDialog
+                        .message
+                    }
+                    warningMessage={
+                      locals[this.props.lang].settings.importSessionsDialog
+                        .warning
+                    }
+                    errorMessage={
+                      locals[this.props.lang].settings.importSessionsDialog
+                        .error
+                    }
+                    cta={
+                      locals[this.props.lang].settings.importSessionsDialog.cta
+                    }
+                    acceptedMimeTypes={['application/json']}
+                    onImportFiles={(files) => console.log(files)}
+                  />
+                </div>
+              </Dialog>,
+              document.getElementById('modal') ?? document.createElement('app')
+            )}
         </Feature>
         <div className="control__block control__block--no-padding">
           <Feature

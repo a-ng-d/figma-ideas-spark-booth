@@ -130,7 +130,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE'],
   },
   {
-    name: 'ACTIVITIES_EXPORT_JSON',
+    name: 'ACTIVITIES_EXPORT_ALL',
     description: '',
     isActive: true,
     isPro: false,
@@ -312,6 +312,15 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE'],
   },
   {
+    name: 'SETTINGS_IMPORT',
+    description: '',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE'],
+  },
+  {
     name: 'HISTORY',
     description: '',
     isActive: true,
@@ -348,16 +357,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE'],
   },
   {
-    name: 'HISTORY_EXPORT_JSON',
-    description: '',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'ACTION',
-    service: ['BROWSE'],
-  },
-  {
-    name: 'HISTORY_IMPORT',
+    name: 'HISTORY_EXPORT_SESSION',
     description: '',
     isActive: true,
     isPro: false,

@@ -78,7 +78,8 @@ export const locals: { [key: string]: any } = {
         signIn: 'Sign in to publish',
         overview: 'Add overview to slides',
         report: 'Add report to slides',
-        exportJson: 'Export the activity (JSON)',
+        exportActivity: 'Export the activity (JSON)',
+        importSessions: 'Import sessions',
         delete: 'Delete activity',
       },
       global: {
@@ -147,12 +148,12 @@ export const locals: { [key: string]: any } = {
         delete: 'Delete activity',
         cancel: 'Cancel',
       },
-      deleteSessionDialog: {
-        title: 'Delete session',
-        message:
-          "You're about to delete the session on $1. This action is irreversible.",
-        delete: 'Delete session',
-        cancel: 'Cancel',
+      importSessionsDialog: {
+        title: 'Import sessions',
+        message: "Bring the sessions you've exported from another document",
+        warning: '$1 cannot be imported',
+        error: 'The import files are not valid',
+        cta: 'Import from computer…',
       },
     },
     history: {
@@ -169,8 +170,15 @@ export const locals: { [key: string]: any } = {
       addToBoard: 'Add to board',
       addToSlides: 'Add to slides',
       exportCsv: 'Export to CSV…',
-      exportJson: 'Export to JSON…',
+      exportSession: 'Export session…',
       deleteSession: 'Delete session',
+      deleteSessionDialog: {
+        title: 'Delete session',
+        message:
+          "You're about to delete the session on $1. This action is irreversible.",
+        delete: 'Delete session',
+        cancel: 'Cancel',
+      },
     },
     participate: {
       ideas: 'Ideas',
@@ -377,6 +385,7 @@ export const locals: { [key: string]: any } = {
       addOverviewToSlides: '✕ The overview cannot be added to the slides',
       addSessionToSlides: '✕ The session cannot be added to the slides',
       addReportToSlides: '✕ The report cannot be added to the slides',
+      importSession: '✕ The session cannot be imported',
     },
   },
 }
