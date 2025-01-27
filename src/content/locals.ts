@@ -373,6 +373,9 @@ export const locals: { [key: string]: any } = {
       announcements: 'The announcements cannot be loaded',
       corruptedData:
         'The data is corrupted. Please restore a previous version of the FigJam board before you have run the last session.',
+      addOverviewToSlides: '✕ The overview cannot be added to the slides',
+      addSessionToSlides: '✕ The session cannot be added to the slides',
+      addReportToSlides: '✕ The report cannot be added to the slides',
     },
   },
 }

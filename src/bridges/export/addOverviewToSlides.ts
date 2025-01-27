@@ -7,6 +7,8 @@ const addOverviewToSlides = async (data: {
   new OverviewSlides({
     activity: data.activity,
   })
+
+  return true
 }
 
 export default addOverviewToSlides

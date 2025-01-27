@@ -44,6 +44,7 @@ import sortIdeas from '../../utils/sortIdeas'
 import setBarChart from '../../utils/setBarChart'
 import { chartSizes } from '../../canvas/partials/tokens'
 import setParticipantsList from '../../utils/setParticipantsList'
+import { ActionsList } from 'src/types/models'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -77,6 +78,7 @@ interface SettingsStates {
   isPublicationDialogOpen: boolean
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
+  isActionLoading: boolean
 }
 
 export default class Settings extends PureComponent<
@@ -148,55 +150,76 @@ export default class Settings extends PureComponent<
       isPublicationDialogOpen: false,
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
+      isActionLoading: false,
     }
+  }
+
+  // Lifecycle
+  componentDidMount = () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      STOP_LOADER: () =>
+        this.setState({
+          isActionLoading: false,
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   // Direct actions
   onAddReport = () => {
+    const sortedSessionsData = this.props.sessions
+      .map((session) => {
+        const ideas = this.props.ideas.filter(
+          (idea) => idea.sessionId === session.id
+        )
+        const sortedIdeas = sortIdeas(ideas, this.props.activity.groupedBy)
+        const stringifiedChart = setBarChart(
+          Object.keys(sortedIdeas).map((type) => ({
+            type: type,
+            count: sortedIdeas[type].length,
+            color: sortedIdeas[type][0].type.hex,
+          })),
+          chartSizes.width,
+          chartSizes.height,
+          'STRING'
+        )
+        if (ideas.length === 0) return null
+        return {
+          session: session,
+          ideas: sortedIdeas,
+          participants: setParticipantsList(ideas),
+          stringifiedChart: stringifiedChart,
+        }
+      })
+      .filter((session) => session !== null)
+
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'ADD_OVERVIEW_TO_SLIDES',
+          type: 'ADD_REPORT_TO_SLIDES',
           data: {
             activity: this.props.activity,
+            sessions: sortedSessionsData,
           },
         },
       },
       '*'
     )
-    this.props.sessions.forEach((session) => {
-      const ideas = this.props.ideas.filter(
-        (idea) => idea.sessionId === session.id
-      )
-      const sortedIdeas = sortIdeas(ideas, this.props.activity.groupedBy)
-      const stringifiedChart = setBarChart(
-        Object.keys(sortedIdeas).map((type) => ({
-          type: type,
-          count: sortedIdeas[type].length,
-          color: sortedIdeas[type][0].type.hex,
-        })),
-        chartSizes.width,
-        chartSizes.height,
-        'STRING'
-      )
 
-      if (Object.keys(sortedIdeas).length > 0)
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'ADD_SESSION_TO_SLIDES',
-              data: {
-                activity: this.props.activity,
-                session: session,
-                ideas: sortedIdeas,
-                participants: setParticipantsList(this.props.ideas),
-                stringifiedChart: stringifiedChart,
-              },
-            },
-          },
-          '*'
-        )
-  })
+    this.setState({
+      isActionLoading: true,
+    })
   }
 
   // Templates
@@ -319,6 +342,10 @@ export default class Settings extends PureComponent<
                       this.props.planStatus
                     ).ACTIVITIES_OVERVIEW.isNew(),
                     action: () => {
+                      this.setState({
+                        isActionLoading: true,
+                      })
+
                       parent.postMessage(
                         {
                           pluginMessage: {
@@ -381,6 +408,7 @@ export default class Settings extends PureComponent<
                   },
                 ]}
                 alignment="BOTTOM_RIGHT"
+                state={this.state.isActionLoading ? 'LOADING' : 'DEFAULT'}
               />
               <Feature
                 isActive={Settings.features(

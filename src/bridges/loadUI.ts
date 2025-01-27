@@ -19,6 +19,7 @@ import startSession from './updates/startSession'
 import updateParticipants from './updates/updateParticipants'
 import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
+import { SessionDataToCanvas } from 'src/types/data'
 
 const loadUI = async () => {
   let lastData = ''
@@ -119,8 +120,32 @@ const loadUI = async () => {
       UNBLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: false }),
       //
       ADD_TO_BOARD: () => addToBoard(msg.data),
-      ADD_SESSION_TO_SLIDES: () => addSessionToSlides(msg.data),
-      ADD_OVERVIEW_TO_SLIDES: () => addOverviewToSlides(msg.data),
+      ADD_OVERVIEW_TO_SLIDES: () =>
+        addOverviewToSlides(msg.data)
+          .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
+          .catch(() => figma.notify(locals[lang].error.addOverviewToSlides)),
+      ADD_SESSION_TO_SLIDES: () =>
+        addSessionToSlides(msg.data)
+          .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
+          .catch(() => figma.notify(locals[lang].error.addSessionToSlides)),
+      ADD_REPORT_TO_SLIDES: () => {
+        console.log(msg.data)
+        addOverviewToSlides(msg.data)
+          .then(() =>
+            msg.data.sessions.forEach((data: SessionDataToCanvas) => {
+              addSessionToSlides({
+                activity: msg.data.activity,
+                session: data.session,
+                ideas: data.ideas,
+                participants: data.participants,
+                stringifiedChart: data.stringifiedChart,
+              })
+              return true
+            })
+          )
+          .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
+          .catch(() => figma.notify(locals[lang].error.addReportToSlides))
+      },
       EXPORT_CSV: () => exportCsv(msg.data),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),

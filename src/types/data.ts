@@ -1,4 +1,11 @@
-import { GroupedBy, TypeConfiguration } from './configurations'
+import {
+  ActivityConfiguration,
+  GroupedBy,
+  IdeaConfiguration,
+  SessionConfiguration,
+  TypeConfiguration,
+  UserConfiguration,
+} from './configurations'
 
 export interface ExternalActivitiesData {
   activity_id: string
@@ -16,4 +23,12 @@ export interface ExternalActivitiesData {
   creator_full_name: string
   creator_id: string
   is_shared: boolean
+}
+
+export interface SessionDataToCanvas {
+  activity: ActivityConfiguration
+  session: SessionConfiguration
+  ideas: { [key: string]: Array<IdeaConfiguration> }
+  participants: Array<UserConfiguration>
+  stringifiedChart: string
 }

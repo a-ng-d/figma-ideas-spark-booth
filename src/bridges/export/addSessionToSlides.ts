@@ -20,6 +20,8 @@ const addSessionToSlides = async (data: {
     participants: data.participants,
     stringifiedChart: data.stringifiedChart,
   })
+
+  return true
 }
 
 export default addSessionToSlides
