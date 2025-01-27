@@ -43,6 +43,7 @@ export default class OverviewSlides {
       new titleSlide({
         activityName: this.activity.name,
         activityDescription: this.activity.description,
+        activityTimer: this.activity.timer,
       }).titleSlideNode
     )
     rowNode.appendChild(

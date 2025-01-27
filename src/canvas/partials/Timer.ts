@@ -14,7 +14,7 @@ export default class Timer {
     const minutes = Math.floor((this.duration % 3600000) / 60000)
     const seconds = Math.floor((this.duration % 60000) / 1000)
 
-    return `${minutes}:${seconds}`
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
   }
 
   makeTimer = () => {
