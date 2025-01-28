@@ -474,7 +474,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
             spacingModifier: 'NONE',
           },
         ]}
-        border={this.props.sessions.length > 0 ? ['BOTTOM'] : undefined}
+        border={['BOTTOM']}
       />
     )
   }
