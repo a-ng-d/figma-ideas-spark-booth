@@ -331,6 +331,9 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
     const sessions = this.props.sessions.filter(
       (session) => session.id !== sessionId
     )
+    const ideas = this.props.ideas.filter(
+      (idea) => idea.sessionId !== sessionId
+    )
 
     this.setState({
       view: 'SETTINGS',
@@ -346,6 +349,15 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
         pluginMessage: {
           type: 'UPDATE_SESSIONS',
           data: sessions,
+        },
+      },
+      '*'
+    )
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_IDEAS',
+          data: ideas,
         },
       },
       '*'
