@@ -62,6 +62,28 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                 indicator={this.props.sessions.length}
               />
             }
+            rightPartSlot={
+              <Feature
+                isActive={HistorySettings.features(
+                  this.props.planStatus
+                ).SETTINGS_IMPORT.isActive()}
+              >
+                <Button
+                  type="icon"
+                  icon="import"
+                  helper={
+                    locals[this.props.lang].settings.actions.importSessions
+                  }
+                  isBlocked={HistorySettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_IMPORT.isReached(this.props.sessionCount)}
+                  isNew={HistorySettings.features(
+                    this.props.planStatus
+                  ).SETTINGS_IMPORT.isNew()}
+                  action={this.props.onOpenImportDialog}
+                />
+              </Feature>
+            }
             isListItem={false}
           />
         }
@@ -138,6 +160,7 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
             }
             isListItem={false}
           />
+
         }
         body={[
           {
