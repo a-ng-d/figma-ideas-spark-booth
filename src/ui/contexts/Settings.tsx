@@ -48,6 +48,7 @@ import { chartSizes } from '../../canvas/partials/tokens'
 import setParticipantsList from '../../utils/setParticipantsList'
 import { ActionsList } from 'src/types/models'
 import FileSaver from 'file-saver'
+import HistorySettings from '../modules/HistorySettings'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -256,165 +257,6 @@ export default class Settings extends PureComponent<
     FileSaver.saveAs(
       blob,
       `${new Case(this.props.activity.name).doSnakeCase()}_${new Date().toISOString()}.json`
-    )
-  }
-
-  // Templates
-  History = () => {
-    return (
-      <Feature
-        isActive={Settings.features(this.props.planStatus).HISTORY.isActive()}
-      >
-        <Section
-          title={
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].settings.history.title}
-                  indicator={this.props.sessions.length}
-                />
-              }
-              isListItem={false}
-            />
-          }
-          body={[
-            {
-              node: (
-                <ul>
-                  {this.props.sessions
-                    .sort(
-                      (a, b) =>
-                        new Date(b.metrics.startDate).getTime() -
-                        new Date(a.metrics.startDate).getTime()
-                    )
-                    .map((session, index) => (
-                      <SimpleItem
-                        key={index}
-                        id={session.id}
-                        leftPartSlot={
-                          <div
-                            style={{
-                              paddingLeft: 'var(--size-xxsmall)',
-                            }}
-                            className={`${layouts['snackbar--large']}`}
-                          >
-                            <span
-                              className={`${texts['type']} ${texts['type--truncated']} type`}
-                              style={{ flex: '0 0 200px' }}
-                            >
-                              {setFriendlyDate(
-                                session.metrics.startDate,
-                                this.props.lang,
-                                'RELATIVE'
-                              )}
-                            </span>
-                            <span
-                              className={`${texts['type']} ${texts['type--secondary']} type`}
-                              style={{ flex: '0 0 auto' }}
-                            >
-                              {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}・${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
-                            </span>
-                          </div>
-                        }
-                        rightPartSlot={
-                          <Icon
-                            type="PICTO"
-                            iconName="forward"
-                          />
-                        }
-                        alignment="CENTER"
-                        isInteractive={true}
-                        action={this.props.onOpenSessionHistory}
-                      />
-                    ))}
-                </ul>
-              ),
-              spacingModifier: 'NONE',
-            },
-          ]}
-          border={undefined}
-        />
-      </Feature>
-    )
-  }
-
-  EmptyHistory = () => {
-    return (
-      <Feature
-        isActive={Settings.features(this.props.planStatus).HISTORY.isActive()}
-      >
-        <Section
-          title={
-            <SimpleItem
-              leftPartSlot={
-                <SectionTitle
-                  label={locals[this.props.lang].settings.history.title}
-                  indicator={this.props.sessions.length}
-                />
-              }
-              isListItem={false}
-            />
-          }
-          body={[
-            {
-              node: (
-                <SemanticMessage
-                  type="NEUTRAL"
-                  message={locals[this.props.lang].settings.history.empty}
-                  actionsSlot={
-                    <>
-                      <Feature
-                        isActive={Settings.features(
-                          this.props.planStatus
-                        ).SETTINGS_IMPORT.isActive()}
-                      >
-                        <Button
-                          type="secondary"
-                          label={
-                            locals[this.props.lang].settings.actions
-                              .importSessions
-                          }
-                          isBlocked={Settings.features(
-                            this.props.planStatus
-                          ).SETTINGS_IMPORT.isReached(this.props.sessionCount)}
-                          isNew={Settings.features(
-                            this.props.planStatus
-                          ).SETTINGS_IMPORT.isNew()}
-                          action={() =>
-                            this.setState({ isImportDialogOpen: true })
-                          }
-                        />
-                      </Feature>
-                      <Feature
-                        isActive={Settings.features(
-                          this.props.planStatus
-                        ).ACTIVITIES_RUN.isActive()}
-                      >
-                        <Button
-                          type="primary"
-                          label={locals[this.props.lang].sessions.newSession}
-                          feature="SESSION_RUN"
-                          isBlocked={Settings.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
-                          isNew={Settings.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_RUN.isNew()}
-                          action={() =>
-                            this.props.onRunSession(this.props.activity.meta.id)
-                          }
-                        />
-                      </Feature>
-                    </>
-                  }
-                  orientation="VERTICAL"
-                />
-              ),
-            },
-          ]}
-          border={undefined}
-        />
-      </Feature>
     )
   }
 
@@ -825,11 +667,19 @@ export default class Settings extends PureComponent<
           >
             <TypesSettings {...this.props} />
           </Feature>
-          {this.props.sessions.length > 0 ? (
-            <this.History />
-          ) : (
-            <this.EmptyHistory />
-          )}
+          <Feature
+            isActive={Settings.features(
+              this.props.planStatus
+            ).HISTORY.isActive()}
+          >
+            <HistorySettings
+              {...this.props}
+              activityId={this.props.activity.meta.id}
+              onOpenImportDialog={() =>
+                this.setState({ isImportDialogOpen: true })
+              }
+            />
+          </Feature>
         </div>
       </div>
     )
