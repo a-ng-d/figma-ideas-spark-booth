@@ -380,6 +380,7 @@ export default class History extends PureComponent<
                     this.props.planStatus
                   ).HISTORY_SORT.isNew()}
                   alignment="RIGHT"
+                  pin="TOP"
                 />
               </Feature>
               {this.props.ideas.length > 0 ? (
