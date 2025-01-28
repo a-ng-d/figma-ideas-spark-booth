@@ -133,6 +133,7 @@ export const locals: { [key: string]: any } = {
       },
       history: {
         title: 'Session history',
+        empty: 'No session yet',
         participants: {
           single: 'participant',
           plural: 'participants',

@@ -10,6 +10,7 @@ import {
   Menu,
   Section,
   SectionTitle,
+  SemanticMessage,
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
@@ -84,7 +85,10 @@ interface SettingsStates {
   isActionLoading: boolean
 }
 
-export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+export default class Settings extends PureComponent<
+  SettingsProps,
+  SettingsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -326,6 +330,86 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
                 </ul>
               ),
               spacingModifier: 'NONE',
+            },
+          ]}
+          border={undefined}
+        />
+      </Feature>
+    )
+  }
+
+  EmptyHistory = () => {
+    return (
+      <Feature
+        isActive={Settings.features(this.props.planStatus).HISTORY.isActive()}
+      >
+        <Section
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={locals[this.props.lang].settings.history.title}
+                  indicator={this.props.sessions.length}
+                />
+              }
+              isListItem={false}
+            />
+          }
+          body={[
+            {
+              node: (
+                <SemanticMessage
+                  type="NEUTRAL"
+                  message={locals[this.props.lang].settings.history.empty}
+                  actionsSlot={
+                    <>
+                      <Feature
+                        isActive={Settings.features(
+                          this.props.planStatus
+                        ).SETTINGS_IMPORT.isActive()}
+                      >
+                        <Button
+                          type="secondary"
+                          label={
+                            locals[this.props.lang].settings.actions
+                              .importSessions
+                          }
+                          isBlocked={Settings.features(
+                            this.props.planStatus
+                          ).SETTINGS_IMPORT.isReached(this.props.sessionCount)}
+                          isNew={Settings.features(
+                            this.props.planStatus
+                          ).SETTINGS_IMPORT.isNew()}
+                          action={() =>
+                            this.setState({ isImportDialogOpen: true })
+                          }
+                        />
+                      </Feature>
+                      <Feature
+                        isActive={Settings.features(
+                          this.props.planStatus
+                        ).ACTIVITIES_RUN.isActive()}
+                      >
+                        <Button
+                          type="primary"
+                          label={locals[this.props.lang].sessions.newSession}
+                          feature="SESSION_RUN"
+                          isBlocked={Settings.features(
+                            this.props.planStatus
+                          ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
+                          isNew={Settings.features(
+                            this.props.planStatus
+                          ).ACTIVITIES_RUN.isNew()}
+                          action={() =>
+                            this.props.onRunSession(this.props.activity.meta.id)
+                          }
+                        />
+                      </Feature>
+                    </>
+                  }
+                  orientation="VERTICAL"
+                />
+              ),
             },
           ]}
           border={undefined}
@@ -741,7 +825,11 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
           >
             <TypesSettings {...this.props} />
           </Feature>
-          {this.props.sessions.length > 0 && <this.History />}
+          {this.props.sessions.length > 0 ? (
+            <this.History />
+          ) : (
+            <this.EmptyHistory />
+          )}
         </div>
       </div>
     )
