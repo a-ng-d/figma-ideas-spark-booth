@@ -19,7 +19,8 @@ import startSession from './updates/startSession'
 import updateParticipants from './updates/updateParticipants'
 import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
-import { SessionDataToCanvas } from 'src/types/data'
+import { SessionDataToCanvas } from '../types/data'
+import importSessions from './imports/importSessions'
 
 const loadUI = async () => {
   let lastData = ''
@@ -149,6 +150,16 @@ const loadUI = async () => {
           .catch(() => figma.notify(locals[lang].error.addReportToSlides))
       },
       EXPORT_CSV: () => exportCsv(msg.data),
+      //
+      IMPORT_SESSIONS: () =>
+        importSessions(msg.data.files, msg.data.activityId)
+          .then((messages) =>
+            figma.notify(messages.join('・'), { timeout: 10000 })
+          )
+          .catch((error) => {
+            figma.notify(locals[lang].error.generic)
+            throw error
+          }),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),

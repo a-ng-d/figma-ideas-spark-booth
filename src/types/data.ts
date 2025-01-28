@@ -32,3 +32,10 @@ export interface SessionDataToCanvas {
   participants: Array<UserConfiguration>
   stringifiedChart: string
 }
+
+export interface FileContent {
+  name: string
+  content: string | ArrayBuffer | null | undefined
+  isValid?: boolean
+  status?: 'EXISTING' | 'NOT_LINKED' | 'OK'
+}

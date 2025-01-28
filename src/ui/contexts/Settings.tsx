@@ -696,7 +696,23 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
                       locals[this.props.lang].settings.importSessionsDialog.cta
                     }
                     acceptedMimeTypes={['application/json']}
-                    onImportFiles={(files) => console.log(files)}
+                    isMultiple={true}
+                    onImportFiles={(files) => {
+                      this.setState({ isImportDialogOpen: false })
+
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'IMPORT_SESSIONS',
+                            data: {
+                              files: files,
+                              activityId: this.props.activity.meta.id,
+                            },
+                          },
+                        },
+                        '*'
+                      )
+                    }}
                   />
                 </div>
               </Dialog>,

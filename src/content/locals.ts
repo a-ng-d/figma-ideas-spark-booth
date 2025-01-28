@@ -70,6 +70,7 @@ export const locals: { [key: string]: any } = {
     sessions: {
       newSession: 'New session',
       endSession: 'session has ended',
+      importSessions: 'Manual import of sessions',
     },
     settings: {
       actions: {
@@ -343,6 +344,10 @@ export const locals: { [key: string]: any } = {
       duplicatedActivity:
         '✓ The activity has been duplicated to the local ones',
       unblockedParticipation: '✓ You can now participate',
+      importedSessions: {
+        single: '$1 session successfully imported',
+        plural: '$1 sessions successfully imported',
+      },
     },
     info: {
       noResult: 'No activity match your search',
@@ -353,6 +358,10 @@ export const locals: { [key: string]: any } = {
       blockedParticipation:
         'Your participation is blocked because the maximum number of $1 participants is reached. You can ask the facilitator to upgrade to Pro plan.',
       signOut: '☻ See you later',
+      importedSessions: {
+        single: '$1 session already exists',
+        plural: '$1 sessions already exist',
+      },
     },
     warning: {
       timesUp: 'The time is up!',
@@ -364,6 +373,10 @@ export const locals: { [key: string]: any } = {
         'This activity is already duplicated to the local ones',
       blockedParticipations:
         'Some of your participants cannot create ideas due to the limit of $1 participants reached',
+      importedSessions: {
+        single: '$1 session is not liked to the current activity',
+        plural: '$1 sessions are not liked to the current activity',
+      },
     },
     error: {
       generic: '✕ Something went wrong',
@@ -385,7 +398,10 @@ export const locals: { [key: string]: any } = {
       addOverviewToSlides: '✕ The overview cannot be added to the slides',
       addSessionToSlides: '✕ The session cannot be added to the slides',
       addReportToSlides: '✕ The report cannot be added to the slides',
-      importSession: '✕ The session cannot be imported',
+      importedSessions: {
+        single: '$1 session cannot be imported',
+        plural: '$1 sessions cannot be imported',
+      },
     },
   },
 }
