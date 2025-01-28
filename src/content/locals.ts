@@ -89,7 +89,7 @@ export const locals: { [key: string]: any } = {
         signIn: 'Sign in to publish',
         overview: 'Add overview to slides',
         report: 'Add report to slides',
-        exportActivity: 'Export the activity (JSON)',
+        exportActivity: 'Export activity',
         importSessions: 'Import sessions',
         delete: 'Delete activity',
       },

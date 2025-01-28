@@ -130,15 +130,9 @@ export default class SessionSlide {
     header.headerNode.layoutSizingHorizontal = 'FILL'
     participantsNode.layoutSizingHorizontal = 'FILL'
 
-    const participantToDuplicate = this.participants[0]
-    const duplicationCount = 39
-    const duplicatedParticipants = Array(duplicationCount).fill(
-      participantToDuplicate
-    )
-    const allParticipants = [...this.participants, ...duplicatedParticipants]
     let remainingParticipants: Array<UserConfiguration> = []
 
-    allParticipants.forEach((participant, index) => {
+    this.participants.forEach((participant, index) => {
       if (index <= 13)
         this.participantsSlot?.appendChild(
           new Member({
@@ -147,7 +141,7 @@ export default class SessionSlide {
             width: SessionSlide.participantWidth,
           }).memberNode
         )
-      if (index >= 14 && allParticipants.length <= 15)
+      if (index >= 14 && this.participants.length <= 15)
         this.participantsSlot?.appendChild(
           new Member({
             avatarUrl: participant.avatar,
@@ -155,7 +149,7 @@ export default class SessionSlide {
             width: SessionSlide.participantWidth,
           }).memberNode
         )
-      if (index >= 14 && allParticipants.length > 15)
+      if (index >= 14 && this.participants.length > 15)
         remainingParticipants = [...remainingParticipants, participant]
     })
 
