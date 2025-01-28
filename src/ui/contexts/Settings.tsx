@@ -86,10 +86,7 @@ interface SettingsStates {
   isActionLoading: boolean
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -238,7 +235,7 @@ export default class Settings extends PureComponent<
     )
   }
 
-  onExportJson = () => {
+  onExportActivity = () => {
     const activityIdeas = this.props.sessions
       .map((session) => {
         return this.props.ideas.filter((idea) => idea.sessionId === session.id)
@@ -366,7 +363,7 @@ export default class Settings extends PureComponent<
                     isNew: Settings.features(
                       this.props.planStatus
                     ).ACTIVITIES_EXPORT_ALL.isNew(),
-                    action: () => this.onExportJson(),
+                    action: () => this.onExportActivity(),
                   },
                   {
                     type: 'SEPARATOR',

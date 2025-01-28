@@ -123,16 +123,64 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
     }
 
     const deleteActivity = () => {
-      this.activitiesMessage.data = this.props.activities.filter(
-        (activity) => activity.meta.id !== this.state.openedActivity
+      const remainingActivities = (this.activitiesMessage.data =
+        this.props.activities.filter(
+          (activity) => activity.meta.id !== this.state.openedActivity
+        ))
+      const remainingSessions = this.props.sessions.filter(
+        (session) => session.activityId !== this.state.openedActivity
       )
+      const removedSessions = this.props.sessions.filter(
+        (session) => session.activityId === this.state.openedActivity
+      )
+      let remainingIdeas = this.props.ideas
+
+      removedSessions.forEach((session) => {
+        remainingIdeas = remainingIdeas.filter(
+          (idea) => idea.sessionId !== session.id
+        )
+      })
+
+      this.props.onChangeActivities({
+        activities: remainingActivities,
+        sessions: remainingSessions,
+        ideas: remainingIdeas,
+        onGoingStep: 'ideas changed',
+      })
 
       this.setState({
         view: 'ACTIVITIES',
         openedActivity: undefined,
       })
 
-      return sendData()
+      parent.postMessage({ pluginMessage: this.activitiesMessage }, '*')
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_SESSIONS',
+            data: remainingSessions,
+          },
+        },
+        '*'
+      )
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_IDEAS',
+            data: remainingIdeas,
+          },
+        },
+        '*'
+      )
+
+      trackActivityEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: currentElement.dataset.feature,
+        } as ActivityEvent
+      )
     }
 
     const renameActivity = () => {

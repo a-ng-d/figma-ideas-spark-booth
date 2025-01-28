@@ -1,25 +1,25 @@
 import { lang, locals } from '../../content/locals'
 import {
+  ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
 } from '../../types/configurations'
 import { FileContent } from '../../types/data'
 import {
+  validateActivitiesStructure,
   validateIdeasStructure,
   validateSessionsStructure,
 } from '../../utils/checkDataSchema'
 
-const importSessions = async (
-  importedFiles: Array<FileContent>,
-  activityId: string
-) => {
+const importActivities = async (importedFiles: Array<FileContent>) => {
   const messages: Array<string> = []
 
   const checkedFiles = await Promise.all(
     importedFiles.map(async (file) => {
       const data = JSON.parse(file.content as string)
 
-      return validateSessionsStructure([data.session])
+      return validateActivitiesStructure([data.activity])
+        .then(() => validateSessionsStructure(data.sessions))
         .then(() => validateIdeasStructure(data.ideas))
         .then(() => {
           return {
@@ -42,9 +42,12 @@ const importSessions = async (
 
   if (validFiles.length > 0) {
     await figma.saveVersionHistoryAsync(
-      locals[lang].sessions.saveVersionAfterImporting
+      locals[lang].activities.saveVersionAfterImporting
     )
 
+    const existingActivities = JSON.parse(
+      figma.root.getPluginData('activities')
+    ) as Array<ActivityConfiguration>
     const existingSessions = JSON.parse(
       figma.root.getPluginData('sessions')
     ) as Array<SessionConfiguration>
@@ -53,21 +56,20 @@ const importSessions = async (
     ) as Array<IdeaConfiguration>
 
     validFiles.forEach((file) => {
-      const isSessionExisting = existingSessions.some(
-        (session: SessionConfiguration) =>
-          session.id === file.content.session.id
+      const isActivityExisting = existingActivities.some(
+        (activity: ActivityConfiguration) =>
+          activity.meta.id === file.content.activity.meta.id
       )
-      const isLinkedToActivity = file.content.session.activityId === activityId
 
-      if (!isSessionExisting && isLinkedToActivity) {
-        existingSessions.push(file.content.session)
+      if (!isActivityExisting) {
+        existingActivities.push(file.content.activity)
+        existingSessions.push(...file.content.sessions)
         existingIdeas.push(...file.content.ideas)
         file.status = 'OK'
-      }
-      if (!isLinkedToActivity) file.status = 'NOT_LINKED'
-      if (isSessionExisting) file.status = 'EXISTING'
+      } else file.status = 'EXISTING'
     })
 
+    figma.root.setPluginData('activities', JSON.stringify(existingActivities))
     figma.root.setPluginData('sessions', JSON.stringify(existingSessions))
     figma.root.setPluginData('ideas', JSON.stringify(existingIdeas))
   }
@@ -78,21 +80,18 @@ const importSessions = async (
   const existingFilesNames = validFiles
     .filter((file) => file.status === 'EXISTING')
     .map((file) => `"${file.name}"`)
-  const notLikedToActivityFilesNames = validFiles
-    .filter((file) => file.status === 'NOT_LINKED')
-    .map((file) => `"${file.name}"`)
   const unValidFilesNames = unValidFiles.map((file) => `"${file.name}"`)
 
   if (importedFilesNames.length === 1)
     messages.push(
-      locals[lang].success.importedSessions.single.replace(
+      locals[lang].success.importedActivities.single.replace(
         '$1',
         importedFilesNames.join(', ')
       )
     )
   else if (importedFilesNames.length > 1)
     messages.push(
-      locals[lang].success.importedSessions.plural.replace(
+      locals[lang].success.importedActivities.plural.replace(
         '$1',
         importedFilesNames.join(', ')
       )
@@ -100,44 +99,29 @@ const importSessions = async (
 
   if (existingFilesNames.length === 1)
     messages.push(
-      locals[lang].info.importedSessions.single.replace(
+      locals[lang].info.importedActivities.single.replace(
         '$1',
         existingFilesNames.join(', ')
       )
     )
   else if (existingFilesNames.length > 1)
     messages.push(
-      locals[lang].info.importedSessions.plural.replace(
+      locals[lang].info.importedActivities.plural.replace(
         '$1',
         existingFilesNames.join(', ')
       )
     )
 
-  if (notLikedToActivityFilesNames.length === 1)
-    messages.push(
-      locals[lang].warning.importedSessions.single.replace(
-        '$1',
-        notLikedToActivityFilesNames.join(', ')
-      )
-    )
-  else if (notLikedToActivityFilesNames.length > 1)
-    messages.push(
-      locals[lang].warning.importedSessions.plural.replace(
-        '$1',
-        notLikedToActivityFilesNames.join(', ')
-      )
-    )
-
   if (unValidFiles.length === 1)
     messages.push(
-      locals[lang].error.importedSessions.single.replace(
+      locals[lang].error.importedActivities.single.replace(
         '$1',
         unValidFilesNames.join(', ')
       )
     )
   else if (unValidFiles.length > 1)
     messages.push(
-      locals[lang].error.importedSessions.plural.replace(
+      locals[lang].error.importedActivities.plural.replace(
         '$1',
         unValidFilesNames.join(', ')
       )
@@ -146,4 +130,4 @@ const importSessions = async (
   return messages
 }
 
-export default importSessions
+export default importActivities

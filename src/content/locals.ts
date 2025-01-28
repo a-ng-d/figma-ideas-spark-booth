@@ -66,11 +66,21 @@ export const locals: { [key: string]: any } = {
         completeList: 'The activities list is complete',
       },
       duplicateToLocal: 'Duplicate to local',
+      importActivities: 'Import activities',
+      saveVersionAfterImporting: 'Manual import of activities',
+      importSessionsDialog: {
+        title: 'Import activities',
+        message:
+          "Bring the activites you've exported from another FigJam/Slides document",
+        warning: '$1 cannot be imported',
+        error: 'The import files are not valid',
+        cta: 'Import from computer…',
+      },
     },
     sessions: {
       newSession: 'New session',
       endSession: 'session has ended',
-      importSessions: 'Manual import of sessions',
+      saveVersionAfterImporting: 'Manual import of sessions',
     },
     settings: {
       actions: {
@@ -152,7 +162,8 @@ export const locals: { [key: string]: any } = {
       },
       importSessionsDialog: {
         title: 'Import sessions',
-        message: "Bring the sessions you've exported from another document",
+        message:
+          "Bring the sessions you've exported from another FigJam/Slides document",
         warning: '$1 cannot be imported',
         error: 'The import files are not valid',
         cta: 'Import from computer…',
@@ -349,6 +360,10 @@ export const locals: { [key: string]: any } = {
         single: '$1 session successfully imported',
         plural: '$1 sessions successfully imported',
       },
+      importedActivities: {
+        single: '$1 activity successfully imported',
+        plural: '$1 activities successfully imported',
+      },
     },
     info: {
       noResult: 'No activity match your search',
@@ -362,6 +377,10 @@ export const locals: { [key: string]: any } = {
       importedSessions: {
         single: '$1 session already exists',
         plural: '$1 sessions already exist',
+      },
+      importedActivities: {
+        single: '$1 activity already exists',
+        plural: '$1 activities already exist',
       },
     },
     warning: {
@@ -402,6 +421,10 @@ export const locals: { [key: string]: any } = {
       importedSessions: {
         single: '$1 session cannot be imported',
         plural: '$1 sessions cannot be imported',
+      },
+      importedActivities: {
+        single: '$1 activity cannot be imported',
+        plural: '$1 activities cannot be imported',
       },
     },
   },

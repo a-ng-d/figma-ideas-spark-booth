@@ -21,6 +21,7 @@ import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
 import { SessionDataToCanvas } from '../types/data'
 import importSessions from './imports/importSessions'
+import importActivities from './imports/importActivities'
 
 const loadUI = async () => {
   let lastData = ''
@@ -153,6 +154,15 @@ const loadUI = async () => {
       //
       IMPORT_SESSIONS: () =>
         importSessions(msg.data.files, msg.data.activityId)
+          .then((messages) =>
+            figma.notify(messages.join('・'), { timeout: 10000 })
+          )
+          .catch((error) => {
+            figma.notify(locals[lang].error.generic)
+            throw error
+          }),
+      IMPORT_ACTIVITIES: () =>
+        importActivities(msg.data.files)
           .then((messages) =>
             figma.notify(messages.join('・'), { timeout: 10000 })
           )

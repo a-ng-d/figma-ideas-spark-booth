@@ -139,6 +139,15 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE'],
   },
   {
+    name: 'ACTIVITIES_IMPORT',
+    description: '',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE'],
+  },
+  {
     name: 'ACTIVITIES_SETTINGS',
     description: '',
     isActive: true,
