@@ -12,13 +12,13 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
+import { ActionsList } from 'src/types/models'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
-import { ActionsList } from 'src/types/models'
 
 interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>

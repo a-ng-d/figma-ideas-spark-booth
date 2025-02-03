@@ -7,10 +7,11 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
+import React from 'react'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
+import { chartSizes } from '../canvas/partials/tokens'
 import features, {
   announcementsWorkerUrl,
   feedbackUrl,
@@ -51,6 +52,9 @@ import {
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
+import setBarChart from '../utils/setBarChart'
+import setParticipantsList from '../utils/setParticipantsList'
+import sortIdeas from '../utils/sortIdeas'
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
 import PriorityContainer from './modules/PriorityContainer'
@@ -60,10 +64,6 @@ import CorruptedData from './services/CorruptedData'
 import Participate from './services/Participate'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
-import setParticipantsList from '../utils/setParticipantsList'
-import setBarChart from '../utils/setBarChart'
-import sortIdeas from '../utils/sortIdeas'
-import { chartSizes } from '../canvas/partials/tokens'
 
 export interface AppStates {
   activities: Array<ActivityConfiguration>
@@ -89,7 +89,10 @@ export interface AppStates {
   onGoingStep: string
 }
 
-export default class App extends PureComponent<Record<string, never>, AppStates> {
+export default class App extends PureComponent<
+  Record<string, never>,
+  AppStates
+> {
   static features = (planStatus: PlanStatus) => ({
     BROWSE: new FeatureStatus({
       features: features,

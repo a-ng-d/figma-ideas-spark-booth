@@ -46,7 +46,7 @@ export default class OverviewSlides {
         activityTimer: this.activity.timer,
       }).titleSlideNode
     )
-    
+
     if (this.activity.instructions !== '')
       rowNode.appendChild(
         new InstructionsSlide({

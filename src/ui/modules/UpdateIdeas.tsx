@@ -49,7 +49,10 @@ interface UpdateIdeasStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class UpdateIdeas extends PureComponent<UpdateIdeasProps, UpdateIdeasStates> {
+export default class UpdateIdeas extends PureComponent<
+  UpdateIdeasProps,
+  UpdateIdeasStates
+> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 

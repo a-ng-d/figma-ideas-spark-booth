@@ -1,9 +1,9 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
+import { TimerConfiguration } from 'src/types/configurations'
 import Layout from '../partials/Layout'
 import Slide from '../partials/Slide'
-import { colors, gaps, textStyles } from '../partials/tokens'
-import { TimerConfiguration } from 'src/types/configurations'
 import Timer from '../partials/Timer'
+import { colors, gaps, textStyles } from '../partials/tokens'
 
 export default class titleSlide {
   private activityName: string

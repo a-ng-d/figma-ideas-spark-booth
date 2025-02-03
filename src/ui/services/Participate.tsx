@@ -10,8 +10,8 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
+import React from 'react'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
@@ -60,7 +60,10 @@ interface ParticipateStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class Participate extends PureComponent<ParticipateProps, ParticipateStates> {
+export default class Participate extends PureComponent<
+  ParticipateProps,
+  ParticipateStates
+> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 

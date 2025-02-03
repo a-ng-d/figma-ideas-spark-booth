@@ -43,7 +43,10 @@ interface CreateIdeasStates {
   currentText: string
 }
 
-export default class CreateIdeas extends PureComponent<CreateIdeasProps, CreateIdeasStates> {
+export default class CreateIdeas extends PureComponent<
+  CreateIdeasProps,
+  CreateIdeasStates
+> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 

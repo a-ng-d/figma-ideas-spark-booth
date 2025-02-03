@@ -12,8 +12,9 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
-import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
+import React from 'react'
+import { chartSizes } from '../../canvas/partials/tokens'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
@@ -23,13 +24,12 @@ import {
   SessionConfiguration,
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
+import setBarChart from '../../utils/setBarChart'
 import setFriendlyDate from '../../utils/setFriendlyDate'
+import setParticipantsList from '../../utils/setParticipantsList'
+import sortIdeas from '../../utils/sortIdeas'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
-import sortIdeas from '../../utils/sortIdeas'
-import setBarChart from '../../utils/setBarChart'
-import setParticipantsList from '../../utils/setParticipantsList'
-import { chartSizes } from '../../canvas/partials/tokens'
 
 interface HistoryProps {
   activity: ActivityConfiguration

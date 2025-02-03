@@ -160,7 +160,6 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
             }
             isListItem={false}
           />
-
         }
         body={[
           {
