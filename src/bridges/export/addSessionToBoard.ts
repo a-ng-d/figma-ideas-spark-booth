@@ -1,4 +1,4 @@
-import Classification from '../../canvas/Classification'
+import BoardClassification from '../../canvas/BoardClassification'
 import {
   ActivityConfiguration,
   IdeaConfiguration,
@@ -10,7 +10,7 @@ const addSessionToBoard = async (data: {
   session: SessionConfiguration
   ideas: { [key: string]: Array<IdeaConfiguration> }
 }) => {
-  new Classification({
+  new BoardClassification({
     activity: data.activity,
     sessionStartDate: data.session.metrics.startDate,
     ideas: data.ideas,
