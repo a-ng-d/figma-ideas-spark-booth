@@ -52,10 +52,7 @@ interface HistoryStates {
   isActionLoading: boolean
 }
 
-export default class History extends PureComponent<
-  HistoryProps,
-  HistoryStates
-> {
+export default class History extends PureComponent<HistoryProps, HistoryStates> {
   static features = (planStatus: PlanStatus) => ({
     HISTORY_FILTER: new FeatureStatus({
       features: features,
@@ -77,9 +74,9 @@ export default class History extends PureComponent<
       featureName: 'HISTORY_EXPORT_SESSION',
       planStatus: planStatus,
     }),
-    HISTORY_ADD_TO_BOARD: new FeatureStatus({
+    HISTORY_ADD_TO: new FeatureStatus({
       features: features,
-      featureName: 'HISTORY_ADD_TO_BOARD',
+      featureName: 'HISTORY_ADD_TO',
       planStatus: planStatus,
     }),
     HISTORY_DELETE: new FeatureStatus({
@@ -497,8 +494,7 @@ export default class History extends PureComponent<
                 isActive={
                   History.features(
                     this.props.planStatus
-                  ).HISTORY_ADD_TO_BOARD.isActive() &&
-                  this.props.ideas.length > 0
+                  ).HISTORY_ADD_TO.isActive() && this.props.ideas.length > 0
                 }
               >
                 <Button
@@ -511,10 +507,10 @@ export default class History extends PureComponent<
                   isLoading={this.state.isSecondaryLoading}
                   isBlocked={History.features(
                     this.props.planStatus
-                  ).HISTORY_ADD_TO_BOARD.isBlocked()}
+                  ).HISTORY_ADD_TO.isBlocked()}
                   isNew={History.features(
                     this.props.planStatus
-                  ).HISTORY_ADD_TO_BOARD.isNew()}
+                  ).HISTORY_ADD_TO.isNew()}
                   action={() => {
                     this.setState({
                       isSecondaryLoading: true,
