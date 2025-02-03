@@ -18,6 +18,7 @@ import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import { ActivityConfiguration } from '../../types/configurations'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
+import { ActionsList } from 'src/types/models'
 
 interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>
@@ -32,6 +33,7 @@ interface LocalActivitiesProps {
 
 interface LocalActivitiesStates {
   isImportDialogOpen: boolean
+  isFilesImporting: boolean
 }
 
 export default class LocalActivities extends PureComponent<
@@ -70,7 +72,31 @@ export default class LocalActivities extends PureComponent<
     super(props)
     this.state = {
       isImportDialogOpen: false,
+      isFilesImporting: false,
     }
+  }
+
+  // Lifecycle
+  componentDidMount = () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      STOP_IMPORTER: () =>
+        this.setState({
+          isFilesImporting: false,
+          isImportDialogOpen: false,
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   render() {
@@ -321,8 +347,9 @@ export default class LocalActivities extends PureComponent<
                     }
                     acceptedMimeTypes={['application/json']}
                     isMultiple={true}
+                    isLoading={this.state.isFilesImporting}
                     onImportFiles={(files) => {
-                      this.setState({ isImportDialogOpen: false })
+                      this.setState({ isFilesImporting: false })
 
                       parent.postMessage(
                         {

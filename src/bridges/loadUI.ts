@@ -157,6 +157,7 @@ const loadUI = async () => {
           .then((messages) =>
             figma.notify(messages.join('・'), { timeout: 10000 })
           )
+          .finally(() => figma.ui.postMessage({ type: 'STOP_IMPORTER' }))
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error
@@ -166,6 +167,7 @@ const loadUI = async () => {
           .then((messages) =>
             figma.notify(messages.join('・'), { timeout: 10000 })
           )
+          .finally(() => figma.ui.postMessage({ type: 'STOP_IMPORTER' }))
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error

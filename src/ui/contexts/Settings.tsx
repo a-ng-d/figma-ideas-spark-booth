@@ -5,13 +5,8 @@ import {
   ConsentConfiguration,
   Dialog,
   Dropzone,
-  Icon,
   layouts,
   Menu,
-  Section,
-  SectionTitle,
-  SemanticMessage,
-  SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -36,7 +31,6 @@ import {
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import { trackSignInEvent } from '../../utils/eventsTracker'
-import setFriendlyDate from '../../utils/setFriendlyDate'
 import Feature from '../components/Feature'
 import GlobalSettings from '../modules/GlobalSettings'
 import Publication from '../modules/Publication'
@@ -84,9 +78,13 @@ interface SettingsStates {
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
   isActionLoading: boolean
+  isFilesImporting: boolean
 }
 
-export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+export default class Settings extends PureComponent<
+  SettingsProps,
+  SettingsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -159,6 +157,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
       isActionLoading: false,
+      isFilesImporting: false,
     }
   }
 
@@ -177,6 +176,11 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
       STOP_LOADER: () =>
         this.setState({
           isActionLoading: false,
+        }),
+      STOP_IMPORTER: () =>
+        this.setState({
+          isFilesImporting: false,
+          isImportDialogOpen: false,
         }),
       DEFAULT: () => null,
     }
@@ -620,8 +624,9 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
                     }
                     acceptedMimeTypes={['application/json']}
                     isMultiple={true}
+                    isLoading={this.state.isFilesImporting}
                     onImportFiles={(files) => {
-                      this.setState({ isImportDialogOpen: false })
+                      this.setState({ isFilesImporting: true })
 
                       parent.postMessage(
                         {
