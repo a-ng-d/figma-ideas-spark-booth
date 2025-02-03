@@ -6,7 +6,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import addSessionToSlides from '../export/addSessionToSlides'
-import addToBoard from '../export/addToBoard'
+import addSessionToBoard from '../export/addSessionToBoard'
 import updateParticipants from './updateParticipants'
 
 const endSession = async (data: {
@@ -23,7 +23,7 @@ const endSession = async (data: {
   updateParticipants({ hasEnded: true })
 
   if (figma.editorType === 'figjam')
-    addToBoard({
+    addSessionToBoard({
       activity: data.activity,
       session: data.session,
       ideas: data.ideas,

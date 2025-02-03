@@ -540,7 +540,7 @@ export default class History extends PureComponent<
                         pluginMessage: {
                           type:
                             this.props.editorType === 'figjam'
-                              ? 'ADD_TO_BOARD'
+                              ? 'ADD_SESSION_TO_BOARD'
                               : 'ADD_SESSION_TO_SLIDES',
                           data: {
                             activity: this.props.activity,

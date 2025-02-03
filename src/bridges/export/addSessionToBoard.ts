@@ -5,7 +5,7 @@ import {
   SessionConfiguration,
 } from '../../types/configurations'
 
-const addToBoard = async (data: {
+const addSessionToBoard = async (data: {
   activity: ActivityConfiguration
   session: SessionConfiguration
   ideas: { [key: string]: Array<IdeaConfiguration> }
@@ -19,4 +19,4 @@ const addToBoard = async (data: {
   return true
 }
 
-export default addToBoard
+export default addSessionToBoard

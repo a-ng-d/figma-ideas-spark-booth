@@ -11,7 +11,7 @@ import checkUserConsent from './checks/checkUserConsent'
 import enableTrial from './enableTrial'
 import addOverviewToSlides from './export/addOverviewToSlides'
 import addSessionToSlides from './export/addSessionToSlides'
-import addToBoard from './export/addToBoard'
+import addSessionToBoard from './export/addSessionToBoard'
 import exportCsv from './export/exportCsv'
 import getProPlan from './getProPlan'
 import importActivities from './imports/importActivities'
@@ -121,8 +121,8 @@ const loadUI = async () => {
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),
       UNBLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: false }),
       //
-      ADD_TO_BOARD: () =>
-        addToBoard(msg.data)
+      ADD_SESSION_TO_BOARD: () =>
+        addSessionToBoard(msg.data)
           .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
           .catch(() => figma.notify(locals[lang].error.addSessionToBoard)),
       ADD_OVERVIEW_TO_SLIDES: () =>
