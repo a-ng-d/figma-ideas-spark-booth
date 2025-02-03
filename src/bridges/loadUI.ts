@@ -45,7 +45,6 @@ const loadUI = async () => {
     .then(() => checkEditorType())
     .then(() => checkPlanStatus())
     .then(() => updateParticipants())
-    .then(() => checkCounts())
     .then(async (activeParticipants) => {
       figma.ui.postMessage({
         type: 'CHECK_USER_AUTHENTICATION',
@@ -84,6 +83,7 @@ const loadUI = async () => {
         },
       })
     })
+    .then(() => checkCounts())
 
   // UI > Canvas
   figma.ui.onmessage = async (msg) => {
