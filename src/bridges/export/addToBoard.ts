@@ -10,7 +10,11 @@ const addToBoard = async (data: {
   session: SessionConfiguration
   ideas: { [key: string]: Array<IdeaConfiguration> }
 }) => {
-  new Classification(data.activity, data.session.metrics.startDate, data.ideas)
+  new Classification({
+    activity: data.activity,
+    sessionStartDate: data.session.metrics.startDate,
+    ideas: data.ideas,
+  })
 }
 
 export default addToBoard

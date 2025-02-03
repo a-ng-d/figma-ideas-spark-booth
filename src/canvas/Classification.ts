@@ -5,10 +5,11 @@ import {
   IdeaConfiguration,
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
+import StickyNote from './partials/StickyNote'
 
-export default class Classification {
+export default class BoardClassification {
   activityName: string
-  sessionDate: string | Date
+  sessionStartDate: string | Date
   ideas: { [key: string]: Array<IdeaConfiguration> }
   stickyGap: number
   sectionGap: number
@@ -21,14 +22,14 @@ export default class Classification {
   static sectionX = 0
   static sectionY = 0
 
-  constructor(
-    activity: ActivityConfiguration,
-    sessionDate: string | Date,
+  constructor(options: {
+    activity: ActivityConfiguration
+    sessionStartDate: string | Date
     ideas: { [key: string]: Array<IdeaConfiguration> }
-  ) {
-    this.activityName = activity.name
-    this.sessionDate = sessionDate
-    this.ideas = ideas
+  }) {
+    this.activityName = options.activity.name
+    this.sessionStartDate = options.sessionStartDate
+    this.ideas = options.ideas
     this.stickyGap = 32
     this.sectionGap = 200
     this.sectionPadding = 80
@@ -36,46 +37,39 @@ export default class Classification {
     this.nodes = this.makeClassification()
   }
 
-  makeStickyNote = (idea: IdeaConfiguration, hex: HexModel) => {
-    // Base
-    const stickyNode = figma.createSticky()
-    stickyNode.text.characters = idea.text
-    stickyNode.authorVisible = false
-    stickyNode.isWideWidth = true
-    stickyNode.fills = [this.solidPaint(hex)]
-
-    // Sizing
-    stickyNode.x = Classification.stickyX
-    stickyNode.y = Classification.stickyY
-    Classification.stickyX = Classification.stickyX + this.stickyGap
-    Classification.stickyY = Classification.stickyY + this.stickyGap
-
-    return stickyNode
-  }
-
   makeSection = (
     name: string,
     ideas: Array<IdeaConfiguration>,
     hex: HexModel
   ) => {
-    // Base
     const sectionNode = figma.createSection()
     sectionNode.name = name
-    sectionNode.fills = [this.solidPaint(hex + '50')]
+    sectionNode.fills = [this.solidPaint(hex + '33')]
 
-    // Sticky Notes
-    const stickyNotes = ideas.map((idea) => this.makeStickyNote(idea, hex))
+    const stickyNotes = ideas.map((idea) => {
+      const stickyNote = new StickyNote({
+        idea: idea.text,
+        color: idea.type.hex,
+        x: BoardClassification.stickyX,
+        y: BoardClassification.stickyY,
+      }).stickyNoteNode
+
+      BoardClassification.stickyX = BoardClassification.stickyX + this.stickyGap
+      BoardClassification.stickyY = BoardClassification.stickyY + this.stickyGap
+
+      return stickyNote
+    })
     const group = figma.group(stickyNotes.flat(), figma.currentPage)
     const groupSize = group.absoluteBoundingBox
     sectionNode.appendChild(group)
 
-    // Sizing
     sectionNode.resizeWithoutConstraints(
       (groupSize?.width ?? 0) + this.sectionPadding * 2,
       (groupSize?.height ?? 0) + this.sectionPadding * 2
     )
-    sectionNode.x = Classification.sectionX
-    Classification.sectionX = sectionNode.width + Classification.sectionX + 200
+    sectionNode.x = BoardClassification.sectionX
+    BoardClassification.sectionX =
+      sectionNode.width + BoardClassification.sectionX + 200
     group.x = this.sectionPadding
     group.y = this.sectionPadding
     figma.ungroup(group)
@@ -84,9 +78,8 @@ export default class Classification {
   }
 
   makeClassification = () => {
-    // Base
     const sectionNode = figma.createSection()
-    sectionNode.name = `${this.activityName}・${setFriendlyDate(this.sessionDate, lang)}`
+    sectionNode.name = `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}`
 
     const sections = Object.entries(this.ideas).map(([name, ideas]) => {
       return this.makeSection(name, ideas, ideas[0].type.hex)
@@ -95,7 +88,6 @@ export default class Classification {
     const classification = figma.group(sections.flat(), figma.currentPage)
     sectionNode.appendChild(classification)
 
-    // Sizing
     sectionNode.resizeWithoutConstraints(
       classification.width + this.sectionPadding * 2,
       classification.height + this.sectionPadding * 2
