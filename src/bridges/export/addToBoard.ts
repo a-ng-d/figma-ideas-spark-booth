@@ -15,6 +15,8 @@ const addToBoard = async (data: {
     sessionStartDate: data.session.metrics.startDate,
     ideas: data.ideas,
   })
+
+  return true
 }
 
 export default addToBoard

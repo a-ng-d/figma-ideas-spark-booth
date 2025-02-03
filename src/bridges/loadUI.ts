@@ -121,7 +121,10 @@ const loadUI = async () => {
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),
       UNBLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: false }),
       //
-      ADD_TO_BOARD: () => addToBoard(msg.data),
+      ADD_TO_BOARD: () =>
+        addToBoard(msg.data)
+          .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
+          .catch(() => figma.notify(locals[lang].error.addSessionToBoard)),
       ADD_OVERVIEW_TO_SLIDES: () =>
         addOverviewToSlides(msg.data)
           .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
