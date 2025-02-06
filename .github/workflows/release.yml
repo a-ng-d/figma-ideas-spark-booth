@@ -1,4 +1,4 @@
-name: Release for FigJam
+name: Release for FigJam/Slides
 
 on:
   pull_request:
