@@ -22,13 +22,16 @@ const endSession = async (data: {
 
   updateParticipants({ hasEnded: true })
 
-  if (figma.editorType === 'figjam')
+  if (figma.editorType === 'figjam' && Object.entries(data.ideas).length > 0)
     addSessionToBoard({
       activity: data.activity,
       session: data.session,
       ideas: data.ideas,
     })
-  else if (figma.editorType === 'slides')
+  else if (
+    figma.editorType === 'slides' &&
+    Object.entries(data.ideas).length > 0
+  )
     addSessionToSlides({
       activity: data.activity,
       session: data.session,
