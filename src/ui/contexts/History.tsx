@@ -531,24 +531,27 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
                       'STRING'
                     )
 
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type:
-                            this.props.editorType === 'figjam'
-                              ? 'ADD_SESSION_TO_BOARD'
-                              : 'ADD_SESSION_TO_SLIDES',
-                          data: {
-                            activity: this.props.activity,
-                            session: this.props.session,
-                            ideas: sortedIdeas,
-                            participants: setParticipantsList(this.props.ideas),
-                            stringifiedChart: stringifiedChart,
+                    if (Object.entries(sortedIdeas).length > 0)
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.editorType === 'figjam'
+                                ? 'ADD_SESSION_TO_BOARD'
+                                : 'ADD_SESSION_TO_SLIDES',
+                            data: {
+                              activity: this.props.activity,
+                              session: this.props.session,
+                              ideas: sortedIdeas,
+                              participants: setParticipantsList(
+                                this.props.ideas
+                              ),
+                              stringifiedChart: stringifiedChart,
+                            },
                           },
                         },
-                      },
-                      '*'
-                    )
+                        '*'
+                      )
                   }}
                 />
               </Feature>

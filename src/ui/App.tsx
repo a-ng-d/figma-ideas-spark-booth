@@ -555,22 +555,23 @@ export default class App extends PureComponent<
       'STRING'
     )
 
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'END_SESSION',
-          data: {
-            activity: activity,
-            sessions: sessions,
-            session: currentSession,
-            ideas: sortedIdeas,
-            participants: setParticipantsList(ideas),
-            stringifiedChart: stringifiedChart,
+    if (Object.entries(sortedIdeas).length > 0)
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'END_SESSION',
+            data: {
+              activity: activity,
+              sessions: sessions,
+              session: currentSession,
+              ideas: sortedIdeas,
+              participants: setParticipantsList(ideas),
+              stringifiedChart: stringifiedChart,
+            },
           },
         },
-      },
-      '*'
-    )
+        '*'
+      )
 
     trackEndSessionEvent(
       this.state.userIdentity.id,

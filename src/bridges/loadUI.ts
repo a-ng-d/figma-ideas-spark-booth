@@ -134,6 +134,7 @@ const loadUI = async () => {
           .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
           .catch(() => figma.notify(locals[lang].error.addSessionToSlides)),
       ADD_REPORT_TO_SLIDES: () => {
+        console.log(msg.data)
         const processSessions = async () => {
           await Promise.all(
             msg.data.sessions.map(async (data: SessionDataToCanvas) => {

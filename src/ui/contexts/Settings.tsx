@@ -210,7 +210,6 @@ export default class Settings extends PureComponent<
           chartSizes.height,
           'STRING'
         )
-        if (ideas.length === 0) return null
         return {
           session: session,
           ideas: sortedIdeas,
@@ -218,7 +217,7 @@ export default class Settings extends PureComponent<
           stringifiedChart: stringifiedChart,
         }
       })
-      .filter((session) => session !== null)
+      .filter((session) => Object.entries(session.ideas).length > 0)
       .sort(
         (a, b) =>
           new Date(a.session.metrics.startDate).getTime() -
