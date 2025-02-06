@@ -349,6 +349,11 @@ const loadUI = async () => {
     }
     return false
   }
+
+  // Relaunch
+  figma.root.setRelaunchData({
+    open: locals[lang].relaunch.open.description,
+  })
 }
 
 export default loadUI

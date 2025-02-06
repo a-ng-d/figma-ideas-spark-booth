@@ -42,7 +42,12 @@ export const locals: { [key: string]: any } = {
       revert: 'Revert',
       detach: 'Detach',
     },
-    relaunch: {},
+    relaunch: {
+      open: {
+        label: `Open ${glossary.name}`,
+        description: glossary.tagline,
+      },
+    },
     contexts: {
       activities: 'Activities',
       activitiesLocal: 'Local',
