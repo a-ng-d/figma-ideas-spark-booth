@@ -31,18 +31,18 @@ export const activitiesDbTableName =
   process.env.NODE_ENV === 'development' ? 'sandbox.activities' : 'activities'
 export const activitiesStorageName =
   process.env.NODE_ENV === 'development'
-    ? 'Palette screenshots'
-    : 'palette.screenshots'
+    ? 'sandbox.activity.screenshots'
+    : 'activity.screenshots'
 
 // External URLs
-export const documentationUrl = ''
-export const repositoryUrl = ''
-export const supportEmail = ''
-export const feedbackUrl = ''
-export const trialFeedbackUrl = ''
-export const requestsUrl = ''
-export const networkUrl = ''
-export const authorUrl = ''
+export const documentationUrl = 'https://isb.ylb.lt/docs'
+export const repositoryUrl = 'https://isb.ylb.lt/repository'
+export const supportEmail = 'https://isb.ylb.lt/contact'
+export const feedbackUrl = 'https://isb.ylb.lt/feedback'
+export const trialFeedbackUrl = 'https://isb.ylb.lt/feedback-trial'
+export const requestsUrl = 'https://isb.ylb.lt/ideas'
+export const networkUrl = 'https://isb.ylb.lt/network'
+export const authorUrl = 'https://isb.ylb.lt/author'
 
 // Note colors
 export const grayColor = '#AFBCCF'

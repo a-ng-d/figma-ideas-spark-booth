@@ -14,7 +14,7 @@ import { supabase } from '../bridges/publication/authentication'
 import { chartSizes } from '../canvas/partials/tokens'
 import features, {
   announcementsWorkerUrl,
-  feedbackUrl,
+  requestsUrl,
   trialTime,
   userConsentVersion,
   versionStatus,
@@ -748,7 +748,7 @@ export default class App extends PureComponent<
                       {
                         pluginMessage: {
                           type: 'OPEN_IN_BROWSER',
-                          url: feedbackUrl,
+                          url: requestsUrl,
                         },
                       },
                       '*'
