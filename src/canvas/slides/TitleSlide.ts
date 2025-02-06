@@ -9,6 +9,7 @@ export default class titleSlide {
   private activityName: string
   private activityDescription: string
   private activityTimer: TimerConfiguration
+  private activityId: string
   solidPaint: (hex: HexModel) => Paint
   titleSlideNode: SlideNode
 
@@ -16,10 +17,12 @@ export default class titleSlide {
     activityName: string
     activityDescription: string
     activityTimer: TimerConfiguration
+    activityId: string
   }) {
     this.activityName = options.activityName
     this.activityDescription = options.activityDescription
     this.activityTimer = options.activityTimer
+    this.activityId = options.activityId
     this.solidPaint = figma.util.solidPaint
     this.titleSlideNode = this.makeTitleSlide()
   }
@@ -95,6 +98,8 @@ export default class titleSlide {
       layout.leftSlot.layoutSizingHorizontal = 'FILL'
       layout.leftNode.primaryAxisAlignItems = 'CENTER'
     }
+
+    slide.slideNode.setPluginData('activityId', this.activityId)
 
     return slide.slideNode
   }

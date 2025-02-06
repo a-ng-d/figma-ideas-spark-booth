@@ -96,6 +96,9 @@ export default class IdeasSlide {
       .flat()
       .forEach((note) => ideasNode.appendChild(note.stickyNoteNode))
 
+    slide.slideNode.setPluginData('activityId', this.activityId)
+    slide.slideNode.setPluginData('sessionId', this.sessionId)
+
     return slide.slideNode
   }
 }

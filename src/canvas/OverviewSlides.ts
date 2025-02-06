@@ -44,6 +44,7 @@ export default class OverviewSlides {
         activityName: this.activity.name,
         activityDescription: this.activity.description,
         activityTimer: this.activity.timer,
+        activityId: this.activity.meta.id,
       }).titleSlideNode
     )
 
@@ -52,6 +53,7 @@ export default class OverviewSlides {
         new InstructionsSlide({
           activityName: this.activity.name,
           activityInstructions: this.activity.instructions,
+          activityId: this.activity.meta.id,
         }).instructionsSlideNode
       )
 
@@ -61,6 +63,7 @@ export default class OverviewSlides {
         new TypesSlide({
           activityName: this.activity.name,
           activityTypes: types,
+          activityId: this.activity.meta.id,
           indicator:
             typeSlides.length > 1
               ? `${index + 1} / ${typeSlides.length}`

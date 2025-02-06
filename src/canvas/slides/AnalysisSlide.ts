@@ -9,19 +9,25 @@ import { chartSizes, colors, gaps, textStyles } from '../partials/tokens'
 
 export default class AnalysisSlide {
   private activityName: string
+  private activityId: string
   private sessionStartDate: string | Date
+  private sessionId: string
   private duration: number
   private stringifiedChart: string
   analysisSlideNode: SlideNode
 
   constructor(options: {
     activityName: string
+    activityId: string
     sessionStartDate: string | Date
     sessionEndDate: string | Date
+    sessionId: string
     stringifiedChart: string
   }) {
     this.activityName = options.activityName
+    this.activityId = options.activityId
     this.sessionStartDate = options.sessionStartDate
+    this.sessionId = options.sessionId
     this.duration =
       new Date(options.sessionEndDate).getTime() -
       new Date(options.sessionStartDate).getTime()
@@ -91,6 +97,9 @@ export default class AnalysisSlide {
       layout.rightSlot.layoutSizingHorizontal = 'FILL'
       layout.rightSlot.layoutSizingVertical = 'FILL'
     }
+
+    slide.slideNode.setPluginData('activityId', this.activityId)
+    slide.slideNode.setPluginData('sessionId', this.sessionId)
 
     return slide.slideNode
   }

@@ -8,6 +8,7 @@ import { colors, gaps, sizes, textStyles } from '../partials/tokens'
 export default class TypesSlide {
   private activityName: string
   private activityTypes: Array<TypeConfiguration>
+  private activityId: string
   private indicator?: string
   solidPaint: (hex: HexModel) => Paint
   typesSlideNode: SlideNode
@@ -15,10 +16,12 @@ export default class TypesSlide {
   constructor(options: {
     activityName: string
     activityTypes: Array<TypeConfiguration>
+    activityId: string
     indicator?: string
   }) {
     this.activityName = options.activityName
     this.activityTypes = options.activityTypes
+    this.activityId = options.activityId
     this.indicator = options.indicator
     this.solidPaint = figma.util.solidPaint
     this.typesSlideNode = this.makeTypesSlide()
@@ -143,6 +146,8 @@ export default class TypesSlide {
       layout.rightSlot.layoutSizingHorizontal = 'FILL'
       layout.rightSlot.layoutSizingVertical = 'FILL'
     }
+
+    slide.slideNode.setPluginData('activityId', this.activityId)
 
     return slide.slideNode
   }

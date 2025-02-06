@@ -54,16 +54,20 @@ export default class SessionSlides {
     rowNode.appendChild(
       new SessionSlide({
         activityName: this.activityName,
+        activityId: this.activityId,
         sessionStartDate: this.sessionStartDate,
         sessionFacilitator: this.sessionFacilitator,
+        sessionId: this.sessionId,
         participants: this.participants,
       }).sessionSlideNode
     )
     rowNode.appendChild(
       new AnalysisSlide({
         activityName: this.activityName,
+        activityId: this.activityId,
         sessionStartDate: this.sessionStartDate,
         sessionEndDate: this.sessionEndDate,
+        sessionId: this.sessionId,
         stringifiedChart: this.stringifiedChart,
       }).analysisSlideNode
     )

@@ -10,8 +10,10 @@ import { colors, gaps, textStyles } from '../partials/tokens'
 
 export default class SessionSlide {
   private activityName: string
+  private activityId: string
   private sessionStartDate: string | Date
   private sessionFacilitator: UserConfiguration
+  private sessionId: string
   private participants: Array<UserConfiguration>
   solidPaint: (hex: HexModel) => Paint
   sessionSlideNode: SlideNode
@@ -19,13 +21,17 @@ export default class SessionSlide {
 
   constructor(options: {
     activityName: string
+    activityId: string
     sessionStartDate: string | Date
     sessionFacilitator: UserConfiguration
+    sessionId: string
     participants: Array<UserConfiguration>
   }) {
     this.activityName = options.activityName
+    this.activityId = options.activityId
     this.sessionStartDate = options.sessionStartDate
     this.sessionFacilitator = options.sessionFacilitator
+    this.sessionId = options.sessionId
     this.participants = options.participants
     this.solidPaint = figma.util.solidPaint
     this.sessionSlideNode = this.makeSessionSlide()
@@ -160,6 +166,9 @@ export default class SessionSlide {
           width: SessionSlide.participantWidth,
         }).membersNode
       )
+
+    slide.slideNode.setPluginData('activityId', this.activityId)
+    slide.slideNode.setPluginData('sessionId', this.sessionId)
 
     return slide.slideNode
   }

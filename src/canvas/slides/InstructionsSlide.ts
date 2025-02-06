@@ -7,12 +7,18 @@ import { colors, textStyles } from '../partials/tokens'
 export default class InstructionsSlide {
   private activityName: string
   private activityInstructions: string
+  private activityId: string
   solidPaint: (hex: HexModel) => Paint
   instructionsSlideNode: SlideNode
 
-  constructor(options: { activityName: string; activityInstructions: string }) {
+  constructor(options: {
+    activityName: string
+    activityInstructions: string
+    activityId: string
+  }) {
     this.activityName = options.activityName
     this.activityInstructions = options.activityInstructions
+    this.activityId = options.activityId
     this.solidPaint = figma.util.solidPaint
     this.instructionsSlideNode = this.makeInstructionsSlide()
   }
@@ -72,6 +78,8 @@ export default class InstructionsSlide {
       layout.rightSlot.layoutSizingVertical = 'FILL'
       layout.rightSlot.textTruncation = 'ENDING'
     }
+
+    slide.slideNode.setPluginData('activityId', this.activityId)
 
     return slide.slideNode
   }
