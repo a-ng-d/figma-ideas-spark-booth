@@ -4,9 +4,10 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import features from '../../config'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { EditorType, Language, PlanStatus } from '../../types/app'
 
 interface CorruptedDataProps {
+  editorType: EditorType
   lang: Language
 }
 
@@ -27,7 +28,11 @@ export default class CorruptedData extends PureComponent<CorruptedDataProps> {
             <div className="callout--centered">
               <SemanticMessage
                 type="ERROR"
-                message={locals[this.props.lang].error.corruptedData}
+                message={
+                  this.props.editorType === 'figjam'
+                    ? locals[this.props.lang].error.corruptedDataOnFigJam
+                    : locals[this.props.lang].error.corruptedDataOnSlides
+                }
               />
             </div>
           </div>

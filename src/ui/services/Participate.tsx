@@ -14,7 +14,12 @@ import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
 import features from '../../config'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus, PriorityContext } from '../../types/app'
+import {
+  EditorType,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   ActiveParticipant,
   ActivityConfiguration,
@@ -40,6 +45,7 @@ interface ParticipateProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
+  editorType: EditorType
   planStatus: PlanStatus
   lang: Language
   onPushIdea: (idea: IdeaConfiguration) => void

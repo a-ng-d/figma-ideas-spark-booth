@@ -15,7 +15,12 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import features from '../../config'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus, PriorityContext } from '../../types/app'
+import {
+  EditorType,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   ActiveParticipant,
   ActivityConfiguration,
@@ -33,6 +38,7 @@ interface FacilitatorInfoProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
+  editorType: EditorType
   planStatus: PlanStatus
   lang: Language
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
@@ -183,7 +189,13 @@ export default class FacilitatorInfo extends PureComponent<
                   this.state.isParticipantsMessageVisible && (
                     <SemanticMessage
                       type="INFO"
-                      message={locals[this.props.lang].info.inviteParticipants}
+                      message={
+                        this.props.editorType === 'figjam'
+                          ? locals[this.props.lang].info
+                              .inviteParticipantsOnFigJam
+                          : locals[this.props.lang].info
+                              .inviteParticipantsOnSlides
+                      }
                       actionsSlot={
                         <Button
                           type="icon"

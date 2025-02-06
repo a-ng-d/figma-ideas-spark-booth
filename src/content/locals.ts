@@ -24,7 +24,7 @@ export const locals: { [key: string]: any } = {
       titleSynchronize: 'Synchronize activity',
       titleSignIn: 'Publish or Synchronize activities',
       message:
-        'Publish your activity as a single source of truth and reuse it in other FigJam documents. You can also distribute your activities by sharing them with the community.',
+        'Publish your activity as a single source of truth and reuse it in other FigJam/Slides documents. You can also distribute your activities by sharing them with the community.',
       signIn: 'Sign in to publish or synchronize',
       share: 'Share with the community',
       unshare: 'Remove from the community',
@@ -367,7 +367,8 @@ export const locals: { [key: string]: any } = {
     },
     info: {
       noResult: 'No activity match your search',
-      inviteParticipants: `Invite participants to join the FigJam board and tell them to open ${glossary.name}`,
+      inviteParticipantsOnFigJam: `Invite participants to join the FigJam board and tell them to open ${glossary.name}`,
+      inviteParticipantsOnSlides: `Invite participants to join the Slides document and tell them to open ${glossary.name}`,
       maxNumberOfTypes: 'You cannot add more than $1 types',
       maxNumberOfActivities: 'You cannot add more than $1 activities',
       maxNumberOfParticipants: 'You cannot add more than $1 participants',
@@ -413,7 +414,9 @@ export const locals: { [key: string]: any } = {
       noInternetConnection:
         '✕ The connection with the remote activity is unlinked',
       announcements: 'The announcements cannot be loaded',
-      corruptedData:
+      corruptedDataOnFigJam:
+        'The data is corrupted. Please restore a previous version of the FigJam board before you have run the last session.',
+      corruptedDataOnSlides:
         'The data is corrupted. Please restore a previous version of the FigJam board before you have run the last session.',
       addSessionToBoard: '✕ The session cannot be added to the board',
       addOverviewToSlides: '✕ The overview cannot be added to the slides',
