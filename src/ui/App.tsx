@@ -161,13 +161,6 @@ export default class App extends PureComponent<
   }
 
   componentDidMount = () => {
-    setTimeout(
-      () =>
-        this.setState({
-          isLoaded: true,
-        }),
-      1000
-    )
     fetch(
       `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
     )
@@ -261,11 +254,19 @@ export default class App extends PureComponent<
           )
         }
 
-        const checkUserConsent = () =>
+        const checkUserConsent = () => {
+          setTimeout(
+            () =>
+              this.setState({
+                isLoaded: true,
+              }),
+            1000
+          )
           this.setState({
             mustUserConsent: e.data.pluginMessage.mustUserConsent,
             userConsent: e.data.pluginMessage.userConsent,
           })
+        }
 
         const checkPlanStatus = () =>
           this.setState({
