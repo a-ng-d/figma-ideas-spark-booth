@@ -292,9 +292,11 @@ export default class Settings extends PureComponent<
                   {
                     label: locals[this.props.lang].settings.actions.overview,
                     type: 'OPTION',
-                    isActive: Settings.features(
-                      this.props.planStatus
-                    ).ACTIVITIES_OVERVIEW.isActive(),
+                    isActive:
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_OVERVIEW.isActive() &&
+                      this.props.editorType === 'slides',
                     isBlocked: Settings.features(
                       this.props.planStatus
                     ).ACTIVITIES_OVERVIEW.isBlocked(),
@@ -337,6 +339,15 @@ export default class Settings extends PureComponent<
                   },
                   {
                     type: 'SEPARATOR',
+                    isActive:
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_OVERVIEW.isActive() &&
+                      this.props.editorType === 'slides' &&
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_REPORT.isActive() &&
+                      this.props.editorType === 'slides',
                   },
                   {
                     label:
