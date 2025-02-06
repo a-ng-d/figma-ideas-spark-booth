@@ -238,28 +238,34 @@ export default class ExternalActivities extends PureComponent<
 
     if (this.state.activitiesListStatus === 'LOADED')
       fragment = (
-        <Button
-          type="secondary"
-          label={locals[this.props.lang].activities.lazyLoad.loadMore}
-          isLoading={this.state.isLoadMoreActionLoading}
-          action={() => {
-            this.setState({ currentPage: this.state.currentPage + 1 })
-            this.callUICPAgent(
-              this.state.currentPage + 1,
-              this.state.activitiesSearchQuery
-            )
-            this.setState({
-              isLoadMoreActionLoading: true,
-            })
-          }}
-        />
+        <div className="list-control">
+          <Button
+            type="secondary"
+            label={locals[this.props.lang].activities.lazyLoad.loadMore}
+            isLoading={this.state.isLoadMoreActionLoading}
+            action={() => {
+              this.setState({ currentPage: this.state.currentPage + 1 })
+              this.callUICPAgent(
+                this.state.currentPage + 1,
+                this.state.activitiesSearchQuery
+              )
+              this.setState({
+                isLoadMoreActionLoading: true,
+              })
+            }}
+          />
+        </div>
       )
     else if (this.state.activitiesListStatus === 'COMPLETE')
       fragment = (
-        <Message
-          icon="check"
-          messages={[locals[this.props.lang].activities.lazyLoad.completeList]}
-        />
+        <div className="list-control">
+          <Message
+            icon="check"
+            messages={[
+              locals[this.props.lang].activities.lazyLoad.completeList,
+            ]}
+          />
+        </div>
       )
 
     return (
@@ -267,10 +273,10 @@ export default class ExternalActivities extends PureComponent<
         className={[
           'rich-list',
           this.state.activitiesListStatus === 'LOADING' && 'rich-list--loading',
-          this.state.activitiesListStatus === 'ERROR' ||
+          (this.state.activitiesListStatus === 'ERROR' ||
             this.state.activitiesListStatus === 'EMPTY' ||
-            (this.state.activitiesListStatus === 'NO_RESULT' &&
-              'rich-list--message'),
+            this.state.activitiesListStatus === 'NO_RESULT') &&
+            'rich-list--message',
         ]
           .filter((n) => n)
           .join(' ')}
@@ -389,7 +395,7 @@ export default class ExternalActivities extends PureComponent<
               />
             )
           )}
-        <div className="list-control">{fragment}</div>
+        {fragment}
       </ul>
     )
   }
