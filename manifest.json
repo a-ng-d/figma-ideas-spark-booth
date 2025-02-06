@@ -10,7 +10,6 @@
     { "command": "open", "name": "Open Ideas Spark Booth" }
   ],
   "permissions": [
-    "payments",
     "currentuser"
   ],
   "documentAccess": "dynamic-page",
