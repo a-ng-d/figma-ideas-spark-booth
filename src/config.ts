@@ -2,7 +2,7 @@ import { doSpecificMode, featuresScheme } from './stores/features'
 
 // Limitations
 export const isTrialEnabled = false
-export const isProEnabled = true
+export const isProEnabled = false
 export const trialTime = 168
 export const oldTrialTime = 168
 export const pageSize = 20

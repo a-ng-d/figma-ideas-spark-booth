@@ -656,7 +656,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   {
     name: 'GET_PRO_PLAN',
     description: 'Pro plan subscription',
-    isActive: true,
+    isActive: false,
     isPro: false,
     isNew: false,
     type: 'ACTION',
