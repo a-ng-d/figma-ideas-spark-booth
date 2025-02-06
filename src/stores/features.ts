@@ -16,7 +16,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     isActive: true,
     isPro: false,
     isNew: false,
-    //limit: 0,
+    limit: 4,
     type: 'SERVICE',
     service: ['PARTICIPATE'],
   },
@@ -629,7 +629,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   {
     name: 'SHORTCUTS_NETWORKING',
     description: 'LinkedIn page',
-    isActive: true,
+    isActive: false,
     isPro: false,
     isNew: false,
     type: 'ACTION',

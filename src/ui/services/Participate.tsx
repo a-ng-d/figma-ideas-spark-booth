@@ -171,7 +171,9 @@ export default class Participate extends PureComponent<
       this.props.session.facilitator.planStatus === 'UNPAID' &&
       !this.canFacilitate() &&
       this.selfOrder() >
-        Participate.features(this.props.planStatus).PARTICIPATE.result.limit - 1
+        Participate.features(this.props.planStatus).PARTICIPATE.result.limit -
+          1 &&
+      Participate.features(this.props.planStatus).PARTICIPATE.isPro()
     ) {
       parent.postMessage(
         {
