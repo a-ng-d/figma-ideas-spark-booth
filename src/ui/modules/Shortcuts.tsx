@@ -14,10 +14,11 @@ import features, {
   documentationUrl,
   feedbackUrl,
   isTrialEnabled,
-  networkUrl,
+  authorUrl,
   repositoryUrl,
   requestsUrl,
   supportEmail,
+  networkUrl,
 } from '../../config'
 import { locals } from '../../content/locals'
 import {
@@ -101,6 +102,11 @@ export default class Shortcuts extends PureComponent<
     SHORTCUTS_NETWORKING: new FeatureStatus({
       features: features,
       featureName: 'SHORTCUTS_NETWORKING',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_AUTHOR: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_AUTHOR',
       planStatus: planStatus,
     }),
     SHORTCUTS_DOCUMENTATION: new FeatureStatus({
@@ -533,6 +539,29 @@ export default class Shortcuts extends PureComponent<
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
                               url: networkUrl,
+                            },
+                          },
+                          '*'
+                        ),
+                    },
+                    {
+                      label: locals[this.props.lang].shortcuts.author,
+                      type: 'OPTION',
+                      isActive: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_AUTHOR.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_AUTHOR.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_AUTHOR.isNew(),
+                      action: () =>
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              url: authorUrl,
                             },
                           },
                           '*'
