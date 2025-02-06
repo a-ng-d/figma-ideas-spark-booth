@@ -4,6 +4,7 @@ import {
   ActivityConfiguration,
   GroupedBy,
   IdeaConfiguration,
+  SessionConfiguration,
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
 import StickyNote from './partials/StickyNote'
@@ -11,8 +12,10 @@ import { yellowColor } from '../config'
 
 export default class BoardClassification {
   private activityName: string
+  private activityId: string
   private groupedBy: GroupedBy
   private sessionStartDate: string | Date
+  private sessionId: string
   private ideas: { [key: string]: Array<IdeaConfiguration> }
   private stickyGap: number
   private sectionGap: number
@@ -27,12 +30,14 @@ export default class BoardClassification {
 
   constructor(options: {
     activity: ActivityConfiguration
-    sessionStartDate: string | Date
+    session: SessionConfiguration
     ideas: { [key: string]: Array<IdeaConfiguration> }
   }) {
     this.activityName = options.activity.name
+    this.activityId = options.activity.meta.id
     this.groupedBy = options.activity.groupedBy
-    this.sessionStartDate = options.sessionStartDate
+    this.sessionStartDate = options.session.metrics.startDate
+    this.sessionId = options.session.id
     this.ideas = options.ideas
     this.stickyGap = 32
     this.sectionGap = 200
@@ -110,6 +115,9 @@ export default class BoardClassification {
     sectionNode.y = figma.viewport.center.y - sectionNode.height / 2
     figma.viewport.scrollAndZoomIntoView([sectionNode])
     figma.ungroup(classification)
+
+    sectionNode.setPluginData('activityId', this.activityId)
+    sectionNode.setPluginData('sessionId', this.sessionId)
 
     return sectionNode
   }

@@ -12,7 +12,7 @@ const addSessionToBoard = async (data: {
 }) => {
   new BoardClassification({
     activity: data.activity,
-    sessionStartDate: data.session.metrics.startDate,
+    session: data.session,
     ideas: data.ideas,
   })
 
