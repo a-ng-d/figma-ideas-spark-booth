@@ -43,6 +43,7 @@ export const trialFeedbackUrl = 'https://isb.ylb.lt/feedback-trial'
 export const requestsUrl = 'https://isb.ylb.lt/ideas'
 export const networkUrl = 'https://isb.ylb.lt/network'
 export const authorUrl = 'https://isb.ylb.lt/author'
+export const licenseUrl = 'https://isb.ylb.lt/license'
 
 // Note colors
 export const grayColor = '#AFBCCF'
