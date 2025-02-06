@@ -367,8 +367,8 @@ export const locals: { [key: string]: any } = {
     },
     info: {
       noResult: 'No activity match your search',
-      inviteParticipantsOnFigJam: `Invite participants to join the FigJam board and tell them to open ${glossary.name}`,
-      inviteParticipantsOnSlides: `Invite participants to join the Slides document and tell them to open ${glossary.name}`,
+      inviteParticipantsOnFigJam: `Invite participants to join the FigJam board and ask them to open ${glossary.name}`,
+      inviteParticipantsOnSlides: `Invite participants to join the Slides document and ask them to open ${glossary.name}`,
       maxNumberOfTypes: 'You cannot add more than $1 types',
       maxNumberOfActivities: 'You cannot add more than $1 activities',
       maxNumberOfParticipants: 'You cannot add more than $1 participants',
