@@ -94,7 +94,7 @@ export const locals: { [key: string]: any } = {
         delete: 'Delete activity',
       },
       global: {
-        title: 'Global settings',
+        title: 'Global',
         name: {
           label: 'Name',
         },
