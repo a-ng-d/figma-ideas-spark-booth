@@ -14,10 +14,12 @@ import SessionSlide from './slides/SessionSlide'
 
 export default class SessionSlides {
   private activityName: string
+  private activityId: string
   private groupedBy: GroupedBy
   private sessionStartDate: string | Date
   private sessionEndDate: string | Date
   private sessionFacilitator: UserConfiguration
+  private sessionId: string
   private ideas: { [key: string]: Array<IdeaConfiguration> }
   private participants: Array<UserConfiguration>
   private stringifiedChart: string
@@ -32,10 +34,12 @@ export default class SessionSlides {
     stringifiedChart: string
   }) {
     this.activityName = options.activity.name
+    this.activityId = options.activity.meta.id
     this.groupedBy = options.activity.groupedBy
     this.sessionStartDate = options.session.metrics.startDate
     this.sessionEndDate = options.session.metrics.endDate
     this.sessionFacilitator = options.session.facilitator
+    this.sessionId = options.session.id
     this.ideas = options.ideas
     this.participants = options.participants
     this.stringifiedChart = options.stringifiedChart
@@ -76,9 +80,11 @@ export default class SessionSlides {
         rowNode.appendChild(
           new IdeasSlide({
             activityName: this.activityName,
+            activityId: this.activityId,
             groupedBy: this.groupedBy,
             typeName: name,
             sessionStartDate: this.sessionStartDate,
+            sessionId: this.sessionId,
             ideas: ideas,
             indicator:
               splitIdeas.length > 1

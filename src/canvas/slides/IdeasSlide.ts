@@ -10,9 +10,11 @@ import { yellowColor } from '../../config'
 
 export default class IdeasSlide {
   private activityName: string
+  private activityId: string
   private groupedBy: GroupedBy
   private typeName: string
   private sessionStartDate: string | Date
+  private sessionId: string
   private ideas: Array<IdeaConfiguration>
   private indicator?: string
   solidPaint: (hex: HexModel) => Paint
@@ -20,16 +22,20 @@ export default class IdeasSlide {
 
   constructor(options: {
     activityName: string
+    activityId: string
     groupedBy: GroupedBy
     typeName: string
     sessionStartDate: string | Date
+    sessionId: string
     ideas: Array<IdeaConfiguration>
     indicator?: string
   }) {
     this.activityName = options.activityName
+    this.activityId = options.activityId
     this.groupedBy = options.groupedBy
     this.typeName = options.typeName
     this.sessionStartDate = options.sessionStartDate
+    this.sessionId = options.sessionId
     this.ideas = options.ideas
     this.indicator = options.indicator
     this.solidPaint = figma.util.solidPaint
@@ -76,7 +82,15 @@ export default class IdeasSlide {
     ideasNode.layoutSizingVertical = 'HUG'
 
     const stickyNotes = this.ideas.map(
-      (idea) => new StickyNote({ idea: idea.text, color: idea.type.hex })
+      (idea) =>
+        new StickyNote({
+          idea: idea.text,
+          color: idea.type.hex,
+          ideaId: idea.id,
+          sessionId: this.sessionId,
+          activityId: this.activityId,
+          author: idea.userIdentity.fullName,
+        })
     )
     stickyNotes
       .flat()

@@ -54,6 +54,10 @@ export default class BoardClassification {
       const stickyNote = new StickyNote({
         idea: idea.text,
         color: idea.type.hex,
+        author: idea.userIdentity.fullName,
+        ideaId: idea.id,
+        sessionId: idea.sessionId,
+        activityId: idea.activityId,
         x: BoardClassification.stickyX,
         y: BoardClassification.stickyY,
       }).stickyNoteNode
