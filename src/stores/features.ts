@@ -16,7 +16,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     isActive: true,
     isPro: false,
     isNew: false,
-    limit: 0,
+    //limit: 0,
     type: 'SERVICE',
     service: ['PARTICIPATE'],
   },

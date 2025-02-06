@@ -2,6 +2,7 @@ import { HexModel } from '@a_ng_d/figmug-ui'
 import { lang } from '../content/locals'
 import {
   ActivityConfiguration,
+  GroupedBy,
   IdeaConfiguration,
   SessionConfiguration,
   UserConfiguration,
@@ -13,6 +14,7 @@ import SessionSlide from './slides/SessionSlide'
 
 export default class SessionSlides {
   private activityName: string
+  private groupedBy: GroupedBy
   private sessionStartDate: string | Date
   private sessionEndDate: string | Date
   private sessionFacilitator: UserConfiguration
@@ -30,6 +32,7 @@ export default class SessionSlides {
     stringifiedChart: string
   }) {
     this.activityName = options.activity.name
+    this.groupedBy = options.activity.groupedBy
     this.sessionStartDate = options.session.metrics.startDate
     this.sessionEndDate = options.session.metrics.endDate
     this.sessionFacilitator = options.session.facilitator
@@ -73,6 +76,7 @@ export default class SessionSlides {
         rowNode.appendChild(
           new IdeasSlide({
             activityName: this.activityName,
+            groupedBy: this.groupedBy,
             typeName: name,
             sessionStartDate: this.sessionStartDate,
             ideas: ideas,

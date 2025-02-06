@@ -1,14 +1,16 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 import { lang } from '../../content/locals'
-import { IdeaConfiguration } from '../../types/configurations'
+import { GroupedBy, IdeaConfiguration } from '../../types/configurations'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Header from '../partials/Header'
 import Slide from '../partials/Slide'
 import StickyNote from '../partials/StickyNote'
 import { colors, gaps } from '../partials/tokens'
+import { yellowColor } from '../../config'
 
 export default class IdeasSlide {
   private activityName: string
+  private groupedBy: GroupedBy
   private typeName: string
   private sessionStartDate: string | Date
   private ideas: Array<IdeaConfiguration>
@@ -18,12 +20,14 @@ export default class IdeasSlide {
 
   constructor(options: {
     activityName: string
+    groupedBy: GroupedBy
     typeName: string
     sessionStartDate: string | Date
     ideas: Array<IdeaConfiguration>
     indicator?: string
   }) {
     this.activityName = options.activityName
+    this.groupedBy = options.groupedBy
     this.typeName = options.typeName
     this.sessionStartDate = options.sessionStartDate
     this.ideas = options.ideas
@@ -51,7 +55,10 @@ export default class IdeasSlide {
   makeIdeaSlide = () => {
     const slide = new Slide({
       name: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}・${this.typeName}`,
-      color: this.ideas[0].type.hex + '33',
+      color:
+        this.groupedBy === 'PARTICIPANT'
+          ? yellowColor + '33'
+          : this.ideas[0].type.hex + '33',
     })
     const header = new Header({
       upTitle: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang, 'LONG')}`,

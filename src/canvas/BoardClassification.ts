@@ -2,18 +2,21 @@ import { HexModel } from '@a_ng_d/figmug-ui'
 import { lang } from '../content/locals'
 import {
   ActivityConfiguration,
+  GroupedBy,
   IdeaConfiguration,
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
 import StickyNote from './partials/StickyNote'
+import { yellowColor } from '../config'
 
 export default class BoardClassification {
-  activityName: string
-  sessionStartDate: string | Date
-  ideas: { [key: string]: Array<IdeaConfiguration> }
-  stickyGap: number
-  sectionGap: number
-  sectionPadding: number
+  private activityName: string
+  private groupedBy: GroupedBy
+  private sessionStartDate: string | Date
+  private ideas: { [key: string]: Array<IdeaConfiguration> }
+  private stickyGap: number
+  private sectionGap: number
+  private sectionPadding: number
   solidPaint: (hex: HexModel) => Paint
   nodes: SceneNode
 
@@ -28,6 +31,7 @@ export default class BoardClassification {
     ideas: { [key: string]: Array<IdeaConfiguration> }
   }) {
     this.activityName = options.activity.name
+    this.groupedBy = options.activity.groupedBy
     this.sessionStartDate = options.sessionStartDate
     this.ideas = options.ideas
     this.stickyGap = 32
@@ -69,7 +73,7 @@ export default class BoardClassification {
     )
     sectionNode.x = BoardClassification.sectionX
     BoardClassification.sectionX =
-      sectionNode.width + BoardClassification.sectionX + 200
+      sectionNode.width + BoardClassification.sectionX + this.sectionGap
     group.x = this.sectionPadding
     group.y = this.sectionPadding
     figma.ungroup(group)
@@ -82,7 +86,11 @@ export default class BoardClassification {
     sectionNode.name = `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}`
 
     const sections = Object.entries(this.ideas).map(([name, ideas]) => {
-      return this.makeSection(name, ideas, ideas[0].type.hex)
+      return this.makeSection(
+        name,
+        ideas,
+        this.groupedBy === 'PARTICIPANT' ? yellowColor : ideas[0].type.hex
+      )
     })
 
     const classification = figma.group(sections.flat(), figma.currentPage)
