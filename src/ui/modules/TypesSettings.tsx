@@ -18,11 +18,12 @@ import features, {
   blueColor,
   grayColor,
   greenColor,
-  lightGrayColor,
   orangeColor,
   pinkColor,
   redColor,
+  tealColor,
   violetColor,
+  whiteColor,
   yellowColor,
 } from '../../config'
 import { locals } from '../../content/locals'
@@ -143,19 +144,20 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
       const types = this.props.activity.types.map((type) => {
         if (type.id === id) {
           type.color = currentElement.dataset.value as ColorConfiguration
-          if (currentElement.dataset.value === 'YELLOW') type.hex = yellowColor
-          else if (currentElement.dataset.value === 'BLUE') type.hex = blueColor
+          if (currentElement.dataset.value === 'WHITE') type.hex = whiteColor
+          else if (currentElement.dataset.value === 'GRAY') type.hex = grayColor
           else if (currentElement.dataset.value === 'GREEN')
             type.hex = greenColor
+          else if (currentElement.dataset.value === 'TEAL') type.hex = tealColor
+          else if (currentElement.dataset.value === 'BLUE') type.hex = blueColor
           else if (currentElement.dataset.value === 'VIOLET')
             type.hex = violetColor
+          else if (currentElement.dataset.value === 'PINK') type.hex = pinkColor
           else if (currentElement.dataset.value === 'RED') type.hex = redColor
           else if (currentElement.dataset.value === 'ORANGE')
             type.hex = orangeColor
-          else if (currentElement.dataset.value === 'PINK') type.hex = pinkColor
-          else if (currentElement.dataset.value === 'LIGHT_GRAY')
-            type.hex = lightGrayColor
-          else if (currentElement.dataset.value === 'GRAY') type.hex = grayColor
+          else if (currentElement.dataset.value === 'YELLOW')
+            type.hex = yellowColor
         }
         return type
       })
@@ -334,6 +336,15 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                               {
                                 label:
                                   locals[this.props.lang].settings.types.colors
+                                    .white,
+                                value: 'WHITE',
+                                feature: 'UPDATE_COLOR',
+                                type: 'OPTION',
+                                action: this.typeHandler,
+                              },
+                              {
+                                label:
+                                  locals[this.props.lang].settings.types.colors
                                     .gray,
                                 value: 'GRAY',
                                 feature: 'UPDATE_COLOR',
@@ -343,35 +354,17 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                               {
                                 label:
                                   locals[this.props.lang].settings.types.colors
-                                    .red,
-                                value: 'RED',
-                                feature: 'UPDATE_COLOR',
-                                type: 'OPTION',
-                                action: this.typeHandler,
-                              },
-                              {
-                                label:
-                                  locals[this.props.lang].settings.types.colors
-                                    .orange,
-                                value: 'ORANGE',
-                                feature: 'UPDATE_COLOR',
-                                type: 'OPTION',
-                                action: this.typeHandler,
-                              },
-                              {
-                                label:
-                                  locals[this.props.lang].settings.types.colors
-                                    .yellow,
-                                value: 'YELLOW',
-                                feature: 'UPDATE_COLOR',
-                                type: 'OPTION',
-                                action: this.typeHandler,
-                              },
-                              {
-                                label:
-                                  locals[this.props.lang].settings.types.colors
                                     .green,
                                 value: 'GREEN',
+                                feature: 'UPDATE_COLOR',
+                                type: 'OPTION',
+                                action: this.typeHandler,
+                              },
+                              {
+                                label:
+                                  locals[this.props.lang].settings.types.colors
+                                    .teal,
+                                value: 'TEAL',
                                 feature: 'UPDATE_COLOR',
                                 type: 'OPTION',
                                 action: this.typeHandler,
@@ -406,8 +399,26 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                               {
                                 label:
                                   locals[this.props.lang].settings.types.colors
-                                    .lightGray,
-                                value: 'LIGHT_GRAY',
+                                    .red,
+                                value: 'RED',
+                                feature: 'UPDATE_COLOR',
+                                type: 'OPTION',
+                                action: this.typeHandler,
+                              },
+                              {
+                                label:
+                                  locals[this.props.lang].settings.types.colors
+                                    .orange,
+                                value: 'ORANGE',
+                                feature: 'UPDATE_COLOR',
+                                type: 'OPTION',
+                                action: this.typeHandler,
+                              },
+                              {
+                                label:
+                                  locals[this.props.lang].settings.types.colors
+                                    .yellow,
+                                value: 'YELLOW',
                                 feature: 'UPDATE_COLOR',
                                 type: 'OPTION',
                                 action: this.typeHandler,

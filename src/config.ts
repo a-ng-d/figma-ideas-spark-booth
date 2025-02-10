@@ -46,15 +46,16 @@ export const authorUrl = 'https://isb.ylb.lt/author'
 export const licenseUrl = 'https://isb.ylb.lt/license'
 
 // Note colors
-export const grayColor = '#AFBCCF'
-export const redColor = '#FFAFA3'
-export const orangeColor = '#FFC470'
-export const yellowColor = '#FFD966'
-export const greenColor = '#85E0A3'
-export const blueColor = '#80CAFF'
-export const violetColor = '#D9B8FF'
-export const pinkColor = '#FFBDF2'
-export const lightGrayColor = '#E6E6E6'
+export const whiteColor = '#FFFFFF'
+export const grayColor = '#E6E6E6'
+export const greenColor = '#B3EFBD'
+export const tealColor = '#B3F4EF'
+export const blueColor = '#A8DAFF'
+export const violetColor = '#D3BDFF'
+export const pinkColor = '#FFA8DB'
+export const redColor = '#FFB8A8'
+export const orangeColor = '#FFD3A8'
+export const yellowColor = '#FFE299'
 
 // Features modes
 const devMode = featuresScheme
