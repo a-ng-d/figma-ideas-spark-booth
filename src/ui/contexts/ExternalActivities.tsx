@@ -300,7 +300,11 @@ export default class ExternalActivities extends PureComponent<
           <div className="callout--centered">
             <SemanticMessage
               type="NEUTRAL"
-              message={locals[this.props.lang].warning.noSelfActivityOnRemote}
+              message={
+                this.props.context === 'SELF'
+                  ? locals[this.props.lang].warning.noSelfActivityOnRemote
+                  : locals[this.props.lang].warning.noCommunityActivityOnRemote
+              }
             />
           </div>
         )}

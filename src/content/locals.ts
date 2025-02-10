@@ -391,9 +391,9 @@ export const locals: { [key: string]: any } = {
     },
     warning: {
       timesUp: 'The time is up!',
-      noSelfactivityOnRemote:
+      noSelfActivityOnRemote:
         'This is quite empty around here! Publish your activity to reuse it across multiple boards.',
-      noCommunityactivityOnRemote:
+      noCommunityActivityOnRemote:
         'This is quite empty around here! Be the first to share your activity with other users!',
       activityAlreadyExists:
         'This activity is already duplicated to the local ones',
