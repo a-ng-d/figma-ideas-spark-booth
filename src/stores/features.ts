@@ -3,7 +3,7 @@ import { Feature } from '@a_ng_d/figmug-utils'
 export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   {
     name: 'BROWSE',
-    description: '',
+    description: 'Browse activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -12,7 +12,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE',
-    description: '',
+    description: 'Participate in activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -22,7 +22,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES',
-    description: '',
+    description: 'View all activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -31,7 +31,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_LOCAL',
-    description: '',
+    description: 'View local activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -41,7 +41,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_SELF',
-    description: '',
+    description: 'View personal activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -50,7 +50,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_ADD',
-    description: '',
+    description: 'Add a new activity',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -59,7 +59,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_DELETE',
-    description: '',
+    description: 'Delete an activity',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -68,7 +68,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_PUBLISH',
-    description: '',
+    description: 'Publish an activity',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -77,7 +77,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_UNPUBLISH',
-    description: '',
+    description: 'Unpublish an activity',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -86,7 +86,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_SHARE',
-    description: '',
+    description: 'Share an activity',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -95,7 +95,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_DUPLICATE',
-    description: '',
+    description: 'Duplicate an activity',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -104,7 +104,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_SEARCH',
-    description: '',
+    description: 'Search for activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -113,7 +113,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_OVERVIEW',
-    description: '',
+    description: 'View activity overview',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -122,7 +122,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_REPORT',
-    description: '',
+    description: 'Generate activity report',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -131,7 +131,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_EXPORT_ALL',
-    description: '',
+    description: 'Export all activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -140,7 +140,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_IMPORT',
-    description: '',
+    description: 'Import activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -149,7 +149,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_SETTINGS',
-    description: '',
+    description: 'Activity settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -158,17 +158,17 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'ACTIVITIES_RUN',
-    description: '',
+    description: 'Run an activity',
     isActive: true,
     isPro: false,
     isNew: false,
-    type: 'ACTION',
     limit: 3,
+    type: 'ACTION',
     service: ['BROWSE'],
   },
   {
     name: 'SETTINGS',
-    description: '',
+    description: 'General settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -177,7 +177,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_GLOBAL',
-    description: '',
+    description: 'Global settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -186,7 +186,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_NAME',
-    description: '',
+    description: 'Set name',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -195,7 +195,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_DESCRIPTION',
-    description: '',
+    description: 'Set description',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -204,7 +204,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_INSTRUCTIONS',
-    description: '',
+    description: 'Set instructions',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -213,7 +213,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_GROUPED_BY',
-    description: '',
+    description: 'Group by settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -222,7 +222,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_GROUPED_BY_PARTICIPANT',
-    description: '',
+    description: 'Group by participant',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -231,7 +231,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_GROUPED_BY_TYPE',
-    description: '',
+    description: 'Group by type',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -240,7 +240,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TIMER',
-    description: '',
+    description: 'Timer settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -249,7 +249,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TIMER_MINUTES',
-    description: '',
+    description: 'Set timer minutes',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -258,7 +258,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TIMER_SECONDS',
-    description: '',
+    description: 'Set timer seconds',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -267,7 +267,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TYPES',
-    description: '',
+    description: 'Type settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -277,7 +277,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TYPES_ADD',
-    description: '',
+    description: 'Add a new type',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -286,7 +286,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TYPES_REMOVE',
-    description: '',
+    description: 'Remove a type',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -295,7 +295,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TYPES_NAME',
-    description: '',
+    description: 'Set type name',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -304,7 +304,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TYPES_COLOR',
-    description: '',
+    description: 'Set type color',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -313,7 +313,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_TYPES_DESCRIPTION',
-    description: '',
+    description: 'Set type description',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -322,7 +322,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'SETTINGS_IMPORT',
-    description: '',
+    description: 'Import settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -331,7 +331,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'HISTORY',
-    description: '',
+    description: 'View history',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -340,7 +340,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'HISTORY_FILTER',
-    description: '',
+    description: 'Filter history',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -349,7 +349,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'HISTORY_SORT',
-    description: '',
+    description: 'Sort history',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -358,7 +358,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'HISTORY_EXPORT_CSV',
-    description: '',
+    description: 'Export history to CSV',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -367,7 +367,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'HISTORY_EXPORT_SESSION',
-    description: '',
+    description: 'Export session history',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -376,7 +376,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'HISTORY_ADD_TO',
-    description: '',
+    description: 'Add to history',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -385,7 +385,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'HISTORY_DELETE',
-    description: '',
+    description: 'Delete from history',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -394,7 +394,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'EXPLORE',
-    description: '',
+    description: 'Explore activities',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -403,7 +403,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_FINISH',
-    description: '',
+    description: 'Finish participation',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -412,7 +412,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_END',
-    description: '',
+    description: 'End participation',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -421,7 +421,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_INFO',
-    description: '',
+    description: 'Participation information',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -430,7 +430,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_INFO_IDEAS',
-    description: '',
+    description: 'Ideas information',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -439,7 +439,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_INFO_PARTICIPANTS',
-    description: '',
+    description: 'Participants information',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -448,7 +448,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_INFO_DESCRIPTION',
-    description: '',
+    description: 'Description information',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -457,7 +457,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_INFO_INSTRUCTIONS',
-    description: '',
+    description: 'Instructions information',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -466,7 +466,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_INFO_TYPES',
-    description: '',
+    description: 'Types information',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -475,7 +475,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_CREATE',
-    description: '',
+    description: 'Create participation',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -484,7 +484,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_CREATE_TYPE',
-    description: '',
+    description: 'Create participation type',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -493,7 +493,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_CREATE_IDEA',
-    description: '',
+    description: 'Create participation idea',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -502,7 +502,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_UPDATE',
-    description: '',
+    description: 'Update participation',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -511,7 +511,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_UPDATE_TYPE',
-    description: '',
+    description: 'Update participation type',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -520,7 +520,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_UPDATE_IDEA',
-    description: '',
+    description: 'Update participation idea',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -529,7 +529,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'PARTICIPATE_UPDATE_REMOVE',
-    description: '',
+    description: 'Remove participation update',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -645,15 +645,6 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE', 'PARTICIPATE'],
   },
   {
-    name: 'PUBLICATION',
-    description: '',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'DIVISION',
-    service: ['BROWSE'],
-  },
-  {
     name: 'GET_PRO_PLAN',
     description: 'Pro plan subscription',
     isActive: false,
@@ -673,7 +664,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
   },
   {
     name: 'CORRUPTED_DATA',
-    description: '',
+    description: 'Corrupted data handling',
     isActive: true,
     isPro: false,
     isNew: false,
