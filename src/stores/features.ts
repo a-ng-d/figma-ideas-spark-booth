@@ -321,6 +321,15 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE'],
   },
   {
+    name: 'SETTINGS_TEMPLATE',
+    description: 'Set template',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE'],
+  },
+  {
     name: 'SETTINGS_IMPORT',
     description: 'Import settings',
     isActive: true,

@@ -100,3 +100,39 @@ div.user__name {
   width: var(--size-xsmall);
   height: var(--size-xsmall);
 }
+
+/* Card */
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--size-xxsmall);
+  gap: var(--size-xxsmall);
+  border-radius: var(--border-radius-small);
+  width: 200px;
+}
+
+.card:hover {
+  background: var(--figma-color-bg-secondary);
+}
+
+.card:hover .card__actions {
+  visibility: visible;
+}
+
+.card__screenshot {
+  height: 100px;
+  position: relative;
+}
+
+.card__actions {
+  display: flex;
+  gap: var(--size-xxsmall);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  top: 0;
+}
+

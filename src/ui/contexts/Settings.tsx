@@ -43,6 +43,7 @@ import HistorySettings from '../modules/HistorySettings'
 import Publication from '../modules/Publication'
 import TimerSettings from '../modules/TimerSettings'
 import TypesSettings from '../modules/TypesSettings'
+import TemplateSettings from '../modules/TemplateSettings'
 
 interface SettingsProps {
   activity: ActivityConfiguration
@@ -81,10 +82,7 @@ interface SettingsStates {
   isFilesImporting: boolean
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -134,6 +132,11 @@ export default class Settings extends PureComponent<
     SETTINGS_TIMER: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS_TIMER',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TEMPLATE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TEMPLATE',
       planStatus: planStatus,
     }),
     SETTINGS_IMPORT: new FeatureStatus({
@@ -678,6 +681,16 @@ export default class Settings extends PureComponent<
             ).SETTINGS_TYPES.isActive()}
           >
             <TypesSettings {...this.props} />
+          </Feature>
+          <Feature
+            isActive={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_TEMPLATE.isActive()}
+          >
+            <TemplateSettings
+              activityId={this.props.activity.meta.id}
+              {...this.props}
+            />
           </Feature>
           <Feature
             isActive={Settings.features(

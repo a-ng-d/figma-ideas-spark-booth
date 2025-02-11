@@ -147,6 +147,15 @@ export const locals: { [key: string]: any } = {
           yellow: 'Yellow',
         },
       },
+      template: {
+        title: 'Template',
+        addTemplate: 'Add template',
+        removeTemplate: 'Remove template',
+        helper: {
+          addViaFigJam: 'Select a section or a group on the FigJam board',
+          addViaSlides: 'Select a slide or a group on the Slides document',
+        },
+      },
       history: {
         title: 'Session history',
         empty: 'No session yet',
