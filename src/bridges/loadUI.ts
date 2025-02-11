@@ -1,7 +1,7 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
 import { ActiveParticipant } from '../types/configurations'
-import { SessionDataToCanvas } from '../types/data'
+import { FigmaSimplifiedNodes, SessionDataToCanvas } from '../types/data'
 import { ActionsList } from '../types/models'
 import checkCounts from './checks/checkCounts'
 import checkEditorType from './checks/checkEditorType'
@@ -349,6 +349,80 @@ const loadUI = async () => {
     }
     return false
   }
+
+  figma.on('selectionchange', () => {
+    const currentSelection = figma.currentPage.selection
+
+    if (currentSelection.length > 0) {
+      const currentSelectedParent = currentSelection[0]
+
+      if (
+        currentSelectedParent.type === 'SECTION' ||
+        currentSelectedParent.type === 'GROUP'
+      )
+        currentSelectedParent
+          .exportAsync({
+            format: 'PNG',
+            constraint: { type: 'SCALE', value: 0.1 },
+          })
+          .then((buffer) => {
+            const extractNodeData = (node: SceneNode): FigmaSimplifiedNodes => {
+              const { id, name, type } = node
+              const nodeData: FigmaSimplifiedNodes = { id, name, type }
+
+              if ('fills' in node)
+                nodeData.fills = Array.isArray(node.fills)
+                  ? [...node.fills]
+                  : undefined
+
+              if ('characters' in node) nodeData.characters = node.characters
+
+              if ('x' in node) nodeData.x = node.x
+
+              if ('y' in node) nodeData.y = node.y
+
+              if ('width' in node) nodeData.width = node.width
+
+              if ('height' in node) nodeData.height = node.height
+
+              if ('locked' in node) nodeData.locked = node.locked
+
+              if ('visible' in node) nodeData.visible = node.visible
+
+              if ('children' in node && Array.isArray(node.children))
+                nodeData.children = node.children.map(extractNodeData)
+
+              return nodeData
+            }
+
+            const selectionData = {
+              id: currentSelectedParent.id,
+              name: currentSelectedParent.name,
+              type: currentSelectedParent.type,
+              children: currentSelectedParent.children.map(extractNodeData),
+              fills:
+                'fills' in currentSelectedParent
+                  ? currentSelectedParent.fills
+                  : undefined,
+              locked:
+                'locked' in currentSelectedParent
+                  ? currentSelectedParent.locked
+                  : undefined,
+              visible:
+                'visible' in currentSelectedParent
+                  ? currentSelectedParent.visible
+                  : undefined,
+            }
+
+            figma.ui.postMessage({
+              type: 'GET_SELECTION',
+              selection: selectionData,
+              screenshot: buffer,
+            })
+          })
+          .catch(() => null)
+    }
+  })
 
   // Relaunch
   figma.root.setRelaunchData({

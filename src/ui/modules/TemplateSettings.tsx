@@ -12,6 +12,7 @@ import React from 'react'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
+import { ActionsList } from 'src/types/models'
 
 interface TemplateSettingsProps {
   activityId: string
@@ -20,7 +21,15 @@ interface TemplateSettingsProps {
   lang: Language
 }
 
-export default class TemplateSettings extends PureComponent<TemplateSettingsProps> {
+interface TemplateSettingsState {
+  screenshot: Uint8Array | null
+  selection: SceneNode | null
+}
+
+export default class TemplateSettings extends PureComponent<
+  TemplateSettingsProps,
+  TemplateSettingsState
+> {
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_TEMPLATE: new FeatureStatus({
       features: features,
@@ -29,8 +38,55 @@ export default class TemplateSettings extends PureComponent<TemplateSettingsProp
     }),
   })
 
+  constructor(props: TemplateSettingsProps) {
+    super(props)
+    this.state = {
+      screenshot: null,
+      selection: null,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount = () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      GET_SELECTION: () =>
+        this.setState({
+          selection: e.data.pluginMessage?.selection,
+          screenshot: e.data.pluginMessage?.screenshot,
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
+  }
+
+  // Direct Actions
+  getImageSrc = (screenshot: Uint8Array | null) => {
+    if (screenshot !== null) {
+      const blob = new Blob([screenshot], {
+        type: 'image/png',
+      })
+      return URL.createObjectURL(blob)
+    } else return ''
+  }
+
   // Render
   render() {
+    console.log(
+      this.state.screenshot,
+      this.state.selection,
+      this.getImageSrc(this.state.screenshot)
+    )
+
     return (
       <Section
         title={
@@ -53,7 +109,7 @@ export default class TemplateSettings extends PureComponent<TemplateSettingsProp
               >
                 <div className={'card'}>
                   <div className={'card__screenshot'}>
-                    <Thumbnail src="" />
+                    <Thumbnail src={this.getImageSrc(this.state.screenshot)} />
                     <div className={'card__actions'}>
                       <Button
                         type="secondary"
