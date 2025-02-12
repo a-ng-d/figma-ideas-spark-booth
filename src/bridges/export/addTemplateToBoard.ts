@@ -11,7 +11,6 @@ const addTemplateToBoard = async (data: {
     (template: TemplateConfiguration) =>
       template.activityId === data.activity.meta.id
   )
-  console.log('template', template)
 
   new Template({
     template: template,
