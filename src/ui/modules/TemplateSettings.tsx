@@ -14,6 +14,8 @@ import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
 import { ActionsList } from 'src/types/models'
 
+type TemplateStatus = 'UNDEFINED' | 'SAVED' | 'NOT_SAVED'
+
 interface TemplateSettingsProps {
   activityId: string
   editorType: EditorType
@@ -21,15 +23,15 @@ interface TemplateSettingsProps {
   lang: Language
 }
 
-interface TemplateSettingsState {
+interface TemplateSettingsStates {
   imageUrl: string | undefined
   nodes: object | undefined
-  isTemplateSaved: boolean
+  templateStatus: TemplateStatus
 }
 
 export default class TemplateSettings extends PureComponent<
   TemplateSettingsProps,
-  TemplateSettingsState
+  TemplateSettingsStates
 > {
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_TEMPLATE: new FeatureStatus({
@@ -44,7 +46,7 @@ export default class TemplateSettings extends PureComponent<
     this.state = {
       imageUrl: undefined,
       nodes: undefined,
-      isTemplateSaved: false,
+      templateStatus: 'UNDEFINED',
     }
   }
 
@@ -83,8 +85,14 @@ export default class TemplateSettings extends PureComponent<
     )
   }
 
-  componentDidUpdate(): void {
-    if (!this.state.isTemplateSaved)
+  componentDidUpdate = (
+    prevProps: Readonly<TemplateSettingsProps>,
+    prevState: Readonly<TemplateSettingsStates>
+  ) => {
+    if (
+      prevState.templateStatus !== this.state.templateStatus &&
+      this.state.templateStatus === 'NOT_SAVED'
+    )
       parent.postMessage(
         {
           pluginMessage: {
@@ -100,20 +108,20 @@ export default class TemplateSettings extends PureComponent<
     const actions: ActionsList = {
       GET_SELECTION: async () =>
         this.setState({
-          nodes: e.data.pluginMessage?.nodes as object,
+          nodes: e.data.pluginMessage.nodes as object,
           imageUrl: await this.getImageSrc(
-            e.data.pluginMessage?.screenshot as Uint8Array | null
+            e.data.pluginMessage.screenshot as Uint8Array | null
           ),
         }),
       GET_ACTIVITY_THUMBNAIL: () =>
         this.setState({
-          imageUrl: e.data.pluginMessage?.imageUrl as string | undefined,
-          isTemplateSaved: e.data.pluginMessage?.isTemplateSaved as boolean,
+          imageUrl: e.data.pluginMessage.imageUrl as string | undefined,
+          templateStatus: e.data.pluginMessage.templateStatus as TemplateStatus,
         }),
       GET_ACTIVITY_TEMPLATE: () =>
         this.setState({
-          nodes: e.data.pluginMessage?.nodes as object | undefined,
-          isTemplateSaved: e.data.pluginMessage?.isTemplateSaved as boolean,
+          nodes: e.data.pluginMessage.nodes as object | undefined,
+          templateStatus: e.data.pluginMessage.templateStatus as TemplateStatus,
         }),
       DEFAULT: () => null,
     }
@@ -140,7 +148,7 @@ export default class TemplateSettings extends PureComponent<
   }
 
   onAddTemplate = () => {
-    this.setState({ isTemplateSaved: true })
+    this.setState({ templateStatus: 'SAVED' })
     parent.postMessage(
       {
         pluginMessage: {
@@ -157,6 +165,32 @@ export default class TemplateSettings extends PureComponent<
           type: 'UPDATE_TEMPLATES',
           activityId: this.props.activityId,
           nodes: this.state.nodes,
+        },
+      },
+      '*'
+    )
+  }
+
+  onRemoveTemplate = () => {
+    this.setState({
+      templateStatus: 'NOT_SAVED',
+      imageUrl: undefined,
+      nodes: undefined,
+    })
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'REMOVE_THUMBNAIL',
+          activityId: this.props.activityId,
+        },
+      },
+      '*'
+    )
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'REMOVE_TEMPLATE',
+          activityId: this.props.activityId,
         },
       },
       '*'
@@ -193,14 +227,14 @@ export default class TemplateSettings extends PureComponent<
                     />
                     {this.state.nodes !== undefined && (
                       <div className={'card__actions'}>
-                        {this.state.isTemplateSaved ? (
+                        {this.state.templateStatus === 'SAVED' ? (
                           <Button
                             type="destructive"
                             label={
                               locals[this.props.lang].settings.template
                                 .removeTemplate
                             }
-                            action={() => null}
+                            action={this.onRemoveTemplate}
                           />
                         ) : (
                           <Button
@@ -215,18 +249,18 @@ export default class TemplateSettings extends PureComponent<
                       </div>
                     )}
                   </div>
-                  {!this.state.isTemplateSaved ? (
+                  {this.state.templateStatus === 'SAVED' ? (
                     <span className={`type ${texts.type}`}>
                       {
                         locals[this.props.lang].settings.template.helper
-                          .addTemplate
+                          .removeTemplate
                       }
                     </span>
                   ) : (
                     <span className={`type ${texts.type}`}>
                       {
                         locals[this.props.lang].settings.template.helper
-                          .removeTemplate
+                          .addTemplate
                       }
                     </span>
                   )}

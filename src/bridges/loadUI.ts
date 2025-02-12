@@ -119,10 +119,11 @@ const loadUI = async () => {
           (thumbnail: ThumbnailConfiguration) =>
             thumbnail.activityId === msg.activityId
         )
+
         figma.ui.postMessage({
           type: 'GET_ACTIVITY_THUMBNAIL',
-          imageUrl: thumbnail.imageUrl,
-          isTemplateSaved: thumbnail !== undefined,
+          imageUrl: thumbnail !== undefined ? thumbnail.imageUrl : undefined,
+          templateStatus: thumbnail !== undefined ? 'SAVED' : 'NOT_SAVED',
         })
       },
       GET_ACTIVITY_TEMPLATE: () => {
@@ -130,10 +131,11 @@ const loadUI = async () => {
           (template: TemplateConfiguration) =>
             template.activityId === msg.activityId
         )
+
         figma.ui.postMessage({
           type: 'GET_ACTIVITY_TEMPLATE',
-          nodes: template.nodes,
-          isTemplateSaved: template !== undefined,
+          nodes: template !== undefined ? template.nodes : undefined,
+          templateStatus: template !== undefined ? 'SAVED' : 'NOT_SAVED',
         })
       },
       //
@@ -180,6 +182,25 @@ const loadUI = async () => {
 
         figma.root.setPluginData('templates', JSON.stringify(templates))
       },
+      REMOVE_THUMBNAIL: () => {
+        const thumbnails = JSON.parse(
+          figma.root.getPluginData('thumbnails')
+        ).filter(
+          (thumbnail: ThumbnailConfiguration) =>
+            thumbnail.activityId !== msg.activityId
+        )
+        figma.root.setPluginData('thumbnails', JSON.stringify(thumbnails))
+      },
+      REMOVE_TEMPLATE: () => {
+        const templates = JSON.parse(
+          figma.root.getPluginData('templates')
+        ).filter(
+          (template: TemplateConfiguration) =>
+            template.activityId !== msg.activityId
+        )
+        figma.root.setPluginData('templates', JSON.stringify(templates))
+      },
+      //
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),
@@ -217,6 +238,7 @@ const loadUI = async () => {
           .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
           .catch(() => figma.notify(locals[lang].error.addReportToSlides))
       },
+      //
       EXPORT_CSV: () => exportCsv(msg.data),
       //
       IMPORT_SESSIONS: () =>
