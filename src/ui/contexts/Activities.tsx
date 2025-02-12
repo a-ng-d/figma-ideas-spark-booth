@@ -292,6 +292,17 @@ export default class Activities extends PureComponent<
       return sendData()
     }
 
+    const updateActivity = () => {
+      this.activitiesMessage.data = this.props.activities.map((item) => {
+        if (item.meta.id === this.state.openedActivity)
+          item.meta.dates.updatedAt = new Date().toISOString()
+
+        return item
+      })
+
+      return sendData()
+    }
+
     const sendData = () => {
       this.props.onChangeActivities({
         activities: this.activitiesMessage.data,
@@ -319,6 +330,8 @@ export default class Activities extends PureComponent<
       UPDATE_GROUPED_BY: () => updateGroupedBy(),
       UPDATE_TIMER_MINUTES: () => updateTimerMinutes(),
       UPDATE_TIMER_SECONDS: () => updateTimerSeconds(),
+      ADD_TEMPLATE: () => updateActivity(),
+      REMOVE_TEMPLATE: () => updateActivity(),
       DEFAULT: () => null,
     }
 

@@ -7,7 +7,7 @@ import {
   Thumbnail,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
+import { ChangeEvent, PureComponent } from 'preact/compat'
 import React from 'react'
 import features from '../../config'
 import { locals } from '../../content/locals'
@@ -21,6 +21,9 @@ interface TemplateSettingsProps {
   editorType: EditorType
   planStatus: PlanStatus
   lang: Language
+  onChangeActivities: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | Element>
+  ) => void
 }
 
 interface TemplateSettingsStates {
@@ -159,7 +162,7 @@ export default class TemplateSettings extends PureComponent<
     } else return undefined
   }
 
-  onAddTemplate = () => {
+  onAddTemplate = (e: ChangeEvent) => {
     this.setState({ templateStatus: 'SAVED' })
     parent.postMessage(
       {
@@ -181,9 +184,12 @@ export default class TemplateSettings extends PureComponent<
       },
       '*'
     )
+    this.props.onChangeActivities(
+      e as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | Element>
+    )
   }
 
-  onRemoveTemplate = () => {
+  onRemoveTemplate = (e: ChangeEvent) => {
     this.setState({
       templateStatus: 'NOT_SAVED',
       imageUrl: undefined,
@@ -206,6 +212,9 @@ export default class TemplateSettings extends PureComponent<
         },
       },
       '*'
+    )
+    this.props.onChangeActivities(
+      e as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | Element>
     )
   }
 
@@ -246,6 +255,7 @@ export default class TemplateSettings extends PureComponent<
                               locals[this.props.lang].settings.template
                                 .removeTemplate
                             }
+                            feature="REMOVE_TEMPLATE"
                             action={this.onRemoveTemplate}
                           />
                         ) : (
@@ -255,6 +265,7 @@ export default class TemplateSettings extends PureComponent<
                               locals[this.props.lang].settings.template
                                 .addTemplate
                             }
+                            feature="ADD_TEMPLATE"
                             action={this.onAddTemplate}
                           />
                         )}
