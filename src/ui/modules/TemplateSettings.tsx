@@ -101,6 +101,18 @@ export default class TemplateSettings extends PureComponent<
         },
         '*'
       )
+    else if (
+      prevState.templateStatus !== this.state.templateStatus &&
+      this.state.templateStatus === 'SAVED'
+    )
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UNSUBSCRIBE_SELECTION',
+          },
+        },
+        '*'
+      )
   }
 
   // Handlers
