@@ -107,7 +107,7 @@ div.user__name {
   flex-direction: column;
   padding: var(--size-xxsmall);
   gap: var(--size-xxsmall);
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-med);
   width: 200px;
 }
 

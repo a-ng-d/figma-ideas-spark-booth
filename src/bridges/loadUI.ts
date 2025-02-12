@@ -112,21 +112,30 @@ const loadUI = async () => {
         figma.ui.resize(windowSize.w, windowSize.h)
       },
       //
-      GET_ACTIVITY_THUMBNAIL: () =>
+      GET_ACTIVITY_THUMBNAIL: () => {
+        const thumbnail = JSON.parse(
+          figma.root.getPluginData('thumbnails')
+        ).find(
+          (thumbnail: ThumbnailConfiguration) =>
+            thumbnail.activityId === msg.activityId
+        )
         figma.ui.postMessage({
-          type: 'GET_THUMBNAIL',
-          thumbnail: JSON.parse(figma.root.getPluginData('thumbnails')).find(
-            (thumbnail: ThumbnailConfiguration) =>
-              thumbnail.activityId === msg.id
-          ),
-        }),
-      GET_ACTIVITY_TEMPLATE: () =>
+          type: 'GET_ACTIVITY_THUMBNAIL',
+          imageUrl: thumbnail.imageUrl,
+          isTemplateSaved: thumbnail !== undefined,
+        })
+      },
+      GET_ACTIVITY_TEMPLATE: () => {
+        const template = JSON.parse(figma.root.getPluginData('templates')).find(
+          (template: TemplateConfiguration) =>
+            template.activityId === msg.activityId
+        )
         figma.ui.postMessage({
-          type: 'GET_TEMPLATE',
-          template: JSON.parse(figma.root.getPluginData('templates')).find(
-            (template: TemplateConfiguration) => template.activityId === msg.id
-          ),
-        }),
+          type: 'GET_ACTIVITY_TEMPLATE',
+          nodes: template.nodes,
+          isTemplateSaved: template !== undefined,
+        })
+      },
       //
       UPDATE_ACTIVITIES: () =>
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
@@ -141,10 +150,36 @@ const loadUI = async () => {
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       UPDATE_IDEAS: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
-      UPDATE_TEMPLATES: () =>
-        figma.root.setPluginData('templates', JSON.stringify(msg.data)),
-      UPDATE_THUMBNAILS: () =>
-        figma.root.setPluginData('thumbnails', JSON.stringify(msg.data)),
+      UPDATE_THUMBNAILS: () => {
+        const existingThumbnails = JSON.parse(
+          figma.root.getPluginData('thumbnails')
+        )
+        let thumbnails = existingThumbnails.filter(
+          (thumbnail: ThumbnailConfiguration) =>
+            thumbnail.activityId === msg.activityId
+        )
+        thumbnails = [
+          ...thumbnails,
+          { activityId: msg.activityId, imageUrl: msg.imageUrl },
+        ]
+
+        figma.root.setPluginData('thumbnails', JSON.stringify(thumbnails))
+      },
+      UPDATE_TEMPLATES: () => {
+        const existingTemplates = JSON.parse(
+          figma.root.getPluginData('templates')
+        )
+        let templates = existingTemplates.filter(
+          (template: TemplateConfiguration) =>
+            template.activityId === msg.activityId
+        )
+        templates = [
+          ...templates,
+          { activityId: msg.activityId, nodes: msg.nodes },
+        ]
+
+        figma.root.setPluginData('templates', JSON.stringify(templates))
+      },
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),

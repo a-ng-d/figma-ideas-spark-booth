@@ -22,8 +22,9 @@ interface TemplateSettingsProps {
 }
 
 interface TemplateSettingsState {
-  screenshot: string | undefined
-  selection: object | undefined
+  imageUrl: string | undefined
+  nodes: object | undefined
+  isTemplateSaved: boolean
 }
 
 export default class TemplateSettings extends PureComponent<
@@ -41,8 +42,9 @@ export default class TemplateSettings extends PureComponent<
   constructor(props: TemplateSettingsProps) {
     super(props)
     this.state = {
-      screenshot: undefined,
-      selection: undefined,
+      imageUrl: undefined,
+      nodes: undefined,
+      isTemplateSaved: false,
     }
   }
 
@@ -52,7 +54,7 @@ export default class TemplateSettings extends PureComponent<
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'GET_TEMPLATE',
+          type: 'GET_ACTIVITY_TEMPLATE',
           activityId: this.props.activityId,
         },
       },
@@ -61,16 +63,8 @@ export default class TemplateSettings extends PureComponent<
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'GET_THUMBNAIL',
+          type: 'GET_ACTIVITY_THUMBNAIL',
           activityId: this.props.activityId,
-        },
-      },
-      '*'
-    )
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'SUBSCRIBE_SELECTION',
         },
       },
       '*'
@@ -89,23 +83,37 @@ export default class TemplateSettings extends PureComponent<
     )
   }
 
+  componentDidUpdate(): void {
+    if (!this.state.isTemplateSaved)
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'SUBSCRIBE_SELECTION',
+          },
+        },
+        '*'
+      )
+  }
+
   // Handlers
   handleMessage = (e: MessageEvent) => {
     const actions: ActionsList = {
       GET_SELECTION: async () =>
         this.setState({
-          selection: e.data.pluginMessage?.selection as object,
-          screenshot: await this.getImageSrc(
+          nodes: e.data.pluginMessage?.nodes as object,
+          imageUrl: await this.getImageSrc(
             e.data.pluginMessage?.screenshot as Uint8Array | null
           ),
         }),
-      GET_THUMBNAIL: () =>
+      GET_ACTIVITY_THUMBNAIL: () =>
         this.setState({
-          screenshot: e.data.pluginMessage?.screenshot as string | undefined,
+          imageUrl: e.data.pluginMessage?.imageUrl as string | undefined,
+          isTemplateSaved: e.data.pluginMessage?.isTemplateSaved as boolean,
         }),
-      GET_TEMPLATE: () =>
+      GET_ACTIVITY_TEMPLATE: () =>
         this.setState({
-          selection: e.data.pluginMessage?.selection as object | undefined,
+          nodes: e.data.pluginMessage?.nodes as object | undefined,
+          isTemplateSaved: e.data.pluginMessage?.isTemplateSaved as boolean,
         }),
       DEFAULT: () => null,
     }
@@ -114,8 +122,8 @@ export default class TemplateSettings extends PureComponent<
   }
 
   // Direct Actions
-  getImageSrc = async (screenshot: Uint8Array | null) => {
-    if (screenshot !== null) {
+  getImageSrc = async (screenshot: Uint8Array | null | undefined) => {
+    if (screenshot !== null && screenshot !== undefined) {
       const blob = new Blob([screenshot], {
         type: 'image/png',
       })
@@ -123,22 +131,32 @@ export default class TemplateSettings extends PureComponent<
       return new Promise<string>((resolve) => {
         const reader = new FileReader()
         reader.onloadend = () => {
-          console.log(reader.result)
           if (reader.result) resolve(reader.result as string)
         }
         reader.onerror = () => ''
         reader.readAsDataURL(blob)
       })
-    } else return ''
+    } else return undefined
   }
 
   onAddTemplate = () => {
+    this.setState({ isTemplateSaved: true })
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'ADD_TEMPLATE',
+          type: 'UPDATE_THUMBNAILS',
           activityId: this.props.activityId,
-          selection: this.state.selection,
+          imageUrl: this.state.imageUrl,
+        },
+      },
+      '*'
+    )
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_TEMPLATES',
+          activityId: this.props.activityId,
+          nodes: this.state.nodes,
         },
       },
       '*'
@@ -170,33 +188,48 @@ export default class TemplateSettings extends PureComponent<
                 <div className={'card'}>
                   <div className={'card__screenshot'}>
                     <Thumbnail
-                      key={this.state.screenshot}
-                      src={this.state.screenshot ?? ''}
+                      key={this.state.imageUrl}
+                      src={this.state.imageUrl ?? ''}
                     />
-                    <div className={'card__actions'}>
-                      <Button
-                        type="secondary"
-                        label={
-                          locals[this.props.lang].settings.template.addTemplate
-                        }
-                        action={this.onAddTemplate}
-                      />
-                      <Button
-                        type="destructive"
-                        label={
-                          locals[this.props.lang].settings.template
-                            .removeTemplate
-                        }
-                        action={() => null}
-                      />
-                    </div>
+                    {this.state.nodes !== undefined && (
+                      <div className={'card__actions'}>
+                        {this.state.isTemplateSaved ? (
+                          <Button
+                            type="destructive"
+                            label={
+                              locals[this.props.lang].settings.template
+                                .removeTemplate
+                            }
+                            action={() => null}
+                          />
+                        ) : (
+                          <Button
+                            type="secondary"
+                            label={
+                              locals[this.props.lang].settings.template
+                                .addTemplate
+                            }
+                            action={this.onAddTemplate}
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
-                  <span className={`type ${texts.type}`}>
-                    {
-                      locals[this.props.lang].settings.template.helper
-                        .addViaFigJam
-                    }
-                  </span>
+                  {!this.state.isTemplateSaved ? (
+                    <span className={`type ${texts.type}`}>
+                      {
+                        locals[this.props.lang].settings.template.helper
+                          .addTemplate
+                      }
+                    </span>
+                  ) : (
+                    <span className={`type ${texts.type}`}>
+                      {
+                        locals[this.props.lang].settings.template.helper
+                          .removeTemplate
+                      }
+                    </span>
+                  )}
                 </div>
               </div>
             ),

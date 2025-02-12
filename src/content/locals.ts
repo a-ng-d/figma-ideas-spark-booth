@@ -152,8 +152,8 @@ export const locals: { [key: string]: any } = {
         addTemplate: 'Add template',
         removeTemplate: 'Remove template',
         helper: {
-          addViaFigJam: 'Select a section or a group on the FigJam board',
-          addViaSlides: 'Select a slide or a group on the Slides document',
+          addTemplate: 'Select a section or a group on the FigJam board',
+          removeTemplate: 'Remove the template first to replace it',
         },
       },
       history: {

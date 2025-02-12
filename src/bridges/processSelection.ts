@@ -10,7 +10,7 @@ const processSelection = async () => {
     )
       figma.ui.postMessage({
         type: 'GET_SELECTION',
-        selection: await currentSelectedParent.exportAsync({
+        nodes: await currentSelectedParent.exportAsync({
           format: 'JSON_REST_V1',
         }),
         screenshot: await currentSelectedParent.exportAsync({
@@ -21,7 +21,7 @@ const processSelection = async () => {
   } else
     figma.ui.postMessage({
       type: 'GET_SELECTION',
-      selection: undefined,
+      nodes: undefined,
       screenshot: undefined,
     })
 }
