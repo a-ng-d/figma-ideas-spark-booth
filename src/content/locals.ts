@@ -92,6 +92,7 @@ export const locals: { [key: string]: any } = {
         publish: 'Publish activity',
         synchronize: 'Synchronize activity',
         signIn: 'Sign in to publish',
+        template: 'Add template to board',
         overview: 'Add overview to slides',
         report: 'Add report to slides',
         exportActivity: 'Export activity',
@@ -433,6 +434,7 @@ export const locals: { [key: string]: any } = {
         'The data is corrupted. Please restore a previous version of the FigJam board before you have run the last session.',
       corruptedDataOnSlides:
         'The data is corrupted. Please restore a previous version of the FigJam board before you have run the last session.',
+      addTemplateToBoard: '✕ The template cannot be added to the board',
       addSessionToBoard: '✕ The session cannot be added to the board',
       addOverviewToSlides: '✕ The overview cannot be added to the slides',
       addSessionToSlides: '✕ The session cannot be added to the slides',

@@ -94,6 +94,11 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
       featureName: 'ACTIVITIES_OVERVIEW',
       planStatus: planStatus,
     }),
+    ACTIVITIES_TEMPLATE: new FeatureStatus({
+      features: features,
+      featureName: 'ACTIVITIES_TEMPLATE',
+      planStatus: planStatus,
+    }),
     ACTIVITIES_REPORT: new FeatureStatus({
       features: features,
       featureName: 'ACTIVITIES_REPORT',
@@ -315,6 +320,38 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
                         {
                           pluginMessage: {
                             type: 'ADD_OVERVIEW_TO_SLIDES',
+                            data: {
+                              activity: this.props.activity,
+                            },
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                  },
+                  {
+                    label: locals[this.props.lang].settings.actions.template,
+                    type: 'OPTION',
+                    isActive:
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_TEMPLATE.isActive() &&
+                      this.props.editorType === 'figjam',
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_TEMPLATE.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_TEMPLATE.isNew(),
+                    action: () => {
+                      this.setState({
+                        isActionLoading: true,
+                      })
+
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'ADD_TEMPLATE_TO_BOARD',
                             data: {
                               activity: this.props.activity,
                             },

@@ -1,5 +1,6 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 import { PlanStatus } from './app'
+import { FigmaRestJson } from './data'
 
 export interface ActivityConfiguration {
   name: string
@@ -109,7 +110,7 @@ export interface ActiveParticipant {
 
 export interface TemplateConfiguration {
   activityId: string
-  nodes: Array<object>
+  nodes: FigmaRestJson
 }
 
 export interface ThumbnailConfiguration {

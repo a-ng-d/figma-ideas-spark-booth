@@ -39,3 +39,11 @@ export interface FileContent {
   isValid?: boolean
   status?: 'EXISTING' | 'NOT_LINKED' | 'OK'
 }
+
+export interface FigmaRestJson {
+  componentSets: object
+  components: object
+  document: object
+  schemaVersion: number
+  styles: object
+}

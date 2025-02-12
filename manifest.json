@@ -7,7 +7,8 @@
     "slides"
   ],
   "relaunchButtons": [
-    { "command": "open", "name": "Open Ideas Spark Booth" }
+    { "command": "open", "name": "Open Ideas Spark Booth" },
+    { "command": "run", "name": "Run a session for this activity" }
   ],
   "permissions": [
     "currentuser"

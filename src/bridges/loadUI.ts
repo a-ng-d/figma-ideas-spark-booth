@@ -27,6 +27,7 @@ import updateParticipants from './updates/updateParticipants'
 import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
 import processSelection from './processSelection'
+import addTemplateToBoard from './export/addTemplateToBoard'
 
 const loadUI = async () => {
   let lastData = ''
@@ -206,6 +207,10 @@ const loadUI = async () => {
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),
       UNBLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: false }),
       //
+      ADD_TEMPLATE_TO_BOARD: () =>
+        addTemplateToBoard(msg.data)
+          .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
+          .catch(() => figma.notify(locals[lang].error.addTemplateToBoard)),
       ADD_SESSION_TO_BOARD: () =>
         addSessionToBoard(msg.data)
           .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))

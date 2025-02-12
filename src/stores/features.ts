@@ -121,6 +121,15 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE'],
   },
   {
+    name: 'ACTIVITIES_TEMPLATE',
+    description: 'View activity template',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE'],
+  },
+  {
     name: 'ACTIVITIES_REPORT',
     description: 'Generate activity report',
     isActive: true,
