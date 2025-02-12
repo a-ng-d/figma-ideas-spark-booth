@@ -153,7 +153,7 @@ export const locals: { [key: string]: any } = {
         addTemplate: 'Add template',
         removeTemplate: 'Remove template',
         helper: {
-          addTemplate: 'Select a section or a group on the FigJam board',
+          addTemplate: 'Select a section on the FigJam board',
           removeTemplate: 'Remove the template first to replace it',
         },
       },

@@ -4,10 +4,7 @@ const processSelection = async () => {
   if (currentSelection.length > 0) {
     const currentSelectedParent = currentSelection[0]
 
-    if (
-      currentSelectedParent.type === 'SECTION' ||
-      currentSelectedParent.type === 'GROUP'
-    )
+    if (currentSelectedParent.type === 'SECTION')
       figma.ui.postMessage({
         type: 'GET_SELECTION',
         nodes: await currentSelectedParent.exportAsync({
