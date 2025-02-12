@@ -67,10 +67,26 @@ export default class TemplateSettings extends PureComponent<
       },
       '*'
     )
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'SUBSCRIBE_SELECTION',
+        },
+      },
+      '*'
+    )
   }
 
   componentWillUnmount = () => {
     window.removeEventListener('message', this.handleMessage)
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UNSUBSCRIBE_SELECTION',
+        },
+      },
+      '*'
+    )
   }
 
   // Handlers
@@ -131,7 +147,6 @@ export default class TemplateSettings extends PureComponent<
 
   // Render
   render() {
-    console.log(this.state.screenshot, this.state.selection)
     return (
       <Section
         title={
@@ -154,9 +169,10 @@ export default class TemplateSettings extends PureComponent<
               >
                 <div className={'card'}>
                   <div className={'card__screenshot'}>
-                    {this.state.selection !== undefined && (
-                      <Thumbnail src={this.state.screenshot ?? ''} />
-                    )}
+                    <Thumbnail
+                      key={this.state.screenshot}
+                      src={this.state.screenshot ?? ''}
+                    />
                     <div className={'card__actions'}>
                       <Button
                         type="secondary"

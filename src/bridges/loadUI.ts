@@ -26,6 +26,7 @@ import startSession from './updates/startSession'
 import updateParticipants from './updates/updateParticipants'
 import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
+import processSelection from './processSelection'
 
 const loadUI = async () => {
   let lastData = ''
@@ -162,7 +163,6 @@ const loadUI = async () => {
           .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
           .catch(() => figma.notify(locals[lang].error.addSessionToSlides)),
       ADD_REPORT_TO_SLIDES: () => {
-        console.log(msg.data)
         const processSessions = async () => {
           await Promise.all(
             msg.data.sessions.map(async (data: SessionDataToCanvas) => {
@@ -204,6 +204,13 @@ const loadUI = async () => {
             figma.notify(locals[lang].error.generic)
             throw error
           }),
+      //
+      SUBSCRIBE_SELECTION: () => {
+        processSelection()
+        figma.on('selectionchange', processSelection)
+      },
+      UNSUBSCRIBE_SELECTION: () =>
+        figma.off('selectionchange', processSelection),
       //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
@@ -377,29 +384,6 @@ const loadUI = async () => {
     }
     return false
   }
-
-  figma.on('selectionchange', async () => {
-    const currentSelection = figma.currentPage.selection
-
-    if (currentSelection.length > 0) {
-      const currentSelectedParent = currentSelection[0]
-
-      if (
-        currentSelectedParent.type === 'SECTION' ||
-        currentSelectedParent.type === 'GROUP'
-      )
-        figma.ui.postMessage({
-          type: 'GET_SELECTION',
-          selection: await currentSelectedParent.exportAsync({
-            format: 'JSON_REST_V1',
-          }),
-          screenshot: await currentSelectedParent.exportAsync({
-            format: 'PNG',
-            constraint: { type: 'WIDTH', value: 480 },
-          }),
-        })
-    }
-  })
 
   // Relaunch
   figma.root.setRelaunchData({
