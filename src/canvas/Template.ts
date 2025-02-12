@@ -31,6 +31,8 @@ export default class Template {
     name: string
     fills: Paint[]
     absoluteBoundingBox: { width: number; height: number; x: number; y: number }
+    locked?: boolean
+    visible?: boolean
   }) => {
     const sectionNode = figma.createSection()
 
@@ -40,6 +42,8 @@ export default class Template {
       node.absoluteBoundingBox.width,
       node.absoluteBoundingBox.height
     )
+    node.locked !== undefined && (sectionNode.locked = node.locked)
+    node.visible !== undefined && (sectionNode.visible = node.visible)
 
     return sectionNode
   }
@@ -47,6 +51,8 @@ export default class Template {
   makeInstance = async (node: {
     componentId: string
     absoluteBoundingBox: { width: number; height: number; x: number; y: number }
+    locked?: boolean
+    visible?: boolean
   }) => {
     return figma
       .importComponentByKeyAsync(
@@ -61,6 +67,8 @@ export default class Template {
           node.absoluteBoundingBox.width,
           node.absoluteBoundingBox.height
         )
+        node.locked !== undefined && (instanceNode.locked = node.locked)
+        node.visible !== undefined && (instanceNode.visible = node.visible)
 
         return instanceNode
       })
@@ -82,6 +90,8 @@ export default class Template {
       textAlignVertical: 'TOP' | 'CENTER' | 'BOTTOM'
       textAutoResize: 'NONE' | 'WIDTH_AND_HEIGHT' | 'HEIGHT'
     }
+    locked?: boolean
+    visible?: boolean
   }) => {
     return figma
       .loadFontAsync({
@@ -114,13 +124,12 @@ export default class Template {
         textNode.textAlignHorizontal = node.style.textAlignHorizontal
         textNode.textAlignVertical = node.style.textAlignVertical
         textNode.textAutoResize = node.style.textAutoResize
+        node.locked !== undefined && (textNode.locked = node.locked)
+        node.visible !== undefined && (textNode.visible = node.visible)
 
         return textNode
       })
-      .catch((error) => {
-        console.log(error)
-        return this.makePlaceholder(node)
-      })
+      .catch(() => this.makePlaceholder(node))
   }
 
   makeShapeWithText = (node: {
@@ -158,6 +167,8 @@ export default class Template {
       | 'OR'
       | 'SPEECH_BUBBLE'
       | 'INTERNAL_STORAGE'
+    locked?: boolean
+    visible?: boolean
   }) => {
     const shapeWithTextNode = figma.createShapeWithText()
 
@@ -170,6 +181,8 @@ export default class Template {
       node.absoluteBoundingBox.width,
       node.absoluteBoundingBox.height
     )
+    node.locked !== undefined && (shapeWithTextNode.locked = node.locked)
+    node.visible !== undefined && (shapeWithTextNode.visible = node.visible)
 
     return shapeWithTextNode
   }
