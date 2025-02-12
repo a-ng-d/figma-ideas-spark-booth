@@ -22,8 +22,8 @@ interface TemplateSettingsProps {
 }
 
 interface TemplateSettingsState {
-  screenshot: Uint8Array | null
-  selection: SceneNode | null
+  screenshot: string | undefined
+  selection: object | undefined
 }
 
 export default class TemplateSettings extends PureComponent<
@@ -41,14 +41,32 @@ export default class TemplateSettings extends PureComponent<
   constructor(props: TemplateSettingsProps) {
     super(props)
     this.state = {
-      screenshot: null,
-      selection: null,
+      screenshot: undefined,
+      selection: undefined,
     }
   }
 
   // Lifecycle
   componentDidMount = () => {
     window.addEventListener('message', this.handleMessage)
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'GET_TEMPLATE',
+          activityId: this.props.activityId,
+        },
+      },
+      '*'
+    )
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'GET_THUMBNAIL',
+          activityId: this.props.activityId,
+        },
+      },
+      '*'
+    )
   }
 
   componentWillUnmount = () => {
@@ -58,10 +76,20 @@ export default class TemplateSettings extends PureComponent<
   // Handlers
   handleMessage = (e: MessageEvent) => {
     const actions: ActionsList = {
-      GET_SELECTION: () =>
+      GET_SELECTION: async () =>
         this.setState({
-          selection: e.data.pluginMessage?.selection,
-          screenshot: e.data.pluginMessage?.screenshot,
+          selection: e.data.pluginMessage?.selection as object,
+          screenshot: await this.getImageSrc(
+            e.data.pluginMessage?.screenshot as Uint8Array | null
+          ),
+        }),
+      GET_THUMBNAIL: () =>
+        this.setState({
+          screenshot: e.data.pluginMessage?.screenshot as string | undefined,
+        }),
+      GET_TEMPLATE: () =>
+        this.setState({
+          selection: e.data.pluginMessage?.selection as object | undefined,
         }),
       DEFAULT: () => null,
     }
@@ -70,23 +98,40 @@ export default class TemplateSettings extends PureComponent<
   }
 
   // Direct Actions
-  getImageSrc = (screenshot: Uint8Array | null) => {
+  getImageSrc = async (screenshot: Uint8Array | null) => {
     if (screenshot !== null) {
       const blob = new Blob([screenshot], {
         type: 'image/png',
       })
-      return URL.createObjectURL(blob)
+
+      return new Promise<string>((resolve) => {
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          console.log(reader.result)
+          if (reader.result) resolve(reader.result as string)
+        }
+        reader.onerror = () => ''
+        reader.readAsDataURL(blob)
+      })
     } else return ''
+  }
+
+  onAddTemplate = () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'ADD_TEMPLATE',
+          activityId: this.props.activityId,
+          selection: this.state.selection,
+        },
+      },
+      '*'
+    )
   }
 
   // Render
   render() {
-    console.log(
-      this.state.screenshot,
-      this.state.selection,
-      this.getImageSrc(this.state.screenshot)
-    )
-
+    console.log(this.state.screenshot, this.state.selection)
     return (
       <Section
         title={
@@ -109,14 +154,16 @@ export default class TemplateSettings extends PureComponent<
               >
                 <div className={'card'}>
                   <div className={'card__screenshot'}>
-                    <Thumbnail src={this.getImageSrc(this.state.screenshot)} />
+                    {this.state.selection !== undefined && (
+                      <Thumbnail src={this.state.screenshot ?? ''} />
+                    )}
                     <div className={'card__actions'}>
                       <Button
                         type="secondary"
                         label={
                           locals[this.props.lang].settings.template.addTemplate
                         }
-                        action={() => null}
+                        action={this.onAddTemplate}
                       />
                       <Button
                         type="destructive"
@@ -128,7 +175,6 @@ export default class TemplateSettings extends PureComponent<
                       />
                     </div>
                   </div>
-
                   <span className={`type ${texts.type}`}>
                     {
                       locals[this.props.lang].settings.template.helper

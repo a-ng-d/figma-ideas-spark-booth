@@ -1,7 +1,11 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
-import { ActiveParticipant } from '../types/configurations'
-import { FigmaSimplifiedNodes, SessionDataToCanvas } from '../types/data'
+import {
+  ActiveParticipant,
+  TemplateConfiguration,
+  ThumbnailConfiguration,
+} from '../types/configurations'
+import { SessionDataToCanvas } from '../types/data'
 import { ActionsList } from '../types/models'
 import checkCounts from './checks/checkCounts'
 import checkEditorType from './checks/checkEditorType'
@@ -82,6 +86,10 @@ const loadUI = async () => {
           avatar: figma.currentUser?.photoUrl,
         },
       })
+      figma.ui.postMessage({
+        type: 'GET_THUMBNAILS',
+        thumbnails: JSON.parse(figma.root.getPluginData('thumbnails')),
+      })
     })
     .then(() => checkCounts())
 
@@ -103,6 +111,22 @@ const loadUI = async () => {
         figma.ui.resize(windowSize.w, windowSize.h)
       },
       //
+      GET_ACTIVITY_THUMBNAIL: () =>
+        figma.ui.postMessage({
+          type: 'GET_THUMBNAIL',
+          thumbnail: JSON.parse(figma.root.getPluginData('thumbnails')).find(
+            (thumbnail: ThumbnailConfiguration) =>
+              thumbnail.activityId === msg.id
+          ),
+        }),
+      GET_ACTIVITY_TEMPLATE: () =>
+        figma.ui.postMessage({
+          type: 'GET_TEMPLATE',
+          template: JSON.parse(figma.root.getPluginData('templates')).find(
+            (template: TemplateConfiguration) => template.activityId === msg.id
+          ),
+        }),
+      //
       UPDATE_ACTIVITIES: () =>
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
       UPDATE_SESSIONS: () =>
@@ -116,6 +140,10 @@ const loadUI = async () => {
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       UPDATE_IDEAS: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
+      UPDATE_TEMPLATES: () =>
+        figma.root.setPluginData('templates', JSON.stringify(msg.data)),
+      UPDATE_THUMBNAILS: () =>
+        figma.root.setPluginData('thumbnails', JSON.stringify(msg.data)),
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),
@@ -350,7 +378,7 @@ const loadUI = async () => {
     return false
   }
 
-  figma.on('selectionchange', () => {
+  figma.on('selectionchange', async () => {
     const currentSelection = figma.currentPage.selection
 
     if (currentSelection.length > 0) {
@@ -360,67 +388,16 @@ const loadUI = async () => {
         currentSelectedParent.type === 'SECTION' ||
         currentSelectedParent.type === 'GROUP'
       )
-        currentSelectedParent
-          .exportAsync({
+        figma.ui.postMessage({
+          type: 'GET_SELECTION',
+          selection: await currentSelectedParent.exportAsync({
+            format: 'JSON_REST_V1',
+          }),
+          screenshot: await currentSelectedParent.exportAsync({
             format: 'PNG',
-            constraint: { type: 'SCALE', value: 0.1 },
-          })
-          .then((buffer) => {
-            const extractNodeData = (node: SceneNode): FigmaSimplifiedNodes => {
-              const { id, name, type } = node
-              const nodeData: FigmaSimplifiedNodes = { id, name, type }
-
-              if ('fills' in node)
-                nodeData.fills = Array.isArray(node.fills)
-                  ? [...node.fills]
-                  : undefined
-
-              if ('characters' in node) nodeData.characters = node.characters
-
-              if ('x' in node) nodeData.x = node.x
-
-              if ('y' in node) nodeData.y = node.y
-
-              if ('width' in node) nodeData.width = node.width
-
-              if ('height' in node) nodeData.height = node.height
-
-              if ('locked' in node) nodeData.locked = node.locked
-
-              if ('visible' in node) nodeData.visible = node.visible
-
-              if ('children' in node && Array.isArray(node.children))
-                nodeData.children = node.children.map(extractNodeData)
-
-              return nodeData
-            }
-
-            const selectionData = {
-              id: currentSelectedParent.id,
-              name: currentSelectedParent.name,
-              type: currentSelectedParent.type,
-              children: currentSelectedParent.children.map(extractNodeData),
-              fills:
-                'fills' in currentSelectedParent
-                  ? currentSelectedParent.fills
-                  : undefined,
-              locked:
-                'locked' in currentSelectedParent
-                  ? currentSelectedParent.locked
-                  : undefined,
-              visible:
-                'visible' in currentSelectedParent
-                  ? currentSelectedParent.visible
-                  : undefined,
-            }
-
-            figma.ui.postMessage({
-              type: 'GET_SELECTION',
-              selection: selectionData,
-              screenshot: buffer,
-            })
-          })
-          .catch(() => null)
+            constraint: { type: 'WIDTH', value: 480 },
+          }),
+        })
     }
   })
 

@@ -106,3 +106,13 @@ export interface ActiveParticipant {
   isBlocked: boolean
   joinedAt: Date | string
 }
+
+export interface TemplateConfiguration {
+  activityId: string
+  nodes: Array<object>
+}
+
+export interface ThumbnailConfiguration {
+  activityId: string
+  imageUrl: string
+}

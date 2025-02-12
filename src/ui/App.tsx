@@ -70,6 +70,7 @@ export interface AppStates {
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
   activeParticipants: Array<ActiveParticipant>
+  thumbnails: Array<string>
   editorType: EditorType
   planStatus: PlanStatus
   trialStatus: TrialStatus
@@ -123,6 +124,7 @@ export default class App extends PureComponent<
       sessions: [],
       ideas: [],
       activeParticipants: [],
+      thumbnails: [],
       editorType: 'figjam',
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
@@ -395,6 +397,11 @@ export default class App extends PureComponent<
           )
         }
 
+        const getThumbnails = () =>
+          this.setState({
+            thumbnails: e.data.pluginMessage.thumbnails,
+          })
+
         const getProPlan = () => {
           this.setState({
             planStatus: e.data.pluginMessage.data,
@@ -447,6 +454,7 @@ export default class App extends PureComponent<
           GET_IDEAS: () => getIdeas(),
           GET_ACTIVE_PARTICIPANTS: () => getActiveParticipants(),
           GET_USER: () => getUser(),
+          GET_THUMBNAILS: () => getThumbnails(),
           GET_PRO_PLAN: () => getProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
           COUNT_SESSIONS: () => countSessions(),

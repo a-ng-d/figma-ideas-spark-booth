@@ -39,25 +39,3 @@ export interface FileContent {
   isValid?: boolean
   status?: 'EXISTING' | 'NOT_LINKED' | 'OK'
 }
-
-export interface FigmaSimplifiedNodes {
-  id: string
-  name: string
-  type: string
-  children?: Array<FigmaSimplifiedNodes>
-  x?: number
-  y?: number
-  width?: number
-  height?: number
-  fills?: Array<Paint>
-  strokes?: Array<Paint>
-  strokeWeight?: number
-  strokeAlign?: string
-  cornerRadius?: number
-  visible?: boolean
-  locked?: boolean
-  opacity?: number
-  characters?: string
-  fontSize?: number
-  fontName?: FontName
-}
