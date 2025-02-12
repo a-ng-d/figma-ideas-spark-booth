@@ -13,6 +13,7 @@ import {
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
+  ThumbnailConfiguration,
   TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
@@ -30,6 +31,7 @@ interface ActivitiesProps {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
+  thumbnails: Array<ThumbnailConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration

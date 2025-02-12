@@ -15,6 +15,7 @@ import {
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
+  ThumbnailConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -28,6 +29,7 @@ interface BrowseActivitiesProps {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
+  thumbnails: Array<ThumbnailConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration

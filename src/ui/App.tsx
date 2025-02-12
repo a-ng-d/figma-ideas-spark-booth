@@ -34,6 +34,7 @@ import {
   IdeaConfiguration,
   PublicationConfiguration,
   SessionConfiguration,
+  ThumbnailConfiguration,
   UserConfiguration,
 } from '../types/configurations'
 import { ActionsList } from '../types/models'
@@ -70,7 +71,7 @@ export interface AppStates {
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
   activeParticipants: Array<ActiveParticipant>
-  thumbnails: Array<string>
+  thumbnails: Array<ThumbnailConfiguration>
   editorType: EditorType
   planStatus: PlanStatus
   trialStatus: TrialStatus

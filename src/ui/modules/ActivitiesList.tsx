@@ -12,6 +12,7 @@ import {
 } from '../../types/app'
 import {
   ActivityConfiguration,
+  ThumbnailConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -22,6 +23,7 @@ import LocalActivities from '../contexts/LocalActivities'
 
 interface ActivitiesListProps {
   activities: Array<ActivityConfiguration>
+  thumbnails: Array<ThumbnailConfiguration>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration

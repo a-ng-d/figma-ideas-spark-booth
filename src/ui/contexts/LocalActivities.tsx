@@ -16,12 +16,16 @@ import { ActionsList } from 'src/types/models'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
-import { ActivityConfiguration } from '../../types/configurations'
+import {
+  ActivityConfiguration,
+  ThumbnailConfiguration,
+} from '../../types/configurations'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>
+  thumbnails: Array<ThumbnailConfiguration>
   lang: Language
   planStatus: PlanStatus
   sessionCount: number
@@ -233,6 +237,11 @@ export default class LocalActivities extends PureComponent<
                             locals[this.props.lang].publication.statusPublished,
                         }
                       : undefined
+                  }
+                  src={
+                    this.props.thumbnails.find(
+                      (thumbnail) => thumbnail.activityId === activity.meta.id
+                    )?.imageUrl
                   }
                   actionsSlot={
                     <>
