@@ -414,6 +414,7 @@ export const locals: { [key: string]: any } = {
         single: '$1 session is not liked to the current activity',
         plural: '$1 sessions are not liked to the current activity',
       },
+      unsupportedNodeType: '$1 node is not supported',
     },
     error: {
       generic: '✕ Something went wrong',

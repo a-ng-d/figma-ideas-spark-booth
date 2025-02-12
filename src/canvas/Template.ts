@@ -1,3 +1,4 @@
+import { lang, locals } from '../content/locals'
 import { TemplateConfiguration } from '../types/configurations'
 
 export default class Template {
@@ -9,6 +10,21 @@ export default class Template {
     this.template = options.template
     this.solidPaint = figma.util.solidPaint
     this.templateNode = this.makeTemplate()
+  }
+
+  makePlaceholder = (node: {
+    absoluteBoundingBox: { width: number; height: number }
+  }) => {
+    const placeholderNode = figma.createShapeWithText()
+
+    placeholderNode.name = 'Placeholder'
+    placeholderNode.shapeType = 'SQUARE'
+    placeholderNode.resize(
+      node.absoluteBoundingBox.width,
+      node.absoluteBoundingBox.height
+    )
+
+    return placeholderNode
   }
 
   makeSection = (node: {
@@ -48,20 +64,118 @@ export default class Template {
 
         return instanceNode
       })
-      .catch(() => {
-        const placeholderNode = figma.createShapeWithText()
+      .catch(() => this.makePlaceholder(node))
+  }
 
-        placeholderNode.resize(
+  makeText = (node: {
+    name: string
+    characters: string
+    fills: Paint[]
+    absoluteBoundingBox: { width: number; height: number }
+    style: {
+      fontFamily: string
+      fontStyle: string
+      fontSize: number
+      letterSpacing: number
+      lineHeightPx: number
+      textAlignHorizontal: 'LEFT' | 'CENTER' | 'RIGHT' | 'JUSTIFIED'
+      textAlignVertical: 'TOP' | 'CENTER' | 'BOTTOM'
+      textAutoResize: 'NONE' | 'WIDTH_AND_HEIGHT' | 'HEIGHT'
+    }
+  }) => {
+    return figma
+      .loadFontAsync({
+        family: node.style.fontFamily,
+        style: node.style.fontStyle,
+      })
+      .then(() => {
+        const textNode = figma.createText()
+
+        textNode.name = node.name
+        textNode.characters = node.characters
+        textNode.fills = [this.solidPaint((node.fills[0] as SolidPaint).color)]
+        textNode.resize(
           node.absoluteBoundingBox.width,
           node.absoluteBoundingBox.height
         )
+        textNode.fontName = {
+          family: node.style.fontFamily,
+          style: node.style.fontStyle,
+        }
+        textNode.fontSize = node.style.fontSize
+        textNode.letterSpacing = {
+          value: node.style.letterSpacing,
+          unit: 'PIXELS',
+        }
+        textNode.lineHeight = {
+          value: node.style.lineHeightPx,
+          unit: 'PIXELS',
+        }
+        textNode.textAlignHorizontal = node.style.textAlignHorizontal
+        textNode.textAlignVertical = node.style.textAlignVertical
+        textNode.textAutoResize = node.style.textAutoResize
 
-        return placeholderNode
+        return textNode
+      })
+      .catch((error) => {
+        console.log(error)
+        return this.makePlaceholder(node)
       })
   }
 
-  createNode = async (nodeData: any): Promise<SceneNode> => {
-    let node: SceneNode
+  makeShapeWithText = (node: {
+    name: string
+    fills: Paint[]
+    absoluteBoundingBox: { width: number; height: number }
+    shapeType:
+      | 'SQUARE'
+      | 'ELLIPSE'
+      | 'ROUNDED_RECTANGLE'
+      | 'DIAMOND'
+      | 'TRIANGLE_UP'
+      | 'TRIANGLE_DOWN'
+      | 'PARALLELOGRAM_RIGHT'
+      | 'PARALLELOGRAM_LEFT'
+      | 'ENG_DATABASE'
+      | 'ENG_QUEUE'
+      | 'ENG_FILE'
+      | 'ENG_FOLDER'
+      | 'TRAPEZOID'
+      | 'PREDEFINED_PROCESS'
+      | 'SHIELD'
+      | 'DOCUMENT_SINGLE'
+      | 'DOCUMENT_MULTIPLE'
+      | 'MANUAL_INPUT'
+      | 'HEXAGON'
+      | 'CHEVRON'
+      | 'PENTAGON'
+      | 'OCTAGON'
+      | 'STAR'
+      | 'PLUS'
+      | 'ARROW_LEFT'
+      | 'ARROW_RIGHT'
+      | 'SUMMING_JUNCTION'
+      | 'OR'
+      | 'SPEECH_BUBBLE'
+      | 'INTERNAL_STORAGE'
+  }) => {
+    const shapeWithTextNode = figma.createShapeWithText()
+
+    shapeWithTextNode.name = node.name
+    shapeWithTextNode.shapeType = node.shapeType
+    shapeWithTextNode.fills = [
+      this.solidPaint((node.fills[0] as SolidPaint).color),
+    ]
+    shapeWithTextNode.resize(
+      node.absoluteBoundingBox.width,
+      node.absoluteBoundingBox.height
+    )
+
+    return shapeWithTextNode
+  }
+
+  createNode = async (nodeData: any): Promise<SceneNode | undefined> => {
+    let node: SceneNode | undefined = undefined
 
     switch (nodeData.type) {
       case 'SECTION':
@@ -70,24 +184,73 @@ export default class Template {
       case 'INSTANCE':
         node = await this.makeInstance(nodeData)
         break
+      case 'TEXT':
+        node = await this.makeText(nodeData)
+        break
+      case 'SHAPE_WITH_TEXT':
+        node = this.makeShapeWithText(nodeData)
+        break
       default:
-        throw new Error(`Unsupported node type: ${nodeData.type}`)
+        figma.notify(
+          locals[lang].warning.unsupportedNodeType.replace('$1', nodeData.type)
+        )
     }
 
     if (
+      node !== undefined &&
       nodeData.children &&
-      Array.isArray(nodeData.children) &&
-      node.type !== 'INSTANCE' &&
-      node.type !== 'SHAPE_WITH_TEXT'
+      nodeData.children.length > 0 &&
+      nodeData.type !== 'INSTANCE'
     )
       for (const childData of nodeData.children) {
         const childNode = await this.createNode(childData)
-        node.appendChild(childNode)
-        ;(childNode as LayoutMixin).x =
-          childData.absoluteBoundingBox.x - nodeData.absoluteBoundingBox.x
-        ;(childNode as LayoutMixin).y =
-          childData.absoluteBoundingBox.y - nodeData.absoluteBoundingBox.y
+
+        if (childNode !== undefined && 'appendChild' in node) {
+          // eslint-disable-next-line @typescript-eslint/no-extra-semi
+          ;(node as SectionNode).appendChild(childNode)
+
+          if (
+            childNode.type === 'INSTANCE' ||
+            childNode.type === 'TEXT' ||
+            childNode.type === 'SHAPE_WITH_TEXT' ||
+            childNode.type === 'SECTION' ||
+            childNode.type === 'GROUP'
+          ) {
+            childNode.x =
+              childData.absoluteBoundingBox.x - nodeData.absoluteBoundingBox.x
+
+            childNode.y =
+              childData.absoluteBoundingBox.y - nodeData.absoluteBoundingBox.y
+          }
+        }
       }
+    else if (nodeData.type === 'GROUP') {
+      const children = [] as Array<BaseNode>
+
+      for (const childData of nodeData.children) {
+        const childNode = await this.createNode(childData)
+
+        if (childNode !== undefined) {
+          if (
+            childNode.type === 'INSTANCE' ||
+            childNode.type === 'TEXT' ||
+            childNode.type === 'SHAPE_WITH_TEXT' ||
+            childNode.type === 'SECTION' ||
+            childNode.type === 'GROUP'
+          ) {
+            childNode.x =
+              childData.absoluteBoundingBox.x - nodeData.absoluteBoundingBox.x
+
+            childNode.y =
+              childData.absoluteBoundingBox.y - nodeData.absoluteBoundingBox.y
+          }
+
+          children.push(childNode)
+        }
+      }
+
+      node = figma.group(children, figma.currentPage)
+    }
 
     return node
   }
