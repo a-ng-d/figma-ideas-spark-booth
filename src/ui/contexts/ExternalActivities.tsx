@@ -12,7 +12,12 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
-import features, { activitiesDbTableName, pageSize } from '../../config'
+import features, {
+  activitiesDbTableName,
+  activitiesStorageName,
+  pageSize,
+  templatesDbTableName,
+} from '../../config'
 import { locals } from '../../content/locals'
 import {
   FetchStatus,
@@ -28,6 +33,7 @@ import { trackPublicationEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 import CommunityActivity from '../modules/CommunityActivity'
 import SelfActivity from '../modules/SelfActivity'
+import setImageUrlFromBlob from '../../utils/setImageUrlFromBlob'
 
 interface ExternalActivitiesProps {
   context: 'SELF' | 'COMMUNITY'
@@ -197,18 +203,66 @@ export default class ExternalActivities extends PureComponent<
   }
 
   onSelectActivity = async (id: string) => {
-    const { data, error } = await supabase
+    const { data: pulledActivity, error: pulledActivityError } = await supabase
       .from(activitiesDbTableName)
       .select('*')
       .eq('activity_id', id)
 
-    if (!error && data.length > 0)
+    if (!pulledActivityError && pulledActivity.length > 0)
       try {
+        if (pulledActivity[0].has_template) {
+          const { data: pulledTemplate, error: pulledTemplateError } =
+            await supabase
+              .from(templatesDbTableName)
+              .select('*')
+              .eq('activity_id', id)
+
+          if (!pulledTemplateError && pulledTemplate.length > 0) {
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: 'ADD_TEMPLATE',
+                  data: {
+                    activityId: pulledActivity[0].activity_id,
+                    nodes: {
+                      document: pulledTemplate[0].document,
+                      components: pulledTemplate[0].components,
+                    },
+                  },
+                },
+              },
+              '*'
+            )
+
+            const { data: downloadedImg, error: downloadedImgError } =
+              await supabase.storage
+                .from(activitiesStorageName)
+                .download(
+                  `${this.props.userSession.userId}/${pulledActivity[0].activity_id}.png`
+                )
+
+            if (!downloadedImgError && downloadedImg)
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'ADD_THUMBNAIL',
+                    data: {
+                      activityId: pulledActivity[0].activity_id,
+                      imageUrl: await setImageUrlFromBlob(downloadedImg),
+                    },
+                  },
+                },
+                '*'
+              )
+            else throw downloadedImgError
+          } else throw pulledTemplateError
+        }
+
         parent.postMessage(
           {
             pluginMessage: {
               type: 'DUPLICATE_ACTIVITY',
-              data: data[0],
+              data: pulledActivity[0],
             },
           },
           '*'
@@ -219,7 +273,7 @@ export default class ExternalActivities extends PureComponent<
             ?.isConsented ?? false,
           {
             feature:
-              this.props.userSession.userId === data[0].creator_id
+              this.props.userSession.userId === pulledActivity[0].creator_id
                 ? 'REUSE_ACTIVITY'
                 : 'DUPLICATE_ACTIVITY',
           }
@@ -227,9 +281,9 @@ export default class ExternalActivities extends PureComponent<
 
         return
       } catch {
-        throw error
+        throw pulledActivityError
       }
-    else throw error
+    else throw pulledActivityError
   }
 
   // Templates

@@ -93,7 +93,7 @@ const pullActivity = async (
       .select('*')
       .eq('activity_id', activity.meta.id)
 
-    if (pulledTemplate && !pulledTemplateError) {
+    if (!pulledTemplateError && pulledTemplate.length > 0) {
       parent.postMessage(
         {
           pluginMessage: {
