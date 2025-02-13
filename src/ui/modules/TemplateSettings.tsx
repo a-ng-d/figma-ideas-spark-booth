@@ -156,9 +156,11 @@ export default class TemplateSettings extends PureComponent<
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'UPDATE_THUMBNAILS',
-          activityId: this.props.activityId,
-          imageUrl: this.state.imageUrl,
+          type: 'ADD_THUMBNAIL',
+          data: {
+            activityId: this.props.activityId,
+            imageUrl: this.state.imageUrl,
+          },
         },
       },
       '*'
@@ -166,9 +168,11 @@ export default class TemplateSettings extends PureComponent<
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'UPDATE_TEMPLATES',
-          activityId: this.props.activityId,
-          nodes: this.state.nodes,
+          type: 'ADD_TEMPLATE',
+          data: {
+            activityId: this.props.activityId,
+            nodes: this.state.nodes,
+          },
         },
       },
       '*'

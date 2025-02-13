@@ -7,6 +7,7 @@ const updateSingleSession = (session: SessionConfiguration) => {
       return existingSession
     }
   )
+
   figma.root.setPluginData('sessions', JSON.stringify(existingSessions))
 }
 

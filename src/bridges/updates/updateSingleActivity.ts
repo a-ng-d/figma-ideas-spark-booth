@@ -7,6 +7,7 @@ const updateSingleActivity = (activity: ActivityConfiguration) => {
     if (existingActivity.meta.id === activity.meta.id) return activity
     return existingActivity
   })
+
   figma.root.setPluginData('activities', JSON.stringify(existingActivities))
 }
 

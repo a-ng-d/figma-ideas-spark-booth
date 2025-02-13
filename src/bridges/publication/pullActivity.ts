@@ -6,6 +6,7 @@ import {
 } from '../../config'
 import { ActivityConfiguration } from '../../types/configurations'
 import { supabase } from './authentication'
+import setImageUrlFromBlob from '../../utils/setImageUrlFromBlob'
 
 const pullActivity = async (
   activity: ActivityConfiguration,
@@ -62,17 +63,29 @@ const pullActivity = async (
           .from(activitiesStorageName)
           .download(`${userSession.userId}/${activity.meta.id}.png`)
 
-      if (!downloadedImgError && downloadedImg)
+      if (!downloadedImgError && downloadedImg) {
         parent.postMessage(
           {
             pluginMessage: {
-              type: 'UPDATE_THUMBNAILS',
-              activityId: pulledActivity[0].activity_id,
-              imageUrl: URL.createObjectURL(downloadedImg),
+              type: 'UPDATE_THUMBNAIL',
+              data: {
+                activityId: pulledActivity[0].activity_id,
+                imageUrl: await setImageUrlFromBlob(downloadedImg),
+              },
             },
           },
           '*'
         )
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'GET_ACTIVITY_THUMBNAIL',
+              activityId: pulledActivity[0].activity_id,
+            },
+          },
+          '*'
+        )
+      }
     }
 
     const { data: pulledTemplate, error: pulledTemplateError } = await supabase
@@ -80,20 +93,32 @@ const pullActivity = async (
       .select('*')
       .eq('activity_id', activity.meta.id)
 
-    if (pulledTemplate && !pulledTemplateError)
+    if (pulledTemplate && !pulledTemplateError) {
       parent.postMessage(
         {
           pluginMessage: {
-            type: 'UPDATE_TEMPLATES',
-            activityId: pulledActivity[0].activity_id,
-            nodes: {
-              document: pulledTemplate[0].document,
-              components: pulledTemplate[0].components,
+            type: 'UPDATE_TEMPLATE',
+            data: {
+              activityId: pulledActivity[0].activity_id,
+              nodes: {
+                document: pulledTemplate[0].document,
+                components: pulledTemplate[0].components,
+              },
             },
           },
         },
         '*'
       )
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'GET_ACTIVITY_TEMPLATE',
+            activityId: pulledActivity[0].activity_id,
+          },
+        },
+        '*'
+      )
+    }
 
     return activity
   } else throw pulledActivityError

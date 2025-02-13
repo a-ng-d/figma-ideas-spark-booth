@@ -29,6 +29,12 @@ import updateSingleSession from './updates/updateSingleSession'
 import processSelection from './processSelection'
 import addTemplateToBoard from './export/addTemplateToBoard'
 import detachPublishedActivity from './updates/detachPublishedActivity'
+import updateSingleThumbnail from './updates/updateSingleThumbnail'
+import updateSingleTemplate from './updates/updateSingleTemplate'
+import removeThumbnail from './updates/removeThumbnail'
+import addThumbnail from './updates/addThumbnail'
+import addTemplate from './updates/addTemplate'
+import removeTemplate from './updates/removeTemplate'
 
 const loadUI = async () => {
   let lastData = ''
@@ -154,62 +160,12 @@ const loadUI = async () => {
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
       UPDATE_IDEAS: () =>
         figma.root.setPluginData('ideas', JSON.stringify(msg.data)),
-      UPDATE_THUMBNAILS: () => {
-        const existingThumbnails = JSON.parse(
-          figma.root.getPluginData('thumbnails')
-        )
-        let thumbnails = existingThumbnails.filter(
-          (thumbnail: ThumbnailConfiguration) =>
-            thumbnail.activityId === msg.activityId
-        )
-        thumbnails = [
-          ...thumbnails,
-          {
-            activityId: msg.activityId,
-            imageUrl: msg.imageUrl,
-            created_at: new Date().toISOString(),
-          },
-        ]
-
-        figma.root.setPluginData('thumbnails', JSON.stringify(thumbnails))
-      },
-      UPDATE_TEMPLATES: () => {
-        const existingTemplates = JSON.parse(
-          figma.root.getPluginData('templates')
-        )
-        let templates = existingTemplates.filter(
-          (template: TemplateConfiguration) =>
-            template.activityId === msg.activityId
-        )
-        templates = [
-          ...templates,
-          {
-            activityId: msg.activityId,
-            nodes: msg.nodes,
-            created_at: new Date().toISOString(),
-          },
-        ]
-
-        figma.root.setPluginData('templates', JSON.stringify(templates))
-      },
-      REMOVE_THUMBNAIL: () => {
-        const thumbnails = JSON.parse(
-          figma.root.getPluginData('thumbnails')
-        ).filter(
-          (thumbnail: ThumbnailConfiguration) =>
-            thumbnail.activityId !== msg.activityId
-        )
-        figma.root.setPluginData('thumbnails', JSON.stringify(thumbnails))
-      },
-      REMOVE_TEMPLATE: () => {
-        const templates = JSON.parse(
-          figma.root.getPluginData('templates')
-        ).filter(
-          (template: TemplateConfiguration) =>
-            template.activityId !== msg.activityId
-        )
-        figma.root.setPluginData('templates', JSON.stringify(templates))
-      },
+      ADD_THUMBNAIL: () => addThumbnail(msg.data),
+      ADD_TEMPLATE: () => addTemplate(msg.data),
+      UPDATE_THUMBNAIL: () => updateSingleThumbnail(msg.data),
+      UPDATE_TEMPLATE: () => updateSingleTemplate(msg.data),
+      REMOVE_THUMBNAIL: () => removeThumbnail(msg.activityId),
+      REMOVE_TEMPLATE: () => removeTemplate(msg.activityId),
       DETACH_ACTIVITY: () => detachPublishedActivity(msg.data, msg.newId),
       //
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
