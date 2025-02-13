@@ -175,6 +175,25 @@ export default class Activities extends PureComponent<
         onGoingStep: 'ideas changed',
       })
 
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'REMOVE_THUMBNAIL',
+            activityId: this.state.openedActivity,
+          },
+        },
+        '*'
+      )
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'REMOVE_TEMPLATE',
+            activityId: this.state.openedActivity,
+          },
+        },
+        '*'
+      )
+
       this.setState({
         view: 'ACTIVITIES',
         openedActivity: undefined,
