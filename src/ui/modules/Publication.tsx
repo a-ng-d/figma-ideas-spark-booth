@@ -573,7 +573,7 @@ export default class Publication extends PureComponent<
           state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadSecondaryAction(true)
-            unpublishActivity(this.props.activity)
+            unpublishActivity(this.props.activity, this.props.userSession)
               .then(() => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',

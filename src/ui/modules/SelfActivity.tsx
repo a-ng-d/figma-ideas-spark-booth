@@ -19,6 +19,7 @@ import { ExternalActivitiesData } from '../../types/data'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
+import { UserSession } from '../../types/user'
 
 interface SelfActivityProps {
   activity: ExternalActivitiesData
@@ -31,6 +32,7 @@ interface SelfActivityProps {
   localActivitiesNumber: number
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
+  userSession: UserSession
   planStatus: PlanStatus
   lang: Language
   onChangeActivitiesList: (
@@ -125,6 +127,7 @@ export default class SelfActivity extends PureComponent<SelfActivityProps> {
                           },
                         },
                       },
+                      this.props.userSession,
                       true
                     )
                       .then(() => {

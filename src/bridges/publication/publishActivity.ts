@@ -25,7 +25,7 @@ const publishActivity = async (
   const now = new Date().toISOString()
 
   if (thumbnail !== undefined) {
-    const { error } = await supabase.storage
+    const { error: uploadImgError } = await supabase.storage
       .from(activitiesStorageName)
       .upload(
         `${userSession.userId}/${activity.meta.id}.png`,
@@ -35,11 +35,11 @@ const publishActivity = async (
           upsert: true,
         }
       )
-    if (!error)
+    if (!uploadImgError)
       imageUrl = `${databaseUrl}/storage/v1/object/public/${activitiesStorageName}/${userSession.userId}/${activity.meta.id}.png`
   }
 
-  const { error } = await supabase
+  const { error: addActivityError } = await supabase
     .from(activitiesDbTableName)
     .insert([
       {
@@ -63,8 +63,8 @@ const publishActivity = async (
     ])
     .select()
 
-  if (template !== undefined)
-    await supabase
+  if (template !== undefined) {
+    const { error: addTemplateError } = await supabase
       .from(templatesDbTableName)
       .insert([
         {
@@ -78,7 +78,10 @@ const publishActivity = async (
       ])
       .select()
 
-  if (!error) {
+    if (addTemplateError) throw addTemplateError
+  }
+
+  if (!addActivityError) {
     const activityPublicationDetails = {
       id: activity.meta.id,
       dates: {
@@ -113,7 +116,7 @@ const publishActivity = async (
     )
 
     return activityPublicationDetails
-  } else throw error
+  } else throw addActivityError
 }
 
 export default publishActivity

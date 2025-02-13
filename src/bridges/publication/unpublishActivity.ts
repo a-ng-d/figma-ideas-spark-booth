@@ -1,4 +1,5 @@
-import { activitiesDbTableName } from '../../config'
+import { UserSession } from 'src/types/user'
+import { activitiesDbTableName, activitiesStorageName } from '../../config'
 import {
   ActivityConfiguration,
   MetaConfiguration,
@@ -7,14 +8,23 @@ import { supabase } from './authentication'
 
 const unpublishActivity = async (
   activity: Partial<ActivityConfiguration>,
+  userSession: UserSession,
   isRemote = false
 ): Promise<Partial<MetaConfiguration>> => {
-  const { error } = await supabase
+  const { error: deleteActivityError } = await supabase
     .from(activitiesDbTableName)
     .delete()
     .match({ activity_id: activity.meta?.id })
 
-  if (!error) {
+  if (!deleteActivityError) {
+    const { error: deleteImgError } = await supabase.storage
+      .from(activitiesStorageName)
+      .remove([`${userSession.userId}/${activity.meta?.id}.png`])
+
+    if (deleteImgError) throw deleteImgError
+  }
+
+  if (!deleteActivityError) {
     const activityPublicationDetails = {
       id: activity.meta?.id,
       dates: {
@@ -50,7 +60,7 @@ const unpublishActivity = async (
       )
 
     return activityPublicationDetails
-  } else throw error
+  } else throw deleteActivityError
 }
 
 export default unpublishActivity
