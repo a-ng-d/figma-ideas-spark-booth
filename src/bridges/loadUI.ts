@@ -164,7 +164,11 @@ const loadUI = async () => {
         )
         thumbnails = [
           ...thumbnails,
-          { activityId: msg.activityId, imageUrl: msg.imageUrl },
+          {
+            activityId: msg.activityId,
+            imageUrl: msg.imageUrl,
+            created_at: new Date().toISOString(),
+          },
         ]
 
         figma.root.setPluginData('thumbnails', JSON.stringify(thumbnails))
@@ -179,7 +183,11 @@ const loadUI = async () => {
         )
         templates = [
           ...templates,
-          { activityId: msg.activityId, nodes: msg.nodes },
+          {
+            activityId: msg.activityId,
+            nodes: msg.nodes,
+            created_at: new Date().toISOString(),
+          },
         ]
 
         figma.root.setPluginData('templates', JSON.stringify(templates))

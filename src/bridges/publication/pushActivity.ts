@@ -1,19 +1,69 @@
-import { activitiesDbTableName } from '../../config'
+import { FigmaRestJson } from 'src/types/data'
+import {
+  activitiesDbTableName,
+  activitiesStorageName,
+  databaseUrl,
+  templatesDbTableName,
+} from '../../config'
 import {
   ActivityConfiguration,
   MetaConfiguration,
+  ThumbnailConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
+import setUint8Array from '../../utils/setUint8Array'
 import { supabase } from './authentication'
 
 const pushActivity = async (
   activity: ActivityConfiguration,
   userSession: UserSession,
+  thumbnail?: ThumbnailConfiguration,
+  template?: FigmaRestJson,
   isShared = false
 ): Promise<MetaConfiguration> => {
   const now = new Date().toISOString()
 
-  const { error } = await supabase
+  const { data: checkedAssets, error: checkedAssetsError } = await supabase
+    .from(activitiesDbTableName)
+    .select('has_template, thumbnail')
+    .match({ activity_id: activity.meta.id })
+
+  if (!checkedAssetsError) {
+    if (checkedAssets[0].thumbnail !== null && thumbnail === undefined) {
+      const { error: removedImgError } = await supabase.storage
+        .from(activitiesStorageName)
+        .remove([`${userSession.userId}/${activity.meta?.id}.png`])
+
+      if (removedImgError) throw removedImgError
+    } else if (checkedAssets[0].thumbnail !== null && thumbnail !== undefined) {
+      const { error: updatedImgError } = await supabase.storage
+        .from(activitiesStorageName)
+        .update(
+          `${userSession.userId}/${activity.meta.id}.png`,
+          setUint8Array(thumbnail.imageUrl).buffer,
+          {
+            contentType: 'image/png',
+          }
+        )
+
+      if (updatedImgError) throw updatedImgError
+    } else if (checkedAssets[0].thumbnail && thumbnail !== undefined) {
+      const { error: uploadImgError } = await supabase.storage
+        .from(activitiesStorageName)
+        .upload(
+          `${userSession.userId}/${activity.meta.id}.png`,
+          setUint8Array(thumbnail.imageUrl).buffer,
+          {
+            contentType: 'image/png',
+            upsert: true,
+          }
+        )
+
+      if (uploadImgError) throw uploadImgError
+    }
+  } else throw checkedAssetsError
+
+  const { error: updatedActivityError } = await supabase
     .from(activitiesDbTableName)
     .update([
       {
@@ -25,6 +75,11 @@ const pushActivity = async (
         timer_seconds: activity.timer.seconds,
         types: activity.types,
         is_shared: isShared,
+        has_template: template !== undefined,
+        thumbnail:
+          thumbnail !== undefined
+            ? `${databaseUrl}/storage/v1/object/public/${activitiesStorageName}/${userSession.userId}/${activity.meta.id}.png`
+            : null,
         creator_id: userSession.userId,
         creator_full_name: userSession.userFullName,
         creator_avatar: userSession.userAvatar,
@@ -35,7 +90,7 @@ const pushActivity = async (
     ])
     .match({ activity_id: activity.meta.id })
 
-  if (!error) {
+  if (!updatedActivityError) {
     const activityPublicationDetails = {
       id: activity.meta.id,
       dates: {
@@ -69,8 +124,48 @@ const pushActivity = async (
       '*'
     )
 
+    if (!checkedAssetsError) {
+      if (checkedAssets[0].has_template && template === undefined) {
+        const { error: deletedTemplateError } = await supabase
+          .from(templatesDbTableName)
+          .delete()
+          .match({ activity_id: activity.meta.id })
+
+        if (deletedTemplateError) throw deletedTemplateError
+      } else if (checkedAssets[0].has_template && template !== undefined) {
+        const { error: updatedTemplateError } = await supabase
+          .from(templatesDbTableName)
+          .update([
+            {
+              document: template.document,
+              components: template.components,
+              updated_at: now,
+            },
+          ])
+          .match({ activity_id: activity.meta.id })
+
+        if (updatedTemplateError) throw updatedTemplateError
+      } else if (!checkedAssets[0].has_template && template !== undefined) {
+        const { error: addedTemplateError } = await supabase
+          .from(templatesDbTableName)
+          .insert([
+            {
+              activity_id: activity.meta.id,
+              document: template.document,
+              components: template.components,
+              creator_id: userSession.userId,
+              creator_full_name: userSession.userFullName,
+              creator_avatar: userSession.userAvatar,
+            },
+          ])
+          .select()
+
+        if (addedTemplateError) throw addedTemplateError
+      }
+    } else throw checkedAssetsError
+
     return activityPublicationDetails
-  } else throw error
+  } else throw updatedActivityError
 }
 
 export default pushActivity

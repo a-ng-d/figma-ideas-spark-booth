@@ -25,7 +25,7 @@ const publishActivity = async (
   const now = new Date().toISOString()
 
   if (thumbnail !== undefined) {
-    const { error: uploadImgError } = await supabase.storage
+    const { error: uploadedImgError } = await supabase.storage
       .from(activitiesStorageName)
       .upload(
         `${userSession.userId}/${activity.meta.id}.png`,
@@ -35,11 +35,12 @@ const publishActivity = async (
           upsert: true,
         }
       )
-    if (!uploadImgError)
+    if (!uploadedImgError)
       imageUrl = `${databaseUrl}/storage/v1/object/public/${activitiesStorageName}/${userSession.userId}/${activity.meta.id}.png`
+    else throw uploadedImgError
   }
 
-  const { error: addActivityError } = await supabase
+  const { error: addedActivityError } = await supabase
     .from(activitiesDbTableName)
     .insert([
       {
@@ -52,6 +53,7 @@ const publishActivity = async (
         timer_seconds: activity.timer.seconds,
         types: activity.types,
         is_shared: isShared,
+        has_template: template !== undefined,
         thumbnail: imageUrl,
         creator_id: userSession.userId,
         creator_full_name: userSession.userFullName,
@@ -63,25 +65,7 @@ const publishActivity = async (
     ])
     .select()
 
-  if (template !== undefined) {
-    const { error: addTemplateError } = await supabase
-      .from(templatesDbTableName)
-      .insert([
-        {
-          activity_id: activity.meta.id,
-          document: template.document,
-          components: template.components,
-          creator_id: userSession.userId,
-          creator_full_name: userSession.userFullName,
-          creator_avatar: userSession.userAvatar,
-        },
-      ])
-      .select()
-
-    if (addTemplateError) throw addTemplateError
-  }
-
-  if (!addActivityError) {
+  if (!addedActivityError) {
     const activityPublicationDetails = {
       id: activity.meta.id,
       dates: {
@@ -115,8 +99,26 @@ const publishActivity = async (
       '*'
     )
 
+    if (template !== undefined) {
+      const { error: addedTemplateError } = await supabase
+        .from(templatesDbTableName)
+        .insert([
+          {
+            activity_id: activity.meta.id,
+            document: template.document,
+            components: template.components,
+            creator_id: userSession.userId,
+            creator_full_name: userSession.userFullName,
+            creator_avatar: userSession.userAvatar,
+          },
+        ])
+        .select()
+
+      if (addedTemplateError) throw addedTemplateError
+    }
+
     return activityPublicationDetails
-  } else throw addActivityError
+  } else throw addedActivityError
 }
 
 export default publishActivity

@@ -11,20 +11,20 @@ const unpublishActivity = async (
   userSession: UserSession,
   isRemote = false
 ): Promise<Partial<MetaConfiguration>> => {
-  const { error: deleteActivityError } = await supabase
+  const { error: deletedActivityError } = await supabase
     .from(activitiesDbTableName)
     .delete()
     .match({ activity_id: activity.meta?.id })
 
-  if (!deleteActivityError) {
-    const { error: deleteImgError } = await supabase.storage
+  if (!deletedActivityError) {
+    const { error: deletedImgError } = await supabase.storage
       .from(activitiesStorageName)
       .remove([`${userSession.userId}/${activity.meta?.id}.png`])
 
-    if (deleteImgError) throw deleteImgError
+    if (deletedImgError) throw deletedImgError
   }
 
-  if (!deleteActivityError) {
+  if (!deletedActivityError) {
     const activityPublicationDetails = {
       id: activity.meta?.id,
       dates: {
@@ -60,7 +60,7 @@ const unpublishActivity = async (
       )
 
     return activityPublicationDetails
-  } else throw deleteActivityError
+  } else throw deletedActivityError
 }
 
 export default unpublishActivity

@@ -187,6 +187,7 @@ export default class Template {
     return shapeWithTextNode
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createNode = async (nodeData: any): Promise<SceneNode | undefined> => {
     let node: SceneNode | undefined = undefined
 
