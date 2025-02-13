@@ -33,6 +33,7 @@ import {
   TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
+import { FigmaRestJson } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import setBarChart from '../../utils/setBarChart'
@@ -42,10 +43,9 @@ import Feature from '../components/Feature'
 import GlobalSettings from '../modules/GlobalSettings'
 import HistorySettings from '../modules/HistorySettings'
 import Publication from '../modules/Publication'
+import TemplateSettings from '../modules/TemplateSettings'
 import TimerSettings from '../modules/TimerSettings'
 import TypesSettings from '../modules/TypesSettings'
-import TemplateSettings from '../modules/TemplateSettings'
-import { FigmaRestJson } from '../../types/data'
 
 interface SettingsProps {
   activity: ActivityConfiguration

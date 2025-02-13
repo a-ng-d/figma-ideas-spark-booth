@@ -1,4 +1,5 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
+import { yellowColor } from '../../config'
 import { lang } from '../../content/locals'
 import { GroupedBy, IdeaConfiguration } from '../../types/configurations'
 import setFriendlyDate from '../../utils/setFriendlyDate'
@@ -6,7 +7,6 @@ import Header from '../partials/Header'
 import Slide from '../partials/Slide'
 import StickyNote from '../partials/StickyNote'
 import { colors, gaps } from '../partials/tokens'
-import { yellowColor } from '../../config'
 
 export default class IdeasSlide {
   private activityName: string

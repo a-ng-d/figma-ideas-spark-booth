@@ -23,10 +23,10 @@ import {
   ThumbnailConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
+import { FigmaRestJson } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
-import { FigmaRestJson } from '../../types/data'
 
 interface PublicationProps {
   activity: ActivityConfiguration

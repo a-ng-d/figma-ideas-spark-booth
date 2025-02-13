@@ -30,10 +30,10 @@ import { ExternalActivitiesData } from '../../types/data'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
+import setImageUrlFromBlob from '../../utils/setImageUrlFromBlob'
 import Feature from '../components/Feature'
 import CommunityActivity from '../modules/CommunityActivity'
 import SelfActivity from '../modules/SelfActivity'
-import setImageUrlFromBlob from '../../utils/setImageUrlFromBlob'
 
 interface ExternalActivitiesProps {
   context: 'SELF' | 'COMMUNITY'

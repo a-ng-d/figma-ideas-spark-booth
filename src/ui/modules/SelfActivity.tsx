@@ -16,10 +16,10 @@ import { locals } from '../../content/locals'
 import { FetchStatus, Language, PlanStatus } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
+import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
-import { UserSession } from '../../types/user'
 
 interface SelfActivityProps {
   activity: ExternalActivitiesData

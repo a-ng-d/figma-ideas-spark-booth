@@ -52,7 +52,10 @@ interface HistoryStates {
   isActionLoading: boolean
 }
 
-export default class History extends PureComponent<HistoryProps, HistoryStates> {
+export default class History extends PureComponent<
+  HistoryProps,
+  HistoryStates
+> {
   static features = (planStatus: PlanStatus) => ({
     HISTORY_FILTER: new FeatureStatus({
       features: features,

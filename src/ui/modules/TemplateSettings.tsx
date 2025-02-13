@@ -9,12 +9,12 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { ChangeEvent, PureComponent } from 'preact/compat'
 import React from 'react'
+import { FigmaRestJson } from 'src/types/data'
+import { ActionsList } from 'src/types/models'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
-import { ActionsList } from 'src/types/models'
 import setImageUrl from '../../utils/setImageUrl'
-import { FigmaRestJson } from 'src/types/data'
 
 type TemplateStatus = 'UNDEFINED' | 'SAVED' | 'NOT_SAVED'
 

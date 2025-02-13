@@ -5,8 +5,8 @@ import {
   templatesDbTableName,
 } from '../../config'
 import { ActivityConfiguration } from '../../types/configurations'
-import { supabase } from './authentication'
 import setImageUrlFromBlob from '../../utils/setImageUrlFromBlob'
+import { supabase } from './authentication'
 
 const pullActivity = async (
   activity: ActivityConfiguration,

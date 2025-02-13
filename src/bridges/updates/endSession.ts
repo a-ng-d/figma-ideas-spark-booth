@@ -5,8 +5,8 @@ import {
   SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
-import addSessionToSlides from '../export/addSessionToSlides'
 import addSessionToBoard from '../export/addSessionToBoard'
+import addSessionToSlides from '../export/addSessionToSlides'
 import updateParticipants from './updateParticipants'
 
 const endSession = async (data: {

@@ -1,4 +1,5 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
+import { yellowColor } from '../config'
 import { lang } from '../content/locals'
 import {
   ActivityConfiguration,
@@ -8,7 +9,6 @@ import {
 } from '../types/configurations'
 import setFriendlyDate from '../utils/setFriendlyDate'
 import StickyNote from './partials/StickyNote'
-import { yellowColor } from '../config'
 
 export default class BoardClassification {
   private activityName: string

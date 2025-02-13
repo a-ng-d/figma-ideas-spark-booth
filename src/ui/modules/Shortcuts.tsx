@@ -11,14 +11,14 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import features, {
+  authorUrl,
   documentationUrl,
   feedbackUrl,
   isTrialEnabled,
-  authorUrl,
+  networkUrl,
   repositoryUrl,
   requestsUrl,
   supportEmail,
-  networkUrl,
 } from '../../config'
 import { locals } from '../../content/locals'
 import {
