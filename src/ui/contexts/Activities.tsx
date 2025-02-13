@@ -463,6 +463,9 @@ export default class Activities extends PureComponent<
             sessions={this.props.sessions.filter(
               (session) => session.activityId === this.state.openedActivity
             )}
+            thumbnail={this.props.thumbnails.find(
+              (thumbnail) => thumbnail.activityId === this.state.openedActivity
+            )}
             onChangeActivities={this.activitiesHandler}
             onChangeTypes={this.typesHandler}
             onRunSession={this.onRunSession}

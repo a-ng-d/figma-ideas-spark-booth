@@ -437,6 +437,15 @@ const loadUI = async () => {
         type: 'GET_ACTIVE_PARTICIPANTS',
         data: JSON.parse(figma.root.getPluginData('activeParticipants')),
       })
+
+    if (
+      rootPluginDataChange !== undefined &&
+      dataDidUpdate(figma.root.getPluginData('thumbnails'))
+    )
+      figma.ui.postMessage({
+        type: 'GET_THUMBNAILS',
+        thumbnails: JSON.parse(figma.root.getPluginData('thumbnails')),
+      })
   })
 
   const dataDidUpdate = (data: string) => {

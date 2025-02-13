@@ -20,14 +20,18 @@ import { locals } from '../../content/locals'
 import { Language, PublicationStatus } from '../../types/app'
 import {
   ActivityConfiguration,
+  ThumbnailConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import ColorChip from '../components/ColorChip'
+import { FigmaRestJson } from '../../types/data'
 
 interface PublicationProps {
   activity: ActivityConfiguration
+  thumbnail?: ThumbnailConfiguration
+  template?: FigmaRestJson
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
   userConsent: Array<ConsentConfiguration>
@@ -206,7 +210,9 @@ export default class Publication extends PureComponent<
             publishActivity(
               this.props.activity,
               this.props.userSession,
-              this.state.isActivityShared
+              this.state.isActivityShared,
+              this.props.thumbnail,
+              this.props.template
             )
               .then(() => {
                 this.setState({

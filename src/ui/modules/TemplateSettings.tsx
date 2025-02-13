@@ -13,6 +13,8 @@ import features from '../../config'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
 import { ActionsList } from 'src/types/models'
+import setImageUrl from '../../utils/setImageUrl'
+import { FigmaRestJson } from 'src/types/data'
 
 type TemplateStatus = 'UNDEFINED' | 'SAVED' | 'NOT_SAVED'
 
@@ -24,11 +26,12 @@ interface TemplateSettingsProps {
   onChangeActivities: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | Element>
   ) => void
+  onLoadTemplate: (nodes?: FigmaRestJson) => void
 }
 
 interface TemplateSettingsStates {
   imageUrl: string | undefined
-  nodes: object | undefined
+  nodes: FigmaRestJson | undefined
   templateStatus: TemplateStatus
 }
 
@@ -123,8 +126,8 @@ export default class TemplateSettings extends PureComponent<
     const actions: ActionsList = {
       GET_SELECTION: async () =>
         this.setState({
-          nodes: e.data.pluginMessage.nodes as object,
-          imageUrl: await this.getImageSrc(
+          nodes: e.data.pluginMessage.nodes as FigmaRestJson,
+          imageUrl: await setImageUrl(
             e.data.pluginMessage.screenshot as Uint8Array | null
           ),
         }),
@@ -133,11 +136,14 @@ export default class TemplateSettings extends PureComponent<
           imageUrl: e.data.pluginMessage.imageUrl as string | undefined,
           templateStatus: e.data.pluginMessage.templateStatus as TemplateStatus,
         }),
-      GET_ACTIVITY_TEMPLATE: () =>
+      GET_ACTIVITY_TEMPLATE: () => {
         this.setState({
-          nodes: e.data.pluginMessage.nodes as object | undefined,
+          nodes: e.data.pluginMessage.nodes as FigmaRestJson,
           templateStatus: e.data.pluginMessage.templateStatus as TemplateStatus,
-        }),
+        })
+
+        this.props.onLoadTemplate(e.data.pluginMessage.nodes as FigmaRestJson)
+      },
       DEFAULT: () => null,
     }
 
@@ -145,23 +151,6 @@ export default class TemplateSettings extends PureComponent<
   }
 
   // Direct Actions
-  getImageSrc = async (screenshot: Uint8Array | null | undefined) => {
-    if (screenshot !== null && screenshot !== undefined) {
-      const blob = new Blob([screenshot], {
-        type: 'image/png',
-      })
-
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader()
-        reader.onloadend = () => {
-          if (reader.result) resolve(reader.result as string)
-        }
-        reader.onerror = () => ''
-        reader.readAsDataURL(blob)
-      })
-    } else return undefined
-  }
-
   onAddTemplate = (e: ChangeEvent) => {
     this.setState({ templateStatus: 'SAVED' })
     parent.postMessage(
@@ -187,6 +176,7 @@ export default class TemplateSettings extends PureComponent<
     this.props.onChangeActivities(
       e as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | Element>
     )
+    this.props.onLoadTemplate(this.state.nodes as FigmaRestJson)
   }
 
   onRemoveTemplate = (e: ChangeEvent) => {
@@ -216,6 +206,7 @@ export default class TemplateSettings extends PureComponent<
     this.props.onChangeActivities(
       e as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | Element>
     )
+    this.props.onLoadTemplate(undefined)
   }
 
   // Render

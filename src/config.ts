@@ -33,6 +33,8 @@ export const activitiesStorageName =
   process.env.NODE_ENV === 'development'
     ? 'activity.thumbnails'
     : 'activity.thumbnails'
+export const templatesDbTableName =
+  process.env.NODE_ENV === 'development' ? 'sandbox.templates' : 'templates'
 
 // External URLs
 export const documentationUrl = 'https://isb.ylb.lt/docs'

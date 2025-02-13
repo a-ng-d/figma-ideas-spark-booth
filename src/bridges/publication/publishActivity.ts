@@ -1,17 +1,43 @@
-import { activitiesDbTableName } from '../../config'
+import {
+  activitiesDbTableName,
+  activitiesStorageName,
+  databaseUrl,
+  templatesDbTableName,
+} from '../../config'
 import {
   ActivityConfiguration,
   MetaConfiguration,
+  ThumbnailConfiguration,
 } from '../../types/configurations'
+import { FigmaRestJson } from '../../types/data'
 import { UserSession } from '../../types/user'
+import setUint8Array from '../../utils/setUint8Array'
 import { supabase } from './authentication'
 
 const publishActivity = async (
   activity: ActivityConfiguration,
   userSession: UserSession,
-  isShared = false
+  isShared = false,
+  thumbnail?: ThumbnailConfiguration,
+  template?: FigmaRestJson
 ): Promise<MetaConfiguration> => {
+  let imageUrl = null
   const now = new Date().toISOString()
+
+  if (thumbnail !== undefined) {
+    const { error } = await supabase.storage
+      .from(activitiesStorageName)
+      .upload(
+        `${userSession.userId}/${activity.meta.id}.png`,
+        setUint8Array(thumbnail.imageUrl).buffer,
+        {
+          contentType: 'image/png',
+          upsert: true,
+        }
+      )
+    if (!error)
+      imageUrl = `${databaseUrl}/storage/v1/object/public/${activitiesStorageName}/${userSession.userId}/${activity.meta.id}.png`
+  }
 
   const { error } = await supabase
     .from(activitiesDbTableName)
@@ -26,6 +52,7 @@ const publishActivity = async (
         timer_seconds: activity.timer.seconds,
         types: activity.types,
         is_shared: isShared,
+        thumbnail: imageUrl,
         creator_id: userSession.userId,
         creator_full_name: userSession.userFullName,
         creator_avatar: userSession.userAvatar,
@@ -35,6 +62,21 @@ const publishActivity = async (
       },
     ])
     .select()
+
+  if (template !== undefined)
+    await supabase
+      .from(templatesDbTableName)
+      .insert([
+        {
+          activity_id: activity.meta.id,
+          document: template.document,
+          components: template.components,
+          creator_id: userSession.userId,
+          creator_full_name: userSession.userFullName,
+          creator_avatar: userSession.userAvatar,
+        },
+      ])
+      .select()
 
   if (!error) {
     const activityPublicationDetails = {

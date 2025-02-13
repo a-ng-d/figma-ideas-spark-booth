@@ -29,6 +29,7 @@ import {
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
+  ThumbnailConfiguration,
   TypeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
@@ -44,11 +45,13 @@ import Publication from '../modules/Publication'
 import TimerSettings from '../modules/TimerSettings'
 import TypesSettings from '../modules/TypesSettings'
 import TemplateSettings from '../modules/TemplateSettings'
+import { FigmaRestJson } from '../../types/data'
 
 interface SettingsProps {
   activity: ActivityConfiguration
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
+  thumbnail?: ThumbnailConfiguration
   userSession: UserSession
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
@@ -80,9 +83,13 @@ interface SettingsStates {
   isSecondaryActionLoading: boolean
   isActionLoading: boolean
   isFilesImporting: boolean
+  template?: FigmaRestJson
 }
 
-export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+export default class Settings extends PureComponent<
+  SettingsProps,
+  SettingsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -166,6 +173,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
       isSecondaryActionLoading: false,
       isActionLoading: false,
       isFilesImporting: false,
+      template: undefined,
     }
   }
 
@@ -620,6 +628,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
           ) : (
             <Publication
               {...this.props}
+              template={this.state.template}
               isPrimaryActionLoading={this.state.isPrimaryActionLoading}
               isSecondaryActionLoading={this.state.isSecondaryActionLoading}
               onLoadPrimaryAction={(e) =>
@@ -725,8 +734,11 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
             ).SETTINGS_TEMPLATE.isActive()}
           >
             <TemplateSettings
-              activityId={this.props.activity.meta.id}
               {...this.props}
+              activityId={this.props.activity.meta.id}
+              onLoadTemplate={(template) =>
+                this.setState({ template: template })
+              }
             />
           </Feature>
           <Feature
