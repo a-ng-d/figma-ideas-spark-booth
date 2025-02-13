@@ -326,7 +326,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
               <span className={`${texts['type']} type`}>
                 {this.props.activity.name}
               </span>
-              {this.props.activity.meta.publicationStatus.isShared && (
+              {this.props.activity.meta.publicationStatus.isPublished && (
                 <Chip state="ACTIVE">
                   {locals[this.props.lang].publication.statusPublished}
                 </Chip>
