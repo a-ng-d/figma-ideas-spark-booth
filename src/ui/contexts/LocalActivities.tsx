@@ -244,7 +244,7 @@ export default class LocalActivities extends PureComponent<
                     )?.imageUrl
                   }
                   actionsSlot={
-                    <>
+                    <div className={`${layouts['snackbar']}`}>
                       <Feature
                         isActive={LocalActivities.features(
                           this.props.planStatus
@@ -285,7 +285,7 @@ export default class LocalActivities extends PureComponent<
                           }
                         />
                       </Feature>
-                    </>
+                    </div>
                   }
                   complementSlot={
                     <div className={`${layouts['snackbar--tight']}`}>
