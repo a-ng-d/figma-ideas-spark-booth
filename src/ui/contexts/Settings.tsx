@@ -73,6 +73,7 @@ interface SettingsProps {
     React.KeyboardEventHandler<Element>
   onCloseActivitySettings: () => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
+  onDetachActivity: (id: string) => void
 }
 
 interface SettingsStates {

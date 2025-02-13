@@ -41,6 +41,7 @@ interface PublicationProps {
   onLoadPrimaryAction: (e: boolean) => void
   onLoadSecondaryAction: (e: boolean) => void
   onClosePublication: (e: React.MouseEvent<Element>) => void
+  onDetachActivity: (id: string) => void
 }
 
 interface PublicationStates {
@@ -411,11 +412,14 @@ export default class Publication extends PureComponent<
           action: async () => {
             this.props.onLoadSecondaryAction(true)
             detachActivity(this.props.activity)
-              .then(() => {
+              .then((id) => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isActivityShared: false,
                 })
+
+                this.props.onDetachActivity(id)
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -487,11 +491,14 @@ export default class Publication extends PureComponent<
           action: async () => {
             this.props.onLoadSecondaryAction(true)
             detachActivity(this.props.activity)
-              .then(() => {
+              .then((id) => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isActivityShared: false,
                 })
+
+                this.props.onDetachActivity(id)
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -622,11 +629,15 @@ export default class Publication extends PureComponent<
           action: async () => {
             this.props.onLoadPrimaryAction(true)
             detachActivity(this.props.activity)
-              .then(() => {
+              .then((id) => {
+                console.log(id)
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isActivityShared: false,
                 })
+
+                this.props.onDetachActivity(id)
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -699,11 +710,14 @@ export default class Publication extends PureComponent<
           action: async () => {
             this.props.onLoadSecondaryAction(true)
             detachActivity(this.props.activity)
-              .then(() => {
+              .then((id) => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isActivityShared: false,
                 })
+
+                this.props.onDetachActivity(id)
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -727,11 +741,14 @@ export default class Publication extends PureComponent<
           action: async () => {
             this.props.onLoadPrimaryAction(true)
             detachActivity(this.props.activity)
-              .then(() => {
+              .then((id) => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isActivityShared: false,
                 })
+
+                this.props.onDetachActivity(id)
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(

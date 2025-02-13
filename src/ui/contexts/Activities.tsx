@@ -48,6 +48,7 @@ interface ActivitiesStates {
   view: 'ACTIVITIES' | 'SETTINGS' | 'HISTORY'
   openedActivity?: string
   openedSessionHistory?: string
+  transitionId?: string
 }
 
 export default class Activities extends PureComponent<
@@ -66,6 +67,27 @@ export default class Activities extends PureComponent<
       view: 'ACTIVITIES',
       openedActivity: undefined,
       openedSessionHistory: undefined,
+      transitionId: undefined,
+    }
+  }
+
+  // Lifecycle
+  componentDidUpdate(prevProps: ActivitiesProps) {
+    if (
+      JSON.stringify(prevProps.activities) !==
+        JSON.stringify(this.props.activities) &&
+      this.state.openedActivity === undefined &&
+      this.state.transitionId !== undefined
+    ) {
+      const match = this.props.activities.some(
+        (activity) => activity.meta.id === this.state.transitionId
+      )
+      if (match)
+        this.setState({
+          openedActivity: this.state.transitionId,
+          transitionId: undefined,
+          view: 'SETTINGS',
+        })
     }
   }
 
@@ -480,6 +502,13 @@ export default class Activities extends PureComponent<
               this.setState({
                 view: 'ACTIVITIES',
                 openedActivity: undefined,
+              })
+            }
+            onDetachActivity={(id) =>
+              this.setState({
+                openedActivity: undefined,
+                view: 'ACTIVITIES',
+                transitionId: id,
               })
             }
           />

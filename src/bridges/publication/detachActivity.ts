@@ -1,15 +1,13 @@
 import { uid } from 'uid'
 import { lang, locals } from '../../content/locals'
-import {
-  ActivityConfiguration,
-  MetaConfiguration,
-} from '../../types/configurations'
+import { ActivityConfiguration } from '../../types/configurations'
 
 const detachActivity = async (
   activity: ActivityConfiguration
-): Promise<MetaConfiguration> => {
+): Promise<string> => {
+  const newId = uid()
   const activityPublicationDetails = {
-    id: uid(),
+    id: activity.meta.id,
     dates: {
       publishedAt: '',
       createdAt: activity.meta.dates.createdAt,
@@ -38,7 +36,8 @@ const detachActivity = async (
   parent.postMessage(
     {
       pluginMessage: {
-        type: 'UPDATE_ACTIVITY',
+        type: 'DETACH_ACTIVITY',
+        newId: newId,
         data: {
           ...activity,
           meta: {
@@ -50,7 +49,7 @@ const detachActivity = async (
     '*'
   )
 
-  return activityPublicationDetails
+  return newId
 }
 
 export default detachActivity

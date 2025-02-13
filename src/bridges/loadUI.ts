@@ -28,6 +28,7 @@ import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
 import processSelection from './processSelection'
 import addTemplateToBoard from './export/addTemplateToBoard'
+import detachPublishedActivity from './updates/detachPublishedActivity'
 
 const loadUI = async () => {
   let lastData = ''
@@ -201,6 +202,7 @@ const loadUI = async () => {
         )
         figma.root.setPluginData('templates', JSON.stringify(templates))
       },
+      DETACH_ACTIVITY: () => detachPublishedActivity(msg.data, msg.newId),
       //
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
