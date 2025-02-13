@@ -241,6 +241,8 @@ export const locals: { [key: string]: any } = {
       duration: 'Duration',
       instructions: 'Instructions',
       types: 'Types',
+      overview: 'Overview',
+      intro: 'Introduction',
     },
     shortcuts: {
       documentation: 'Read the documentation',

@@ -1,3 +1,4 @@
+import ActivitySections from '../../canvas/ActivitySections'
 import Template from '../../canvas/Template'
 import {
   ActivityConfiguration,
@@ -12,9 +13,12 @@ const addTemplateToBoard = async (data: {
       template.activityId === data.activity.meta.id
   )
 
-  new Template({
-    template: template,
-  })
+  const templateNode = await new Template(template).templateNode
+  const activitySectionNode = new ActivitySections(data.activity)
+    .activitySectionNode
+
+  activitySectionNode.x = templateNode.x - activitySectionNode.width - 100
+  activitySectionNode.y = templateNode.y
 
   return true
 }

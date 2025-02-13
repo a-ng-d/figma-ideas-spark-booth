@@ -4,10 +4,10 @@ import { TemplateConfiguration } from '../types/configurations'
 export default class Template {
   private template: TemplateConfiguration
   solidPaint: (Rgb: RGB) => Paint
-  templateNode: Promise<SceneNode>
+  templateNode: Promise<SectionNode>
 
-  constructor(options: { template: TemplateConfiguration }) {
-    this.template = options.template
+  constructor(template: TemplateConfiguration) {
+    this.template = template
     this.solidPaint = figma.util.solidPaint
     this.templateNode = this.makeTemplate()
   }
@@ -271,9 +271,7 @@ export default class Template {
 
   makeTemplate = async () => {
     const parent = this.template.nodes.document
-    const templateNode = (await this.createNode(parent)) as
-      | SectionNode
-      | GroupNode
+    const templateNode = (await this.createNode(parent)) as SectionNode
 
     templateNode.x = figma.viewport.center.x - templateNode.width / 2
     templateNode.y = figma.viewport.center.y - templateNode.height / 2

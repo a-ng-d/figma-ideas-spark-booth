@@ -87,10 +87,7 @@ interface SettingsStates {
   template?: FigmaRestJson
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_DELETE: new FeatureStatus({
       features: features,
@@ -255,6 +252,42 @@ export default class Settings extends PureComponent<
     )
   }
 
+  onAddTemplate = () => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'ADD_TEMPLATE_TO_BOARD',
+          data: {
+            activity: this.props.activity,
+          },
+        },
+      },
+      '*'
+    )
+  }
+
+  onAddOverview = () => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'ADD_OVERVIEW_TO_SLIDES',
+          data: {
+            activity: this.props.activity,
+          },
+        },
+      },
+      '*'
+    )
+  }
+
   onExportActivity = () => {
     const activityIdeas = this.props.sessions
       .map((session) => {
@@ -320,23 +353,7 @@ export default class Settings extends PureComponent<
                     isNew: Settings.features(
                       this.props.planStatus
                     ).ACTIVITIES_OVERVIEW.isNew(),
-                    action: () => {
-                      this.setState({
-                        isActionLoading: true,
-                      })
-
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'ADD_OVERVIEW_TO_SLIDES',
-                            data: {
-                              activity: this.props.activity,
-                            },
-                          },
-                        },
-                        '*'
-                      )
-                    },
+                    action: () => this.onAddOverview(),
                   },
                   {
                     label: locals[this.props.lang].settings.actions.template,
@@ -352,23 +369,7 @@ export default class Settings extends PureComponent<
                     isNew: Settings.features(
                       this.props.planStatus
                     ).ACTIVITIES_TEMPLATE.isNew(),
-                    action: () => {
-                      this.setState({
-                        isActionLoading: true,
-                      })
-
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'ADD_TEMPLATE_TO_BOARD',
-                            data: {
-                              activity: this.props.activity,
-                            },
-                          },
-                        },
-                        '*'
-                      )
-                    },
+                    action: () => this.onAddTemplate(),
                   },
                   {
                     label: locals[this.props.lang].settings.actions.report,
@@ -388,15 +389,6 @@ export default class Settings extends PureComponent<
                   },
                   {
                     type: 'SEPARATOR',
-                    isActive:
-                      Settings.features(
-                        this.props.planStatus
-                      ).ACTIVITIES_OVERVIEW.isActive() &&
-                      this.props.editorType === 'slides' &&
-                      Settings.features(
-                        this.props.planStatus
-                      ).ACTIVITIES_REPORT.isActive() &&
-                      this.props.editorType === 'slides',
                   },
                   {
                     label:
