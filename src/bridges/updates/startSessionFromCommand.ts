@@ -25,7 +25,19 @@ const startSessionFromCommand = async (template: SectionNode) => {
   if (!isActivityExisting) {
     figma.root.setPluginData(
       'activities',
-      JSON.stringify([...existingActivities, activity])
+      JSON.stringify([
+        ...existingActivities,
+        {
+          ...activity,
+          meta: {
+            ...activity.meta,
+            dates: {
+              ...activity.meta.dates,
+              addedAt: new Date().toISOString(),
+            },
+          },
+        },
+      ])
     )
     figma.root.setPluginData(
       'thumbnails',

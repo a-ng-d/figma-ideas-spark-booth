@@ -70,7 +70,16 @@ const importActivities = async (importedFiles: Array<FileContent>) => {
       )
 
       if (!isActivityExisting) {
-        existingActivities.push(file.content.activity)
+        existingActivities.push({
+          ...file.content.activity,
+          meta: {
+            ...file.content.activity.meta,
+            dates: {
+              ...file.content.activity.meta.dates,
+              addedAt: new Date().toISOString(),
+            },
+          },
+        })
         existingSessions.push(...file.content.sessions)
         existingIdeas.push(...file.content.ideas)
         if (
