@@ -3,6 +3,8 @@ import {
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
+  TemplateConfiguration,
+  ThumbnailConfiguration,
 } from '../../types/configurations'
 import { FileContent } from '../../types/data'
 import {
@@ -54,6 +56,12 @@ const importActivities = async (importedFiles: Array<FileContent>) => {
     const existingIdeas = JSON.parse(
       figma.root.getPluginData('ideas')
     ) as Array<IdeaConfiguration>
+    const existingThumbnails = JSON.parse(
+      figma.root.getPluginData('thumbnails')
+    ) as Array<ThumbnailConfiguration>
+    const existingTemplates = JSON.parse(
+      figma.root.getPluginData('templates')
+    ) as Array<TemplateConfiguration>
 
     validFiles.forEach((file) => {
       const isActivityExisting = existingActivities.some(
@@ -65,6 +73,13 @@ const importActivities = async (importedFiles: Array<FileContent>) => {
         existingActivities.push(file.content.activity)
         existingSessions.push(...file.content.sessions)
         existingIdeas.push(...file.content.ideas)
+        if (
+          file.content.thumbnail !== undefined &&
+          file.content.template !== undefined
+        ) {
+          existingThumbnails.push(file.content.thumbnail)
+          existingTemplates.push(file.content.template)
+        }
         file.status = 'OK'
       } else file.status = 'EXISTING'
     })
@@ -72,6 +87,8 @@ const importActivities = async (importedFiles: Array<FileContent>) => {
     figma.root.setPluginData('activities', JSON.stringify(existingActivities))
     figma.root.setPluginData('sessions', JSON.stringify(existingSessions))
     figma.root.setPluginData('ideas', JSON.stringify(existingIdeas))
+    figma.root.setPluginData('thumbnails', JSON.stringify(existingThumbnails))
+    figma.root.setPluginData('templates', JSON.stringify(existingTemplates))
   }
 
   const importedFilesNames = validFiles

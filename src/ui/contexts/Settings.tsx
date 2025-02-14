@@ -299,6 +299,14 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
       activity: this.props.activity,
       sessions: this.props.sessions,
       ideas: activityIdeas,
+      thumbnail: this.props.thumbnail,
+      template:
+        this.state.template !== undefined
+          ? {
+              activityId: this.props.activity.meta.id,
+              nodes: this.state.template,
+            }
+          : undefined,
     })
 
     const blob = new Blob([json], {
