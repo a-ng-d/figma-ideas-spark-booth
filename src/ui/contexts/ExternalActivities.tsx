@@ -157,10 +157,10 @@ export default class ExternalActivities extends PureComponent<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(activitiesDbTableName)
         .select(
-          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, creator_full_name, creator_avatar'
+          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, thumbnail, creator_full_name, creator_avatar'
         )
         .eq(
           this.props.context === 'SELF' ? 'creator_id' : 'is_shared',
@@ -170,10 +170,10 @@ export default class ExternalActivities extends PureComponent<
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(activitiesDbTableName)
         .select(
-          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, creator_full_name, creator_avatar'
+          'activity_id, name, description, timer_minutes, timer_seconds, types, is_shared, thumbnail, creator_full_name, creator_avatar'
         )
         .eq(
           this.props.context === 'SELF' ? 'creator_id' : 'is_shared',

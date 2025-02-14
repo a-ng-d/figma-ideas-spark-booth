@@ -53,6 +53,11 @@ export default class CommunityActivity extends PureComponent<CommunityActivityPr
         id={this.props.activity.activity_id}
         name={this.props.activity.name}
         description={this.props.activity.description}
+        src={
+          this.props.activity.thumbnail
+            ? this.props.activity.thumbnail
+            : undefined
+        }
         actionsSlot={
           <Feature
             isActive={CommunityActivity.features(

@@ -83,6 +83,11 @@ export default class SelfActivity extends PureComponent<SelfActivityProps> {
               }
             : undefined
         }
+        src={
+          this.props.activity.thumbnail
+            ? this.props.activity.thumbnail
+            : undefined
+        }
         actionsSlot={
           <>
             <Menu
