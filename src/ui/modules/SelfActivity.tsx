@@ -112,8 +112,8 @@ export default class SelfActivity extends PureComponent<SelfActivityProps> {
                         i === this.props.index ? true : loading
                       )
                     )
-                    unpublishActivity(
-                      {
+                    unpublishActivity({
+                      activity: {
                         meta: {
                           id: this.props.activity.activity_id,
                           dates: {
@@ -132,9 +132,9 @@ export default class SelfActivity extends PureComponent<SelfActivityProps> {
                           },
                         },
                       },
-                      this.props.userSession,
-                      true
-                    )
+                      userSession: this.props.userSession,
+                      isRemote: true,
+                    })
                       .then(() => {
                         const currentActivitiesList =
                           this.props.activitiesList.filter(

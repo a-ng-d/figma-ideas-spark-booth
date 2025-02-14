@@ -8,10 +8,13 @@ import { ActivityConfiguration } from '../../types/configurations'
 import setImageUrlFromBlob from '../../utils/setImageUrlFromBlob'
 import { supabase } from './authentication'
 
-const pullActivity = async (
-  activity: ActivityConfiguration,
+const pullActivity = async ({
+  activity,
+  userSession,
+}: {
+  activity: ActivityConfiguration
   userSession: UserSession
-): Promise<ActivityConfiguration> => {
+}): Promise<ActivityConfiguration> => {
   const { data: pulledActivity, error: pulledActivityError } = await supabase
     .from(activitiesDbTableName)
     .select('*')

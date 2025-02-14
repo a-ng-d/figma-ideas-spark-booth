@@ -14,13 +14,19 @@ import { UserSession } from '../../types/user'
 import setUint8Array from '../../utils/setUint8Array'
 import { supabase } from './authentication'
 
-const pushActivity = async (
-  activity: ActivityConfiguration,
-  userSession: UserSession,
-  thumbnail?: ThumbnailConfiguration,
-  template?: FigmaRestJson,
-  isShared = false
-): Promise<MetaConfiguration> => {
+const pushActivity = async ({
+  activity,
+  userSession,
+  isShared = false,
+  thumbnail,
+  template,
+}: {
+  activity: ActivityConfiguration
+  userSession: UserSession
+  isShared?: boolean
+  thumbnail?: ThumbnailConfiguration
+  template?: FigmaRestJson
+}): Promise<MetaConfiguration> => {
   const now = new Date().toISOString()
 
   const { data: checkedAssets, error: checkedAssetsError } = await supabase
@@ -29,13 +35,13 @@ const pushActivity = async (
     .match({ activity_id: activity.meta.id })
 
   if (!checkedAssetsError) {
-    if (checkedAssets[0].thumbnail !== null && thumbnail === undefined) {
+    if (!checkedAssets[0].thumbnail && thumbnail === undefined) {
       const { error: removedImgError } = await supabase.storage
         .from(activitiesStorageName)
         .remove([`${userSession.userId}/${activity.meta?.id}.png`])
 
       if (removedImgError) throw removedImgError
-    } else if (checkedAssets[0].thumbnail !== null && thumbnail !== undefined) {
+    } else if (!checkedAssets[0].thumbnail && thumbnail !== undefined) {
       const { error: updatedImgError } = await supabase.storage
         .from(activitiesStorageName)
         .update(

@@ -14,13 +14,19 @@ import { UserSession } from '../../types/user'
 import setUint8Array from '../../utils/setUint8Array'
 import { supabase } from './authentication'
 
-const publishActivity = async (
-  activity: ActivityConfiguration,
-  userSession: UserSession,
+const publishActivity = async ({
+  activity,
+  userSession,
   isShared = false,
-  thumbnail?: ThumbnailConfiguration,
+  thumbnail,
+  template,
+}: {
+  activity: ActivityConfiguration
+  userSession: UserSession
+  isShared?: boolean
+  thumbnail?: ThumbnailConfiguration
   template?: FigmaRestJson
-): Promise<MetaConfiguration> => {
+}): Promise<MetaConfiguration> => {
   let imageUrl = null
   const now = new Date().toISOString()
 
@@ -117,7 +123,7 @@ const publishActivity = async (
       if (addedTemplateError) throw addedTemplateError
     }
 
-    return activityPublicationDetails
+    return activityPublicationDetails as MetaConfiguration
   } else throw addedActivityError
 }
 

@@ -208,13 +208,13 @@ export default class Publication extends PureComponent<
           state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadPrimaryAction(true)
-            publishActivity(
-              this.props.activity,
-              this.props.userSession,
-              this.state.isActivityShared,
-              this.props.thumbnail,
-              this.props.template
-            )
+            publishActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+              isShared: this.state.isActivityShared,
+              thumbnail: this.props.thumbnail,
+              template: this.props.template,
+            })
               .then(() => {
                 this.setState({
                   publicationStatus: 'PUBLISHED',
@@ -262,13 +262,13 @@ export default class Publication extends PureComponent<
           state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadPrimaryAction(true)
-            pushActivity(
-              this.props.activity,
-              this.props.userSession,
-              this.props.thumbnail,
-              this.props.template,
-              this.state.isActivityShared
-            )
+            pushActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+              thumbnail: this.props.thumbnail,
+              template: this.props.template,
+              isShared: this.state.isActivityShared,
+            })
               .then((data) => {
                 this.setState({
                   publicationStatus: 'PUBLISHED',
@@ -314,7 +314,10 @@ export default class Publication extends PureComponent<
           state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadSecondaryAction(true)
-            pullActivity(this.props.activity, this.props.userSession)
+            pullActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+            })
               .then((data) => {
                 this.setState({
                   publicationStatus: 'PUBLISHED',
@@ -363,7 +366,10 @@ export default class Publication extends PureComponent<
           state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadPrimaryAction(true)
-            pullActivity(this.props.activity, this.props.userSession)
+            pullActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+            })
               .then((data) => {
                 this.setState({
                   publicationStatus: 'PUBLISHED',
@@ -441,7 +447,10 @@ export default class Publication extends PureComponent<
           state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadPrimaryAction(true)
-            pullActivity(this.props.activity, this.props.userSession)
+            pullActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+            })
               .then((data) => {
                 this.setState({
                   publicationStatus: 'UP_TO_DATE',
@@ -527,13 +536,13 @@ export default class Publication extends PureComponent<
           })(),
           action: async () => {
             this.props.onLoadPrimaryAction(true)
-            pushActivity(
-              this.props.activity,
-              this.props.userSession,
-              this.props.thumbnail,
-              this.props.template,
-              this.state.isActivityShared
-            )
+            pushActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+              thumbnail: this.props.thumbnail,
+              template: this.props.template,
+              isShared: this.state.isActivityShared,
+            })
               .then((data) => {
                 this.setState({
                   publicationStatus: 'PUBLISHED',
@@ -579,7 +588,10 @@ export default class Publication extends PureComponent<
           state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadSecondaryAction(true)
-            unpublishActivity(this.props.activity, this.props.userSession)
+            unpublishActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+            })
               .then(() => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
@@ -629,7 +641,6 @@ export default class Publication extends PureComponent<
             this.props.onLoadPrimaryAction(true)
             detachActivity(this.props.activity)
               .then((id) => {
-                console.log(id)
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isActivityShared: false,
@@ -660,7 +671,10 @@ export default class Publication extends PureComponent<
           state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.props.onLoadPrimaryAction(true)
-            pullActivity(this.props.activity, this.props.userSession)
+            pullActivity({
+              activity: this.props.activity,
+              userSession: this.props.userSession,
+            })
               .then((data) => {
                 this.setState({
                   publicationStatus: 'UP_TO_DATE',

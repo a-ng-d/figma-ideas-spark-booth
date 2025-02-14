@@ -6,11 +6,15 @@ import {
 } from '../../types/configurations'
 import { supabase } from './authentication'
 
-const unpublishActivity = async (
-  activity: Partial<ActivityConfiguration>,
-  userSession: UserSession,
-  isRemote = false
-): Promise<Partial<MetaConfiguration>> => {
+const unpublishActivity = async ({
+  activity,
+  userSession,
+  isRemote = false,
+}: {
+  activity: Partial<ActivityConfiguration>
+  userSession: UserSession
+  isRemote?: boolean
+}): Promise<Partial<MetaConfiguration>> => {
   const { error: deletedActivityError } = await supabase
     .from(activitiesDbTableName)
     .delete()
