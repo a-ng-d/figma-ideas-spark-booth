@@ -13,7 +13,7 @@ const addTemplateToBoard = async (data: {
       template.activityId === data.activity.meta.id
   )
 
-  const templateNode = await new Template(template).templateNode
+  const templateNode = await new Template(template, data.activity).templateNode
   const activitySectionNode = new ActivitySections(data.activity)
     .activitySectionNode
 

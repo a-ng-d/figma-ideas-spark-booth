@@ -1,10 +1,6 @@
 import { lang, locals } from '../content/locals'
 import { windowSize } from '../types/app'
-import {
-  ActiveParticipant,
-  TemplateConfiguration,
-  ThumbnailConfiguration,
-} from '../types/configurations'
+import { ActiveParticipant } from '../types/configurations'
 import { SessionDataToCanvas } from '../types/data'
 import { ActionsList } from '../types/models'
 import checkCounts from './checks/checkCounts'
@@ -27,6 +23,8 @@ import addThumbnail from './updates/addThumbnail'
 import detachPublishedActivity from './updates/detachPublishedActivity'
 import duplicatePublishedActivity from './updates/duplicatePublishedActivity'
 import endSession from './updates/endSession'
+import getTemplate from './updates/getTemplate'
+import getThumnail from './updates/getThumbnail'
 import removeTemplate from './updates/removeTemplate'
 import removeThumbnail from './updates/removeThumbnail'
 import startSession from './updates/startSession'
@@ -35,6 +33,7 @@ import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
 import updateSingleTemplate from './updates/updateSingleTemplate'
 import updateSingleThumbnail from './updates/updateSingleThumbnail'
+import startSessionFromCommand from './updates/startSessionFromCommand'
 
 const loadUI = async () => {
   let lastData = ''
@@ -100,6 +99,10 @@ const loadUI = async () => {
         thumbnails: JSON.parse(figma.root.getPluginData('thumbnails')),
       })
     })
+    .then(() => {
+      if (figma.command === 'run')
+        startSessionFromCommand(figma.currentPage.selection[0] as SectionNode)
+    })
     .then(() => checkCounts())
 
   // UI > Canvas
@@ -120,32 +123,8 @@ const loadUI = async () => {
         figma.ui.resize(windowSize.w, windowSize.h)
       },
       //
-      GET_ACTIVITY_THUMBNAIL: () => {
-        const thumbnail = JSON.parse(
-          figma.root.getPluginData('thumbnails')
-        ).find(
-          (thumbnail: ThumbnailConfiguration) =>
-            thumbnail.activityId === msg.activityId
-        )
-
-        figma.ui.postMessage({
-          type: 'GET_ACTIVITY_THUMBNAIL',
-          imageUrl: thumbnail !== undefined ? thumbnail.imageUrl : undefined,
-          templateStatus: thumbnail !== undefined ? 'SAVED' : 'NOT_SAVED',
-        })
-      },
-      GET_ACTIVITY_TEMPLATE: () => {
-        const template = JSON.parse(figma.root.getPluginData('templates')).find(
-          (template: TemplateConfiguration) =>
-            template.activityId === msg.activityId
-        )
-
-        figma.ui.postMessage({
-          type: 'GET_ACTIVITY_TEMPLATE',
-          nodes: template !== undefined ? template.nodes : undefined,
-          templateStatus: template !== undefined ? 'SAVED' : 'NOT_SAVED',
-        })
-      },
+      GET_ACTIVITY_THUMBNAIL: () => getThumnail(msg.activityId),
+      GET_ACTIVITY_TEMPLATE: () => getTemplate(msg.activityId),
       //
       UPDATE_ACTIVITIES: () =>
         figma.root.setPluginData('activities', JSON.stringify(msg.data)),
@@ -422,7 +401,7 @@ const loadUI = async () => {
     return false
   }
 
-  // Relaunch
+  // Commands
   figma.root.setRelaunchData({
     open: locals[lang].relaunch.open.description,
   })

@@ -1,13 +1,21 @@
 import { lang, locals } from '../content/locals'
-import { TemplateConfiguration } from '../types/configurations'
+import {
+  ActivityConfiguration,
+  TemplateConfiguration,
+} from '../types/configurations'
 
 export default class Template {
   private template: TemplateConfiguration
+  private activity: ActivityConfiguration
   solidPaint: (Rgb: RGB) => Paint
   templateNode: Promise<SectionNode>
 
-  constructor(template: TemplateConfiguration) {
+  constructor(
+    template: TemplateConfiguration,
+    activity: ActivityConfiguration
+  ) {
     this.template = template
+    this.activity = activity
     this.solidPaint = figma.util.solidPaint
     this.templateNode = this.makeTemplate()
   }
@@ -278,6 +286,7 @@ export default class Template {
     figma.viewport.scrollAndZoomIntoView([templateNode])
 
     templateNode.setPluginData('activityId', this.template.activityId)
+    templateNode.setPluginData('activity', JSON.stringify(this.activity))
 
     templateNode.setRelaunchData({
       run: '',
