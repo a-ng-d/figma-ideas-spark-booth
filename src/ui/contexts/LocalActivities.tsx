@@ -124,7 +124,11 @@ export default class LocalActivities extends PureComponent<
                   <Button
                     type="icon"
                     icon="import"
-                    helper={locals[this.props.lang].activities.importActivities}
+                    helper={{
+                      label:
+                        locals[this.props.lang].activities.importActivities,
+                      isSingleLine: true,
+                    }}
                     isBlocked={LocalActivities.features(
                       this.props.planStatus
                     ).ACTIVITIES_IMPORT.isReached(this.props.sessionCount)}

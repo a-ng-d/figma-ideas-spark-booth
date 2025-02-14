@@ -33,7 +33,9 @@ export default class ColorChip extends PureComponent<
         }}
         onMouseLeave={() => this.setState({ isTooltipVisible: false })}
       >
-        {this.state.isTooltipVisible && <Tooltip>{this.props.helper}</Tooltip>}
+        {this.state.isTooltipVisible && (
+          <Tooltip isSingleLine>{this.props.helper}</Tooltip>
+        )}
       </div>
     )
   }

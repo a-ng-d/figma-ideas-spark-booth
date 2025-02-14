@@ -71,9 +71,11 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                 <Button
                   type="icon"
                   icon="import"
-                  helper={
-                    locals[this.props.lang].settings.actions.importSessions
-                  }
+                  helper={{
+                    label:
+                      locals[this.props.lang].settings.actions.importSessions,
+                    isSingleLine: true,
+                  }}
                   isBlocked={HistorySettings.features(
                     this.props.planStatus
                   ).SETTINGS_IMPORT.isReached(this.props.sessionCount)}
