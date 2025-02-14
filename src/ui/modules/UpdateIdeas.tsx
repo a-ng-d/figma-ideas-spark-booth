@@ -295,6 +295,10 @@ export default class UpdateIdeas extends PureComponent<
                       type="icon"
                       icon="trash"
                       feature="REMOVE_IDEA"
+                      helper={{
+                        label: locals[this.props.lang].participate.removeIdea,
+                        isSingleLine: true,
+                      }}
                       isBlocked={UpdateIdeas.features(
                         this.props.planStatus
                       ).PARTICIPATE_UPDATE_REMOVE.isBlocked()}

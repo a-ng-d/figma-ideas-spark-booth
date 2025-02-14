@@ -72,6 +72,7 @@ export const locals: { [key: string]: any } = {
       },
       duplicateToLocal: 'Duplicate to local',
       importActivities: 'Import activities',
+      configureActivity: 'Configure activity',
       saveVersionAfterImporting: 'Manual import of activities',
       importSessionsDialog: {
         title: 'Import activities',
@@ -225,6 +226,8 @@ export const locals: { [key: string]: any } = {
         description: 'Description',
         instructions: 'Instructions',
       },
+      addIdea: 'Add idea',
+      removeIdea: 'Remove idea',
       endSession: 'End session',
       endSessionDialog: {
         facilitatorTitle: 'Are you sure to end the session?',

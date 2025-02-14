@@ -211,6 +211,11 @@ export default class Shortcuts extends PureComponent<
                   <Button
                     type="icon"
                     icon="library"
+                    helper={{
+                      label: locals[this.props.lang].shortcuts.documentation,
+                      pin: 'TOP',
+                      isSingleLine: true,
+                    }}
                     isBlocked={Shortcuts.features(
                       this.props.planStatus
                     ).SHORTCUTS_DOCUMENTATION.isBlocked()}

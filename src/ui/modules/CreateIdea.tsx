@@ -23,6 +23,7 @@ import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
+import { locals } from '../../content/locals'
 
 interface CreateIdeasProps {
   activity: ActivityConfiguration
@@ -180,6 +181,10 @@ export default class CreateIdeas extends PureComponent<
             <Button
               type="icon"
               icon="plus"
+              helper={{
+                label: locals[this.props.lang].participate.addIdea,
+                isSingleLine: true,
+              }}
               isDisabled={!this.state.canBeSubmitted}
               isBlocked={CreateIdeas.features(
                 this.props.planStatus

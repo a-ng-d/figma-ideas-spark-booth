@@ -466,6 +466,10 @@ export default class History extends PureComponent<
                     type="icon"
                     icon="trash"
                     feature="DELETE_SESSION"
+                    helper={{
+                      label: locals[this.props.lang].history.deleteSession,
+                      isSingleLine: true,
+                    }}
                     isBlocked={History.features(
                       this.props.planStatus
                     ).HISTORY_DELETE.isBlocked()}

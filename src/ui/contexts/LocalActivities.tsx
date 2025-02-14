@@ -151,6 +151,10 @@ export default class LocalActivities extends PureComponent<
                     type="icon"
                     icon="plus"
                     feature="ADD_ACTIVITY"
+                    helper={{
+                      label: locals[this.props.lang].activities.newActivity,
+                      isSingleLine: true,
+                    }}
                     isBlocked={LocalActivities.features(
                       this.props.planStatus
                     ).ACTIVITIES_LOCAL.isReached(this.props.activities.length)}
@@ -258,6 +262,12 @@ export default class LocalActivities extends PureComponent<
                           type="icon"
                           icon="adjust"
                           feature="CONFIGURE_ACTIVITY"
+                          helper={{
+                            label:
+                              locals[this.props.lang].activities
+                                .configureActivity,
+                            isSingleLine: true,
+                          }}
                           isBlocked={LocalActivities.features(
                             this.props.planStatus
                           ).ACTIVITIES_SETTINGS.isBlocked()}
@@ -278,6 +288,10 @@ export default class LocalActivities extends PureComponent<
                           type="icon"
                           icon="play"
                           feature="RUN_ACTIVITY"
+                          helper={{
+                            label: locals[this.props.lang].sessions.newSession,
+                            isSingleLine: true,
+                          }}
                           isBlocked={LocalActivities.features(
                             this.props.planStatus
                           ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
