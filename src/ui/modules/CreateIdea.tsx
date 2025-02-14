@@ -10,6 +10,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 import features from '../../config'
+import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActiveParticipant,
@@ -23,7 +24,6 @@ import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
 import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
-import { locals } from '../../content/locals'
 
 interface CreateIdeasProps {
   activity: ActivityConfiguration

@@ -28,12 +28,12 @@ import getThumnail from './updates/getThumbnail'
 import removeTemplate from './updates/removeTemplate'
 import removeThumbnail from './updates/removeThumbnail'
 import startSession from './updates/startSession'
+import startSessionFromCommand from './updates/startSessionFromCommand'
 import updateParticipants from './updates/updateParticipants'
 import updateSingleActivity from './updates/updateSingleActivity'
 import updateSingleSession from './updates/updateSingleSession'
 import updateSingleTemplate from './updates/updateSingleTemplate'
 import updateSingleThumbnail from './updates/updateSingleThumbnail'
-import startSessionFromCommand from './updates/startSessionFromCommand'
 
 const loadUI = async () => {
   let lastData = ''
