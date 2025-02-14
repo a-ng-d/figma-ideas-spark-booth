@@ -188,6 +188,7 @@ export const locals: { [key: string]: any } = {
     },
     history: {
       filter: {
+        action: 'Filter ideas',
         none: 'None',
         types: 'Types',
         participants: 'Participants',
@@ -227,6 +228,7 @@ export const locals: { [key: string]: any } = {
         instructions: 'Instructions',
       },
       addIdea: 'Add idea',
+      selectType: 'Select type',
       removeIdea: 'Remove idea',
       endSession: 'End session',
       endSessionDialog: {
@@ -256,6 +258,8 @@ export const locals: { [key: string]: any } = {
       email: 'Contact support',
       follow: 'Support us',
       author: 'Support the author',
+      userMenu: 'User menu',
+      helpMenu: 'Help/Support menu',
     },
     report: {
       title: 'Report a bug',

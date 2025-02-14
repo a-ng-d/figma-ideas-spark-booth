@@ -493,6 +493,10 @@ export default class History extends PureComponent<
                   icon="filter"
                   options={this.typesHandler()}
                   selected={this.state.filteredBy}
+                  helper={{
+                    label: locals[this.props.lang].history.filter.action,
+                    isSingleLine: true,
+                  }}
                   isNew={this.state.filteredBy !== 'NONE'}
                   alignment="BOTTOM_RIGHT"
                 />

@@ -140,6 +140,10 @@ export default class CreateIdeas extends PureComponent<
                   : 'DEFAULT'
               }
               alignment="TOP_LEFT"
+              helper={{
+                label: locals[this.props.lang].participate.selectType,
+                isSingleLine: true,
+              }}
               isNew={CreateIdeas.features(
                 this.props.planStatus
               ).PARTICIPATE_CREATE_TYPE.isNew()}

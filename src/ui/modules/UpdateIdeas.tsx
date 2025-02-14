@@ -254,6 +254,11 @@ export default class UpdateIdeas extends PureComponent<
                               ? 'DISABLED'
                               : 'DEFAULT'
                           }
+                          helper={{
+                            label:
+                              locals[this.props.lang].participate.selectType,
+                            isSingleLine: true,
+                          }}
                           isNew={UpdateIdeas.features(
                             this.props.planStatus
                           ).PARTICIPATE_UPDATE_TYPE.isNew()}

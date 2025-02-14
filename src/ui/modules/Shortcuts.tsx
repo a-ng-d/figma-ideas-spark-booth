@@ -315,6 +315,11 @@ export default class Shortcuts extends PureComponent<
                         },
                       ]}
                       alignment="TOP_RIGHT"
+                      helper={{
+                        label: locals[this.props.lang].shortcuts.userMenu,
+                        pin: 'TOP',
+                        isSingleLine: true,
+                      }}
                     />
                   ) : (
                     <Menu
@@ -376,6 +381,11 @@ export default class Shortcuts extends PureComponent<
                         this.state.isUserMenuLoading ? 'LOADING' : 'DEFAULT'
                       }
                       alignment="TOP_RIGHT"
+                      helper={{
+                        label: locals[this.props.lang].shortcuts.userMenu,
+                        pin: 'TOP',
+                        isSingleLine: true,
+                      }}
                     />
                   )}
                 </Feature>
@@ -574,6 +584,11 @@ export default class Shortcuts extends PureComponent<
                     },
                   ]}
                   alignment="TOP_RIGHT"
+                  helper={{
+                    label: locals[this.props.lang].shortcuts.helpMenu,
+                    pin: 'TOP',
+                    isSingleLine: true,
+                  }}
                   isNew={
                     this.props.highlight.status ===
                     'DISPLAY_HIGHLIGHT_NOTIFICATION'
