@@ -238,7 +238,7 @@ export default class ExternalActivities extends PureComponent<
               await supabase.storage
                 .from(activitiesStorageName)
                 .download(
-                  `${this.props.userSession.userId}/${pulledActivity[0].activity_id}.png`
+                  `${pulledActivity[0].creator_id}/${pulledActivity[0].activity_id}.png`
                 )
 
             if (!downloadedImgError && downloadedImg)
