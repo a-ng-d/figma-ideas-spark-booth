@@ -34,4 +34,4 @@ jobs:
         release_name: ${{ github.event.pull_request.title}}
         body: |
           ## What's Changed
-          [Friendly release note](https://yelbolt.canny.io/changelog/${{ github.head_ref }})・[Full Changelog](https://github.com/a-ng-d/figma-ideas-spark-booth/commits/${{ github.head_ref }})
+          [Friendly release note](https://ideas-spark-booth.canny.io/changelog/${{ github.head_ref }})・[Full Changelog](https://github.com/a-ng-d/figma-ideas-spark-booth/commits/${{ github.head_ref }})
