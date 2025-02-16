@@ -1,9 +1,10 @@
-import { PlanStatus } from 'src/types/app'
 import {
   ActivityConfiguration,
   SessionConfiguration,
 } from 'src/types/configurations'
 import { uid } from 'uid'
+import { lang, locals } from '../../content/locals'
+import { PlanStatus } from '../../types/app'
 import startSession from './startSession'
 
 const startSessionFromCommand = async (template: SectionNode) => {
@@ -15,14 +16,15 @@ const startSessionFromCommand = async (template: SectionNode) => {
   const existingThumbnails = JSON.parse(figma.root.getPluginData('thumbnails'))
   const existingTemplates = JSON.parse(figma.root.getPluginData('templates'))
 
-  const isActivityExisting: boolean = JSON.parse(
-    figma.root.getPluginData('activities')
-  ).some(
+  const isActivityExisting: boolean = existingActivities.some(
     (existingActivity: ActivityConfiguration) =>
       existingActivity.meta.id === activity.meta.id
   )
+  const isSessionRunning: boolean = existingSessions.some(
+    (existingSession: SessionConfiguration) => existingSession.isRunning
+  )
 
-  if (!isActivityExisting) {
+  if (!isActivityExisting && !isSessionRunning) {
     figma.root.setPluginData(
       'activities',
       JSON.stringify([
@@ -81,7 +83,8 @@ const startSessionFromCommand = async (template: SectionNode) => {
     activityId: activity.meta.id,
   } as SessionConfiguration
 
-  startSession([...existingSessions, newSession])
+  if (!isSessionRunning) startSession([...existingSessions, newSession])
+  else figma.notify(locals[lang].info.sessionAlreadyRunning)
 }
 
 export default startSessionFromCommand

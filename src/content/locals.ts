@@ -408,6 +408,7 @@ export const locals: { [key: string]: any } = {
         single: '$1 activity already exists',
         plural: '$1 activities already exist',
       },
+      sessionAlreadyRunning: 'A session is already running',
     },
     warning: {
       timesUp: 'The time is up!',
