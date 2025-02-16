@@ -77,6 +77,7 @@ const publishActivity = async ({
       dates: {
         createdAt: activity.meta.dates.createdAt,
         updatedAt: activity.meta.dates.updatedAt,
+        addedAt: activity.meta.dates.addedAt,
         publishedAt: now,
       },
       publicationStatus: {

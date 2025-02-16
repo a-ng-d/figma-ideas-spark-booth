@@ -32,9 +32,10 @@ const unpublishActivity = async ({
     const activityPublicationDetails = {
       id: activity.meta?.id,
       dates: {
-        publishedAt: '',
         createdAt: activity.meta?.dates.createdAt ?? '',
         updatedAt: activity.meta?.dates.updatedAt ?? '',
+        addedAt: activity.meta?.dates.addedAt ?? '',
+        publishedAt: '',
       },
       publicationStatus: {
         isPublished: false,
