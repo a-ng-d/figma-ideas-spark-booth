@@ -292,6 +292,8 @@ export default class Template {
       run: '',
     })
 
+    templateNode.setPluginData('type', 'TEMPLATE')
+
     return templateNode
   }
 }

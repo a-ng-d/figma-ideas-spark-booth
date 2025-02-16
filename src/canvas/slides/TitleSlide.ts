@@ -100,6 +100,7 @@ export default class titleSlide {
     }
 
     slide.slideNode.setPluginData('activityId', this.activityId)
+    slide.slideNode.setPluginData('type', 'OVERVIEW')
 
     return slide.slideNode
   }

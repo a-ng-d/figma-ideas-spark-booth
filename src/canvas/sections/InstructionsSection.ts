@@ -88,6 +88,9 @@ export default class InstructionsSection {
       layout.rightSlot.layoutSizingVertical = 'HUG'
     }
 
+    sectionNode.setPluginData('activityId', this.activityId)
+    sectionNode.setPluginData('type', 'OVERVIEW')
+
     return sectionNode
   }
 }

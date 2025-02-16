@@ -80,6 +80,7 @@ export default class InstructionsSlide {
     }
 
     slide.slideNode.setPluginData('activityId', this.activityId)
+    slide.slideNode.setPluginData('type', 'OVERVIEW')
 
     return slide.slideNode
   }

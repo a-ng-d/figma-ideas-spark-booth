@@ -110,6 +110,9 @@ export default class TitleSection {
       layout.leftNode.primaryAxisAlignItems = 'CENTER'
     }
 
+    sectionNode.setPluginData('activityId', this.activityId)
+    sectionNode.setPluginData('type', 'OVERVIEW')
+
     return sectionNode
   }
 }

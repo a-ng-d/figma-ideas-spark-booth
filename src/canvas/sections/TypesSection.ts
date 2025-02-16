@@ -151,6 +151,9 @@ export default class TypesSection {
       layout.rightSlot.layoutSizingVertical = 'HUG'
     }
 
+    sectionNode.setPluginData('activityId', this.activityId)
+    sectionNode.setPluginData('type', 'OVERVIEW')
+
     return sectionNode
   }
 }

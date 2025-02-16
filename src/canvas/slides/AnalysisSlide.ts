@@ -100,6 +100,7 @@ export default class AnalysisSlide {
 
     slide.slideNode.setPluginData('activityId', this.activityId)
     slide.slideNode.setPluginData('sessionId', this.sessionId)
+    slide.slideNode.setPluginData('type', 'SESSION')
 
     return slide.slideNode
   }

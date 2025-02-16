@@ -118,6 +118,7 @@ export default class BoardClassification {
 
     sectionNode.setPluginData('activityId', this.activityId)
     sectionNode.setPluginData('sessionId', this.sessionId)
+    sectionNode.setPluginData('type', 'SESSION')
 
     return sectionNode
   }
