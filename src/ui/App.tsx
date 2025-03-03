@@ -2,6 +2,7 @@ import {
   Button,
   Consent,
   ConsentConfiguration,
+  Icon,
   layouts,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
@@ -813,6 +814,17 @@ export default class App extends PureComponent<
             <this.Controls />
           )}
           <this.Base />
+        </main>
+      )
+    else
+      return (
+        <main className="ui">
+          <div className={layouts.centered}>
+            <Icon
+              type="PICTO"
+              iconName="spinner"
+            />
+          </div>
         </main>
       )
   }
