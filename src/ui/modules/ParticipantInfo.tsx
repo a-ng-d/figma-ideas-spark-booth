@@ -50,12 +50,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
 
   render() {
     return (
-      <div
-        className="control__block control__block--no-padding"
-        style={{
-          flex: '0 1 296px',
-        }}
-      >
+      <>
         <Feature
           isActive={
             ParticipantInfo.features(
@@ -195,7 +190,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
             ]}
           />
         </Feature>
-      </div>
+      </>
     )
   }
 }

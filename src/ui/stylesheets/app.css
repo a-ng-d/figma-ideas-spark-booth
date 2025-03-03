@@ -39,7 +39,7 @@ div.idea-edit {
   border-top: 1px solid var(--figma-color-border);
   padding: var(--size-xxsmall) var(--size-xsmall);
   width: 100%;
-  min-height: var(--size-xxlarge);
+  box-sizing: border-box;
 }
 
 div.idea-edit__text {

@@ -354,6 +354,7 @@ export default class Participate extends PureComponent<
                     />
                   </Feature>
                 ),
+                typeModifier: 'LIST',
               },
               {
                 node: (
@@ -375,6 +376,15 @@ export default class Participate extends PureComponent<
                     )}
                   </Feature>
                 ),
+                typeModifier: 'DRAWER',
+                drawerOptions: {
+                  direction: 'HORIZONTAL',
+                  pin: 'RIGHT',
+                  defaultSize: { unit: 'PIXEL', value: 296 },
+                  maxSize: { unit: 'PIXEL', value: 400 },
+                  minSize: { unit: 'PIXEL', value: 296 },
+                  isScrolling: true,
+                },
               },
             ]}
             isFullHeight

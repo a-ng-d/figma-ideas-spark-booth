@@ -106,12 +106,7 @@ export default class FacilitatorInfo extends PureComponent<
     )
 
     return (
-      <div
-        className="control__block control__block--no-padding"
-        style={{
-          flex: '0 1 296px',
-        }}
-      >
+      <>
         <Feature
           isActive={FacilitatorInfo.features(
             this.props.planStatus
@@ -283,6 +278,7 @@ export default class FacilitatorInfo extends PureComponent<
                                   )}
                                 </>
                               }
+                              isAccented
                             />
                           }
                         />
@@ -434,7 +430,7 @@ export default class FacilitatorInfo extends PureComponent<
             ]}
           />
         </Feature>
-      </div>
+      </>
     )
   }
 }
