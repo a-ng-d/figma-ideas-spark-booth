@@ -2,8 +2,8 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
-  Icon,
   Input,
+  List,
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
@@ -323,52 +323,35 @@ export default class ExternalActivities extends PureComponent<
       )
 
     return (
-      <ul
-        className={[
-          'rich-list',
-          this.state.activitiesListStatus === 'LOADING' && 'rich-list--loading',
-          (this.state.activitiesListStatus === 'ERROR' ||
-            this.state.activitiesListStatus === 'EMPTY' ||
-            this.state.activitiesListStatus === 'NO_RESULT') &&
-            'rich-list--message',
-        ]
-          .filter((n) => n)
-          .join(' ')}
+      <List
+        isLoading={this.state.activitiesListStatus === 'LOADING'}
+        isMessage={
+          this.state.activitiesListStatus === 'ERROR' ||
+          this.state.activitiesListStatus === 'EMPTY' ||
+          this.state.activitiesListStatus === 'NO_RESULT'
+        }
       >
-        {this.state.activitiesListStatus === 'LOADING' && (
-          <Icon
-            type="PICTO"
-            iconName="spinner"
-            customClassName="control__block__loader"
+        {this.state.activitiesListStatus === 'ERROR' && (
+          <SemanticMessage
+            type="WARNING"
+            message={locals[this.props.lang].error.fetchActivity}
           />
         )}
-        {this.state.activitiesListStatus === 'ERROR' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="WARNING"
-              message={locals[this.props.lang].error.fetchActivity}
-            />
-          </div>
-        )}
         {this.state.activitiesListStatus === 'EMPTY' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="NEUTRAL"
-              message={
-                this.props.context === 'SELF'
-                  ? locals[this.props.lang].warning.noSelfActivityOnRemote
-                  : locals[this.props.lang].warning.noCommunityActivityOnRemote
-              }
-            />
-          </div>
+          <SemanticMessage
+            type="NEUTRAL"
+            message={
+              this.props.context === 'SELF'
+                ? locals[this.props.lang].warning.noSelfActivityOnRemote
+                : locals[this.props.lang].warning.noCommunityActivityOnRemote
+            }
+          />
         )}
         {this.state.activitiesListStatus === 'NO_RESULT' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="NEUTRAL"
-              message={locals[this.props.lang].info.noResult}
-            />
-          </div>
+          <SemanticMessage
+            type="NEUTRAL"
+            message={locals[this.props.lang].info.noResult}
+          />
         )}
         {(this.state.activitiesListStatus === 'LOADED' ||
           this.state.activitiesListStatus === 'COMPLETE') &&
@@ -454,7 +437,7 @@ export default class ExternalActivities extends PureComponent<
             )
           )}
         {fragment}
-      </ul>
+      </List>
     )
   }
 
@@ -466,41 +449,39 @@ export default class ExternalActivities extends PureComponent<
       fragment = <this.ExternalActivitiesList />
     else
       fragment = (
-        <div className="callout--centered">
-          <SemanticMessage
-            type="NEUTRAL"
-            message={locals[this.props.lang].activities.signInFirst.message}
-            orientation="VERTICAL"
-            actionsSlot={
-              <Button
-                type="primary"
-                label={locals[this.props.lang].activities.signInFirst.signIn}
-                isLoading={this.state.isSignInActionLoading}
-                action={async () => {
-                  this.setState({ isSignInActionLoading: true })
-                  signIn(this.props.userIdentity.id)
-                    .finally(() => {
-                      this.setState({ isSignInActionLoading: false })
-                    })
-                    .catch((error) => {
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'SEND_MESSAGE',
-                            message:
-                              error.message === 'Authentication timeout'
-                                ? locals[this.props.lang].error.timeout
-                                : locals[this.props.lang].error.authentication,
-                          },
+        <SemanticMessage
+          type="NEUTRAL"
+          message={locals[this.props.lang].activities.signInFirst.message}
+          orientation="VERTICAL"
+          actionsSlot={
+            <Button
+              type="primary"
+              label={locals[this.props.lang].activities.signInFirst.signIn}
+              isLoading={this.state.isSignInActionLoading}
+              action={async () => {
+                this.setState({ isSignInActionLoading: true })
+                signIn(this.props.userIdentity.id)
+                  .finally(() => {
+                    this.setState({ isSignInActionLoading: false })
+                  })
+                  .catch((error) => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'SEND_MESSAGE',
+                          message:
+                            error.message === 'Authentication timeout'
+                              ? locals[this.props.lang].error.timeout
+                              : locals[this.props.lang].error.authentication,
                         },
-                        '*'
-                      )
-                    })
-                }}
-              />
-            }
-          />
-        </div>
+                      },
+                      '*'
+                    )
+                  })
+              }}
+            />
+          }
+        />
       )
 
     return (
@@ -559,6 +540,7 @@ export default class ExternalActivities extends PureComponent<
                   </Feature>
                 }
                 border={['BOTTOM']}
+                isFullWidth
               />
             )}
           <Feature
@@ -582,7 +564,7 @@ export default class ExternalActivities extends PureComponent<
                 ].info.maxNumberOfActivities.replace(
                   '$1',
                   ExternalActivities.features(this.props.planStatus)
-                    .ACTIVITIES_LOCAL.result.limit
+                    .ACTIVITIES_LOCAL.limit
                 )}
                 actionsSlot={
                   <Button

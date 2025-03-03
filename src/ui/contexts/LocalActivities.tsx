@@ -9,6 +9,7 @@ import {
   SemanticMessage,
   SimpleItem,
   ColorChip,
+  List,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { createPortal, PureComponent } from 'preact/compat'
@@ -224,7 +225,7 @@ export default class LocalActivities extends PureComponent<
               />
             </div>
           )}
-          <ul className="rich-list">
+          <List>
             {this.props.activities
               .sort(
                 (a, b) =>
@@ -331,7 +332,7 @@ export default class LocalActivities extends PureComponent<
                   }
                 />
               ))}
-          </ul>
+          </List>
         </div>
         <Feature
           isActive={
