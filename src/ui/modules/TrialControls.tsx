@@ -42,23 +42,23 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
     <div
       className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
     >
-      {TrialControls.features(this.props.planStatus).ACTIVITIES_RUN.result
-        .limit -
+      {(TrialControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
+        0) -
         this.props.sessionCount <=
         0 && <span>{locals[this.props.lang].plan.sessionCount.none}</span>}
-      {TrialControls.features(this.props.planStatus).ACTIVITIES_RUN.result
-        .limit -
+      {(TrialControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
+        0) -
         this.props.sessionCount ===
         1 && <span>{locals[this.props.lang].plan.sessionCount.single}</span>}
-      {TrialControls.features(this.props.planStatus).ACTIVITIES_RUN.result
-        .limit -
+      {(TrialControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
+        0) -
         this.props.sessionCount >
         1 && (
         <span>
           {locals[this.props.lang].plan.sessionCount.plural.replace(
             '$1',
-            TrialControls.features(this.props.planStatus).ACTIVITIES_RUN.result
-              .limit - this.props.sessionCount
+            (TrialControls.features(this.props.planStatus).ACTIVITIES_RUN
+              ?.limit ?? 0) - this.props.sessionCount
           )}
         </span>
       )}
@@ -97,7 +97,8 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
   FreePlan = () => (
     <>
       <Button
-        type="compact"
+        type="alternative"
+        size="small"
         icon="lock-off"
         label={locals[this.props.lang].plan.tryPro}
         action={this.props.onGetProPlan}
@@ -114,7 +115,8 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
   ExpiredTrial = () => (
     <>
       <Button
-        type="compact"
+        type="alternative"
+        size="small"
         icon="lock-off"
         label={locals[this.props.lang].plan.getPro}
         action={this.props.onGetProPlan}

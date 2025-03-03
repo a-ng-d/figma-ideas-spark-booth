@@ -184,7 +184,8 @@ export default class Shortcuts extends PureComponent<
     )
       fragment = (
         <Button
-          type="compact"
+          type="alternative"
+          size="small"
           icon="lock-off"
           label={locals[this.props.lang].plan.getPro}
           action={() =>
