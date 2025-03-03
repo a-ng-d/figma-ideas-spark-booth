@@ -12,6 +12,7 @@ import {
   texts,
   ColorChip,
   Layout,
+  List,
 } from '@a_ng_d/figmug-ui'
 import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
@@ -54,7 +55,10 @@ interface HistoryStates {
   isActionLoading: boolean
 }
 
-export default class History extends PureComponent<HistoryProps, HistoryStates> {
+export default class History extends PureComponent<
+  HistoryProps,
+  HistoryStates
+> {
   static features = (planStatus: PlanStatus) => ({
     HISTORY_FILTER: new FeatureStatus({
       features: features,
@@ -641,61 +645,56 @@ export default class History extends PureComponent<HistoryProps, HistoryStates> 
                       </div>
                     }
                     border={['BOTTOM']}
-                  ></Bar>
-                  <div className="control__block">
-                    {this.state.ideas.length > 0 ? (
-                      <ul
-                        style={{
-                          padding: '0 var(--size-xxsmall)',
-                        }}
-                      >
-                        {this.state.ideas.map((idea, index) => (
-                          <SimpleItem
-                            key={index}
-                            leftPartSlot={
+                  />
+                  {this.state.ideas.length > 0 ? (
+                    <List padding="var(--size-xxxsmall)">
+                      {this.state.ideas.map((idea, index) => (
+                        <SimpleItem
+                          key={index}
+                          leftPartSlot={
+                            <div
+                              className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
+                              style={{
+                                flex: '1',
+                              }}
+                            >
                               <div
-                                className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
-                                style={{
-                                  flex: '1',
-                                }}
+                                className={`${layouts['snackbar--tight']}`}
+                                style={{ flex: '0 0 128px' }}
                               >
-                                <div
-                                  className={`${layouts['snackbar--tight']}`}
-                                  style={{ flex: '0 0 128px' }}
+                                <ColorChip color={idea.type.hex} />
+                                <span
+                                  className={`${texts['type']} ${texts['type--secondary']} ${texts['type--truncated']} type`}
                                 >
-                                  <ColorChip color={idea.type.hex} />
-                                  <span
-                                    className={`${texts['type']} ${texts['type--secondary']} ${texts['type--truncated']} type`}
-                                  >
-                                    {idea.type.name}
-                                  </span>
-                                </div>
-                                <div className={`${texts['type']} type`}>
-                                  {idea.text}
-                                </div>
+                                  {idea.type.name}
+                                </span>
                               </div>
-                            }
-                            rightPartSlot={
-                              <Avatar
-                                avatar={idea.userIdentity.avatar}
-                                fullName={idea.userIdentity.fullName}
-                                isInverted
-                              />
-                            }
-                          />
-                        ))}
-                      </ul>
-                    ) : (
-                      <div className="callout--centered">
-                        <SemanticMessage
-                          type="NEUTRAL"
-                          message={locals[this.props.lang].history.noIdea}
+                              <div className={`${texts['type']} type`}>
+                                {idea.text}
+                              </div>
+                            </div>
+                          }
+                          rightPartSlot={
+                            <Avatar
+                              avatar={idea.userIdentity.avatar}
+                              fullName={idea.userIdentity.fullName}
+                              isInverted
+                            />
+                          }
                         />
-                      </div>
-                    )}
-                  </div>
+                      ))}
+                    </List>
+                  ) : (
+                    <List isMessage>
+                      <SemanticMessage
+                        type="NEUTRAL"
+                        message={locals[this.props.lang].history.noIdea}
+                      />
+                    </List>
+                  )}
                 </>
               ),
+              typeModifier: 'BLANK',
             },
           ]}
           isFullHeight
