@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Chip,
   ConsentConfiguration,
@@ -221,8 +222,8 @@ export default class FacilitatorInfo extends PureComponent<
                         this.props.lang
                       ].warning.blockedParticipations.replace(
                         '$1',
-                        FacilitatorInfo.features(this.props.planStatus)
-                          .PARTICIPATE.result.limit + 1
+                        (FacilitatorInfo.features(this.props.planStatus)
+                          .PARTICIPATE?.limit ?? 0) + 1
                       )}
                       actionsSlot={
                         <Button
@@ -251,35 +252,38 @@ export default class FacilitatorInfo extends PureComponent<
                         <SimpleItem
                           key={index}
                           leftPartSlot={
-                            <div className="user">
-                              <div className="user__avatar">
-                                <img
-                                  src={participant.userIdentity.avatar}
-                                  alt={participant.userIdentity.fullName}
-                                />
-                              </div>
-                              <span className={`type ${texts['type']}`}>
-                                {participant.userIdentity.fullName}
-                              </span>
-                              {participant.userIdentity.id ===
-                                this.props.userIdentity.id && (
-                                <span
-                                  className={`type ${texts['type']}  ${texts['type--secondary']}`}
-                                >
-                                  {locals[this.props.lang].user.you}
-                                </span>
-                              )}
-                              {participant.hasFinished && (
-                                <Chip>
-                                  {locals[this.props.lang].participate.finished}
-                                </Chip>
-                              )}
-                              {participant.isBlocked && (
-                                <Chip>
-                                  {locals[this.props.lang].participate.blocked}
-                                </Chip>
-                              )}
-                            </div>
+                            <Avatar
+                              avatar={participant.userIdentity.avatar}
+                              fullName={participant.userIdentity.fullName}
+                              complementarySlot={
+                                <>
+                                  {participant.userIdentity.id ===
+                                    this.props.userIdentity.id && (
+                                    <span
+                                      className={`type ${texts['type']}  ${texts['type--secondary']}`}
+                                    >
+                                      {locals[this.props.lang].user.you}
+                                    </span>
+                                  )}
+                                  {participant.hasFinished && (
+                                    <Chip>
+                                      {
+                                        locals[this.props.lang].participate
+                                          .finished
+                                      }
+                                    </Chip>
+                                  )}
+                                  {participant.isBlocked && (
+                                    <Chip>
+                                      {
+                                        locals[this.props.lang].participate
+                                          .blocked
+                                      }
+                                    </Chip>
+                                  )}
+                                </>
+                              }
+                            />
                           }
                         />
                       ))}

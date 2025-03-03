@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Chip,
   ConsentConfiguration,
   Dialog,
@@ -867,18 +868,10 @@ export default class Publication extends PureComponent<
               {(this.state.publicationStatus === 'UP_TO_DATE' ||
                 this.state.publicationStatus === 'MAY_BE_PULLED' ||
                 this.state.publicationStatus === 'CAN_BE_REVERTED') && (
-                <div className="user">
-                  <div className="user__avatar">
-                    <img
-                      src={this.props.activity.meta.creatorIdentity.avatar}
-                    />
-                  </div>
-                  <div
-                    className={`${texts.type} ${texts['type--secondary']} type user__name`}
-                  >
-                    {this.props.activity.meta.creatorIdentity.fullName}
-                  </div>
-                </div>
+                <Avatar
+                  avatar={this.props.activity.meta.creatorIdentity.avatar}
+                  fullName={this.props.activity.meta.creatorIdentity.fullName}
+                />
               )}
             </div>
             {this.props.activity.description !== '' && (

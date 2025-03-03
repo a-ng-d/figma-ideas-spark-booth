@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Bar,
   Button,
   Dialog,
@@ -649,19 +650,11 @@ export default class History extends PureComponent<
                     </div>
                   }
                   rightPartSlot={
-                    <div className="user">
-                      <span
-                        className={`${texts['type']} ${texts['type--secondary']} type`}
-                      >
-                        {idea.userIdentity.fullName}
-                      </span>
-                      <div className="user__avatar">
-                        <img
-                          src={idea.userIdentity.avatar}
-                          alt={idea.userIdentity.fullName}
-                        />
-                      </div>
-                    </div>
+                    <Avatar
+                      avatar={idea.userIdentity.avatar}
+                      fullName={idea.userIdentity.fullName}
+                      isInverted
+                    />
                   }
                 />
               ))}
