@@ -8,6 +8,7 @@ import {
   SectionTitle,
   SemanticMessage,
   SimpleItem,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { createPortal, PureComponent } from 'preact/compat'
@@ -20,7 +21,6 @@ import {
   ActivityConfiguration,
   ThumbnailConfiguration,
 } from '../../types/configurations'
-import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface LocalActivitiesProps {
@@ -185,7 +185,7 @@ export default class LocalActivities extends PureComponent<
                 ].info.maxNumberOfActivities.replace(
                   '$1',
                   LocalActivities.features(this.props.planStatus)
-                    .ACTIVITIES_LOCAL.result.limit
+                    .ACTIVITIES_LOCAL.limit
                 )}
                 actionsSlot={
                   <Button

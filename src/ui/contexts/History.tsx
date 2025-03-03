@@ -10,6 +10,7 @@ import {
   SemanticMessage,
   SimpleItem,
   texts,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
@@ -29,7 +30,6 @@ import setBarChart from '../../utils/setBarChart'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import setParticipantsList from '../../utils/setParticipantsList'
 import sortIdeas from '../../utils/sortIdeas'
-import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface HistoryProps {

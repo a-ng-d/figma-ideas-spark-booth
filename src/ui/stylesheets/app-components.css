@@ -60,17 +60,6 @@ div.callout--centered {
   margin: auto;
 }
 
-/* Color Chip */
-.color-chip {
-  position: relative;
-  flex: 0 0 16px;
-  outline: 1px solid rgba(0, 0, 0, 0.1);
-  outline-offset: -1px;
-  border-radius: 2px;
-  width: var(--size-xsmall);
-  height: var(--size-xsmall);
-}
-
 /* Card */
 .card {
   display: flex;

@@ -4,6 +4,7 @@ import {
   DropdownOption,
   Input,
   Menu,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -22,7 +23,6 @@ import {
 } from '../../types/configurations'
 import { IdeasMessage } from '../../types/messages'
 import { UserSession } from '../../types/user'
-import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface CreateIdeasProps {

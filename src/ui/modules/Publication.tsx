@@ -6,6 +6,7 @@ import {
   layouts,
   SimpleItem,
   texts,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -27,7 +28,6 @@ import {
 import { FigmaRestJson } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
-import ColorChip from '../components/ColorChip'
 
 interface PublicationProps {
   activity: ActivityConfiguration

@@ -5,6 +5,7 @@ import {
   SimpleItem,
   layouts,
   texts,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -17,7 +18,6 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface ParticipantInfoProps {

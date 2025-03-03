@@ -5,6 +5,7 @@ import {
   ConsentConfiguration,
   layouts,
   Menu,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -18,7 +19,6 @@ import { UserConfiguration } from '../../types/configurations'
 import { ExternalActivitiesData } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
-import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface SelfActivityProps {

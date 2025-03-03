@@ -9,6 +9,7 @@ import {
   SemanticMessage,
   SimpleItem,
   layouts,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -28,7 +29,6 @@ import { IdeasMessage } from '../../types/messages'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { AppStates } from '../App'
-import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface UpdateIdeasProps {
@@ -130,8 +130,8 @@ export default class UpdateIdeas extends PureComponent<
             type="INFO"
             message={locals[this.props.lang].info.blockedParticipation.replace(
               '$1',
-              UpdateIdeas.features(this.props.planStatus).PARTICIPATE.result
-                .limit + 1
+              (UpdateIdeas.features(this.props.planStatus).PARTICIPATE?.limit ||
+                0) + 1
             )}
           />
         </div>

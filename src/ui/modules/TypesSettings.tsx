@@ -9,6 +9,7 @@ import {
   SemanticMessage,
   SimpleItem,
   SortableList,
+  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -38,7 +39,6 @@ import {
 import { TypeEvent } from '../../types/events'
 import { ActionsList } from '../../types/models'
 import { trackTypeEvent } from '../../utils/eventsTracker'
-import ColorChip from '../components/ColorChip'
 import Feature from '../components/Feature'
 
 interface TypesSettingsProps {
@@ -279,7 +279,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                   ].info.maxNumberOfTypes.replace(
                     '$1',
                     TypesSettings.features(this.props.planStatus).SETTINGS_TYPES
-                      .result.limit
+                      .limit
                   )}
                   actionsSlot={
                     <Button
