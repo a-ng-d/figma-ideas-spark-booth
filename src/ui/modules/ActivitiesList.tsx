@@ -122,7 +122,6 @@ export default class ActivitiesList extends PureComponent<
             />
           }
           border={['BOTTOM']}
-          isOnlyText={true}
         />
         {fragment}
       </>

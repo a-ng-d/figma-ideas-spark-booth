@@ -7,7 +7,6 @@ import {
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'

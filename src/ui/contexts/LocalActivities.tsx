@@ -10,6 +10,7 @@ import {
   SimpleItem,
   ColorChip,
   List,
+  Layout,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { createPortal, PureComponent } from 'preact/compat'
@@ -107,233 +108,273 @@ export default class LocalActivities extends PureComponent<
   render() {
     return (
       <>
-        <div className="control__block control__block--list">
-          <SimpleItem
-            leftPartSlot={
-              <SectionTitle
-                label={locals[this.props.lang].activities.title}
-                indicator={this.props.activities.length}
-              />
-            }
-            rightPartSlot={
-              <>
-                <Feature
-                  isActive={LocalActivities.features(
-                    this.props.planStatus
-                  ).ACTIVITIES_IMPORT.isActive()}
-                >
-                  <Button
-                    type="icon"
-                    icon="import"
-                    helper={{
-                      label:
-                        locals[this.props.lang].activities.importActivities,
-                      isSingleLine: true,
-                    }}
-                    isBlocked={LocalActivities.features(
-                      this.props.planStatus
-                    ).ACTIVITIES_IMPORT.isReached(this.props.sessionCount)}
-                    isNew={LocalActivities.features(
-                      this.props.planStatus
-                    ).ACTIVITIES_IMPORT.isNew()}
-                    action={() =>
-                      this.setState({
-                        isImportDialogOpen: true,
-                      })
+        <Layout
+          id="local-activities"
+          column={[
+            {
+              node: (
+                <>
+                  <SimpleItem
+                    leftPartSlot={
+                      <SectionTitle
+                        label={locals[this.props.lang].activities.title}
+                        indicator={this.props.activities.length}
+                      />
                     }
+                    rightPartSlot={
+                      <>
+                        <Feature
+                          isActive={LocalActivities.features(
+                            this.props.planStatus
+                          ).ACTIVITIES_IMPORT.isActive()}
+                        >
+                          <Button
+                            type="icon"
+                            icon="import"
+                            helper={{
+                              label:
+                                locals[this.props.lang].activities
+                                  .importActivities,
+                              isSingleLine: true,
+                            }}
+                            isBlocked={LocalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_IMPORT.isReached(
+                              this.props.sessionCount
+                            )}
+                            isNew={LocalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_IMPORT.isNew()}
+                            action={() =>
+                              this.setState({
+                                isImportDialogOpen: true,
+                              })
+                            }
+                          />
+                        </Feature>
+                        <Feature
+                          isActive={LocalActivities.features(
+                            this.props.planStatus
+                          ).ACTIVITIES_ADD.isActive()}
+                        >
+                          <Button
+                            type="icon"
+                            icon="plus"
+                            feature="ADD_ACTIVITY"
+                            helper={{
+                              label:
+                                locals[this.props.lang].activities.newActivity,
+                              isSingleLine: true,
+                            }}
+                            isBlocked={LocalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_LOCAL.isReached(
+                              this.props.activities.length
+                            )}
+                            isNew={LocalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_ADD.isNew()}
+                            action={this.props.onChangeActivities}
+                          />
+                        </Feature>
+                      </>
+                    }
+                    isListItem={false}
                   />
-                </Feature>
-                <Feature
-                  isActive={LocalActivities.features(
-                    this.props.planStatus
-                  ).ACTIVITIES_ADD.isActive()}
-                >
-                  <Button
-                    type="icon"
-                    icon="plus"
-                    feature="ADD_ACTIVITY"
-                    helper={{
-                      label: locals[this.props.lang].activities.newActivity,
-                      isSingleLine: true,
-                    }}
-                    isBlocked={LocalActivities.features(
+                  <Feature
+                    isActive={LocalActivities.features(
                       this.props.planStatus
                     ).ACTIVITIES_LOCAL.isReached(this.props.activities.length)}
-                    isNew={LocalActivities.features(
-                      this.props.planStatus
-                    ).ACTIVITIES_ADD.isNew()}
-                    action={this.props.onChangeActivities}
-                  />
-                </Feature>
-              </>
-            }
-            isListItem={false}
-          />
-          <Feature
-            isActive={LocalActivities.features(
-              this.props.planStatus
-            ).ACTIVITIES_LOCAL.isReached(this.props.activities.length)}
-          >
-            <div
-              style={{
-                padding: 'var(--size-xxxsmall) var(--size-xsmall) 0',
-              }}
-            >
-              <SemanticMessage
-                type="INFO"
-                message={locals[
-                  this.props.lang
-                ].info.maxNumberOfActivities.replace(
-                  '$1',
-                  LocalActivities.features(this.props.planStatus)
-                    .ACTIVITIES_LOCAL.limit
-                )}
-                actionsSlot={
-                  <Button
-                    type="secondary"
-                    label={locals[this.props.lang].plan.tryPro}
-                    action={() =>
-                      this.props.onGetProPlan({
-                        priorityContainerContext: 'TRY',
-                      })
-                    }
-                  />
-                }
-              />
-            </div>
-          </Feature>
-          {this.props.activities.length === 0 && (
-            <div className="callout--centered">
-              <SemanticMessage
-                type="NEUTRAL"
-                message={locals[this.props.lang].activities.addFirst.message}
-                orientation="VERTICAL"
-                actionsSlot={
-                  <Button
-                    type="primary"
-                    label={locals[this.props.lang].activities.addFirst.cta}
-                    feature="ADD_ACTIVITY"
-                    isBlocked={LocalActivities.features(
-                      this.props.planStatus
-                    ).ACTIVITIES_LOCAL.isReached(this.props.activities.length)}
-                    isNew={LocalActivities.features(
-                      this.props.planStatus
-                    ).ACTIVITIES_ADD.isNew()}
-                    action={this.props.onChangeActivities}
-                  />
-                }
-              />
-            </div>
-          )}
-          <List>
-            {this.props.activities
-              .sort(
-                (a, b) =>
-                  new Date(b.meta.dates.addedAt ?? 0).getTime() -
-                  new Date(a.meta.dates.addedAt ?? 0).getTime()
-              )
-              .map((activity: ActivityConfiguration, index) => (
-                <ActionsItem
-                  key={index}
-                  id={activity.meta.id}
-                  name={activity.name}
-                  description={activity.description}
-                  indicator={
-                    activity.meta.publicationStatus.isPublished
-                      ? {
-                          status: 'ACTIVE',
-                          label:
-                            locals[this.props.lang].publication.statusPublished,
+                  >
+                    <div
+                      style={{
+                        padding: 'var(--size-xxxsmall) var(--size-xsmall) 0',
+                      }}
+                    >
+                      <SemanticMessage
+                        type="INFO"
+                        message={locals[
+                          this.props.lang
+                        ].info.maxNumberOfActivities.replace(
+                          '$1',
+                          LocalActivities.features(this.props.planStatus)
+                            .ACTIVITIES_LOCAL.limit
+                        )}
+                        actionsSlot={
+                          <Button
+                            type="secondary"
+                            label={locals[this.props.lang].plan.tryPro}
+                            action={() =>
+                              this.props.onGetProPlan({
+                                priorityContainerContext: 'TRY',
+                              })
+                            }
+                          />
                         }
-                      : undefined
-                  }
-                  src={
-                    this.props.thumbnails.find(
-                      (thumbnail) => thumbnail.activityId === activity.meta.id
-                    )?.imageUrl
-                  }
-                  actionsSlot={
-                    <div className={`${layouts['snackbar']}`}>
-                      <Feature
-                        isActive={LocalActivities.features(
-                          this.props.planStatus
-                        ).ACTIVITIES_SETTINGS.isActive()}
-                      >
-                        <Button
-                          type="icon"
-                          icon="adjust"
-                          feature="CONFIGURE_ACTIVITY"
-                          helper={{
-                            label:
-                              locals[this.props.lang].activities
-                                .configureActivity,
-                            isSingleLine: true,
-                          }}
-                          isBlocked={LocalActivities.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_SETTINGS.isBlocked()}
-                          isNew={LocalActivities.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_SETTINGS.isNew()}
-                          action={() =>
-                            this.props.onOpenActivitySettings(activity.meta.id)
-                          }
-                        />
-                      </Feature>
-                      <Feature
-                        isActive={LocalActivities.features(
-                          this.props.planStatus
-                        ).ACTIVITIES_RUN.isActive()}
-                      >
-                        <Button
-                          type="icon"
-                          icon="play"
-                          feature="RUN_ACTIVITY"
-                          helper={{
-                            label: locals[this.props.lang].sessions.newSession,
-                            isSingleLine: true,
-                          }}
-                          isBlocked={LocalActivities.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
-                          isNew={LocalActivities.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_RUN.isNew()}
-                          action={() =>
-                            this.props.onRunSession(activity.meta.id)
-                          }
-                        />
-                      </Feature>
+                      />
                     </div>
-                  }
-                  complementSlot={
-                    <div className={`${layouts['snackbar--tight']}`}>
-                      {activity.types.map((type, index) => (
-                        <ColorChip
+                  </Feature>
+                  {this.props.activities.length === 0 && (
+                    <div className="callout--centered">
+                      <SemanticMessage
+                        type="NEUTRAL"
+                        message={
+                          locals[this.props.lang].activities.addFirst.message
+                        }
+                        orientation="VERTICAL"
+                        actionsSlot={
+                          <Button
+                            type="primary"
+                            label={
+                              locals[this.props.lang].activities.addFirst.cta
+                            }
+                            feature="ADD_ACTIVITY"
+                            isBlocked={LocalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_LOCAL.isReached(
+                              this.props.activities.length
+                            )}
+                            isNew={LocalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_ADD.isNew()}
+                            action={this.props.onChangeActivities}
+                          />
+                        }
+                      />
+                    </div>
+                  )}
+                  <List>
+                    {this.props.activities
+                      .sort(
+                        (a, b) =>
+                          new Date(b.meta.dates.addedAt ?? 0).getTime() -
+                          new Date(a.meta.dates.addedAt ?? 0).getTime()
+                      )
+                      .map((activity: ActivityConfiguration, index) => (
+                        <ActionsItem
                           key={index}
-                          color={type.hex}
-                          helper={type.name}
+                          id={activity.meta.id}
+                          name={activity.name}
+                          description={activity.description}
+                          indicator={
+                            activity.meta.publicationStatus.isPublished
+                              ? {
+                                  status: 'ACTIVE',
+                                  label:
+                                    locals[this.props.lang].publication
+                                      .statusPublished,
+                                }
+                              : undefined
+                          }
+                          src={
+                            this.props.thumbnails.find(
+                              (thumbnail) =>
+                                thumbnail.activityId === activity.meta.id
+                            )?.imageUrl
+                          }
+                          actionsSlot={
+                            <div className={`${layouts['snackbar']}`}>
+                              <Feature
+                                isActive={LocalActivities.features(
+                                  this.props.planStatus
+                                ).ACTIVITIES_SETTINGS.isActive()}
+                              >
+                                <Button
+                                  type="icon"
+                                  icon="adjust"
+                                  feature="CONFIGURE_ACTIVITY"
+                                  helper={{
+                                    label:
+                                      locals[this.props.lang].activities
+                                        .configureActivity,
+                                    isSingleLine: true,
+                                  }}
+                                  isBlocked={LocalActivities.features(
+                                    this.props.planStatus
+                                  ).ACTIVITIES_SETTINGS.isBlocked()}
+                                  isNew={LocalActivities.features(
+                                    this.props.planStatus
+                                  ).ACTIVITIES_SETTINGS.isNew()}
+                                  action={() =>
+                                    this.props.onOpenActivitySettings(
+                                      activity.meta.id
+                                    )
+                                  }
+                                />
+                              </Feature>
+                              <Feature
+                                isActive={LocalActivities.features(
+                                  this.props.planStatus
+                                ).ACTIVITIES_RUN.isActive()}
+                              >
+                                <Button
+                                  type="icon"
+                                  icon="play"
+                                  feature="RUN_ACTIVITY"
+                                  helper={{
+                                    label:
+                                      locals[this.props.lang].sessions
+                                        .newSession,
+                                    isSingleLine: true,
+                                  }}
+                                  isBlocked={LocalActivities.features(
+                                    this.props.planStatus
+                                  ).ACTIVITIES_RUN.isReached(
+                                    this.props.sessionCount
+                                  )}
+                                  isNew={LocalActivities.features(
+                                    this.props.planStatus
+                                  ).ACTIVITIES_RUN.isNew()}
+                                  action={() =>
+                                    this.props.onRunSession(activity.meta.id)
+                                  }
+                                />
+                              </Feature>
+                            </div>
+                          }
+                          complementSlot={
+                            <div className={`${layouts['snackbar--tight']}`}>
+                              {activity.types.map((type, index) => (
+                                <ColorChip
+                                  key={index}
+                                  color={type.hex}
+                                  helper={type.name}
+                                />
+                              ))}
+                              <Chip state="INACTIVE">
+                                {String(activity.timer.minutes).padStart(
+                                  2,
+                                  '0'
+                                ) +
+                                  ':' +
+                                  String(activity.timer.seconds).padStart(
+                                    2,
+                                    '0'
+                                  )}
+                              </Chip>
+                            </div>
+                          }
+                          user={
+                            activity.meta.publicationStatus.isPublished
+                              ? {
+                                  avatar:
+                                    activity.meta.creatorIdentity.avatar ?? '',
+                                  name:
+                                    activity.meta.creatorIdentity.fullName ??
+                                    '',
+                                }
+                              : undefined
+                          }
                         />
                       ))}
-                      <Chip state="INACTIVE">
-                        {String(activity.timer.minutes).padStart(2, '0') +
-                          ':' +
-                          String(activity.timer.seconds).padStart(2, '0')}
-                      </Chip>
-                    </div>
-                  }
-                  user={
-                    activity.meta.publicationStatus.isPublished
-                      ? {
-                          avatar: activity.meta.creatorIdentity.avatar ?? '',
-                          name: activity.meta.creatorIdentity.fullName ?? '',
-                        }
-                      : undefined
-                  }
-                />
-              ))}
-          </List>
-        </div>
+                  </List>
+                </>
+              ),
+              typeModifier: 'LIST',
+            },
+          ]}
+          isFullHeight
+        />
         <Feature
           isActive={
             LocalActivities.features(

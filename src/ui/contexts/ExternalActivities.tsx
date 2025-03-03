@@ -3,6 +3,7 @@ import {
   Button,
   ConsentConfiguration,
   Input,
+  Layout,
   List,
   Message,
   SemanticMessage,
@@ -292,34 +293,40 @@ export default class ExternalActivities extends PureComponent<
 
     if (this.state.activitiesListStatus === 'LOADED')
       fragment = (
-        <div className="list-control">
-          <Button
-            type="secondary"
-            label={locals[this.props.lang].activities.lazyLoad.loadMore}
-            isLoading={this.state.isLoadMoreActionLoading}
-            action={() => {
-              this.setState({ currentPage: this.state.currentPage + 1 })
-              this.callUICPAgent(
-                this.state.currentPage + 1,
-                this.state.activitiesSearchQuery
-              )
-              this.setState({
-                isLoadMoreActionLoading: true,
-              })
-            }}
-          />
-        </div>
+        <Bar
+          soloPartSlot={
+            <Button
+              type="secondary"
+              label={locals[this.props.lang].activities.lazyLoad.loadMore}
+              isLoading={this.state.isLoadMoreActionLoading}
+              action={() => {
+                this.setState({ currentPage: this.state.currentPage + 1 })
+                this.callUICPAgent(
+                  this.state.currentPage + 1,
+                  this.state.activitiesSearchQuery
+                )
+                this.setState({
+                  isLoadMoreActionLoading: true,
+                })
+              }}
+            />
+          }
+          padding="var(--size-xxsmall) var(--size-xsmall)"
+        />
       )
     else if (this.state.activitiesListStatus === 'COMPLETE')
       fragment = (
-        <div className="list-control">
-          <Message
-            icon="check"
-            messages={[
-              locals[this.props.lang].activities.lazyLoad.completeList,
-            ]}
-          />
-        </div>
+        <Bar
+          soloPartSlot={
+            <Message
+              icon="check"
+              messages={[
+                locals[this.props.lang].activities.lazyLoad.completeList,
+              ]}
+            />
+          }
+          padding="var(--size-xxsmall) var(--size-xsmall)"
+        />
       )
 
     return (
@@ -485,104 +492,116 @@ export default class ExternalActivities extends PureComponent<
       )
 
     return (
-      <div className="controls__control">
-        <div className="control__block control__block--no-padding">
-          {this.state.activitiesListStatus !== 'SIGN_IN_FIRST' &&
-            this.state.activitiesListStatus !== 'EMPTY' && (
-              <Bar
-                soloPartSlot={
-                  <Feature
-                    isActive={ExternalActivities.features(
-                      this.props.planStatus
-                    ).ACTIVITIES_SEARCH.isActive()}
-                  >
-                    <Input
-                      type="TEXT"
-                      icon={{
-                        type: 'PICTO',
-                        value: 'search',
-                      }}
-                      placeholder={
-                        locals[this.props.lang].activities.lazyLoad.search
+      <Layout
+        id="external-activities"
+        column={[
+          {
+            node: (
+              <>
+                {this.state.activitiesListStatus !== 'SIGN_IN_FIRST' &&
+                  this.state.activitiesListStatus !== 'EMPTY' && (
+                    <Bar
+                      soloPartSlot={
+                        <Feature
+                          isActive={ExternalActivities.features(
+                            this.props.planStatus
+                          ).ACTIVITIES_SEARCH.isActive()}
+                        >
+                          <Input
+                            type="TEXT"
+                            icon={{
+                              type: 'PICTO',
+                              value: 'search',
+                            }}
+                            placeholder={
+                              locals[this.props.lang].activities.lazyLoad.search
+                            }
+                            value={this.state.activitiesSearchQuery}
+                            isClearable
+                            isFramed={false}
+                            isBlocked={ExternalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_SEARCH.isBlocked()}
+                            isNew={ExternalActivities.features(
+                              this.props.planStatus
+                            ).ACTIVITIES_SEARCH.isNew()}
+                            onChange={(e) => {
+                              this.setState({
+                                activitiesSearchQuery: (
+                                  e.target as HTMLInputElement
+                                ).value,
+                                activitiesListStatus: 'LOADING',
+                                currentPage: 1,
+                                activitiesList: [],
+                              })
+                              this.callUICPAgent(
+                                1,
+                                (e.target as HTMLInputElement).value
+                              )
+                            }}
+                            onClear={(e) => {
+                              this.setState({
+                                activitiesSearchQuery: '',
+                                activitiesListStatus: 'LOADING',
+                                currentPage: 1,
+                                activitiesList: [],
+                              })
+                              this.callUICPAgent(1, e)
+                            }}
+                          />
+                        </Feature>
                       }
-                      value={this.state.activitiesSearchQuery}
-                      isClearable
-                      isFramed={false}
-                      isBlocked={ExternalActivities.features(
-                        this.props.planStatus
-                      ).ACTIVITIES_SEARCH.isBlocked()}
-                      isNew={ExternalActivities.features(
-                        this.props.planStatus
-                      ).ACTIVITIES_SEARCH.isNew()}
-                      onChange={(e) => {
-                        this.setState({
-                          activitiesSearchQuery: (e.target as HTMLInputElement)
-                            .value,
-                          activitiesListStatus: 'LOADING',
-                          currentPage: 1,
-                          activitiesList: [],
-                        })
-                        this.callUICPAgent(
-                          1,
-                          (e.target as HTMLInputElement).value
-                        )
-                      }}
-                      onClear={(e) => {
-                        this.setState({
-                          activitiesSearchQuery: '',
-                          activitiesListStatus: 'LOADING',
-                          currentPage: 1,
-                          activitiesList: [],
-                        })
-                        this.callUICPAgent(1, e)
-                      }}
+                      border={['BOTTOM']}
+                      isFullWidth
                     />
-                  </Feature>
-                }
-                border={['BOTTOM']}
-                isFullWidth
-              />
-            )}
-          <Feature
-            isActive={
-              ExternalActivities.features(
-                this.props.planStatus
-              ).ACTIVITIES_LOCAL.isReached(this.props.localActivitiesNumber) &&
-              (this.state.activitiesListStatus === 'LOADED' ||
-                this.state.activitiesListStatus === 'COMPLETE')
-            }
-          >
-            <div
-              style={{
-                padding: 'var(--size-xsmall) var(--size-xsmall) 0',
-              }}
-            >
-              <SemanticMessage
-                type="INFO"
-                message={locals[
-                  this.props.lang
-                ].info.maxNumberOfActivities.replace(
-                  '$1',
-                  ExternalActivities.features(this.props.planStatus)
-                    .ACTIVITIES_LOCAL.limit
-                )}
-                actionsSlot={
-                  <Button
-                    type="secondary"
-                    label={locals[this.props.lang].plan.tryPro}
-                    action={() =>
-                      this.props.onGetProPlan({
-                        priorityContainerContext: 'TRY',
-                      })
-                    }
-                  />
-                }
-              />
-            </div>
-          </Feature>
-          {fragment}
-        </div>
-      </div>
+                  )}
+                <Feature
+                  isActive={
+                    ExternalActivities.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_LOCAL.isReached(
+                      this.props.localActivitiesNumber
+                    ) &&
+                    (this.state.activitiesListStatus === 'LOADED' ||
+                      this.state.activitiesListStatus === 'COMPLETE')
+                  }
+                >
+                  <div
+                    style={{
+                      padding: 'var(--size-xsmall) var(--size-xsmall) 0',
+                    }}
+                  >
+                    <SemanticMessage
+                      type="INFO"
+                      message={locals[
+                        this.props.lang
+                      ].info.maxNumberOfActivities.replace(
+                        '$1',
+                        ExternalActivities.features(this.props.planStatus)
+                          .ACTIVITIES_LOCAL.limit
+                      )}
+                      actionsSlot={
+                        <Button
+                          type="secondary"
+                          label={locals[this.props.lang].plan.tryPro}
+                          action={() =>
+                            this.props.onGetProPlan({
+                              priorityContainerContext: 'TRY',
+                            })
+                          }
+                        />
+                      }
+                    />
+                  </div>
+                </Feature>
+                {fragment}
+              </>
+            ),
+            typeModifier: 'BLANK',
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 }

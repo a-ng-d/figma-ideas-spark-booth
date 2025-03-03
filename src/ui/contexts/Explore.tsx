@@ -22,14 +22,12 @@ interface ExploreProps {
 export default class Explore extends PureComponent<ExploreProps> {
   render() {
     return (
-      <section className="controller">
-        <div className="controls">
-          <ExternalActivities
-            {...this.props}
-            context="COMMUNITY"
-            localActivitiesNumber={this.props.activities.length}
-          />
-        </div>
+      <section className="context">
+        <ExternalActivities
+          {...this.props}
+          context="COMMUNITY"
+          localActivitiesNumber={this.props.activities.length}
+        />
       </section>
     )
   }

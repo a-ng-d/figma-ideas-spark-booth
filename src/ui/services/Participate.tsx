@@ -5,6 +5,7 @@ import {
   ConsentConfiguration,
   Dialog,
   Input,
+  Layout,
   layouts,
   Menu,
   texts,
@@ -171,7 +172,7 @@ export default class Participate extends PureComponent<
       this.props.session.facilitator.planStatus === 'UNPAID' &&
       !this.canFacilitate() &&
       this.selfOrder() >
-        Participate.features(this.props.planStatus).PARTICIPATE.result.limit -
+        (Participate.features(this.props.planStatus).PARTICIPATE?.limit ?? 0) -
           1 &&
       Participate.features(this.props.planStatus).PARTICIPATE.isPro()
     ) {
@@ -336,6 +337,58 @@ export default class Participate extends PureComponent<
           }
           border={['BOTTOM']}
         />
+        <section className="context">
+          <Layout
+            id="participate"
+            column={[
+              {
+                node: (
+                  <Feature
+                    isActive={Participate.features(
+                      this.props.planStatus
+                    ).PARTICIPATE_UPDATE.isActive()}
+                  >
+                    <UpdateIdeas
+                      {...this.props}
+                      canParticipate={this.canParticipate()}
+                    />
+                  </Feature>
+                ),
+              },
+              {
+                node: (
+                  <Feature
+                    isActive={Participate.features(
+                      this.props.planStatus
+                    ).PARTICIPATE_INFO.isActive()}
+                  >
+                    {this.props.session.facilitator.id ===
+                    this.props.userIdentity.id ? (
+                      <FacilitatorInfo
+                        {...this.props}
+                        ideas={this.props.ideas.filter(
+                          (idea) => idea.sessionId === this.props.session.id
+                        )}
+                      />
+                    ) : (
+                      <ParticipantInfo {...this.props} />
+                    )}
+                  </Feature>
+                ),
+              },
+            ]}
+            isFullHeight
+          />
+          <Feature
+            isActive={
+              Participate.features(
+                this.props.planStatus
+              ).PARTICIPATE_CREATE.isActive() && this.canParticipate()
+            }
+          >
+            <CreateIdea {...this.props} />
+          </Feature>
+        </section>
         <Feature
           isActive={
             Participate.features(
@@ -386,48 +439,6 @@ export default class Participate extends PureComponent<
               document.getElementById('modal') ?? document.createElement('app')
             )}
         </Feature>
-        <section className="controller">
-          <div className="controls">
-            <div className="controls__control controls__control--horizontal">
-              <Feature
-                isActive={Participate.features(
-                  this.props.planStatus
-                ).PARTICIPATE_UPDATE.isActive()}
-              >
-                <UpdateIdeas
-                  {...this.props}
-                  canParticipate={this.canParticipate()}
-                />
-              </Feature>
-              <Feature
-                isActive={Participate.features(
-                  this.props.planStatus
-                ).PARTICIPATE_INFO.isActive()}
-              >
-                {this.props.session.facilitator.id ===
-                this.props.userIdentity.id ? (
-                  <FacilitatorInfo
-                    {...this.props}
-                    ideas={this.props.ideas.filter(
-                      (idea) => idea.sessionId === this.props.session.id
-                    )}
-                  />
-                ) : (
-                  <ParticipantInfo {...this.props} />
-                )}
-              </Feature>
-            </div>
-          </div>
-          <Feature
-            isActive={
-              Participate.features(
-                this.props.planStatus
-              ).PARTICIPATE_CREATE.isActive() && this.canParticipate()
-            }
-          >
-            <CreateIdea {...this.props} />
-          </Feature>
-        </section>
       </>
     )
   }

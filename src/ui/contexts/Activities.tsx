@@ -1,4 +1,4 @@
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import { ConsentConfiguration, Layout } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
@@ -564,6 +564,17 @@ export default class Activities extends PureComponent<
         break
       }
     }
-    return <div className="controls__control">{fragment}</div>
+    return (
+      <Layout
+        id="activities"
+        column={[
+          {
+            node: fragment,
+            typeModifier: 'BLANK',
+          },
+        ]}
+        isFullHeight
+      />
+    )
   }
 }

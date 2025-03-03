@@ -124,11 +124,8 @@ export default class BrowseActivities extends PureComponent<
             />
           }
           border={['BOTTOM']}
-          isOnlyText={true}
         />
-        <section className="controller">
-          <div className="controls">{fragment}</div>
-        </section>
+        <section className="context">{fragment}</section>
       </>
     )
   }
