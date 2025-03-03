@@ -122,7 +122,7 @@ export default class LocalActivities extends PureComponent<
                       />
                     }
                     rightPartSlot={
-                      <>
+                      <div className={layouts['snackbar--medium']}>
                         <Feature
                           isActive={LocalActivities.features(
                             this.props.planStatus
@@ -177,7 +177,7 @@ export default class LocalActivities extends PureComponent<
                             action={this.props.onChangeActivities}
                           />
                         </Feature>
-                      </>
+                      </div>
                     }
                     isListItem={false}
                   />
@@ -273,7 +273,7 @@ export default class LocalActivities extends PureComponent<
                             )?.imageUrl
                           }
                           actionsSlot={
-                            <div className={`${layouts['snackbar']}`}>
+                            <div className={`${layouts['snackbar--medium']}`}>
                               <Feature
                                 isActive={LocalActivities.features(
                                   this.props.planStatus
@@ -333,7 +333,7 @@ export default class LocalActivities extends PureComponent<
                             </div>
                           }
                           complementSlot={
-                            <div className={`${layouts['snackbar--tight']}`}>
+                            <div className={`${layouts['snackbar--medium']}`}>
                               {activity.types.map((type, index) => (
                                 <ColorChip
                                   key={index}

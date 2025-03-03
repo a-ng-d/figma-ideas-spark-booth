@@ -200,7 +200,7 @@ export default class Shortcuts extends PureComponent<
           rightPartSlot={
             <>
               <div
-                className={['shortcuts', layouts['snackbar--tight']]
+                className={['shortcuts', layouts['snackbar--medium']]
                   .filter((n) => n)
                   .join(' ')}
               >
