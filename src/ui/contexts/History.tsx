@@ -54,10 +54,7 @@ interface HistoryStates {
   isActionLoading: boolean
 }
 
-export default class History extends PureComponent<
-  HistoryProps,
-  HistoryStates
-> {
+export default class History extends PureComponent<HistoryProps, HistoryStates> {
   static features = (planStatus: PlanStatus) => ({
     HISTORY_FILTER: new FeatureStatus({
       features: features,
@@ -313,397 +310,398 @@ export default class History extends PureComponent<
     })
   }
 
+  // Templates
+  Modals = () => {
+    return (
+      <Feature
+        isActive={
+          History.features(this.props.planStatus).HISTORY_DELETE.isActive() &&
+          this.state.isDeleteDialogOpen
+        }
+      >
+        {document.getElementById('modal') &&
+          createPortal(
+            <Dialog
+              title={locals[this.props.lang].history.deleteSessionDialog.title}
+              actions={{
+                destructive: {
+                  label:
+                    locals[this.props.lang].history.deleteSessionDialog.delete,
+                  action: () =>
+                    this.props.onDeleteSession(this.props.sessionId),
+                },
+                secondary: {
+                  label:
+                    locals[this.props.lang].history.deleteSessionDialog.cancel,
+                  action: () => this.setState({ isDeleteDialogOpen: false }),
+                },
+              }}
+              onClose={() => this.setState({ isDeleteDialogOpen: false })}
+            >
+              <div className="dialog__text">
+                <p className={`type ${texts.type}`}>
+                  {locals[
+                    this.props.lang
+                  ].history.deleteSessionDialog.message.replace(
+                    '$1',
+                    setFriendlyDate(
+                      this.props.session.metrics.startDate,
+                      this.props.lang,
+                      'RELATIVE'
+                    )
+                  )}
+                </p>
+              </div>
+            </Dialog>,
+            document.getElementById('modal') ?? document.createElement('app')
+          )}
+      </Feature>
+    )
+  }
+
   render() {
     return (
-      <Layout
-        id="history"
-        column={[
-          {
-            node: (
-              <>
-                <Bar
-                  leftPartSlot={
-                    <div className={layouts['snackbar--tight']}>
-                      <Button
-                        type="icon"
-                        icon="back"
-                        feature="BACK"
-                        action={this.props.onCloseSessionHistory}
-                      />
-                      <span className={`${texts['type']} type`}>
-                        {setFriendlyDate(
-                          this.props.session.metrics.startDate,
-                          this.props.lang,
-                          'RELATIVE'
-                        )}
-                      </span>
-                    </div>
-                  }
-                  rightPartSlot={
-                    <div className={layouts['snackbar--tight']}>
-                      <Feature
-                        isActive={
-                          History.features(
-                            this.props.planStatus
-                          ).HISTORY_SORT.isActive() &&
-                          this.props.ideas.length > 0
-                        }
-                      >
-                        <Dropdown
-                          id="sort-ideas"
-                          options={[
-                            {
-                              label:
-                                locals[this.props.lang].history.sort.recent,
-                              value: 'MOST_RECENT',
-                              feature: 'UPDATE_COLOR',
-                              type: 'OPTION',
-                              action: () => {
-                                this.setState({
-                                  sortedBy: 'MOST_RECENT',
-                                  ideas:
-                                    this.onSortMostRecent(this.state.ideas) ||
-                                    [],
-                                })
-                              },
-                            },
-                            {
-                              label: locals[this.props.lang].history.sort.old,
-                              value: 'OLDEST',
-                              feature: 'UPDATE_COLOR',
-                              type: 'OPTION',
-                              action: () => {
-                                this.setState({
-                                  sortedBy: 'OLDEST',
-                                  ideas:
-                                    this.onSortOldest(this.state.ideas) || [],
-                                })
-                              },
-                            },
-                          ]}
-                          selected={this.state.sortedBy}
-                          isDisabled={History.features(
-                            this.props.planStatus
-                          ).HISTORY_SORT.isBlocked()}
-                          isBlocked={History.features(
-                            this.props.planStatus
-                          ).HISTORY_SORT.isBlocked()}
-                          isNew={History.features(
-                            this.props.planStatus
-                          ).HISTORY_SORT.isNew()}
-                          alignment="RIGHT"
-                          pin="TOP"
+      <>
+        <Layout
+          id="history"
+          column={[
+            {
+              node: (
+                <>
+                  <Bar
+                    leftPartSlot={
+                      <div className={layouts['snackbar--tight']}>
+                        <Button
+                          type="icon"
+                          icon="back"
+                          feature="BACK"
+                          action={this.props.onCloseSessionHistory}
                         />
-                      </Feature>
-                      {this.props.ideas.length > 0 ? (
-                        <Menu
-                          type="ICON"
-                          icon="ellipses"
-                          options={[
-                            {
-                              label: locals[this.props.lang].history.exportCsv,
-                              type: 'OPTION',
-                              isActive: History.features(
-                                this.props.planStatus
-                              ).HISTORY_EXPORT_CSV.isActive(),
-                              isBlocked: History.features(
-                                this.props.planStatus
-                              ).HISTORY_EXPORT_CSV.isBlocked(),
-                              isNew: History.features(
-                                this.props.planStatus
-                              ).HISTORY_EXPORT_CSV.isNew(),
-                              action: () => {
-                                this.setState({
-                                  isActionLoading: true,
-                                })
+                        <span className={`${texts['type']} type`}>
+                          {setFriendlyDate(
+                            this.props.session.metrics.startDate,
+                            this.props.lang,
+                            'RELATIVE'
+                          )}
+                        </span>
+                      </div>
+                    }
+                    rightPartSlot={
+                      <div className={layouts['snackbar--tight']}>
+                        <Feature
+                          isActive={
+                            History.features(
+                              this.props.planStatus
+                            ).HISTORY_SORT.isActive() &&
+                            this.props.ideas.length > 0
+                          }
+                        >
+                          <Dropdown
+                            id="sort-ideas"
+                            options={[
+                              {
+                                label:
+                                  locals[this.props.lang].history.sort.recent,
+                                value: 'MOST_RECENT',
+                                feature: 'UPDATE_COLOR',
+                                type: 'OPTION',
+                                action: () => {
+                                  this.setState({
+                                    sortedBy: 'MOST_RECENT',
+                                    ideas:
+                                      this.onSortMostRecent(this.state.ideas) ||
+                                      [],
+                                  })
+                                },
+                              },
+                              {
+                                label: locals[this.props.lang].history.sort.old,
+                                value: 'OLDEST',
+                                feature: 'UPDATE_COLOR',
+                                type: 'OPTION',
+                                action: () => {
+                                  this.setState({
+                                    sortedBy: 'OLDEST',
+                                    ideas:
+                                      this.onSortOldest(this.state.ideas) || [],
+                                  })
+                                },
+                              },
+                            ]}
+                            selected={this.state.sortedBy}
+                            isDisabled={History.features(
+                              this.props.planStatus
+                            ).HISTORY_SORT.isBlocked()}
+                            isBlocked={History.features(
+                              this.props.planStatus
+                            ).HISTORY_SORT.isBlocked()}
+                            isNew={History.features(
+                              this.props.planStatus
+                            ).HISTORY_SORT.isNew()}
+                            alignment="RIGHT"
+                            pin="TOP"
+                          />
+                        </Feature>
+                        {this.props.ideas.length > 0 ? (
+                          <Menu
+                            type="ICON"
+                            icon="ellipses"
+                            options={[
+                              {
+                                label:
+                                  locals[this.props.lang].history.exportCsv,
+                                type: 'OPTION',
+                                isActive: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_EXPORT_CSV.isActive(),
+                                isBlocked: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_EXPORT_CSV.isBlocked(),
+                                isNew: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_EXPORT_CSV.isNew(),
+                                action: () => {
+                                  this.setState({
+                                    isActionLoading: true,
+                                  })
 
+                                  parent.postMessage(
+                                    {
+                                      pluginMessage: {
+                                        type: 'EXPORT_CSV',
+                                        data: {
+                                          activity: this.props.activity,
+                                          sessionDate:
+                                            this.props.session.metrics
+                                              .startDate,
+                                          ideas: this.props.ideas,
+                                        },
+                                      },
+                                    },
+                                    '*'
+                                  )
+                                },
+                              },
+                              {
+                                label:
+                                  locals[this.props.lang].history.exportSession,
+                                type: 'OPTION',
+                                isActive: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_EXPORT_SESSION.isActive(),
+                                isBlocked: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_EXPORT_SESSION.isBlocked(),
+                                isNew: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_EXPORT_SESSION.isNew(),
+                                action: () => this.onExportJson(),
+                              },
+                              {
+                                type: 'SEPARATOR',
+                              },
+                              {
+                                label:
+                                  locals[this.props.lang].history.deleteSession,
+                                type: 'OPTION',
+                                isActive: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_DELETE.isActive(),
+                                isBlocked: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_DELETE.isBlocked(),
+                                isNew: History.features(
+                                  this.props.planStatus
+                                ).HISTORY_DELETE.isNew(),
+                                action: () =>
+                                  this.setState({ isDeleteDialogOpen: true }),
+                              },
+                            ]}
+                            alignment="BOTTOM_RIGHT"
+                            state={
+                              this.state.isActionLoading ? 'LOADING' : 'DEFAULT'
+                            }
+                          />
+                        ) : (
+                          <Feature
+                            isActive={History.features(
+                              this.props.planStatus
+                            ).HISTORY_DELETE.isActive()}
+                          >
+                            <Button
+                              type="icon"
+                              icon="trash"
+                              feature="DELETE_SESSION"
+                              helper={{
+                                label:
+                                  locals[this.props.lang].history.deleteSession,
+                                isSingleLine: true,
+                              }}
+                              isBlocked={History.features(
+                                this.props.planStatus
+                              ).HISTORY_DELETE.isBlocked()}
+                              isNew={History.features(
+                                this.props.planStatus
+                              ).HISTORY_DELETE.isNew()}
+                              action={() =>
+                                this.setState({ isDeleteDialogOpen: true })
+                              }
+                            />
+                          </Feature>
+                        )}
+                        <Feature
+                          isActive={
+                            History.features(
+                              this.props.planStatus
+                            ).HISTORY_FILTER.isActive() &&
+                            this.props.ideas.length > 0
+                          }
+                        >
+                          <Menu
+                            id="filter-ideas"
+                            type="ICON"
+                            icon="filter"
+                            options={this.typesHandler()}
+                            selected={this.state.filteredBy}
+                            helper={{
+                              label:
+                                locals[this.props.lang].history.filter.action,
+                              isSingleLine: true,
+                            }}
+                            isNew={this.state.filteredBy !== 'NONE'}
+                            alignment="BOTTOM_RIGHT"
+                          />
+                        </Feature>
+                        <Feature
+                          isActive={
+                            History.features(
+                              this.props.planStatus
+                            ).HISTORY_ADD_TO.isActive() &&
+                            this.props.ideas.length > 0
+                          }
+                        >
+                          <Button
+                            type="secondary"
+                            label={
+                              this.props.editorType === 'figjam'
+                                ? locals[this.props.lang].history.addToBoard
+                                : locals[this.props.lang].history.addToSlides
+                            }
+                            isLoading={this.state.isSecondaryLoading}
+                            isBlocked={History.features(
+                              this.props.planStatus
+                            ).HISTORY_ADD_TO.isBlocked()}
+                            isNew={History.features(
+                              this.props.planStatus
+                            ).HISTORY_ADD_TO.isNew()}
+                            action={() => {
+                              this.setState({
+                                isSecondaryLoading: true,
+                              })
+
+                              const sortedIdeas = sortIdeas(
+                                this.props.ideas,
+                                this.props.activity.groupedBy
+                              )
+                              const stringifiedChart = setBarChart(
+                                Object.keys(sortedIdeas).map((type) => ({
+                                  type: type,
+                                  count: sortedIdeas[type].length,
+                                  color: sortedIdeas[type][0].type.hex,
+                                })),
+                                chartSizes.width,
+                                chartSizes.height,
+                                'STRING'
+                              )
+
+                              if (Object.entries(sortedIdeas).length > 0)
                                 parent.postMessage(
                                   {
                                     pluginMessage: {
-                                      type: 'EXPORT_CSV',
+                                      type:
+                                        this.props.editorType === 'figjam'
+                                          ? 'ADD_SESSION_TO_BOARD'
+                                          : 'ADD_SESSION_TO_SLIDES',
                                       data: {
                                         activity: this.props.activity,
-                                        sessionDate:
-                                          this.props.session.metrics.startDate,
-                                        ideas: this.props.ideas,
+                                        session: this.props.session,
+                                        ideas: sortedIdeas,
+                                        participants: setParticipantsList(
+                                          this.props.ideas
+                                        ),
+                                        stringifiedChart: stringifiedChart,
                                       },
                                     },
                                   },
                                   '*'
                                 )
-                              },
-                            },
-                            {
-                              label:
-                                locals[this.props.lang].history.exportSession,
-                              type: 'OPTION',
-                              isActive: History.features(
-                                this.props.planStatus
-                              ).HISTORY_EXPORT_SESSION.isActive(),
-                              isBlocked: History.features(
-                                this.props.planStatus
-                              ).HISTORY_EXPORT_SESSION.isBlocked(),
-                              isNew: History.features(
-                                this.props.planStatus
-                              ).HISTORY_EXPORT_SESSION.isNew(),
-                              action: () => this.onExportJson(),
-                            },
-                            {
-                              type: 'SEPARATOR',
-                            },
-                            {
-                              label:
-                                locals[this.props.lang].history.deleteSession,
-                              type: 'OPTION',
-                              isActive: History.features(
-                                this.props.planStatus
-                              ).HISTORY_DELETE.isActive(),
-                              isBlocked: History.features(
-                                this.props.planStatus
-                              ).HISTORY_DELETE.isBlocked(),
-                              isNew: History.features(
-                                this.props.planStatus
-                              ).HISTORY_DELETE.isNew(),
-                              action: () =>
-                                this.setState({ isDeleteDialogOpen: true }),
-                            },
-                          ]}
-                          alignment="BOTTOM_RIGHT"
-                          state={
-                            this.state.isActionLoading ? 'LOADING' : 'DEFAULT'
-                          }
-                        />
-                      ) : (
-                        <Feature
-                          isActive={History.features(
-                            this.props.planStatus
-                          ).HISTORY_DELETE.isActive()}
-                        >
-                          <Button
-                            type="icon"
-                            icon="trash"
-                            feature="DELETE_SESSION"
-                            helper={{
-                              label:
-                                locals[this.props.lang].history.deleteSession,
-                              isSingleLine: true,
                             }}
-                            isBlocked={History.features(
-                              this.props.planStatus
-                            ).HISTORY_DELETE.isBlocked()}
-                            isNew={History.features(
-                              this.props.planStatus
-                            ).HISTORY_DELETE.isNew()}
-                            action={() =>
-                              this.setState({ isDeleteDialogOpen: true })
-                            }
                           />
                         </Feature>
-                      )}
-                      <Feature
-                        isActive={
-                          History.features(
-                            this.props.planStatus
-                          ).HISTORY_FILTER.isActive() &&
-                          this.props.ideas.length > 0
-                        }
-                      >
-                        <Menu
-                          id="filter-ideas"
-                          type="ICON"
-                          icon="filter"
-                          options={this.typesHandler()}
-                          selected={this.state.filteredBy}
-                          helper={{
-                            label:
-                              locals[this.props.lang].history.filter.action,
-                            isSingleLine: true,
-                          }}
-                          isNew={this.state.filteredBy !== 'NONE'}
-                          alignment="BOTTOM_RIGHT"
-                        />
-                      </Feature>
-                      <Feature
-                        isActive={
-                          History.features(
-                            this.props.planStatus
-                          ).HISTORY_ADD_TO.isActive() &&
-                          this.props.ideas.length > 0
-                        }
-                      >
-                        <Button
-                          type="secondary"
-                          label={
-                            this.props.editorType === 'figjam'
-                              ? locals[this.props.lang].history.addToBoard
-                              : locals[this.props.lang].history.addToSlides
-                          }
-                          isLoading={this.state.isSecondaryLoading}
-                          isBlocked={History.features(
-                            this.props.planStatus
-                          ).HISTORY_ADD_TO.isBlocked()}
-                          isNew={History.features(
-                            this.props.planStatus
-                          ).HISTORY_ADD_TO.isNew()}
-                          action={() => {
-                            this.setState({
-                              isSecondaryLoading: true,
-                            })
-
-                            const sortedIdeas = sortIdeas(
-                              this.props.ideas,
-                              this.props.activity.groupedBy
-                            )
-                            const stringifiedChart = setBarChart(
-                              Object.keys(sortedIdeas).map((type) => ({
-                                type: type,
-                                count: sortedIdeas[type].length,
-                                color: sortedIdeas[type][0].type.hex,
-                              })),
-                              chartSizes.width,
-                              chartSizes.height,
-                              'STRING'
-                            )
-
-                            if (Object.entries(sortedIdeas).length > 0)
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type:
-                                      this.props.editorType === 'figjam'
-                                        ? 'ADD_SESSION_TO_BOARD'
-                                        : 'ADD_SESSION_TO_SLIDES',
-                                    data: {
-                                      activity: this.props.activity,
-                                      session: this.props.session,
-                                      ideas: sortedIdeas,
-                                      participants: setParticipantsList(
-                                        this.props.ideas
-                                      ),
-                                      stringifiedChart: stringifiedChart,
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                          }}
-                        />
-                      </Feature>
-                    </div>
-                  }
-                  border={['BOTTOM']}
-                ></Bar>
-                <Feature
-                  isActive={
-                    History.features(
-                      this.props.planStatus
-                    ).HISTORY_DELETE.isActive() && this.state.isDeleteDialogOpen
-                  }
-                >
-                  {document.getElementById('modal') &&
-                    createPortal(
-                      <Dialog
-                        title={
-                          locals[this.props.lang].history.deleteSessionDialog
-                            .title
-                        }
-                        actions={{
-                          destructive: {
-                            label:
-                              locals[this.props.lang].history
-                                .deleteSessionDialog.delete,
-                            action: () =>
-                              this.props.onDeleteSession(this.props.sessionId),
-                          },
-                          secondary: {
-                            label:
-                              locals[this.props.lang].history
-                                .deleteSessionDialog.cancel,
-                            action: () =>
-                              this.setState({ isDeleteDialogOpen: false }),
-                          },
+                      </div>
+                    }
+                    border={['BOTTOM']}
+                  ></Bar>
+                  <div className="control__block">
+                    {this.state.ideas.length > 0 ? (
+                      <ul
+                        style={{
+                          padding: '0 var(--size-xxsmall)',
                         }}
-                        onClose={() =>
-                          this.setState({ isDeleteDialogOpen: false })
-                        }
                       >
-                        <div className="dialog__text">
-                          <p className={`type ${texts.type}`}>
-                            {locals[
-                              this.props.lang
-                            ].history.deleteSessionDialog.message.replace(
-                              '$1',
-                              setFriendlyDate(
-                                this.props.session.metrics.startDate,
-                                this.props.lang,
-                                'RELATIVE'
-                              )
-                            )}
-                          </p>
-                        </div>
-                      </Dialog>,
-                      document.getElementById('modal') ??
-                        document.createElement('app')
-                    )}
-                </Feature>
-                <div className="control__block">
-                  {this.state.ideas.length > 0 ? (
-                    <ul
-                      style={{
-                        padding: '0 var(--size-xxsmall)',
-                      }}
-                    >
-                      {this.state.ideas.map((idea, index) => (
-                        <SimpleItem
-                          key={index}
-                          leftPartSlot={
-                            <div
-                              className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
-                              style={{
-                                flex: '1',
-                              }}
-                            >
+                        {this.state.ideas.map((idea, index) => (
+                          <SimpleItem
+                            key={index}
+                            leftPartSlot={
                               <div
-                                className={`${layouts['snackbar--tight']}`}
-                                style={{ flex: '0 0 128px' }}
+                                className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
+                                style={{
+                                  flex: '1',
+                                }}
                               >
-                                <ColorChip color={idea.type.hex} />
-                                <span
-                                  className={`${texts['type']} ${texts['type--secondary']} ${texts['type--truncated']} type`}
+                                <div
+                                  className={`${layouts['snackbar--tight']}`}
+                                  style={{ flex: '0 0 128px' }}
                                 >
-                                  {idea.type.name}
-                                </span>
+                                  <ColorChip color={idea.type.hex} />
+                                  <span
+                                    className={`${texts['type']} ${texts['type--secondary']} ${texts['type--truncated']} type`}
+                                  >
+                                    {idea.type.name}
+                                  </span>
+                                </div>
+                                <div className={`${texts['type']} type`}>
+                                  {idea.text}
+                                </div>
                               </div>
-                              <div className={`${texts['type']} type`}>
-                                {idea.text}
-                              </div>
-                            </div>
-                          }
-                          rightPartSlot={
-                            <Avatar
-                              avatar={idea.userIdentity.avatar}
-                              fullName={idea.userIdentity.fullName}
-                              isInverted
-                            />
-                          }
+                            }
+                            rightPartSlot={
+                              <Avatar
+                                avatar={idea.userIdentity.avatar}
+                                fullName={idea.userIdentity.fullName}
+                                isInverted
+                              />
+                            }
+                          />
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="callout--centered">
+                        <SemanticMessage
+                          type="NEUTRAL"
+                          message={locals[this.props.lang].history.noIdea}
                         />
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className="callout--centered">
-                      <SemanticMessage
-                        type="NEUTRAL"
-                        message={locals[this.props.lang].history.noIdea}
-                      />
-                    </div>
-                  )}
-                </div>
-              </>
-            ),
-          },
-        ]}
-        isFullHeight
-      />
+                      </div>
+                    )}
+                  </div>
+                </>
+              ),
+            },
+          ]}
+          isFullHeight
+        />
+        <this.Modals />
+      </>
     )
   }
 }

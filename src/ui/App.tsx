@@ -91,10 +91,7 @@ export interface AppStates {
   onGoingStep: string
 }
 
-export default class App extends PureComponent<
-  Record<string, never>,
-  AppStates
-> {
+export default class App extends PureComponent<Record<string, never>, AppStates> {
   static features = (planStatus: PlanStatus) => ({
     BROWSE: new FeatureStatus({
       features: features,
@@ -667,27 +664,6 @@ export default class App extends PureComponent<
   Base = () => {
     return (
       <>
-        <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
-          {document.getElementById('modal') &&
-            createPortal(
-              <PriorityContainer
-                {...this.state}
-                context={this.state.priorityContainerContext}
-                rawData={this.state}
-                onChangePublication={(e) => this.setState({ ...e })}
-                onClose={() =>
-                  this.setState({
-                    priorityContainerContext: 'EMPTY',
-                    highlight: {
-                      version: this.state.highlight.version,
-                      status: 'NO_HIGHLIGHT',
-                    },
-                  })
-                }
-              />,
-              document.getElementById('modal') ?? document.createElement('app')
-            )}
-        </Feature>
         <Feature
           isActive={
             this.state.mustUserConsent &&
@@ -798,7 +774,34 @@ export default class App extends PureComponent<
             onUpdateConsent={() => this.setState({ mustUserConsent: true })}
           />
         </Feature>
+        <this.Modals />
       </>
+    )
+  }
+
+  Modals = () => {
+    return (
+      <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
+        {document.getElementById('modal') &&
+          createPortal(
+            <PriorityContainer
+              {...this.state}
+              context={this.state.priorityContainerContext}
+              rawData={this.state}
+              onChangePublication={(e) => this.setState({ ...e })}
+              onClose={() =>
+                this.setState({
+                  priorityContainerContext: 'EMPTY',
+                  highlight: {
+                    version: this.state.highlight.version,
+                    status: 'NO_HIGHLIGHT',
+                  },
+                })
+              }
+            />,
+            document.getElementById('modal') ?? document.createElement('app')
+          )}
+      </Feature>
     )
   }
 

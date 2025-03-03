@@ -105,6 +105,74 @@ export default class LocalActivities extends PureComponent<
     return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
+  // Templates
+  Modals = () => {
+    return (
+      <Feature
+        isActive={
+          LocalActivities.features(
+            this.props.planStatus
+          ).ACTIVITIES_IMPORT.isActive() && this.state.isImportDialogOpen
+        }
+      >
+        {document.getElementById('modal') &&
+          createPortal(
+            <Dialog
+              title={
+                locals[this.props.lang].activities.importSessionsDialog.title
+              }
+              onClose={() => this.setState({ isImportDialogOpen: false })}
+            >
+              <div
+                style={{
+                  padding: 'var(--size-xxsmall)',
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <Dropzone
+                  message={
+                    locals[this.props.lang].activities.importSessionsDialog
+                      .message
+                  }
+                  warningMessage={
+                    locals[this.props.lang].activities.importSessionsDialog
+                      .warning
+                  }
+                  errorMessage={
+                    locals[this.props.lang].activities.importSessionsDialog
+                      .error
+                  }
+                  cta={
+                    locals[this.props.lang].activities.importSessionsDialog.cta
+                  }
+                  acceptedMimeTypes={['application/json']}
+                  isMultiple={true}
+                  isLoading={this.state.isFilesImporting}
+                  onImportFiles={(files) => {
+                    this.setState({ isFilesImporting: false })
+
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'IMPORT_ACTIVITIES',
+                          data: {
+                            files: files,
+                          },
+                        },
+                      },
+                      '*'
+                    )
+                  }}
+                />
+              </div>
+            </Dialog>,
+            document.getElementById('modal') ?? document.createElement('app')
+          )}
+      </Feature>
+    )
+  }
+
   render() {
     return (
       <>
@@ -375,69 +443,7 @@ export default class LocalActivities extends PureComponent<
           ]}
           isFullHeight
         />
-        <Feature
-          isActive={
-            LocalActivities.features(
-              this.props.planStatus
-            ).ACTIVITIES_IMPORT.isActive() && this.state.isImportDialogOpen
-          }
-        >
-          {document.getElementById('modal') &&
-            createPortal(
-              <Dialog
-                title={
-                  locals[this.props.lang].activities.importSessionsDialog.title
-                }
-                onClose={() => this.setState({ isImportDialogOpen: false })}
-              >
-                <div
-                  style={{
-                    padding: 'var(--size-xxsmall)',
-                    width: '100%',
-                    height: '100%',
-                  }}
-                >
-                  <Dropzone
-                    message={
-                      locals[this.props.lang].activities.importSessionsDialog
-                        .message
-                    }
-                    warningMessage={
-                      locals[this.props.lang].activities.importSessionsDialog
-                        .warning
-                    }
-                    errorMessage={
-                      locals[this.props.lang].activities.importSessionsDialog
-                        .error
-                    }
-                    cta={
-                      locals[this.props.lang].activities.importSessionsDialog
-                        .cta
-                    }
-                    acceptedMimeTypes={['application/json']}
-                    isMultiple={true}
-                    isLoading={this.state.isFilesImporting}
-                    onImportFiles={(files) => {
-                      this.setState({ isFilesImporting: false })
-
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'IMPORT_ACTIVITIES',
-                            data: {
-                              files: files,
-                            },
-                          },
-                        },
-                        '*'
-                      )
-                    }}
-                  />
-                </div>
-              </Dialog>,
-              document.getElementById('modal') ?? document.createElement('app')
-            )}
-        </Feature>
+        <this.Modals />
       </>
     )
   }

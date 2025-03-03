@@ -67,10 +67,7 @@ interface ParticipateStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class Participate extends PureComponent<
-  ParticipateProps,
-  ParticipateStates
-> {
+export default class Participate extends PureComponent<ParticipateProps, ParticipateStates> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 
@@ -246,6 +243,57 @@ export default class Participate extends PureComponent<
     this.setState({ isFlaggedAsDone: !this.state.isFlaggedAsDone })
   }
 
+  // Templates
+  Modals = () => {
+    return (
+      <Feature
+        isActive={
+          Participate.features(
+            this.props.planStatus
+          ).PARTICIPATE_END.isActive() && this.state.isDialogOpen
+        }
+      >
+        {document.getElementById('modal') &&
+          createPortal(
+            <Dialog
+              title={
+                this.props.session.facilitator.id !== this.props.userIdentity.id
+                  ? locals[this.props.lang].participate.endSessionDialog
+                      .participantTitle
+                  : locals[this.props.lang].participate.endSessionDialog
+                      .facilitatorTitle
+              }
+              actions={{
+                destructive: {
+                  label: locals[this.props.lang].participate.endSession,
+                  action: () =>
+                    this.props.onEndSession(
+                      this.props.activity,
+                      this.props.ideas.filter(
+                        (idea) => idea.sessionId === this.props.session.id
+                      )
+                    ),
+                },
+                secondary: {
+                  label:
+                    locals[this.props.lang].participate.endSessionDialog.cancel,
+                  action: () => this.setState({ isDialogOpen: false }),
+                },
+              }}
+              onClose={() => this.setState({ isDialogOpen: false })}
+            >
+              <div className="dialog__text">
+                <p className={`type ${texts.type}`}>
+                  {locals[this.props.lang].participate.endSessionDialog.message}
+                </p>
+              </div>
+            </Dialog>,
+            document.getElementById('modal') ?? document.createElement('app')
+          )}
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     return (
@@ -399,56 +447,7 @@ export default class Participate extends PureComponent<
             <CreateIdea {...this.props} />
           </Feature>
         </section>
-        <Feature
-          isActive={
-            Participate.features(
-              this.props.planStatus
-            ).PARTICIPATE_END.isActive() && this.state.isDialogOpen
-          }
-        >
-          {document.getElementById('modal') &&
-            createPortal(
-              <Dialog
-                title={
-                  this.props.session.facilitator.id !==
-                  this.props.userIdentity.id
-                    ? locals[this.props.lang].participate.endSessionDialog
-                        .participantTitle
-                    : locals[this.props.lang].participate.endSessionDialog
-                        .facilitatorTitle
-                }
-                actions={{
-                  destructive: {
-                    label: locals[this.props.lang].participate.endSession,
-                    action: () =>
-                      this.props.onEndSession(
-                        this.props.activity,
-                        this.props.ideas.filter(
-                          (idea) => idea.sessionId === this.props.session.id
-                        )
-                      ),
-                  },
-                  secondary: {
-                    label:
-                      locals[this.props.lang].participate.endSessionDialog
-                        .cancel,
-                    action: () => this.setState({ isDialogOpen: false }),
-                  },
-                }}
-                onClose={() => this.setState({ isDialogOpen: false })}
-              >
-                <div className="dialog__text">
-                  <p className={`type ${texts.type}`}>
-                    {
-                      locals[this.props.lang].participate.endSessionDialog
-                        .message
-                    }
-                  </p>
-                </div>
-              </Dialog>,
-              document.getElementById('modal') ?? document.createElement('app')
-            )}
-        </Feature>
+        <this.Modals />
       </>
     )
   }
