@@ -893,11 +893,13 @@ export default class Publication extends PureComponent<
                       <div
                         className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
                       >
-                        <span className={`type type--bold ${texts['type']}`}>
+                        <span
+                          className={`${texts['type']} ${texts['type--bold']}`}
+                        >
                           {type.name}
                         </span>
                         {type.description !== '' && (
-                          <span className={`type ${texts['type']}`}>
+                          <span className={`${texts['type']}`}>
                             {type.description}
                           </span>
                         )}

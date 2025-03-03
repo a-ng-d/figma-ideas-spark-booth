@@ -150,7 +150,7 @@ export default class FacilitatorInfo extends PureComponent<
                             <div className={layouts['snackbar--medium']}>
                               <ColorChip color={ideas[0].type.hex} />
                               <span
-                                className={`type ${texts['type']}`}
+                                className={`${texts['type']}`}
                               >{`${ideas.length} ${ideas[0].type.name}`}</span>
                             </div>
                           }
@@ -260,7 +260,7 @@ export default class FacilitatorInfo extends PureComponent<
                                   {participant.userIdentity.id ===
                                     this.props.userIdentity.id && (
                                     <span
-                                      className={`type ${texts['type']}  ${texts['type--secondary']}`}
+                                      className={`${texts['type']}  ${texts['type--secondary']}`}
                                     >
                                       {locals[this.props.lang].user.you}
                                     </span>
@@ -319,7 +319,7 @@ export default class FacilitatorInfo extends PureComponent<
                 node: (
                   <div
                     style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={`type ${texts['type']}`}
+                    className={`${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.description.replace(
                         /\n/g,
@@ -360,7 +360,7 @@ export default class FacilitatorInfo extends PureComponent<
                 node: (
                   <div
                     style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={`type ${texts['type']}`}
+                    className={`${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.instructions.replace(
                         /\n/g,
@@ -410,12 +410,12 @@ export default class FacilitatorInfo extends PureComponent<
                               className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
                             >
                               <span
-                                className={`type type--bold ${texts['type']}`}
+                                className={`${texts['type']} ${texts['type--bold']}`}
                               >
                                 {type.name}
                               </span>
                               {type.description !== '' && (
-                                <span className={`type ${texts['type']}`}>
+                                <span className={`${texts['type']}`}>
                                   {type.description}
                                 </span>
                               )}

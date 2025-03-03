@@ -80,7 +80,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                 node: (
                   <div
                     style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={`type ${texts['type']}`}
+                    className={`${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.description.replace(
                         /\n/g,
@@ -121,7 +121,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                 node: (
                   <div
                     style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={`type ${texts['type']}`}
+                    className={`${texts['type']}`}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.instructions.replace(
                         /\n/g,
@@ -171,12 +171,12 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                               className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
                             >
                               <span
-                                className={`type type--bold ${texts['type']}`}
+                                className={`${texts['type']} ${texts['type--bold']}`}
                               >
                                 {type.name}
                               </span>
                               {type.description !== '' && (
-                                <span className={`type ${texts['type']}`}>
+                                <span className={`${texts['type']}`}>
                                   {type.description}
                                 </span>
                               )}

@@ -253,7 +253,7 @@ export default class Participate extends PureComponent<
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>
-              <span className={`type ${texts['type']}`}>
+              <span className={`${texts['type']}`}>
                 {this.props.activity.name}
               </span>
               {this.state.isFlaggedAsDone ? (
