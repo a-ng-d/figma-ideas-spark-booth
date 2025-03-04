@@ -17,7 +17,7 @@ import React from 'react'
 import { ActionsList } from 'src/types/models'
 import { signIn } from '../../bridges/publication/authentication'
 import { chartSizes } from '../../canvas/partials/tokens'
-import features from '../../config'
+import features, { yellowColor } from '../../config'
 import p from '../../content/images/publication.webp'
 import { locals } from '../../content/locals'
 import {
@@ -219,7 +219,10 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
           Object.keys(sortedIdeas).map((type) => ({
             type: type,
             count: sortedIdeas[type].length,
-            color: sortedIdeas[type][0].type.hex,
+            color:
+              this.props.activity.groupedBy === 'TYPE'
+                ? sortedIdeas[type][0].type.hex
+                : yellowColor,
           })),
           chartSizes.width,
           chartSizes.height,

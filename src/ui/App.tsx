@@ -18,6 +18,7 @@ import features, {
   trialTime,
   userConsentVersion,
   versionStatus,
+  yellowColor,
 } from '../config'
 import { locals } from '../content/locals'
 import {
@@ -557,7 +558,10 @@ export default class App extends PureComponent<Record<string, never>, AppStates>
       Object.keys(sortedIdeas).map((type) => ({
         type: type,
         count: sortedIdeas[type].length,
-        color: sortedIdeas[type][0].type.hex,
+        color:
+          activity.groupedBy === 'TYPE'
+            ? sortedIdeas[type][0].type.hex
+            : yellowColor,
       })),
       chartSizes.width,
       chartSizes.height,

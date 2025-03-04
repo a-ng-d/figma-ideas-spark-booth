@@ -19,7 +19,7 @@ import FileSaver from 'file-saver'
 import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
 import { chartSizes } from '../../canvas/partials/tokens'
-import features from '../../config'
+import features, { yellowColor } from '../../config'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
 import {
@@ -611,7 +611,10 @@ export default class History extends PureComponent<
                                 Object.keys(sortedIdeas).map((type) => ({
                                   type: type,
                                   count: sortedIdeas[type].length,
-                                  color: sortedIdeas[type][0].type.hex,
+                                  color:
+                                    this.props.activity.groupedBy === 'TYPE'
+                                      ? sortedIdeas[type][0].type.hex
+                                      : yellowColor,
                                 })),
                                 chartSizes.width,
                                 chartSizes.height,
