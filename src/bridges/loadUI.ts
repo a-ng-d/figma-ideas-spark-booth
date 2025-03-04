@@ -194,7 +194,9 @@ const loadUI = async () => {
       IMPORT_SESSIONS: () =>
         importSessions(msg.data.files, msg.data.activityId)
           .then((messages) =>
-            figma.notify(messages.join('・'), { timeout: 10000 })
+            figma.notify(messages.join(locals[lang].separator), {
+              timeout: 10000,
+            })
           )
           .finally(() => figma.ui.postMessage({ type: 'STOP_IMPORTER' }))
           .catch((error) => {
@@ -204,7 +206,9 @@ const loadUI = async () => {
       IMPORT_ACTIVITIES: () =>
         importActivities(msg.data.files)
           .then((messages) =>
-            figma.notify(messages.join('・'), { timeout: 10000 })
+            figma.notify(messages.join(locals[lang].separator), {
+              timeout: 10000,
+            })
           )
           .finally(() => figma.ui.postMessage({ type: 'STOP_IMPORTER' }))
           .catch((error) => {

@@ -37,7 +37,7 @@ export default class ActivitySections {
 
   makeActivitySections = () => {
     const sectionNode = figma.createSection()
-    sectionNode.name = `${this.activityName}・${locals[lang].consolisation.overview}`
+    sectionNode.name = `${this.activityName}${locals[lang].separator}${locals[lang].consolisation.overview}`
     sectionNode.resizeWithoutConstraints(
       this.sectionWidth + this.sectionPadding * 2,
       1080
