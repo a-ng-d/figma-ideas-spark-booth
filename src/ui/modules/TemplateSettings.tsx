@@ -1,10 +1,9 @@
 import {
   Button,
+  Card,
   Section,
   SectionTitle,
   SimpleItem,
-  texts,
-  Thumbnail,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { ChangeEvent, PureComponent } from 'preact/compat'
@@ -235,54 +234,37 @@ export default class TemplateSettings extends PureComponent<
                   padding: '0 var(--size-small)',
                 }}
               >
-                <div className={'card'}>
-                  <div className={'card__screenshot'}>
-                    <Thumbnail
-                      key={this.state.imageUrl}
-                      src={this.state.imageUrl ?? ''}
-                    />
-                    {this.state.nodes !== undefined && (
-                      <div className={'card__actions'}>
-                        {this.state.templateStatus === 'SAVED' ? (
-                          <Button
-                            type="destructive"
-                            label={
-                              locals[this.props.lang].settings.template
-                                .removeTemplate
-                            }
-                            feature="REMOVE_TEMPLATE"
-                            action={this.onRemoveTemplate}
-                          />
-                        ) : (
-                          <Button
-                            type="secondary"
-                            label={
-                              locals[this.props.lang].settings.template
-                                .addTemplate
-                            }
-                            feature="ADD_TEMPLATE"
-                            action={this.onAddTemplate}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  {this.state.templateStatus === 'SAVED' ? (
-                    <span className={`type ${texts.type}`}>
-                      {
-                        locals[this.props.lang].settings.template.helper
+                <Card
+                  key={this.state.imageUrl}
+                  src={this.state.imageUrl ?? ''}
+                  label={
+                    this.state.templateStatus === 'SAVED'
+                      ? locals[this.props.lang].settings.template.helper
                           .removeTemplate
-                      }
-                    </span>
-                  ) : (
-                    <span className={`type ${texts.type}`}>
-                      {
-                        locals[this.props.lang].settings.template.helper
+                      : locals[this.props.lang].settings.template.helper
                           .addTemplate
+                  }
+                >
+                  {this.state.templateStatus === 'SAVED' ? (
+                    <Button
+                      type="destructive"
+                      label={
+                        locals[this.props.lang].settings.template.removeTemplate
                       }
-                    </span>
+                      feature="REMOVE_TEMPLATE"
+                      action={this.onRemoveTemplate}
+                    />
+                  ) : (
+                    <Button
+                      type="secondary"
+                      label={
+                        locals[this.props.lang].settings.template.addTemplate
+                      }
+                      feature="ADD_TEMPLATE"
+                      action={this.onAddTemplate}
+                    />
                   )}
-                </div>
+                </Card>
               </div>
             ),
             spacingModifier: 'NONE',
