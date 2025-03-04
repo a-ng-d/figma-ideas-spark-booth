@@ -11,6 +11,7 @@ import {
   layouts,
   texts,
   ColorChip,
+  List,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -236,7 +237,7 @@ export default class FacilitatorInfo extends PureComponent<
               },
               {
                 node: (
-                  <ul className="list list--fill">
+                  <List>
                     {this.props.activeParticipants
                       .sort(
                         (a, b) =>
@@ -286,7 +287,7 @@ export default class FacilitatorInfo extends PureComponent<
                           }
                         />
                       ))}
-                  </ul>
+                  </List>
                 ),
                 spacingModifier: 'TIGHT',
               },

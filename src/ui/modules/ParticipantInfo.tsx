@@ -6,6 +6,7 @@ import {
   layouts,
   texts,
   ColorChip,
+  List,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -151,7 +152,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
             body={[
               {
                 node: (
-                  <ul>
+                  <List>
                     {this.props.activity.types.map((type, index) => (
                       <SimpleItem
                         key={index}
@@ -194,7 +195,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                         }
                       />
                     ))}
-                  </ul>
+                  </List>
                 ),
                 spacingModifier: 'TIGHT',
               },

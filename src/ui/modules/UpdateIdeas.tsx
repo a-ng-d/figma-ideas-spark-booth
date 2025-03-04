@@ -10,6 +10,7 @@ import {
   SimpleItem,
   layouts,
   ColorChip,
+  List,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -213,7 +214,7 @@ export default class UpdateIdeas extends PureComponent<
   // Render
   render() {
     return (
-      <div className="control__block control__block--list">
+      <>
         <SimpleItem
           leftPartSlot={
             <SectionTitle
@@ -226,7 +227,7 @@ export default class UpdateIdeas extends PureComponent<
         {this.state.selfIdeas.length === 0 ? (
           this.setMessage()
         ) : (
-          <ul className="list list--fill">
+          <List>
             {this.state.selfIdeas.map((idea, index) => (
               <SimpleItem
                 key={index}
@@ -320,9 +321,9 @@ export default class UpdateIdeas extends PureComponent<
                 }
               />
             ))}
-          </ul>
+          </List>
         )}
-      </div>
+      </>
     )
   }
 }
