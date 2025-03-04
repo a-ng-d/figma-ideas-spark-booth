@@ -616,7 +616,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                 />
               </div>
               <div
-                className={`box-resizer-grip`}
+                className="box-resizer-grip"
                 onMouseDown={this.onHold.bind(this)}
               >
                 <Icon

@@ -63,28 +63,21 @@ export default class Highlight extends PureComponent<
       return (
         <Dialog
           title={locals[this.props.lang].pending.announcements}
+          isLoading
           onClose={this.props.onCloseHighlight}
-        >
-          <div className="callout--centered">
-            <Icon
-              type="PICTO"
-              iconName="spinner"
-            />
-          </div>
-        </Dialog>
+        />
       )
     else if (this.state.status === 'ERROR')
       return (
         <Dialog
           title={locals[this.props.lang].error.generic}
+          isMessage
           onClose={this.props.onCloseHighlight}
         >
-          <div className="callout--centered">
-            <SemanticMessage
-              type="WARNING"
-              message={locals[this.props.lang].error.announcements}
-            />
-          </div>
+          <SemanticMessage
+            type="WARNING"
+            message={locals[this.props.lang].error.announcements}
+          />
         </Dialog>
       )
     else
@@ -162,7 +155,7 @@ export default class Highlight extends PureComponent<
             />
           </div>
           <div className="dialog__text">
-            <p className={`type ${texts.type}`}>
+            <p className={texts.type}>
               {
                 this.state.announcements[this.state.position].properties
                   .Description.rich_text[0].plain_text

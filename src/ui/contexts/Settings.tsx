@@ -354,7 +354,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
                 onClose={() => this.setState({ isDeleteDialogOpen: false })}
               >
                 <div className="dialog__text">
-                  <p className={`type ${texts.type}`}>
+                  <p className={texts.type}>
                     {locals[
                       this.props.lang
                     ].settings.deleteActivityDialog.message.replace(
@@ -431,7 +431,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
                   />
                 </div>
                 <div className="dialog__text">
-                  <p className={`type ${texts.type}`}>
+                  <p className={texts.type}>
                     {locals[this.props.lang].publication.message}
                   </p>
                 </div>
@@ -527,275 +527,248 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
   render() {
     return (
       <>
+        <Bar
+          leftPartSlot={
+            <div className={layouts['snackbar--tight']}>
+              <Button
+                type="icon"
+                icon="back"
+                feature="BACK"
+                action={this.props.onCloseActivitySettings}
+              />
+              <span className={texts['type']}>{this.props.activity.name}</span>
+              {this.props.activity.meta.publicationStatus.isPublished && (
+                <Chip state="ACTIVE">
+                  {locals[this.props.lang].publication.statusPublished}
+                </Chip>
+              )}
+            </div>
+          }
+          rightPartSlot={
+            <div className={layouts['snackbar--medium']}>
+              <Menu
+                type="ICON"
+                icon="ellipses"
+                options={[
+                  {
+                    label: locals[this.props.lang].settings.actions.overview,
+                    type: 'OPTION',
+                    isActive:
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_OVERVIEW.isActive() &&
+                      this.props.editorType === 'slides',
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_OVERVIEW.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_OVERVIEW.isNew(),
+                    action: () => this.onAddOverview(),
+                  },
+                  {
+                    label: locals[this.props.lang].settings.actions.template,
+                    type: 'OPTION',
+                    isActive:
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_TEMPLATE.isActive() &&
+                      this.props.editorType === 'figjam',
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_TEMPLATE.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_TEMPLATE.isNew(),
+                    action: () => this.onAddTemplate(),
+                  },
+                  {
+                    label: locals[this.props.lang].settings.actions.report,
+                    type: 'OPTION',
+                    isActive:
+                      Settings.features(
+                        this.props.planStatus
+                      ).ACTIVITIES_REPORT.isActive() &&
+                      this.props.editorType === 'slides',
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_REPORT.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_REPORT.isNew(),
+                    action: () => this.onAddReport(),
+                  },
+                  {
+                    type: 'SEPARATOR',
+                  },
+                  {
+                    label:
+                      locals[this.props.lang].settings.actions.importSessions,
+                    type: 'OPTION',
+                    isActive: Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_IMPORT.isActive(),
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_IMPORT.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_IMPORT.isNew(),
+                    action: () => this.setState({ isImportDialogOpen: true }),
+                  },
+                  {
+                    label:
+                      locals[this.props.lang].settings.actions.exportActivity,
+                    type: 'OPTION',
+                    isActive: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_ALL.isActive(),
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_ALL.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_EXPORT_ALL.isNew(),
+                    action: () => this.onExportActivity(),
+                  },
+                  {
+                    type: 'SEPARATOR',
+                  },
+                  {
+                    label: locals[this.props.lang].settings.actions.delete,
+                    type: 'OPTION',
+                    isActive: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_DELETE.isActive(),
+                    isBlocked: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_DELETE.isBlocked(),
+                    isNew: Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_DELETE.isNew(),
+                    action: () => this.setState({ isDeleteDialogOpen: true }),
+                  },
+                ]}
+                alignment="BOTTOM_RIGHT"
+                state={this.state.isActionLoading ? 'LOADING' : 'DEFAULT'}
+              />
+              <Feature
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).ACTIVITIES_PUBLISH.isActive()}
+              >
+                {this.props.activity.meta.publicationStatus.isPublished ? (
+                  <Button
+                    type="secondary"
+                    label={
+                      this.props.userSession.userId ===
+                      this.props.activity.meta.creatorIdentity.id
+                        ? locals[this.props.lang].settings.actions.publish
+                        : locals[this.props.lang].settings.actions.synchronize
+                    }
+                    isBlocked={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isBlocked()}
+                    isNew={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isNew()}
+                    action={() =>
+                      this.setState({ isPublicationDialogOpen: true })
+                    }
+                  />
+                ) : (
+                  <Button
+                    type="secondary"
+                    label={locals[this.props.lang].settings.actions.publish}
+                    isBlocked={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isBlocked()}
+                    isNew={Settings.features(
+                      this.props.planStatus
+                    ).ACTIVITIES_PUBLISH.isNew()}
+                    action={() =>
+                      this.setState({ isPublicationDialogOpen: true })
+                    }
+                  />
+                )}
+              </Feature>
+              <Feature
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).ACTIVITIES_RUN.isActive()}
+              >
+                <Button
+                  type="primary"
+                  label={locals[this.props.lang].sessions.newSession}
+                  feature="SESSION_RUN"
+                  isBlocked={Settings.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
+                  isNew={Settings.features(
+                    this.props.planStatus
+                  ).ACTIVITIES_RUN.isNew()}
+                  action={() =>
+                    this.props.onRunSession(this.props.activity.meta.id)
+                  }
+                />
+              </Feature>
+            </div>
+          }
+          border={['BOTTOM']}
+        ></Bar>
         <Layout
           id="settings"
           column={[
             {
               node: (
                 <>
-                  <Bar
-                    leftPartSlot={
-                      <div className={layouts['snackbar--tight']}>
-                        <Button
-                          type="icon"
-                          icon="back"
-                          feature="BACK"
-                          action={this.props.onCloseActivitySettings}
-                        />
-                        <span className={`${texts['type']} type`}>
-                          {this.props.activity.name}
-                        </span>
-                        {this.props.activity.meta.publicationStatus
-                          .isPublished && (
-                          <Chip state="ACTIVE">
-                            {
-                              locals[this.props.lang].publication
-                                .statusPublished
-                            }
-                          </Chip>
-                        )}
-                      </div>
-                    }
-                    rightPartSlot={
-                      <div className={layouts['snackbar--medium']}>
-                        <Menu
-                          type="ICON"
-                          icon="ellipses"
-                          options={[
-                            {
-                              label:
-                                locals[this.props.lang].settings.actions
-                                  .overview,
-                              type: 'OPTION',
-                              isActive:
-                                Settings.features(
-                                  this.props.planStatus
-                                ).ACTIVITIES_OVERVIEW.isActive() &&
-                                this.props.editorType === 'slides',
-                              isBlocked: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_OVERVIEW.isBlocked(),
-                              isNew: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_OVERVIEW.isNew(),
-                              action: () => this.onAddOverview(),
-                            },
-                            {
-                              label:
-                                locals[this.props.lang].settings.actions
-                                  .template,
-                              type: 'OPTION',
-                              isActive:
-                                Settings.features(
-                                  this.props.planStatus
-                                ).ACTIVITIES_TEMPLATE.isActive() &&
-                                this.props.editorType === 'figjam',
-                              isBlocked: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_TEMPLATE.isBlocked(),
-                              isNew: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_TEMPLATE.isNew(),
-                              action: () => this.onAddTemplate(),
-                            },
-                            {
-                              label:
-                                locals[this.props.lang].settings.actions.report,
-                              type: 'OPTION',
-                              isActive:
-                                Settings.features(
-                                  this.props.planStatus
-                                ).ACTIVITIES_REPORT.isActive() &&
-                                this.props.editorType === 'slides',
-                              isBlocked: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_REPORT.isBlocked(),
-                              isNew: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_REPORT.isNew(),
-                              action: () => this.onAddReport(),
-                            },
-                            {
-                              type: 'SEPARATOR',
-                            },
-                            {
-                              label:
-                                locals[this.props.lang].settings.actions
-                                  .importSessions,
-                              type: 'OPTION',
-                              isActive: Settings.features(
-                                this.props.planStatus
-                              ).SETTINGS_IMPORT.isActive(),
-                              isBlocked: Settings.features(
-                                this.props.planStatus
-                              ).SETTINGS_IMPORT.isBlocked(),
-                              isNew: Settings.features(
-                                this.props.planStatus
-                              ).SETTINGS_IMPORT.isNew(),
-                              action: () =>
-                                this.setState({ isImportDialogOpen: true }),
-                            },
-                            {
-                              label:
-                                locals[this.props.lang].settings.actions
-                                  .exportActivity,
-                              type: 'OPTION',
-                              isActive: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_EXPORT_ALL.isActive(),
-                              isBlocked: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_EXPORT_ALL.isBlocked(),
-                              isNew: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_EXPORT_ALL.isNew(),
-                              action: () => this.onExportActivity(),
-                            },
-                            {
-                              type: 'SEPARATOR',
-                            },
-                            {
-                              label:
-                                locals[this.props.lang].settings.actions.delete,
-                              type: 'OPTION',
-                              isActive: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_DELETE.isActive(),
-                              isBlocked: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_DELETE.isBlocked(),
-                              isNew: Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_DELETE.isNew(),
-                              action: () =>
-                                this.setState({ isDeleteDialogOpen: true }),
-                            },
-                          ]}
-                          alignment="BOTTOM_RIGHT"
-                          state={
-                            this.state.isActionLoading ? 'LOADING' : 'DEFAULT'
-                          }
-                        />
-                        <Feature
-                          isActive={Settings.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_PUBLISH.isActive()}
-                        >
-                          {this.props.activity.meta.publicationStatus
-                            .isPublished ? (
-                            <Button
-                              type="secondary"
-                              label={
-                                this.props.userSession.userId ===
-                                this.props.activity.meta.creatorIdentity.id
-                                  ? locals[this.props.lang].settings.actions
-                                      .publish
-                                  : locals[this.props.lang].settings.actions
-                                      .synchronize
-                              }
-                              isBlocked={Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_PUBLISH.isBlocked()}
-                              isNew={Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_PUBLISH.isNew()}
-                              action={() =>
-                                this.setState({ isPublicationDialogOpen: true })
-                              }
-                            />
-                          ) : (
-                            <Button
-                              type="secondary"
-                              label={
-                                locals[this.props.lang].settings.actions.publish
-                              }
-                              isBlocked={Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_PUBLISH.isBlocked()}
-                              isNew={Settings.features(
-                                this.props.planStatus
-                              ).ACTIVITIES_PUBLISH.isNew()}
-                              action={() =>
-                                this.setState({ isPublicationDialogOpen: true })
-                              }
-                            />
-                          )}
-                        </Feature>
-                        <Feature
-                          isActive={Settings.features(
-                            this.props.planStatus
-                          ).ACTIVITIES_RUN.isActive()}
-                        >
-                          <Button
-                            type="primary"
-                            label={locals[this.props.lang].sessions.newSession}
-                            feature="SESSION_RUN"
-                            isBlocked={Settings.features(
-                              this.props.planStatus
-                            ).ACTIVITIES_RUN.isReached(this.props.sessionCount)}
-                            isNew={Settings.features(
-                              this.props.planStatus
-                            ).ACTIVITIES_RUN.isNew()}
-                            action={() =>
-                              this.props.onRunSession(
-                                this.props.activity.meta.id
-                              )
-                            }
-                          />
-                        </Feature>
-                      </div>
-                    }
-                    border={['BOTTOM']}
-                  ></Bar>
-                  <div className="control__block control__block--no-padding">
-                    <Feature
-                      isActive={Settings.features(
-                        this.props.planStatus
-                      ).SETTINGS_GLOBAL.isActive()}
-                    >
-                      <GlobalSettings {...this.props} />
-                    </Feature>
-                    <Feature
-                      isActive={Settings.features(
-                        this.props.planStatus
-                      ).SETTINGS_TIMER.isActive()}
-                    >
-                      <TimerSettings {...this.props} />
-                    </Feature>
-                    <Feature
-                      isActive={Settings.features(
-                        this.props.planStatus
-                      ).SETTINGS_TYPES.isActive()}
-                    >
-                      <TypesSettings {...this.props} />
-                    </Feature>
-                    <Feature
-                      isActive={Settings.features(
-                        this.props.planStatus
-                      ).SETTINGS_TEMPLATE.isActive()}
-                    >
-                      <TemplateSettings
-                        {...this.props}
-                        activityId={this.props.activity.meta.id}
-                        onLoadTemplate={(template) =>
-                          this.setState({ template: template })
-                        }
-                      />
-                    </Feature>
-                    <Feature
-                      isActive={Settings.features(
-                        this.props.planStatus
-                      ).HISTORY.isActive()}
-                    >
-                      <HistorySettings
-                        {...this.props}
-                        activityId={this.props.activity.meta.id}
-                        onOpenImportDialog={() =>
-                          this.setState({ isImportDialogOpen: true })
-                        }
-                      />
-                    </Feature>
-                  </div>
+                  <Feature
+                    isActive={Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_GLOBAL.isActive()}
+                  >
+                    <GlobalSettings {...this.props} />
+                  </Feature>
+                  <Feature
+                    isActive={Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_TIMER.isActive()}
+                  >
+                    <TimerSettings {...this.props} />
+                  </Feature>
+                  <Feature
+                    isActive={Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_TYPES.isActive()}
+                  >
+                    <TypesSettings {...this.props} />
+                  </Feature>
+                  <Feature
+                    isActive={Settings.features(
+                      this.props.planStatus
+                    ).SETTINGS_TEMPLATE.isActive()}
+                  >
+                    <TemplateSettings
+                      {...this.props}
+                      activityId={this.props.activity.meta.id}
+                      onLoadTemplate={(template) =>
+                        this.setState({ template: template })
+                      }
+                    />
+                  </Feature>
+                  <Feature
+                    isActive={Settings.features(
+                      this.props.planStatus
+                    ).HISTORY.isActive()}
+                  >
+                    <HistorySettings
+                      {...this.props}
+                      activityId={this.props.activity.meta.id}
+                      onOpenImportDialog={() =>
+                        this.setState({ isImportDialogOpen: true })
+                      }
+                    />
+                  </Feature>
                 </>
               ),
               typeModifier: 'BLANK',

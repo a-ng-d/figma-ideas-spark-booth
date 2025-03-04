@@ -8,7 +8,7 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import features from '../../config'
@@ -108,10 +108,13 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                           style={{
                             paddingLeft: 'var(--size-xxsmall)',
                           }}
-                          className={`${layouts['snackbar--large']}`}
+                          className={layouts['snackbar--large']}
                         >
                           <span
-                            className={`${texts['type']} ${texts['type--truncated']}`}
+                            className={doClassnames([
+                              texts['type'],
+                              texts['type--truncated'],
+                            ])}
                             style={{ flex: '0 0 200px' }}
                           >
                             {setFriendlyDate(
@@ -121,7 +124,10 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                             )}
                           </span>
                           <span
-                            className={`${texts['type']} ${texts['type--secondary']}`}
+                            className={doClassnames([
+                              texts['type'],
+                              texts['type--secondary'],
+                            ])}
                             style={{ flex: '0 0 auto' }}
                           >
                             {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}${locals[this.props.lang].separator}${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}

@@ -11,7 +11,7 @@ import {
   layouts,
   ColorChip,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import features from '../../config'
@@ -233,7 +233,11 @@ export default class UpdateIdeas extends PureComponent<
                 id={idea.id}
                 leftPartSlot={
                   <div
-                    className={`${layouts['snackbar--tight']} ${layouts['snackbar--fill']} ${layouts['snackbar--start']}`}
+                    className={doClassnames([
+                      layouts['snackbar--tight'],
+                      layouts['snackbar--fill'],
+                      layouts['snackbar--start'],
+                    ])}
                   >
                     <Feature
                       isActive={UpdateIdeas.features(

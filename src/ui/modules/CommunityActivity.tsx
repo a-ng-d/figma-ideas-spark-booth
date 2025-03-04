@@ -88,7 +88,7 @@ export default class CommunityActivity extends PureComponent<CommunityActivityPr
           </Feature>
         }
         complementSlot={
-          <div className={`${layouts['snackbar--tight']}`}>
+          <div className={layouts['snackbar--tight']}>
             {this.props.activity.types.map((type, index) => (
               <ColorChip
                 key={index}

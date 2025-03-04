@@ -28,6 +28,7 @@ import {
 import { FigmaRestJson } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
+import { doClassnames } from '@a_ng_d/figmug-utils'
 
 interface PublicationProps {
   activity: ActivityConfiguration
@@ -845,17 +846,30 @@ export default class Publication extends PureComponent<
         onClose={this.props.onClosePublication}
       >
         <div
-          className={`dialog__text`}
+          className="dialog__text"
           style={{ width: '100%' }}
         >
-          <div className={`${layouts.stackbar} ${layouts['stackbar--tight']}`}>
+          <div
+            className={doClassnames([
+              layouts.stackbar,
+              layouts['stackbar--tight'],
+            ])}
+          >
             <div
-              className={`${layouts.snackbar} ${layouts['snackbar--fill']} ${layouts['snackbar--medium']}`}
+              className={doClassnames([
+                layouts.snackbar,
+                layouts['snackbar--fill'],
+                layouts['snackbar--medium'],
+              ])}
               style={{ justifyContent: 'space-between', width: '100%' }}
             >
-              <div className={`${layouts.snackbar}`}>
+              <div className={layouts.snackbar}>
                 <div
-                  className={`${texts.type} ${texts['type--truncated']} type--large`}
+                  className={doClassnames([
+                    texts.type,
+                    texts['type--truncated'],
+                    texts['type--large'],
+                  ])}
                   style={{ maxWidth: '200px' }}
                 >
                   {this.props.activity.name}
@@ -875,7 +889,7 @@ export default class Publication extends PureComponent<
               )}
             </div>
             {this.props.activity.description !== '' && (
-              <div className={`${texts.type} type`}>
+              <div className={texts.type}>
                 {this.props.activity.description}
               </div>
             )}
@@ -885,21 +899,32 @@ export default class Publication extends PureComponent<
                   key={index}
                   leftPartSlot={
                     <div
-                      className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
+                      className={doClassnames([
+                        layouts['snackbar--medium'],
+                        layouts['snackbar--start'],
+                        layouts['snackbar--fill'],
+                      ])}
                     >
                       <div className="simple-item__param">
                         <ColorChip color={type.hex} />
                       </div>
                       <div
-                        className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
+                        className={doClassnames([
+                          'simple-item__param',
+                          'simple-item__param--fill',
+                          layouts['stackbar--tight'],
+                        ])}
                       >
                         <span
-                          className={`${texts['type']} ${texts['type--bold']}`}
+                          className={doClassnames([
+                            texts['type'],
+                            texts['type--bold'],
+                          ])}
                         >
                           {type.name}
                         </span>
                         {type.description !== '' && (
-                          <span className={`${texts['type']}`}>
+                          <span className={texts['type']}>
                             {type.description}
                           </span>
                         )}

@@ -7,7 +7,7 @@ import {
   texts,
   ColorChip,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import features from '../../config'
@@ -75,7 +75,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                 node: (
                   <div
                     style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={`${texts['type']}`}
+                    className={texts['type']}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.description.replace(
                         /\n/g,
@@ -116,7 +116,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                 node: (
                   <div
                     style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={`${texts['type']}`}
+                    className={texts['type']}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.instructions.replace(
                         /\n/g,
@@ -157,21 +157,32 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                         key={index}
                         leftPartSlot={
                           <div
-                            className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']} ${layouts['snackbar--fill']}`}
+                            className={doClassnames([
+                              layouts['snackbar--medium'],
+                              layouts['snackbar--start'],
+                              layouts['snackbar--fill'],
+                            ])}
                           >
                             <div className="simple-item__param">
                               <ColorChip color={type.hex} />
                             </div>
                             <div
-                              className={`simple-item__param simple-item__param--fill ${layouts['stackbar--tight']}`}
+                              className={doClassnames([
+                                'simple-item__param',
+                                'simple-item__param--fill',
+                                layouts['stackbar--tight'],
+                              ])}
                             >
                               <span
-                                className={`${texts['type']} ${texts['type--bold']}`}
+                                className={doClassnames([
+                                  texts['type'],
+                                  texts['type--bold'],
+                                ])}
                               >
                                 {type.name}
                               </span>
                               {type.description !== '' && (
-                                <span className={`${texts['type']}`}>
+                                <span className={texts['type']}>
                                   {type.description}
                                 </span>
                               )}

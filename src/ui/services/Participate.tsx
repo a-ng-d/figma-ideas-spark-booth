@@ -283,7 +283,7 @@ export default class Participate extends PureComponent<ParticipateProps, Partici
               onClose={() => this.setState({ isDialogOpen: false })}
             >
               <div className="dialog__text">
-                <p className={`type ${texts.type}`}>
+                <p className={texts.type}>
                   {locals[this.props.lang].participate.endSessionDialog.message}
                 </p>
               </div>
@@ -301,9 +301,7 @@ export default class Participate extends PureComponent<ParticipateProps, Partici
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>
-              <span className={`${texts['type']}`}>
-                {this.props.activity.name}
-              </span>
+              <span className={texts.type}>{this.props.activity.name}</span>
               {this.state.isFlaggedAsDone ? (
                 <Chip>{locals[this.props.lang].participate.finished}</Chip>
               ) : (

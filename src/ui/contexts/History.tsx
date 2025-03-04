@@ -14,7 +14,7 @@ import {
   Layout,
   List,
 } from '@a_ng_d/figmug-ui'
-import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
 import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
@@ -343,7 +343,7 @@ export default class History extends PureComponent<
               onClose={() => this.setState({ isDeleteDialogOpen: false })}
             >
               <div className="dialog__text">
-                <p className={`type ${texts.type}`}>
+                <p className={texts.type}>
                   {locals[
                     this.props.lang
                   ].history.deleteSessionDialog.message.replace(
@@ -381,7 +381,7 @@ export default class History extends PureComponent<
                           feature="BACK"
                           action={this.props.onCloseSessionHistory}
                         />
-                        <span className={`${texts['type']} type`}>
+                        <span className={texts['type']}>
                           {setFriendlyDate(
                             this.props.session.metrics.startDate,
                             this.props.lang,
@@ -653,25 +653,30 @@ export default class History extends PureComponent<
                           key={index}
                           leftPartSlot={
                             <div
-                              className={`${layouts['snackbar--medium']} ${layouts['snackbar--start']}`}
+                              className={doClassnames([
+                                layouts['snackbar--medium'],
+                                layouts['snackbar--start'],
+                              ])}
                               style={{
                                 flex: '1',
                               }}
                             >
                               <div
-                                className={`${layouts['snackbar--tight']}`}
+                                className={layouts['snackbar--tight']}
                                 style={{ flex: '0 0 128px' }}
                               >
                                 <ColorChip color={idea.type.hex} />
                                 <span
-                                  className={`${texts['type']} ${texts['type--secondary']} ${texts['type--truncated']} type`}
+                                  className={doClassnames([
+                                    texts['type'],
+                                    texts['type--secondary'],
+                                    texts['type--truncated'],
+                                  ])}
                                 >
                                   {idea.type.name}
                                 </span>
                               </div>
-                              <div className={`${texts['type']} type`}>
-                                {idea.text}
-                              </div>
+                              <div className={texts['type']}>{idea.text}</div>
                             </div>
                           }
                           rightPartSlot={

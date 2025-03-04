@@ -283,7 +283,7 @@ export default class LocalActivities extends PureComponent<
                     </div>
                   </Feature>
                   {this.props.activities.length === 0 && (
-                    <div className="callout--centered">
+                    <div className={layouts.centered}>
                       <SemanticMessage
                         type="NEUTRAL"
                         message={
@@ -341,7 +341,7 @@ export default class LocalActivities extends PureComponent<
                             )?.imageUrl
                           }
                           actionsSlot={
-                            <div className={`${layouts['snackbar--medium']}`}>
+                            <div className={layouts['snackbar--medium']}>
                               <Feature
                                 isActive={LocalActivities.features(
                                   this.props.planStatus
@@ -401,7 +401,7 @@ export default class LocalActivities extends PureComponent<
                             </div>
                           }
                           complementSlot={
-                            <div className={`${layouts['snackbar--tight']}`}>
+                            <div className={layouts['snackbar--tight']}>
                               {activity.types.map((type, index) => (
                                 <ColorChip
                                   key={index}

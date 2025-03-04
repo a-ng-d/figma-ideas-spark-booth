@@ -1,5 +1,5 @@
 import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import features, { trialFeedbackUrl } from '../../config'
@@ -67,7 +67,11 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
 
   RemainingTime = () => (
     <div
-      className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
+      className={doClassnames([
+        texts.type,
+        texts['type--secondary'],
+        texts['type--truncated'],
+      ])}
     >
       {Math.ceil(this.props.trialRemainingTime) > 72 && (
         <span>
@@ -103,7 +107,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         label={locals[this.props.lang].plan.tryPro}
         action={this.props.onGetProPlan}
       />
-      <span className={`type ${texts.type} ${texts['type--secondary']}`}>
+      <span className={doClassnames([texts.type, texts['type--secondary']])}>
         {locals[this.props.lang].separator}
       </span>
       <this.SessionCount />
@@ -121,15 +125,19 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         label={locals[this.props.lang].plan.getPro}
         action={this.props.onGetProPlan}
       />
-      <span className={`type ${texts.type} ${texts['type--secondary']}`}>
+      <span className={doClassnames([texts.type, texts['type--secondary']])}>
         {locals[this.props.lang].separator}
       </span>
       <this.SessionCount />
-      <span className={`type ${texts.type} ${texts['type--secondary']}`}>
+      <span className={doClassnames([texts.type, texts['type--secondary']])}>
         {locals[this.props.lang].separator}
       </span>
       <div
-        className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
+        className={doClassnames([
+          texts.type,
+          texts['type--secondary'],
+          texts['type--truncated'],
+        ])}
       >
         <span>{locals[this.props.lang].plan.trialEnded}</span>
       </div>
@@ -138,7 +146,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
           this.props.planStatus
         ).SHORTCUTS_FEEDBACK.isActive()}
       >
-        <span className={`type ${texts.type} ${texts['type--secondary']}`}>
+        <span className={doClassnames([texts.type, texts['type--secondary']])}>
           {locals[this.props.lang].separator}
         </span>
         <Button
@@ -169,11 +177,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
   // Render
   render() {
     return (
-      <div
-        className={['pro-zone', layouts['snackbar--tight']]
-          .filter((n) => n)
-          .join(' ')}
-      >
+      <div className={doClassnames(['pro-zone', layouts['snackbar--tight']])}>
         {this.props.trialStatus === 'UNUSED' &&
           this.props.planStatus === 'UNPAID' && <this.FreePlan />}
         {this.props.trialStatus === 'PENDING' && <this.PendingTrial />}
