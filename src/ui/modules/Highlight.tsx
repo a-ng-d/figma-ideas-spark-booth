@@ -1,4 +1,4 @@
-import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
+import { Dialog, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { announcementsWorkerUrl } from '../../config'
