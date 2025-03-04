@@ -19,6 +19,7 @@ export const locals: { [key: string]: any } = {
     tagline: glossary.tagline,
     url: glossary.url,
     close: `Close ${glossary.name}`,
+    separator: '・',
     publication: {
       titlePublish: 'Publish activity',
       titleSynchronize: 'Synchronize activity',

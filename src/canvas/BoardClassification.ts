@@ -1,6 +1,6 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 import { yellowColor } from '../config'
-import { lang } from '../content/locals'
+import { lang, locals } from '../content/locals'
 import {
   ActivityConfiguration,
   GroupedBy,
@@ -92,7 +92,7 @@ export default class BoardClassification {
 
   makeClassification = () => {
     const sectionNode = figma.createSection()
-    sectionNode.name = `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}`
+    sectionNode.name = `${this.activityName}${locals[lang].separator}${setFriendlyDate(this.sessionStartDate, lang)}`
 
     const sections = Object.entries(this.ideas).map(([name, ideas]) => {
       return this.makeSection(

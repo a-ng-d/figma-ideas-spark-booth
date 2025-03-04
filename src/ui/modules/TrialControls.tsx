@@ -104,7 +104,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         action={this.props.onGetProPlan}
       />
       <span className={`type ${texts.type} ${texts['type--secondary']}`}>
-        ・
+        {locals[this.props.lang].separator}
       </span>
       <this.SessionCount />
     </>
@@ -122,11 +122,11 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         action={this.props.onGetProPlan}
       />
       <span className={`type ${texts.type} ${texts['type--secondary']}`}>
-        ・
+        {locals[this.props.lang].separator}
       </span>
       <this.SessionCount />
       <span className={`type ${texts.type} ${texts['type--secondary']}`}>
-        ・
+        {locals[this.props.lang].separator}
       </span>
       <div
         className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
@@ -139,7 +139,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         ).SHORTCUTS_FEEDBACK.isActive()}
       >
         <span className={`type ${texts.type} ${texts['type--secondary']}`}>
-          ・
+          {locals[this.props.lang].separator}
         </span>
         <Button
           type="tertiary"

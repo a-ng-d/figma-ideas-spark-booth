@@ -119,7 +119,7 @@ export default class SessionSlide {
 
   makeSessionSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}`,
+      name: `${this.activityName}${locals[lang].separator}${setFriendlyDate(this.sessionStartDate, lang)}`,
       color: colors.lightColor,
     })
     const header = new Header({

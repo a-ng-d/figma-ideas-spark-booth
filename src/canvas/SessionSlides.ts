@@ -1,5 +1,5 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
-import { lang } from '../content/locals'
+import { lang, locals } from '../content/locals'
 import {
   ActivityConfiguration,
   GroupedBy,
@@ -49,7 +49,7 @@ export default class SessionSlides {
 
   makeClassification = () => {
     const rowNode = figma.createSlideRow()
-    rowNode.name = `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}`
+    rowNode.name = `${this.activityName}${locals[lang].separator}${setFriendlyDate(this.sessionStartDate, lang)}`
 
     rowNode.appendChild(
       new SessionSlide({

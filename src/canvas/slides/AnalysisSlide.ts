@@ -71,11 +71,11 @@ export default class AnalysisSlide {
 
   makeAnalysisSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}・${locals[lang].consolisation.analysis}`,
+      name: `${this.activityName}${locals[lang].separator}${setFriendlyDate(this.sessionStartDate, lang)}${locals[lang].separator}${locals[lang].consolisation.analysis}`,
       color: colors.lightColor,
     })
     const header = new Header({
-      upTitle: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang, 'LONG')}`,
+      upTitle: `${this.activityName}${locals[lang].separator}${setFriendlyDate(this.sessionStartDate, lang, 'LONG')}`,
       title: locals[lang].consolisation.analysis,
       color: colors.darkColor,
     })

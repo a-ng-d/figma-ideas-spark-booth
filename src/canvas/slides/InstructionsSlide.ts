@@ -59,7 +59,7 @@ export default class InstructionsSlide {
 
   makeInstructionsSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${locals[lang].consolisation.instructions}`,
+      name: `${this.activityName}${locals[lang].separator}${locals[lang].consolisation.instructions}`,
       color: colors.lightColor,
     })
     const layout = new Layout({

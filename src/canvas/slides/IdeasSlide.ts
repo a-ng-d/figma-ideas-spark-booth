@@ -1,6 +1,6 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 import { yellowColor } from '../../config'
-import { lang } from '../../content/locals'
+import { lang, locals } from '../../content/locals'
 import { GroupedBy, IdeaConfiguration } from '../../types/configurations'
 import setFriendlyDate from '../../utils/setFriendlyDate'
 import Header from '../partials/Header'
@@ -60,14 +60,14 @@ export default class IdeasSlide {
 
   makeIdeaSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang)}・${this.typeName}`,
+      name: `${this.activityName}${locals[lang].separator}${setFriendlyDate(this.sessionStartDate, lang)}${locals[lang].separator}${this.typeName}`,
       color:
         this.groupedBy === 'PARTICIPANT'
           ? yellowColor + '33'
           : this.ideas[0].type.hex + '33',
     })
     const header = new Header({
-      upTitle: `${this.activityName}・${setFriendlyDate(this.sessionStartDate, lang, 'LONG')}`,
+      upTitle: `${this.activityName}${locals[lang].separator}${setFriendlyDate(this.sessionStartDate, lang, 'LONG')}`,
       title: this.typeName,
       color: colors.lightColor,
       indicator: this.indicator !== undefined ? this.indicator : undefined,

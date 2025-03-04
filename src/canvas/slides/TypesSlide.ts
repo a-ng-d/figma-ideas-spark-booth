@@ -30,7 +30,7 @@ export default class TypesSlide {
   makeTitle = () => {
     const titleNode = figma.createText()
     titleNode.name = '_title'
-    titleNode.characters = `${locals[lang].consolisation.types}${this.indicator !== undefined ? `・${this.indicator}` : ''}`
+    titleNode.characters = `${locals[lang].consolisation.types}${this.indicator !== undefined ? `${locals[lang].separator}${this.indicator}` : ''}`
     titleNode.textAutoResize = 'WIDTH_AND_HEIGHT'
     titleNode.fontSize = textStyles.slideAccentLabel.fontSize
     titleNode.fontName = {
@@ -128,7 +128,7 @@ export default class TypesSlide {
 
   makeTypesSlide = () => {
     const slide = new Slide({
-      name: `${this.activityName}・${locals[lang].consolisation.types}`,
+      name: `${this.activityName}${locals[lang].separator}${locals[lang].consolisation.types}`,
       color: colors.lightColor,
     })
     const layout = new Layout({

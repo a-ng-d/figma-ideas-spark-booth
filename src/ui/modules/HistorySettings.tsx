@@ -124,7 +124,7 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                             className={`${texts['type']} ${texts['type--secondary']}`}
                             style={{ flex: '0 0 auto' }}
                           >
-                            {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}・${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
+                            {`${session.metrics.participants} ${session.metrics.participants > 1 ? locals[this.props.lang].settings.history.participants.plural : locals[this.props.lang].settings.history.participants.single}${locals[this.props.lang].separator}${session.metrics.ideas} ${session.metrics.ideas > 1 ? locals[this.props.lang].settings.history.ideas.plural : locals[this.props.lang].settings.history.ideas.single}`}
                           </span>
                         </div>
                       }
