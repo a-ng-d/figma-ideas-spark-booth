@@ -636,6 +636,15 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['BROWSE', 'PARTICIPATE'],
   },
   {
+    name: 'SHORTCUTS_STORE',
+    description: 'Other products and services',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE', 'PARTICIPATE'],
+  },
+  {
     name: 'SHORTCUTS_ABOUT',
     description: 'Additional information',
     isActive: true,

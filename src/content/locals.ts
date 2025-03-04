@@ -257,6 +257,7 @@ export const locals: { [key: string]: any } = {
       request: 'Share your ideas',
       feedback: 'Submit feedback',
       email: 'Contact support',
+      store: 'Discover more products',
       follow: 'Support us',
       author: 'Support the author',
       userMenu: 'User menu',
@@ -278,6 +279,13 @@ export const locals: { [key: string]: any } = {
           'Describe the issue you encountered by trying to describe the steps to reproduce it.',
       },
       cta: 'Submit your issue',
+    },
+    store: {
+      title: 'More products from Yelbolt',
+      uicp: {
+        label: 'UI Color Palette・WCAG-compliant Color Palette Suite',
+        cta: 'Try it now',
+      },
     },
     about: {
       title: `About ${glossary.name}`,

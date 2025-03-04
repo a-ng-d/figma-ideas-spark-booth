@@ -1,8 +1,11 @@
 import {
+  Button,
+  Card,
   ConsentConfiguration,
   Dialog,
   FormItem,
   Input,
+  List,
   texts,
 } from '@a_ng_d/figmug-ui'
 import * as Sentry from '@sentry/browser'
@@ -11,10 +14,11 @@ import React from 'react'
 
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { UserConfiguration } from 'src/types/configurations'
-import features from '../../config'
+import features, { uicpUrl } from '../../config'
 import cp from '../../content/images/choose_plan.webp'
 import pp from '../../content/images/pro_plan.webp'
 import t from '../../content/images/trial.webp'
+import uicp from '../../content/images/uicp_product_thumbnail.webp'
 import { locals } from '../../content/locals'
 import {
   HighlightDigest,
@@ -68,19 +72,24 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'SHORTCUTS_HIGHLIGHT',
       planStatus: planStatus,
     }),
-    SHORTCUTS_ABOUT: new FeatureStatus({
-      features: features,
-      featureName: 'SHORTCUTS_ABOUT',
-      planStatus: planStatus,
-    }),
     PUBLICATION: new FeatureStatus({
       features: features,
       featureName: 'PUBLICATION',
       planStatus: planStatus,
     }),
-    REPORT: new FeatureStatus({
+    SHORTCUTS_REPORTING: new FeatureStatus({
       features: features,
-      featureName: 'REPORT',
+      featureName: 'SHORTCUTS_REPORTING',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_STORE: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_STORE',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_ABOUT: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_ABOUT',
       planStatus: planStatus,
     }),
   })
@@ -141,6 +150,41 @@ export default class PriorityContainer extends PureComponent<
   }
 
   // Templates
+  Highlight = () => {
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_HIGHLIGHT.isActive()}
+      >
+        <Highlight
+          {...this.props}
+          onCloseHighlight={() => {
+            if (
+              this.props.highlight.version !== undefined ||
+              this.props.highlight.version !== ''
+            )
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'SET_ITEMS',
+                    items: [
+                      {
+                        key: 'highlight_version',
+                        value: this.props.highlight.version,
+                      },
+                    ],
+                  },
+                },
+                '*'
+              )
+            this.props.onClose()
+          }}
+        />
+      </Feature>
+    )
+  }
+
   TryPro = () => {
     return (
       <Feature
@@ -258,68 +302,12 @@ export default class PriorityContainer extends PureComponent<
     )
   }
 
-  Highlight = () => {
-    return (
-      <Feature
-        isActive={PriorityContainer.features(
-          this.props.planStatus
-        ).SHORTCUTS_HIGHLIGHT.isActive()}
-      >
-        <Highlight
-          {...this.props}
-          onCloseHighlight={() => {
-            if (
-              this.props.highlight.version !== undefined ||
-              this.props.highlight.version !== ''
-            )
-              parent.postMessage(
-                {
-                  pluginMessage: {
-                    type: 'SET_ITEMS',
-                    items: [
-                      {
-                        key: 'highlight_version',
-                        value: this.props.highlight.version,
-                      },
-                    ],
-                  },
-                },
-                '*'
-              )
-            this.props.onClose()
-          }}
-        />
-      </Feature>
-    )
-  }
-
-  About = () => {
-    return (
-      <Feature
-        isActive={PriorityContainer.features(
-          this.props.planStatus
-        ).SHORTCUTS_ABOUT.isActive()}
-      >
-        <Dialog
-          title={locals[this.props.lang].about.title}
-          onClose={this.props.onClose}
-        >
-          <About
-            planStatus={this.props.planStatus}
-            trialStatus={this.props.trialStatus}
-            lang={this.props.lang}
-          />
-        </Dialog>
-      </Feature>
-    )
-  }
-
   Report = () => {
     return (
       <Feature
         isActive={PriorityContainer.features(
           this.props.planStatus
-        ).REPORT.isActive()}
+        ).SHORTCUTS_REPORTING.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].report.title}
@@ -407,6 +395,66 @@ export default class PriorityContainer extends PureComponent<
     )
   }
 
+  Store = () => {
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_STORE.isActive()}
+      >
+        <Dialog
+          title={locals[this.props.lang].store.title}
+          pin="RIGHT"
+          onClose={this.props.onClose}
+        >
+          <List padding="var(--size-xsmall)">
+            <Card
+              src={uicp}
+              label={locals[this.props.lang].store.uicp.label}
+            >
+              <Button
+                type="primary"
+                label={locals[this.props.lang].store.uicp.cta}
+                action={() => {
+                  parent.postMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        url: uicpUrl,
+                      },
+                    },
+                    '*'
+                  )
+                }}
+              />
+            </Card>
+          </List>
+        </Dialog>
+      </Feature>
+    )
+  }
+
+  About = () => {
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_ABOUT.isActive()}
+      >
+        <Dialog
+          title={locals[this.props.lang].about.title}
+          onClose={this.props.onClose}
+        >
+          <About
+            planStatus={this.props.planStatus}
+            trialStatus={this.props.trialStatus}
+            lang={this.props.lang}
+          />
+        </Dialog>
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     return (
@@ -415,6 +463,7 @@ export default class PriorityContainer extends PureComponent<
         {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
         {this.props.context === 'WELCOME_TO_PRO' && <this.WelcomeToPro />}
         {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
+        {this.props.context === 'STORE' && <this.Store />}
         {this.props.context === 'ABOUT' && <this.About />}
         {this.props.context === 'REPORT' && <this.Report />}
       </>

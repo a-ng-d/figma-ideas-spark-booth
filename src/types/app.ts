@@ -51,12 +51,13 @@ export interface HighlightDigest {
 export type PriorityContext =
   | 'EMPTY'
   | 'HIGHLIGHT'
+  | 'TRY'
   | 'WELCOME_TO_PRO'
   | 'WELCOME_TO_TRIAL'
-  | 'TRY'
-  | 'ABOUT'
   | 'PUBLICATION'
   | 'REPORT'
+  | 'STORE'
+  | 'ABOUT'
 
 export interface ContextItem {
   label: string
