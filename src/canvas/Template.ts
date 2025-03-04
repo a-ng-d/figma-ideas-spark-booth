@@ -212,6 +212,8 @@ export default class Template {
       case 'SHAPE_WITH_TEXT':
         node = this.makeShapeWithText(nodeData)
         break
+      case 'GROUP':
+        break
       default:
         figma.notify(
           locals[lang].warning.unsupportedNodeType.replace('$1', nodeData.type)
