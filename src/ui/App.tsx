@@ -92,7 +92,10 @@ export interface AppStates {
   onGoingStep: string
 }
 
-export default class App extends PureComponent<Record<string, never>, AppStates> {
+export default class App extends PureComponent<
+  Record<string, never>,
+  AppStates
+> {
   static features = (planStatus: PlanStatus) => ({
     BROWSE: new FeatureStatus({
       features: features,

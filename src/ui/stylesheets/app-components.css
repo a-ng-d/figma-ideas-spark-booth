@@ -7,7 +7,7 @@
   justify-content: end;
   align-items: end;
   cursor: nwse-resize;
+  padding: var(--size-xxxsmall);
   width: var(--size-xxsmall);
   height: var(--size-xsmall);
-  padding: var(--size-xxxsmall);
 }

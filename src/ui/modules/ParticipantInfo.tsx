@@ -1,12 +1,12 @@
 import {
+  ColorChip,
   ConsentConfiguration,
+  layouts,
+  List,
   Section,
   SectionTitle,
   SimpleItem,
-  layouts,
   texts,
-  ColorChip,
-  List,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'

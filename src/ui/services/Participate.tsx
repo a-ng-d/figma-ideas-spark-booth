@@ -67,7 +67,10 @@ interface ParticipateStates {
   selfIdeas: Array<IdeaConfiguration>
 }
 
-export default class Participate extends PureComponent<ParticipateProps, ParticipateStates> {
+export default class Participate extends PureComponent<
+  ParticipateProps,
+  ParticipateStates
+> {
   ideasMessage: IdeasMessage
   textRef: React.RefObject<Input>
 

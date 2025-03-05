@@ -1,5 +1,6 @@
 import {
   Button,
+  ColorChip,
   ConsentConfiguration,
   Dropdown,
   FormItem,
@@ -9,7 +10,6 @@ import {
   SemanticMessage,
   SimpleItem,
   SortableList,
-  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'

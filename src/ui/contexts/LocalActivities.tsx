@@ -2,15 +2,15 @@ import {
   ActionsItem,
   Button,
   Chip,
+  ColorChip,
   Dialog,
   Dropzone,
+  Layout,
   layouts,
+  List,
   SectionTitle,
   SemanticMessage,
   SimpleItem,
-  ColorChip,
-  List,
-  Layout,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { createPortal, PureComponent } from 'preact/compat'

@@ -2,17 +2,17 @@ import {
   Avatar,
   Bar,
   Button,
+  ColorChip,
   Dialog,
   Dropdown,
   DropdownOption,
+  Layout,
   layouts,
+  List,
   Menu,
   SemanticMessage,
   SimpleItem,
   texts,
-  ColorChip,
-  Layout,
-  List,
 } from '@a_ng_d/figmug-ui'
 import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'

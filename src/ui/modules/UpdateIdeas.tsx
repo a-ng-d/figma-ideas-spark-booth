@@ -1,16 +1,16 @@
 import {
   Button,
+  ColorChip,
   ConsentConfiguration,
   DropdownOption,
   Input,
+  layouts,
+  List,
   Menu,
   Message,
   SectionTitle,
   SemanticMessage,
   SimpleItem,
-  layouts,
-  ColorChip,
-  List,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'

@@ -1,16 +1,17 @@
 import {
   Avatar,
   Chip,
+  ColorChip,
   ConsentConfiguration,
   Dialog,
   layouts,
   SimpleItem,
   texts,
-  ColorChip,
 } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
+import { doClassnames } from '@a_ng_d/figmug-utils'
 import { supabase } from '../../bridges/publication/authentication'
 import detachActivity from '../../bridges/publication/detachActivity'
 import publishActivity from '../../bridges/publication/publishActivity'
@@ -28,7 +29,6 @@ import {
 import { FigmaRestJson } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
-import { doClassnames } from '@a_ng_d/figmug-utils'
 
 interface PublicationProps {
   activity: ActivityConfiguration
