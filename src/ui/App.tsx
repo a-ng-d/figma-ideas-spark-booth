@@ -14,6 +14,7 @@ import { supabase } from '../bridges/publication/authentication'
 import { chartSizes } from '../canvas/partials/tokens'
 import features, {
   announcementsWorkerUrl,
+  privacyUrl,
   requestsUrl,
   trialTime,
   userConsentVersion,
@@ -687,7 +688,7 @@ export default class App extends PureComponent<
                   {
                     pluginMessage: {
                       type: 'OPEN_IN_BROWSER',
-                      url: 'https://uicp.link/privacy',
+                      url: privacyUrl,
                     },
                   },
                   '*'
