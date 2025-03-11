@@ -414,7 +414,7 @@ export default class FacilitatorInfo extends PureComponent<
                               className={doClassnames([
                                 'simple-item__param',
                                 'simple-item__param--fill',
-                                layouts['stackbar--tight'],
+                                layouts.stackbar,
                               ])}
                             >
                               <span

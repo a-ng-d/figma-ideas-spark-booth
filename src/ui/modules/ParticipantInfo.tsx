@@ -171,7 +171,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                               className={doClassnames([
                                 'simple-item__param',
                                 'simple-item__param--fill',
-                                layouts['stackbar--tight'],
+                                layouts.stackbar,
                               ])}
                             >
                               <span
