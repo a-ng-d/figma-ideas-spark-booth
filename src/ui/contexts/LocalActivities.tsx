@@ -21,12 +21,14 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
   ActivityConfiguration,
+  SessionConfiguration,
   ThumbnailConfiguration,
 } from '../../types/configurations'
 import Feature from '../components/Feature'
 
 interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>
+  sessions: Array<SessionConfiguration>
   thumbnails: Array<ThumbnailConfiguration>
   lang: Language
   planStatus: PlanStatus
@@ -34,6 +36,7 @@ interface LocalActivitiesProps {
   onChangeActivities: React.MouseEventHandler<HTMLButtonElement>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
+  onJoinSession: () => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
@@ -174,6 +177,13 @@ export default class LocalActivities extends PureComponent<
   }
 
   render() {
+    const runningSession = this.props.sessions?.find(
+      (session) => session.isRunning
+    )
+    const runningSessionActivity = this.props.activities.find(
+      (activity) => activity.meta.id === runningSession?.activityId
+    )
+
     return (
       <>
         <Layout
@@ -342,62 +352,81 @@ export default class LocalActivities extends PureComponent<
                           }
                           actionsSlot={
                             <div className={layouts['snackbar--medium']}>
-                              <Feature
-                                isActive={LocalActivities.features(
-                                  this.props.planStatus
-                                ).ACTIVITIES_SETTINGS.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="adjust"
-                                  feature="CONFIGURE_ACTIVITY"
-                                  helper={{
-                                    label:
-                                      locals[this.props.lang].activities
-                                        .configureActivity,
-                                    isSingleLine: true,
-                                  }}
-                                  isBlocked={LocalActivities.features(
+                              {runningSessionActivity?.meta.id !==
+                              activity.meta.id ? (
+                                <>
+                                  <Feature
+                                    isActive={LocalActivities.features(
+                                      this.props.planStatus
+                                    ).ACTIVITIES_SETTINGS.isActive()}
+                                  >
+                                    <Button
+                                      type="icon"
+                                      icon="adjust"
+                                      feature="CONFIGURE_ACTIVITY"
+                                      helper={{
+                                        label:
+                                          locals[this.props.lang].activities
+                                            .configureActivity,
+                                        isSingleLine: true,
+                                      }}
+                                      isBlocked={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_SETTINGS.isBlocked()}
+                                      isNew={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_SETTINGS.isNew()}
+                                      action={() =>
+                                        this.props.onOpenActivitySettings(
+                                          activity.meta.id
+                                        )
+                                      }
+                                    />
+                                  </Feature>
+                                  <Feature
+                                    isActive={LocalActivities.features(
+                                      this.props.planStatus
+                                    ).ACTIVITIES_RUN.isActive()}
+                                  >
+                                    <Button
+                                      type="icon"
+                                      icon="play"
+                                      feature="RUN_ACTIVITY"
+                                      helper={{
+                                        label:
+                                          locals[this.props.lang].sessions
+                                            .newSession,
+                                        isSingleLine: true,
+                                      }}
+                                      isBlocked={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_RUN.isReached(
+                                        this.props.sessionCount
+                                      )}
+                                      isNew={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_RUN.isNew()}
+                                      action={() =>
+                                        this.props.onRunSession(
+                                          activity.meta.id
+                                        )
+                                      }
+                                    />
+                                  </Feature>
+                                </>
+                              ) : (
+                                <Feature
+                                  isActive={LocalActivities.features(
                                     this.props.planStatus
-                                  ).ACTIVITIES_SETTINGS.isBlocked()}
-                                  isNew={LocalActivities.features(
-                                    this.props.planStatus
-                                  ).ACTIVITIES_SETTINGS.isNew()}
-                                  action={() =>
-                                    this.props.onOpenActivitySettings(
-                                      activity.meta.id
-                                    )
-                                  }
-                                />
-                              </Feature>
-                              <Feature
-                                isActive={LocalActivities.features(
-                                  this.props.planStatus
-                                ).ACTIVITIES_RUN.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="play"
-                                  feature="RUN_ACTIVITY"
-                                  helper={{
-                                    label:
-                                      locals[this.props.lang].sessions
-                                        .newSession,
-                                    isSingleLine: true,
-                                  }}
-                                  isBlocked={LocalActivities.features(
-                                    this.props.planStatus
-                                  ).ACTIVITIES_RUN.isReached(
-                                    this.props.sessionCount
-                                  )}
-                                  isNew={LocalActivities.features(
-                                    this.props.planStatus
-                                  ).ACTIVITIES_RUN.isNew()}
-                                  action={() =>
-                                    this.props.onRunSession(activity.meta.id)
-                                  }
-                                />
-                              </Feature>
+                                  ).ACTIVITIES_SETTINGS.isActive()}
+                                >
+                                  <Button
+                                    type="secondary"
+                                    label="Join session"
+                                    action={this.props.onJoinSession}
+                                  />
+                                </Feature>
+                              )}
                             </div>
                           }
                           complementSlot={

@@ -41,6 +41,7 @@ interface ActivitiesProps {
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onRunSession: React.Dispatch<Partial<AppStates>>
+  onJoinSession: React.Dispatch<Partial<AppStates>>
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
@@ -51,10 +52,7 @@ interface ActivitiesStates {
   transitionId?: string
 }
 
-export default class Activities extends PureComponent<
-  ActivitiesProps,
-  ActivitiesStates
-> {
+export default class Activities extends PureComponent<ActivitiesProps, ActivitiesStates> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {
@@ -420,6 +418,7 @@ export default class Activities extends PureComponent<
 
     this.props.onRunSession({
       sessions: sessions,
+      isJoiningSession: true,
       onGoingStep: 'session run',
     })
 
@@ -432,6 +431,13 @@ export default class Activities extends PureComponent<
       },
       '*'
     )
+  }
+
+  onJoinSession = () => {
+    this.props.onJoinSession({
+      isJoiningSession: true,
+      onGoingStep: 'session joined',
+    })
   }
 
   onDeleteSession = (sessionId: string) => {
@@ -488,6 +494,7 @@ export default class Activities extends PureComponent<
               })
             }
             onRunSession={this.onRunSession}
+            onJoinSession={this.onJoinSession}
           />
         )
         break

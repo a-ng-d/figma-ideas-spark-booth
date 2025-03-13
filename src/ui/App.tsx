@@ -90,6 +90,7 @@ export interface AppStates {
   isLoaded: boolean
   isCorrupted: boolean
   isBetaMessageVisible: boolean
+  isJoiningSession: boolean
   onGoingStep: string
 }
 
@@ -161,6 +162,7 @@ export default class App extends PureComponent<
       isLoaded: false,
       isCorrupted: false,
       isBetaMessageVisible: true,
+      isJoiningSession: false,
       onGoingStep: '',
     }
   }
@@ -555,6 +557,7 @@ export default class App extends PureComponent<
 
     this.setState({
       sessions: sessions,
+      isJoiningSession: false,
     })
 
     const sortedIdeas = sortIdeas(ideas, activity.groupedBy)
@@ -625,22 +628,21 @@ export default class App extends PureComponent<
         <Feature
           isActive={
             App.features(this.props.planStatus).BROWSE.isActive() &&
-            this.state.sessions?.find((session) => session.isRunning) ===
-              undefined
+            !this.state.isJoiningSession
           }
         >
           <BrowseActivities
             {...this.state}
             onChangeActivities={(e) => this.setState({ ...e })}
             onRunSession={(e) => this.setState({ ...e })}
+            onJoinSession={(e) => this.setState({ ...e })}
             onGetProPlan={(e) => this.setState({ ...e })}
           />
         </Feature>
         <Feature
           isActive={
             App.features(this.props.planStatus).PARTICIPATE.isActive() &&
-            this.state.sessions?.find((session) => session.isRunning) !==
-              undefined
+            this.state.isJoiningSession
           }
         >
           <Participate

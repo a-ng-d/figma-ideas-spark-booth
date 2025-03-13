@@ -49,6 +49,7 @@ export const requestsUrl = 'https://isb.ylb.lt/ideas'
 export const networkUrl = 'https://isb.ylb.lt/network'
 export const authorUrl = 'https://isb.ylb.lt/author'
 export const licenseUrl = 'https://isb.ylb.lt/license'
+export const privacyUrl = 'https://isb.ylb.lt/privacy'
 export const uicpUrl = 'https://uicp.ylb.lt/run'
 
 // Note colors

@@ -39,6 +39,7 @@ interface BrowseActivitiesProps {
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onRunSession: React.Dispatch<Partial<AppStates>>
+  onJoinSession: React.Dispatch<Partial<AppStates>>
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
