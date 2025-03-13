@@ -37,11 +37,6 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
       featureName: 'PARTICIPATE_INFO_DESCRIPTION',
       planStatus: planStatus,
     }),
-    PARTICIPATE_INFO_INSTRUCTIONS: new FeatureStatus({
-      features: features,
-      featureName: 'PARTICIPATE_INFO_INSTRUCTIONS',
-      planStatus: planStatus,
-    }),
     PARTICIPATE_INFO_TYPES: new FeatureStatus({
       features: features,
       featureName: 'PARTICIPATE_INFO_TYPES',
@@ -79,47 +74,6 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                     className={texts['type']}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.description.replace(
-                        /\n/g,
-                        '<br />'
-                      ),
-                    }}
-                  />
-                ),
-                spacingModifier: 'LARGE',
-              },
-            ]}
-            border={['BOTTOM']}
-          />
-        </Feature>
-        <Feature
-          isActive={
-            ParticipantInfo.features(
-              this.props.planStatus
-            ).PARTICIPATE_INFO_INSTRUCTIONS.isActive() &&
-            this.props.activity.instructions !== ''
-          }
-        >
-          <Section
-            title={
-              <SimpleItem
-                leftPartSlot={
-                  <SectionTitle
-                    label={
-                      locals[this.props.lang].participate.info.instructions
-                    }
-                  />
-                }
-                isListItem={false}
-              />
-            }
-            body={[
-              {
-                node: (
-                  <div
-                    style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={texts['type']}
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.activity.instructions.replace(
                         /\n/g,
                         '<br />'
                       ),
