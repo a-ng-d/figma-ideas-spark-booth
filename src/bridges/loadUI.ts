@@ -316,14 +316,18 @@ const loadUI = async () => {
     }
 
     if (figma.root.getPluginData('event') === 'SESSION_STARTED') {
-      figma.notify(
-        locals[lang].success.startSession.replace(
-          '$1',
-          JSON.parse(figma.root.getPluginData('activeParticipants')).find(
-            (participant: ActiveParticipant) => participant.hasStarted
-          ).userIdentity.fullName
+      const participant = JSON.parse(
+        figma.root.getPluginData('activeParticipants')
+      ).find((participant: ActiveParticipant) => participant.hasStarted)
+
+      if (participant !== undefined)
+        figma.notify(
+          locals[lang].success.startSession.replace(
+            '$1',
+            participant.userIdentity.fullName
+          )
         )
-      )
+
       setTimeout(() => {
         figma.root.setPluginData('event', '')
         updateParticipants({
@@ -335,21 +339,25 @@ const loadUI = async () => {
     }
 
     if (figma.root.getPluginData('event') === 'SESSION_ENDED') {
-      figma.notify(
-        locals[lang].success.endSession.replace(
-          '$1',
-          JSON.parse(figma.root.getPluginData('activeParticipants')).find(
-            (participant: ActiveParticipant) => participant.hasStarted
-          ).userIdentity.fullName
-        ),
-        {
-          timeout: Infinity,
-          button: {
-            text: locals[lang].close,
-            action: () => figma.closePlugin(),
-          },
-        }
-      )
+      const participant = JSON.parse(
+        figma.root.getPluginData('activeParticipants')
+      ).find((participant: ActiveParticipant) => participant.hasEnded)
+
+      if (participant !== undefined)
+        figma.notify(
+          locals[lang].success.endSession.replace(
+            '$1',
+            participant.userIdentity.fullName
+          ),
+          {
+            timeout: Infinity,
+            button: {
+              text: locals[lang].close,
+              action: () => figma.closePlugin(),
+            },
+          }
+        )
+
       setTimeout(() => {
         figma.root.setPluginData('event', '')
         updateParticipants({
@@ -359,6 +367,7 @@ const loadUI = async () => {
           isBlocked: false,
         })
       }, 3000)
+
       figma.ui.postMessage({
         type: 'END_SESSION',
         data: '',
