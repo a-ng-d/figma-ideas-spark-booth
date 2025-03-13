@@ -313,7 +313,7 @@ export default class Participate extends PureComponent<
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>
-               <Button
+              <Button
                 type="icon"
                 icon="back"
                 feature="BACK"
@@ -436,7 +436,10 @@ export default class Participate extends PureComponent<
                         )}
                       />
                     ) : (
-                      <ParticipantInfo {...this.props} />
+                      <ParticipantInfo
+                        {...this.props}
+                        facilitator={this.props.session.facilitator}
+                      />
                     )}
                   </Feature>
                 ),

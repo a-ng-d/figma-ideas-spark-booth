@@ -456,6 +456,15 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     service: ['PARTICIPATE'],
   },
   {
+    name: 'PARTICIPATE_INFO_FACILITATOR',
+    description: 'Facilitator information',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'DIVISION',
+    service: ['PARTICIPATE'],
+  },
+  {
     name: 'PARTICIPATE_INFO_PARTICIPANTS',
     description: 'Participants information',
     isActive: true,

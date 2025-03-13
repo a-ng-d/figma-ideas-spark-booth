@@ -1,4 +1,5 @@
 import {
+  Avatar,
   ColorChip,
   ConsentConfiguration,
   layouts,
@@ -16,6 +17,7 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
   ActivityConfiguration,
+  FacilitatorConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -23,6 +25,7 @@ import Feature from '../components/Feature'
 
 interface ParticipantInfoProps {
   activity: ActivityConfiguration
+  facilitator: FacilitatorConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -32,6 +35,11 @@ interface ParticipantInfoProps {
 
 export default class ParticipantInfo extends PureComponent<ParticipantInfoProps> {
   static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE_INFO_FACILITATOR: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_INFO_FACILITATOR',
+      planStatus: planStatus,
+    }),
     PARTICIPATE_INFO_DESCRIPTION: new FeatureStatus({
       features: features,
       featureName: 'PARTICIPATE_INFO_DESCRIPTION',
@@ -47,6 +55,39 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
   render() {
     return (
       <>
+        <Feature
+          isActive={ParticipantInfo.features(
+            this.props.planStatus
+          ).PARTICIPATE_INFO_FACILITATOR.isActive()}
+        >
+          <Section
+            title={
+              <SimpleItem
+                leftPartSlot={<SectionTitle label={'Facilitator'} />}
+                isListItem={false}
+              />
+            }
+            body={[
+              {
+                node: (
+                  <List>
+                    <SimpleItem
+                      leftPartSlot={
+                        <Avatar
+                          avatar={this.props.facilitator.avatar}
+                          fullName={this.props.facilitator.fullName}
+                          isAccented
+                        />
+                      }
+                    />
+                  </List>
+                ),
+                spacingModifier: 'TIGHT',
+              },
+            ]}
+            border={['BOTTOM']}
+          />
+        </Feature>
         <Feature
           isActive={
             ParticipantInfo.features(
