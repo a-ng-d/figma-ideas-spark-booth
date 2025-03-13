@@ -396,8 +396,9 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
 
   // Direct Actions
   onRunSession = (activityId: string) => {
+    const id = uid()
     const newSession: SessionConfiguration = {
-      id: uid(),
+      id: id,
       facilitator: {
         id: this.props.userIdentity.id,
         fullName: this.props.userIdentity.fullName,
@@ -418,7 +419,7 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
 
     this.props.onRunSession({
       sessions: sessions,
-      isJoiningSession: true,
+      joinedSessionId: id,
       onGoingStep: 'session run',
     })
 
@@ -433,9 +434,9 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
     )
   }
 
-  onJoinSession = () => {
+  onJoinSession = (sessionId: string) => {
     this.props.onJoinSession({
-      isJoiningSession: true,
+      joinedSessionId: sessionId,
       onGoingStep: 'session joined',
     })
   }

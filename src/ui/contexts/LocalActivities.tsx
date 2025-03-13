@@ -36,7 +36,7 @@ interface LocalActivitiesProps {
   onChangeActivities: React.MouseEventHandler<HTMLButtonElement>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
-  onJoinSession: () => void
+  onJoinSession: (id: string) => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
@@ -177,11 +177,8 @@ export default class LocalActivities extends PureComponent<
   }
 
   render() {
-    const runningSession = this.props.sessions?.find(
+    const runningSessions = this.props.sessions.filter(
       (session) => session.isRunning
-    )
-    const runningSessionActivity = this.props.activities.find(
-      (activity) => activity.meta.id === runningSession?.activityId
     )
 
     return (
@@ -352,8 +349,11 @@ export default class LocalActivities extends PureComponent<
                           }
                           actionsSlot={
                             <div className={layouts['snackbar--medium']}>
-                              {runningSessionActivity?.meta.id !==
-                              activity.meta.id ? (
+                              {!runningSessions.some(
+                                (runningSessions) =>
+                                  runningSessions.activityId ===
+                                  activity.meta.id
+                              ) ? (
                                 <>
                                   <Feature
                                     isActive={LocalActivities.features(
@@ -423,7 +423,15 @@ export default class LocalActivities extends PureComponent<
                                   <Button
                                     type="secondary"
                                     label="Join session"
-                                    action={this.props.onJoinSession}
+                                    action={() => {
+                                      const sessionId = runningSessions.find(
+                                        (runningSessions) =>
+                                          runningSessions.activityId ===
+                                          activity.meta.id
+                                      )?.id
+                                      if (sessionId !== undefined)
+                                        this.props.onJoinSession(sessionId)
+                                    }}
                                   />
                                 </Feature>
                               )}

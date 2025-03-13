@@ -55,6 +55,7 @@ interface ParticipateProps {
     activity: ActivityConfiguration,
     ideas: Array<IdeaConfiguration>
   ) => void
+  onLeaveSession: React.Dispatch<Partial<AppStates>>
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
@@ -246,6 +247,14 @@ export default class Participate extends PureComponent<
     this.setState({ isFlaggedAsDone: !this.state.isFlaggedAsDone })
   }
 
+  // Direct Actions
+  onLeaveSession = (): void => {
+    this.props.onLeaveSession({
+      joinedSessionId: '',
+      onGoingStep: 'session left',
+    })
+  }
+
   // Templates
   Modals = () => {
     return (
@@ -304,6 +313,12 @@ export default class Participate extends PureComponent<
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>
+               <Button
+                type="icon"
+                icon="back"
+                feature="BACK"
+                action={this.onLeaveSession}
+              />
               <span className={texts.type}>{this.props.activity.name}</span>
               {this.state.isFlaggedAsDone ? (
                 <Chip>{locals[this.props.lang].participate.finished}</Chip>

@@ -35,7 +35,7 @@ interface ActivitiesListProps {
   onChangeActivities: React.MouseEventHandler<HTMLButtonElement>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
-  onJoinSession: () => void
+  onJoinSession: (id: string) => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 

@@ -90,7 +90,7 @@ export interface AppStates {
   isLoaded: boolean
   isCorrupted: boolean
   isBetaMessageVisible: boolean
-  isJoiningSession: boolean
+  joinedSessionId: string
   onGoingStep: string
 }
 
@@ -162,7 +162,7 @@ export default class App extends PureComponent<
       isLoaded: false,
       isCorrupted: false,
       isBetaMessageVisible: true,
-      isJoiningSession: false,
+      joinedSessionId: '',
       onGoingStep: '',
     }
   }
@@ -419,6 +419,8 @@ export default class App extends PureComponent<
           )
         }
 
+        const endSession = () => this.setState({ joinedSessionId: '' })
+
         const enableTrial = () => {
           this.setState({
             planStatus: 'PAID',
@@ -461,6 +463,7 @@ export default class App extends PureComponent<
           GET_USER: () => getUser(),
           GET_THUMBNAILS: () => getThumbnails(),
           GET_PRO_PLAN: () => getProPlan(),
+          END_SESSION: () => endSession(),
           ENABLE_TRIAL: () => enableTrial(),
           COUNT_SESSIONS: () => countSessions(),
           SIGN_OUT: () => signOut(e.data.pluginMessage?.data),
@@ -557,7 +560,7 @@ export default class App extends PureComponent<
 
     this.setState({
       sessions: sessions,
-      isJoiningSession: false,
+      joinedSessionId: '',
     })
 
     const sortedIdeas = sortIdeas(ideas, activity.groupedBy)
@@ -617,7 +620,8 @@ export default class App extends PureComponent<
   // Templates
   Controls = () => {
     const runningSession = this.state.sessions?.find(
-      (session) => session.isRunning
+      (session) =>
+        session.isRunning && session.id === this.state.joinedSessionId
     )
     const runningSessionActivity = this.state.activities.find(
       (activity) => activity.meta.id === runningSession?.activityId
@@ -628,7 +632,7 @@ export default class App extends PureComponent<
         <Feature
           isActive={
             App.features(this.props.planStatus).BROWSE.isActive() &&
-            !this.state.isJoiningSession
+            this.state.joinedSessionId === ''
           }
         >
           <BrowseActivities
@@ -642,7 +646,7 @@ export default class App extends PureComponent<
         <Feature
           isActive={
             App.features(this.props.planStatus).PARTICIPATE.isActive() &&
-            this.state.isJoiningSession
+            this.state.joinedSessionId !== ''
           }
         >
           <Participate
@@ -664,6 +668,7 @@ export default class App extends PureComponent<
             }}
             onChangeIdeas={(e) => this.setState({ ...e })}
             onEndSession={this.onEndSession}
+            onLeaveSession={(e) => this.setState({ ...e })}
             onGetProPlan={(e) => this.setState({ ...e })}
           />
         </Feature>

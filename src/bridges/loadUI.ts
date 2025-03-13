@@ -349,6 +349,10 @@ const loadUI = async () => {
           isBlocked: false,
         })
       }, 3000)
+      figma.ui.postMessage({
+        type: 'END_SESSION',
+        data: '',
+      })
     }
 
     if (
