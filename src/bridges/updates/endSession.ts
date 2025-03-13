@@ -43,7 +43,7 @@ const endSession = async (data: {
   figma.timer?.stop()
 
   await figma.saveVersionHistoryAsync(
-    `${data.activity.name} ${locals[lang].sessions.endSession}`
+    locals[lang].sessions.endSession.replace('$1', data.activity.name)
   )
 }
 

@@ -74,6 +74,7 @@ export const locals: { [key: string]: any } = {
       duplicateToLocal: 'Duplicate to local',
       importActivities: 'Import activities',
       configureActivity: 'Configure activity',
+      newSession: 'New session',
       saveVersionAfterImporting: 'Manual import of activities',
       importSessionsDialog: {
         title: 'Import activities',
@@ -83,10 +84,11 @@ export const locals: { [key: string]: any } = {
         error: 'The import files are not valid',
         cta: 'Import from computer…',
       },
+      joinSession: 'Join session',
     },
     sessions: {
-      newSession: 'New session',
-      endSession: 'session has ended',
+      newSession: 'New session of $1',
+      endSession: '$1 session has ended',
       saveVersionAfterImporting: 'Manual import of sessions',
     },
     settings: {
@@ -378,8 +380,8 @@ export const locals: { [key: string]: any } = {
       secondaryAction: '………',
     },
     success: {
-      startSession: 'The session has been started by',
-      endSession: 'The session has been ended by',
+      startSession: 'A session has been started by $1',
+      endSession: 'A session has been ended by $1',
       publication: '✓ The activity has been published',
       nonPublication: '✓ The activity has been unpublished',
       synchronization: '✓ The activity has been synchronized',

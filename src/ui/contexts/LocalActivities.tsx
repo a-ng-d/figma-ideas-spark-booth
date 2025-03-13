@@ -75,6 +75,11 @@ export default class LocalActivities extends PureComponent<
       featureName: 'ACTIVITIES_IMPORT',
       planStatus: planStatus,
     }),
+    PARTICIPATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE',
+      planStatus: planStatus,
+    }),
   })
 
   constructor(props: LocalActivitiesProps) {
@@ -332,14 +337,16 @@ export default class LocalActivities extends PureComponent<
                           name={activity.name}
                           description={activity.description}
                           indicator={
-                            activity.meta.publicationStatus.isPublished
-                              ? {
+                            !runningSessions.some(
+                              (runningSessions) =>
+                                runningSessions.activityId === activity.meta.id
+                            )
+                              ? undefined
+                              : {
                                   status: 'ACTIVE',
                                   label:
-                                    locals[this.props.lang].publication
-                                      .statusPublished,
+                                    locals[this.props.lang].participate.onGoing,
                                 }
-                              : undefined
                           }
                           src={
                             this.props.thumbnails.find(
@@ -394,7 +401,7 @@ export default class LocalActivities extends PureComponent<
                                       feature="RUN_ACTIVITY"
                                       helper={{
                                         label:
-                                          locals[this.props.lang].sessions
+                                          locals[this.props.lang].activities
                                             .newSession,
                                         isSingleLine: true,
                                       }}
@@ -418,11 +425,14 @@ export default class LocalActivities extends PureComponent<
                                 <Feature
                                   isActive={LocalActivities.features(
                                     this.props.planStatus
-                                  ).ACTIVITIES_SETTINGS.isActive()}
+                                  ).PARTICIPATE.isActive()}
                                 >
                                   <Button
                                     type="secondary"
-                                    label="Join session"
+                                    label={
+                                      locals[this.props.lang].activities
+                                        .joinSession
+                                    }
                                     action={() => {
                                       const sessionId = runningSessions.find(
                                         (runningSessions) =>

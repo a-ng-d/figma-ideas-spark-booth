@@ -26,7 +26,7 @@ const startSession = async (data: Array<SessionConfiguration>) => {
   figma.timer?.start(activity.timer.minutes * 60 + activity.timer.seconds)
 
   await figma.saveVersionHistoryAsync(
-    `${locals[lang].sessions.newSession} of ${activity.name}`
+    locals[lang].sessions.newSession.replace('$1', activity.name)
   )
 
   figma.ui.postMessage({
