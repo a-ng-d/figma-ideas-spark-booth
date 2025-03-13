@@ -63,7 +63,11 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
           <Section
             title={
               <SimpleItem
-                leftPartSlot={<SectionTitle label={'Facilitator'} />}
+                leftPartSlot={
+                  <SectionTitle
+                    label={locals[this.props.lang].participate.info.facilitator}
+                  />
+                }
                 isListItem={false}
               />
             }

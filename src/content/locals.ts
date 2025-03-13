@@ -226,6 +226,7 @@ export const locals: { [key: string]: any } = {
       info: {
         sessionIdeas: 'Session ideas',
         participants: 'Participants',
+        facilitator: 'Facilitator',
         types: 'Types',
         description: 'Description',
         instructions: 'Instructions',
