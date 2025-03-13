@@ -705,7 +705,7 @@ export default class Settings extends PureComponent<
               >
                 <Button
                   type="primary"
-                  label={locals[this.props.lang].sessions.newSession}
+                  label={locals[this.props.lang].activities.newSession}
                   feature="SESSION_RUN"
                   isBlocked={Settings.features(
                     this.props.planStatus

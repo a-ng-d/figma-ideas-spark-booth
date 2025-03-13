@@ -204,7 +204,7 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                     >
                       <Button
                         type="primary"
-                        label={locals[this.props.lang].sessions.newSession}
+                        label={locals[this.props.lang].activities.newSession}
                         feature="SESSION_RUN"
                         isBlocked={HistorySettings.features(
                           this.props.planStatus
