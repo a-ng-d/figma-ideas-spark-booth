@@ -324,67 +324,66 @@ const loadUI = async () => {
 
     if (figma.root.getPluginData('event') !== '') {
       if (
-          JSON.parse(figma.root.getPluginData('event')).name ===
-          'SESSION_STARTED'
-        ) {
-          const participant = JSON.parse(
-            figma.root.getPluginData('activeParticipants')
-          ).find((participant: ActiveParticipant) => participant.hasStarted)
+        JSON.parse(figma.root.getPluginData('event')).name === 'SESSION_STARTED'
+      ) {
+        const participant = JSON.parse(
+          figma.root.getPluginData('activeParticipants')
+        ).find((participant: ActiveParticipant) => participant.hasStarted)
 
-          if (participant !== undefined)
-            figma.notify(
-              locals[lang].success.startSession
-                .replace(
-                  '$1',
-                  JSON.parse(figma.root.getPluginData('event')).activityName
-                )
-                .replace('$2', participant.userIdentity.fullName)
-            )
+        if (participant !== undefined)
+          figma.notify(
+            locals[lang].success.startSession
+              .replace(
+                '$1',
+                JSON.parse(figma.root.getPluginData('event')).activityName
+              )
+              .replace('$2', participant.userIdentity.fullName)
+          )
 
-          setTimeout(() => {
-            figma.root.setPluginData('event', '')
-            updateParticipants({
-              hasStarted: false,
-              hasEnded: false,
-              hasFinished: false,
-            })
-          }, 3000)
-        }
+        setTimeout(() => {
+          figma.root.setPluginData('event', '')
+          updateParticipants({
+            hasStarted: false,
+            hasEnded: false,
+            hasFinished: false,
+          })
+        }, 3000)
+      }
 
-        if (
-          JSON.parse(figma.root.getPluginData('event')).name === 'SESSION_ENDED'
-        ) {
-          const participant = JSON.parse(
-            figma.root.getPluginData('activeParticipants')
-          ).find((participant: ActiveParticipant) => participant.hasEnded)
+      if (
+        JSON.parse(figma.root.getPluginData('event')).name === 'SESSION_ENDED'
+      ) {
+        const participant = JSON.parse(
+          figma.root.getPluginData('activeParticipants')
+        ).find((participant: ActiveParticipant) => participant.hasEnded)
 
-          if (participant !== undefined)
-            figma.notify(
-              locals[lang].success.endSession
-                .replace(
-                  '$1',
-                  JSON.parse(figma.root.getPluginData('event')).activityName
-                )
-                .replace('$2', participant.userIdentity.fullName),
-              {
-                timeout: Infinity,
-                button: {
-                  text: locals[lang].close,
-                  action: () => figma.closePlugin(),
-                },
-              }
-            )
+        if (participant !== undefined)
+          figma.notify(
+            locals[lang].success.endSession
+              .replace(
+                '$1',
+                JSON.parse(figma.root.getPluginData('event')).activityName
+              )
+              .replace('$2', participant.userIdentity.fullName),
+            {
+              timeout: Infinity,
+              button: {
+                text: locals[lang].close,
+                action: () => figma.closePlugin(),
+              },
+            }
+          )
 
-          setTimeout(() => {
-            figma.root.setPluginData('event', '')
-            updateParticipants({
-              hasStarted: false,
-              hasEnded: false,
-              hasFinished: false,
-              isBlocked: false,
-            })
-          }, 3000)
-        }
+        setTimeout(() => {
+          figma.root.setPluginData('event', '')
+          updateParticipants({
+            hasStarted: false,
+            hasEnded: false,
+            hasFinished: false,
+            isBlocked: false,
+          })
+        }, 3000)
+      }
     }
 
     if (

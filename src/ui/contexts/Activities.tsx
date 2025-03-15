@@ -54,7 +54,10 @@ interface ActivitiesStates {
   transitionId?: string
 }
 
-export default class Activities extends PureComponent<ActivitiesProps, ActivitiesStates> {
+export default class Activities extends PureComponent<
+  ActivitiesProps,
+  ActivitiesStates
+> {
   activitiesMessage: ActivitiesMessage
 
   constructor(props: ActivitiesProps) {
