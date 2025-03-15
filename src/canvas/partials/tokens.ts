@@ -13,7 +13,7 @@ const scale = {
 
 const typefaces = {
   title: 'Martian Mono',
-  text: 'Sora',
+  text: 'Lexend',
 }
 
 export const gaps = {
@@ -57,7 +57,7 @@ export const textStyles = {
   slideSubTitle: {
     fontFamily: typefaces.text,
     fontSize: scale.xm,
-    fontWeight: 'SemiBold',
+    fontWeight: 'Bold',
     lineHeight: {
       unit: 'AUTO',
     },
@@ -65,7 +65,7 @@ export const textStyles = {
   slideAccentLabel: {
     fontFamily: typefaces.text,
     fontSize: scale.xm,
-    fontWeight: 'SemiBold',
+    fontWeight: 'Bold',
     lineHeight: {
       unit: 'AUTO',
     },
@@ -73,7 +73,7 @@ export const textStyles = {
   slideLabel: {
     fontFamily: typefaces.text,
     fontSize: scale.xm,
-    fontWeight: 'Regular',
+    fontWeight: 'Medium',
     lineHeight: {
       unit: 'AUTO',
     },
@@ -81,7 +81,7 @@ export const textStyles = {
   slideAccentText: {
     fontFamily: typefaces.text,
     fontSize: scale.xxm,
-    fontWeight: 'Regular',
+    fontWeight: 'Medium',
     lineHeight: {
       value: 150,
       unit: 'PERCENT',
@@ -90,7 +90,7 @@ export const textStyles = {
   slideText: {
     fontFamily: typefaces.text,
     fontSize: scale.xm,
-    fontWeight: 'Regular',
+    fontWeight: 'Medium',
     lineHeight: {
       value: 150,
       unit: 'PERCENT',
@@ -99,7 +99,7 @@ export const textStyles = {
   slideDataViz: {
     fontFamily: typefaces.text,
     fontSize: scale.d,
-    fontWeight: 'Regular',
+    fontWeight: 'Medium',
     lineHeight: {
       unit: 'AUTO',
     },

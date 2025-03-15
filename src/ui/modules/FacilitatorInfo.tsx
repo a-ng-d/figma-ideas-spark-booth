@@ -28,6 +28,7 @@ import {
   ActiveParticipant,
   ActivityConfiguration,
   IdeaConfiguration,
+  SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -35,6 +36,7 @@ import Feature from '../components/Feature'
 
 interface FacilitatorInfoProps {
   activity: ActivityConfiguration
+  session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
   activeParticipants: Array<ActiveParticipant>
   userSession: UserSession
@@ -125,6 +127,7 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -138,7 +141,7 @@ export default class FacilitatorInfo extends PureComponent<
                       ]}
                     />
                   ) : (
-                    <ul>
+                    <List>
                       {Object.values(sortedIdeas).map((ideas, index) => (
                         <SimpleItem
                           key={index}
@@ -150,9 +153,10 @@ export default class FacilitatorInfo extends PureComponent<
                               >{`${ideas.length} ${ideas[0].type.name}`}</span>
                             </div>
                           }
+                          alignment="CENTER"
                         />
                       ))}
-                    </ul>
+                    </List>
                   ))(),
                 spacingModifier:
                   this.props.ideas.length === 0 ? 'NONE' : 'TIGHT',
@@ -174,37 +178,45 @@ export default class FacilitatorInfo extends PureComponent<
                     label={
                       locals[this.props.lang].participate.info.participants
                     }
-                    indicator={this.props.activeParticipants.length.toString()}
+                    indicator={this.props.activeParticipants
+                      .filter(
+                        (participant) =>
+                          participant.joinedSessionId === this.props.session.id
+                      )
+                      .length.toString()}
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
               {
                 node: (() =>
                   this.state.isParticipantsMessageVisible && (
-                    <SemanticMessage
-                      type="INFO"
-                      message={
-                        this.props.editorType === 'figjam'
-                          ? locals[this.props.lang].info
-                              .inviteParticipantsOnFigJam
-                          : locals[this.props.lang].info
-                              .inviteParticipantsOnSlides
-                      }
-                      actionsSlot={
-                        <Button
-                          type="icon"
-                          icon="close"
-                          action={() =>
-                            this.setState({
-                              isParticipantsMessageVisible: false,
-                            })
-                          }
-                        />
-                      }
-                    />
+                    <div style={{ padding: 'var(--size-xxxsmall) 0' }}>
+                      <SemanticMessage
+                        type="INFO"
+                        message={
+                          this.props.editorType === 'figjam'
+                            ? locals[this.props.lang].info
+                                .inviteParticipantsOnFigJam
+                            : locals[this.props.lang].info
+                                .inviteParticipantsOnSlides
+                        }
+                        actionsSlot={
+                          <Button
+                            type="icon"
+                            icon="close"
+                            action={() =>
+                              this.setState({
+                                isParticipantsMessageVisible: false,
+                              })
+                            }
+                          />
+                        }
+                      />
+                    </div>
                   ))(),
               },
               {
@@ -212,33 +224,39 @@ export default class FacilitatorInfo extends PureComponent<
                   this.props.activeParticipants.some(
                     (participant) => participant.isBlocked
                   ) && (
-                    <SemanticMessage
-                      type="WARNING"
-                      message={locals[
-                        this.props.lang
-                      ].warning.blockedParticipations.replace(
-                        '$1',
-                        (FacilitatorInfo.features(this.props.planStatus)
-                          .PARTICIPATE?.limit ?? 0) + 1
-                      )}
-                      actionsSlot={
-                        <Button
-                          type="secondary"
-                          label={locals[this.props.lang].plan.tryPro}
-                          action={() =>
-                            this.props.onGetProPlan({
-                              priorityContainerContext: 'TRY',
-                            })
-                          }
-                        />
-                      }
-                    />
+                    <div style={{ padding: 'var(--size-xxxsmall) 0' }}>
+                      <SemanticMessage
+                        type="WARNING"
+                        message={locals[
+                          this.props.lang
+                        ].warning.blockedParticipations.replace(
+                          '$1',
+                          (FacilitatorInfo.features(this.props.planStatus)
+                            .PARTICIPATE?.limit ?? 0) + 1
+                        )}
+                        actionsSlot={
+                          <Button
+                            type="secondary"
+                            label={locals[this.props.lang].plan.tryPro}
+                            action={() =>
+                              this.props.onGetProPlan({
+                                priorityContainerContext: 'TRY',
+                              })
+                            }
+                          />
+                        }
+                      />
+                    </div>
                   ))(),
               },
               {
                 node: (
                   <List>
                     {this.props.activeParticipants
+                      .filter(
+                        (participant) =>
+                          participant.joinedSessionId === this.props.session.id
+                      )
                       .sort(
                         (a, b) =>
                           new Date(a.joinedAt).getTime() -
@@ -265,7 +283,7 @@ export default class FacilitatorInfo extends PureComponent<
                                     </span>
                                   )}
                                   {participant.hasFinished && (
-                                    <Chip>
+                                    <Chip isSolo>
                                       {
                                         locals[this.props.lang].participate
                                           .finished
@@ -273,7 +291,7 @@ export default class FacilitatorInfo extends PureComponent<
                                     </Chip>
                                   )}
                                   {participant.isBlocked && (
-                                    <Chip>
+                                    <Chip isSolo>
                                       {
                                         locals[this.props.lang].participate
                                           .blocked
@@ -285,6 +303,7 @@ export default class FacilitatorInfo extends PureComponent<
                               isAccented
                             />
                           }
+                          alignment="CENTER"
                         />
                       ))}
                   </List>
@@ -312,6 +331,7 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -353,6 +373,7 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -390,12 +411,13 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
               {
                 node: (
-                  <ul>
+                  <List>
                     {this.props.activity.types.map((type, index) => (
                       <SimpleItem
                         key={index}
@@ -438,7 +460,7 @@ export default class FacilitatorInfo extends PureComponent<
                         }
                       />
                     ))}
-                  </ul>
+                  </List>
                 ),
                 spacingModifier: 'TIGHT',
               },

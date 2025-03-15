@@ -10,6 +10,7 @@ import {
   PriorityContext,
 } from '../../types/app'
 import {
+  ActiveParticipant,
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
@@ -32,6 +33,7 @@ interface ActivitiesProps {
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
   thumbnails: Array<ThumbnailConfiguration>
+  activeParticipants: Array<ActiveParticipant>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -41,6 +43,7 @@ interface ActivitiesProps {
   lang: Language
   onChangeActivities: React.Dispatch<Partial<AppStates>>
   onRunSession: React.Dispatch<Partial<AppStates>>
+  onJoinSession: React.Dispatch<Partial<AppStates>>
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
@@ -398,8 +401,9 @@ export default class Activities extends PureComponent<
 
   // Direct Actions
   onRunSession = (activityId: string) => {
+    const id = uid()
     const newSession: SessionConfiguration = {
-      id: uid(),
+      id: id,
       facilitator: {
         id: this.props.userIdentity.id,
         fullName: this.props.userIdentity.fullName,
@@ -420,6 +424,7 @@ export default class Activities extends PureComponent<
 
     this.props.onRunSession({
       sessions: sessions,
+      joinedSessionId: id,
       onGoingStep: 'session run',
     })
 
@@ -427,7 +432,27 @@ export default class Activities extends PureComponent<
       {
         pluginMessage: {
           type: 'START_SESSION',
-          data: sessions,
+          data: {
+            sessions: sessions,
+            activityId: activityId,
+          },
+        },
+      },
+      '*'
+    )
+  }
+
+  onJoinSession = (sessionId: string) => {
+    this.props.onJoinSession({
+      joinedSessionId: sessionId,
+      onGoingStep: 'session joined',
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'JOIN_SESSION',
+          sessionId: sessionId,
         },
       },
       '*'
@@ -488,6 +513,7 @@ export default class Activities extends PureComponent<
               })
             }
             onRunSession={this.onRunSession}
+            onJoinSession={this.onJoinSession}
           />
         )
         break

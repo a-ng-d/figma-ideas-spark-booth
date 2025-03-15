@@ -8,6 +8,7 @@ import {
   Layout,
   layouts,
   List,
+  MembersList,
   SectionTitle,
   SemanticMessage,
   SimpleItem,
@@ -20,20 +21,25 @@ import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
+  ActiveParticipant,
   ActivityConfiguration,
+  SessionConfiguration,
   ThumbnailConfiguration,
 } from '../../types/configurations'
 import Feature from '../components/Feature'
 
 interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>
+  sessions: Array<SessionConfiguration>
   thumbnails: Array<ThumbnailConfiguration>
+  activeParticipants: Array<ActiveParticipant>
   lang: Language
   planStatus: PlanStatus
   sessionCount: number
   onChangeActivities: React.MouseEventHandler<HTMLButtonElement>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
+  onJoinSession: (id: string) => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
@@ -70,6 +76,11 @@ export default class LocalActivities extends PureComponent<
     ACTIVITIES_IMPORT: new FeatureStatus({
       features: features,
       featureName: 'ACTIVITIES_IMPORT',
+      planStatus: planStatus,
+    }),
+    PARTICIPATE: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE',
       planStatus: planStatus,
     }),
   })
@@ -174,6 +185,27 @@ export default class LocalActivities extends PureComponent<
   }
 
   render() {
+    const runningSessions = this.props.sessions.filter(
+      (session) => session.isRunning
+    )
+    const sortedParticipants = this.props.activeParticipants.reduce(
+      (acc, participant) => {
+        if (acc[participant.joinedSessionId] === undefined)
+          acc[participant.joinedSessionId] = []
+        acc[participant.joinedSessionId].push({
+          avatar: participant.userIdentity.avatar,
+          fullName: participant.userIdentity.fullName,
+        })
+        return acc
+      },
+      {} as {
+        [key: string]: Array<{
+          avatar: string
+          fullName: string
+        }>
+      }
+    )
+
     return (
       <>
         <Layout
@@ -248,6 +280,7 @@ export default class LocalActivities extends PureComponent<
                       </div>
                     }
                     isListItem={false}
+                    alignment="CENTER"
                   />
                   <Feature
                     isActive={LocalActivities.features(
@@ -311,7 +344,7 @@ export default class LocalActivities extends PureComponent<
                       />
                     </div>
                   )}
-                  <List>
+                  <List isTopBorderEnabled>
                     {this.props.activities
                       .sort(
                         (a, b) =>
@@ -325,14 +358,16 @@ export default class LocalActivities extends PureComponent<
                           name={activity.name}
                           description={activity.description}
                           indicator={
-                            activity.meta.publicationStatus.isPublished
-                              ? {
+                            !runningSessions.some(
+                              (runningSessions) =>
+                                runningSessions.activityId === activity.meta.id
+                            )
+                              ? undefined
+                              : {
                                   status: 'ACTIVE',
                                   label:
-                                    locals[this.props.lang].publication
-                                      .statusPublished,
+                                    locals[this.props.lang].participate.onGoing,
                                 }
-                              : undefined
                           }
                           src={
                             this.props.thumbnails.find(
@@ -342,62 +377,107 @@ export default class LocalActivities extends PureComponent<
                           }
                           actionsSlot={
                             <div className={layouts['snackbar--medium']}>
-                              <Feature
-                                isActive={LocalActivities.features(
-                                  this.props.planStatus
-                                ).ACTIVITIES_SETTINGS.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="adjust"
-                                  feature="CONFIGURE_ACTIVITY"
-                                  helper={{
-                                    label:
+                              {!runningSessions.some(
+                                (runningSessions) =>
+                                  runningSessions.activityId ===
+                                  activity.meta.id
+                              ) ? (
+                                <>
+                                  <Feature
+                                    isActive={LocalActivities.features(
+                                      this.props.planStatus
+                                    ).ACTIVITIES_SETTINGS.isActive()}
+                                  >
+                                    <Button
+                                      type="icon"
+                                      icon="adjust"
+                                      feature="CONFIGURE_ACTIVITY"
+                                      helper={{
+                                        label:
+                                          locals[this.props.lang].activities
+                                            .configureActivity,
+                                        isSingleLine: true,
+                                      }}
+                                      isBlocked={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_SETTINGS.isBlocked()}
+                                      isNew={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_SETTINGS.isNew()}
+                                      action={() =>
+                                        this.props.onOpenActivitySettings(
+                                          activity.meta.id
+                                        )
+                                      }
+                                    />
+                                  </Feature>
+                                  <Feature
+                                    isActive={LocalActivities.features(
+                                      this.props.planStatus
+                                    ).ACTIVITIES_RUN.isActive()}
+                                  >
+                                    <Button
+                                      type="icon"
+                                      icon="play"
+                                      feature="RUN_ACTIVITY"
+                                      helper={{
+                                        label:
+                                          locals[this.props.lang].activities
+                                            .newSession,
+                                        isSingleLine: true,
+                                      }}
+                                      isBlocked={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_RUN.isReached(
+                                        this.props.sessionCount
+                                      )}
+                                      isNew={LocalActivities.features(
+                                        this.props.planStatus
+                                      ).ACTIVITIES_RUN.isNew()}
+                                      action={() =>
+                                        this.props.onRunSession(
+                                          activity.meta.id
+                                        )
+                                      }
+                                    />
+                                  </Feature>
+                                </>
+                              ) : (
+                                <Feature
+                                  isActive={LocalActivities.features(
+                                    this.props.planStatus
+                                  ).PARTICIPATE.isActive()}
+                                >
+                                  <MembersList
+                                    members={
+                                      sortedParticipants[
+                                        runningSessions.find(
+                                          (runningSessions) =>
+                                            runningSessions.activityId ===
+                                            activity.meta.id
+                                        )?.id ?? ''
+                                      ] ?? []
+                                    }
+                                    numberOfAvatarsDisplayed={2}
+                                  />
+                                  <Button
+                                    type="secondary"
+                                    label={
                                       locals[this.props.lang].activities
-                                        .configureActivity,
-                                    isSingleLine: true,
-                                  }}
-                                  isBlocked={LocalActivities.features(
-                                    this.props.planStatus
-                                  ).ACTIVITIES_SETTINGS.isBlocked()}
-                                  isNew={LocalActivities.features(
-                                    this.props.planStatus
-                                  ).ACTIVITIES_SETTINGS.isNew()}
-                                  action={() =>
-                                    this.props.onOpenActivitySettings(
-                                      activity.meta.id
-                                    )
-                                  }
-                                />
-                              </Feature>
-                              <Feature
-                                isActive={LocalActivities.features(
-                                  this.props.planStatus
-                                ).ACTIVITIES_RUN.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="play"
-                                  feature="RUN_ACTIVITY"
-                                  helper={{
-                                    label:
-                                      locals[this.props.lang].sessions
-                                        .newSession,
-                                    isSingleLine: true,
-                                  }}
-                                  isBlocked={LocalActivities.features(
-                                    this.props.planStatus
-                                  ).ACTIVITIES_RUN.isReached(
-                                    this.props.sessionCount
-                                  )}
-                                  isNew={LocalActivities.features(
-                                    this.props.planStatus
-                                  ).ACTIVITIES_RUN.isNew()}
-                                  action={() =>
-                                    this.props.onRunSession(activity.meta.id)
-                                  }
-                                />
-                              </Feature>
+                                        .joinSession
+                                    }
+                                    action={() => {
+                                      const sessionId = runningSessions.find(
+                                        (runningSessions) =>
+                                          runningSessions.activityId ===
+                                          activity.meta.id
+                                      )?.id
+                                      if (sessionId !== undefined)
+                                        this.props.onJoinSession(sessionId)
+                                    }}
+                                  />
+                                </Feature>
+                              )}
                             </div>
                           }
                           complementSlot={

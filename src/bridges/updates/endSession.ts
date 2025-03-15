@@ -18,9 +18,15 @@ const endSession = async (data: {
   stringifiedChart: string
 }) => {
   figma.root.setPluginData('sessions', JSON.stringify(data.sessions))
-  figma.root.setPluginData('event', 'SESSION_ENDED')
+  figma.root.setPluginData(
+    'event',
+    JSON.stringify({
+      name: 'SESSION_ENDED',
+      activityName: data.activity.name,
+    })
+  )
 
-  updateParticipants({ hasEnded: true })
+  updateParticipants({ hasEnded: true, joinedSessionId: '' })
 
   if (figma.editorType === 'figjam' && Object.entries(data.ideas).length > 0)
     addSessionToBoard({
@@ -43,7 +49,7 @@ const endSession = async (data: {
   figma.timer?.stop()
 
   await figma.saveVersionHistoryAsync(
-    `${data.activity.name} ${locals[lang].sessions.endSession}`
+    locals[lang].sessions.endSession.replace('$1', data.activity.name)
   )
 }
 

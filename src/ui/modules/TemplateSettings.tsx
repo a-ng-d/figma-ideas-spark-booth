@@ -224,6 +224,7 @@ export default class TemplateSettings extends PureComponent<
               />
             }
             isListItem={false}
+            alignment="CENTER"
           />
         }
         body={[
@@ -231,7 +232,7 @@ export default class TemplateSettings extends PureComponent<
             node: (
               <div
                 style={{
-                  padding: '0 var(--size-small)',
+                  padding: '0 var(--size-xsmall)',
                 }}
               >
                 <Card

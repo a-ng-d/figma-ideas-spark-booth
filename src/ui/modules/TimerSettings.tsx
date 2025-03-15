@@ -130,6 +130,7 @@ export default class TimerSettings extends PureComponent<TimerSettingsProps> {
               />
             }
             isListItem={false}
+            alignment="CENTER"
           />
         }
         body={[

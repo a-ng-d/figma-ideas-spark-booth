@@ -262,6 +262,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
               </Feature>
             }
             isListItem={false}
+            alignment="CENTER"
           />
         }
         body={[

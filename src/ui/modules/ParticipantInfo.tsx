@@ -1,4 +1,6 @@
 import {
+  Avatar,
+  Chip,
   ColorChip,
   ConsentConfiguration,
   layouts,
@@ -15,7 +17,10 @@ import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
+  ActiveParticipant,
   ActivityConfiguration,
+  FacilitatorConfiguration,
+  SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -23,6 +28,9 @@ import Feature from '../components/Feature'
 
 interface ParticipantInfoProps {
   activity: ActivityConfiguration
+  facilitator: FacilitatorConfiguration
+  activeParticipants: Array<ActiveParticipant>
+  session: SessionConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -32,14 +40,14 @@ interface ParticipantInfoProps {
 
 export default class ParticipantInfo extends PureComponent<ParticipantInfoProps> {
   static features = (planStatus: PlanStatus) => ({
+    PARTICIPATE_INFO_FACILITATOR: new FeatureStatus({
+      features: features,
+      featureName: 'PARTICIPATE_INFO_FACILITATOR',
+      planStatus: planStatus,
+    }),
     PARTICIPATE_INFO_DESCRIPTION: new FeatureStatus({
       features: features,
       featureName: 'PARTICIPATE_INFO_DESCRIPTION',
-      planStatus: planStatus,
-    }),
-    PARTICIPATE_INFO_INSTRUCTIONS: new FeatureStatus({
-      features: features,
-      featureName: 'PARTICIPATE_INFO_INSTRUCTIONS',
       planStatus: planStatus,
     }),
     PARTICIPATE_INFO_TYPES: new FeatureStatus({
@@ -52,6 +60,61 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
   render() {
     return (
       <>
+        <Feature
+          isActive={ParticipantInfo.features(
+            this.props.planStatus
+          ).PARTICIPATE_INFO_FACILITATOR.isActive()}
+        >
+          <Section
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={locals[this.props.lang].participate.info.facilitator}
+                  />
+                }
+                isListItem={false}
+                alignment="CENTER"
+              />
+            }
+            body={[
+              {
+                node: (
+                  <List>
+                    <SimpleItem
+                      leftPartSlot={
+                        <Avatar
+                          avatar={this.props.facilitator.avatar}
+                          fullName={this.props.facilitator.fullName}
+                          complementarySlot={
+                            !this.props.activeParticipants.some(
+                              (participant) =>
+                                participant.userIdentity.id ===
+                                  this.props.facilitator.id &&
+                                participant.joinedSessionId ===
+                                  this.props.session.id
+                            ) && (
+                              <Chip
+                                state="INACTIVE"
+                                isSolo
+                              >
+                                {locals[this.props.lang].participate.away}
+                              </Chip>
+                            )
+                          }
+                          isAccented
+                        />
+                      }
+                      alignment="CENTER"
+                    />
+                  </List>
+                ),
+                spacingModifier: 'TIGHT',
+              },
+            ]}
+            border={['BOTTOM']}
+          />
+        </Feature>
         <Feature
           isActive={
             ParticipantInfo.features(
@@ -69,6 +132,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -79,47 +143,6 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                     className={texts['type']}
                     dangerouslySetInnerHTML={{
                       __html: this.props.activity.description.replace(
-                        /\n/g,
-                        '<br />'
-                      ),
-                    }}
-                  />
-                ),
-                spacingModifier: 'LARGE',
-              },
-            ]}
-            border={['BOTTOM']}
-          />
-        </Feature>
-        <Feature
-          isActive={
-            ParticipantInfo.features(
-              this.props.planStatus
-            ).PARTICIPATE_INFO_INSTRUCTIONS.isActive() &&
-            this.props.activity.instructions !== ''
-          }
-        >
-          <Section
-            title={
-              <SimpleItem
-                leftPartSlot={
-                  <SectionTitle
-                    label={
-                      locals[this.props.lang].participate.info.instructions
-                    }
-                  />
-                }
-                isListItem={false}
-              />
-            }
-            body={[
-              {
-                node: (
-                  <div
-                    style={{ paddingBottom: 'var(--size-xxsmall)' }}
-                    className={texts['type']}
-                    dangerouslySetInnerHTML={{
-                      __html: this.props.activity.instructions.replace(
                         /\n/g,
                         '<br />'
                       ),
@@ -147,6 +170,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[

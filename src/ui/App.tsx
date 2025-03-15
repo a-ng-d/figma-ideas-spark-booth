@@ -90,6 +90,7 @@ export interface AppStates {
   isLoaded: boolean
   isCorrupted: boolean
   isBetaMessageVisible: boolean
+  joinedSessionId: string
   onGoingStep: string
 }
 
@@ -161,6 +162,7 @@ export default class App extends PureComponent<
       isLoaded: false,
       isCorrupted: false,
       isBetaMessageVisible: true,
+      joinedSessionId: '',
       onGoingStep: '',
     }
   }
@@ -339,6 +341,11 @@ export default class App extends PureComponent<
         }
 
         const getSessions = () => {
+          const staleSessions: Array<SessionConfiguration> =
+            e.data.pluginMessage.data.filter(
+              (session: SessionConfiguration) => !session.isRunning
+            )
+
           validateSessionsStructure(e.data.pluginMessage.data)
             .then(() =>
               this.setState({
@@ -359,6 +366,12 @@ export default class App extends PureComponent<
                 }
               )
             })
+          if (
+            staleSessions.some(
+              (session) => session.id === this.state.joinedSessionId
+            )
+          )
+            this.setState({ joinedSessionId: '' })
         }
 
         const getIdeas = () => {
@@ -514,7 +527,7 @@ export default class App extends PureComponent<
     ideas: Array<IdeaConfiguration>
   ) => {
     const currentSession = this.state.sessions.find(
-      (session) => session.isRunning
+      (session) => session.isRunning && session.activityId === activity.meta.id
     )
     if (currentSession) {
       currentSession.isRunning = false
@@ -555,6 +568,7 @@ export default class App extends PureComponent<
 
     this.setState({
       sessions: sessions,
+      joinedSessionId: '',
     })
 
     const sortedIdeas = sortIdeas(ideas, activity.groupedBy)
@@ -614,7 +628,8 @@ export default class App extends PureComponent<
   // Templates
   Controls = () => {
     const runningSession = this.state.sessions?.find(
-      (session) => session.isRunning
+      (session) =>
+        session.isRunning && session.id === this.state.joinedSessionId
     )
     const runningSessionActivity = this.state.activities.find(
       (activity) => activity.meta.id === runningSession?.activityId
@@ -625,22 +640,21 @@ export default class App extends PureComponent<
         <Feature
           isActive={
             App.features(this.props.planStatus).BROWSE.isActive() &&
-            this.state.sessions?.find((session) => session.isRunning) ===
-              undefined
+            this.state.joinedSessionId === ''
           }
         >
           <BrowseActivities
             {...this.state}
             onChangeActivities={(e) => this.setState({ ...e })}
             onRunSession={(e) => this.setState({ ...e })}
+            onJoinSession={(e) => this.setState({ ...e })}
             onGetProPlan={(e) => this.setState({ ...e })}
           />
         </Feature>
         <Feature
           isActive={
             App.features(this.props.planStatus).PARTICIPATE.isActive() &&
-            this.state.sessions?.find((session) => session.isRunning) !==
-              undefined
+            this.state.joinedSessionId !== ''
           }
         >
           <Participate
@@ -662,6 +676,7 @@ export default class App extends PureComponent<
             }}
             onChangeIdeas={(e) => this.setState({ ...e })}
             onEndSession={this.onEndSession}
+            onLeaveSession={(e) => this.setState({ ...e })}
             onGetProPlan={(e) => this.setState({ ...e })}
           />
         </Feature>

@@ -223,11 +223,12 @@ export default class UpdateIdeas extends PureComponent<
             />
           }
           isListItem={false}
+          alignment="CENTER"
         />
         {this.state.selfIdeas.length === 0 ? (
           this.setMessage()
         ) : (
-          <List>
+          <List isTopBorderEnabled>
             {this.state.selfIdeas.map((idea, index) => (
               <SimpleItem
                 key={index}

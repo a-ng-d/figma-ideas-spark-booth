@@ -11,7 +11,9 @@ import {
   PriorityContext,
 } from '../../types/app'
 import {
+  ActiveParticipant,
   ActivityConfiguration,
+  SessionConfiguration,
   ThumbnailConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
@@ -23,7 +25,9 @@ import LocalActivities from '../contexts/LocalActivities'
 
 interface ActivitiesListProps {
   activities: Array<ActivityConfiguration>
+  sessions: Array<SessionConfiguration>
   thumbnails: Array<ThumbnailConfiguration>
+  activeParticipants: Array<ActiveParticipant>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -33,6 +37,7 @@ interface ActivitiesListProps {
   onChangeActivities: React.MouseEventHandler<HTMLButtonElement>
   onOpenActivitySettings: (id: string) => void
   onRunSession: (id: string) => void
+  onJoinSession: (id: string) => void
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
