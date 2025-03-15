@@ -28,6 +28,7 @@ import {
   ActiveParticipant,
   ActivityConfiguration,
   IdeaConfiguration,
+  SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -35,6 +36,7 @@ import Feature from '../components/Feature'
 
 interface FacilitatorInfoProps {
   activity: ActivityConfiguration
+  session: SessionConfiguration
   ideas: Array<IdeaConfiguration>
   activeParticipants: Array<ActiveParticipant>
   userSession: UserSession
@@ -174,7 +176,12 @@ export default class FacilitatorInfo extends PureComponent<
                     label={
                       locals[this.props.lang].participate.info.participants
                     }
-                    indicator={this.props.activeParticipants.length.toString()}
+                    indicator={this.props.activeParticipants
+                      .filter(
+                        (participant) =>
+                          participant.joinedSessionId === this.props.session.id
+                      )
+                      .length.toString()}
                   />
                 }
                 isListItem={false}
@@ -239,6 +246,10 @@ export default class FacilitatorInfo extends PureComponent<
                 node: (
                   <List>
                     {this.props.activeParticipants
+                      .filter(
+                        (participant) =>
+                          participant.joinedSessionId === this.props.session.id
+                      )
                       .sort(
                         (a, b) =>
                           new Date(a.joinedAt).getTime() -

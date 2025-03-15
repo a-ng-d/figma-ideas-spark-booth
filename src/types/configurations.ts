@@ -106,6 +106,7 @@ export interface ActiveParticipant {
   hasFinished: boolean
   isBlocked: boolean
   joinedAt: Date | string
+  joinedSessionId: string
 }
 
 export interface TemplateConfiguration {

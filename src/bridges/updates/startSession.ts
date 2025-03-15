@@ -5,18 +5,22 @@ import {
 } from '../../types/configurations'
 import updateParticipants from './../updates/updateParticipants'
 
-const startSession = async (data: Array<SessionConfiguration>) => {
-  const sessions = data,
-    runningSession = sessions.find((session) => session.isRunning),
+const startSession = async (data: {
+  sessions: Array<SessionConfiguration>
+  activityId: string
+}) => {
+  const sessions = data.sessions,
+    runningSession = sessions.find(
+      (session) => session.isRunning && data.activityId === session.activityId
+    ),
     activity = JSON.parse(figma.root.getPluginData('activities')).find(
-      (activity: ActivityConfiguration) =>
-        activity.meta.id === runningSession?.activityId
+      (activity: ActivityConfiguration) => activity.meta.id === data.activityId
     ),
     sessionCount = await figma.clientStorage.getAsync('session_count')
 
-  updateParticipants({ hasStarted: true })
+  updateParticipants({ hasStarted: true, joinedSessionId: runningSession?.id })
 
-  figma.root.setPluginData('sessions', JSON.stringify(data))
+  figma.root.setPluginData('sessions', JSON.stringify(sessions))
   figma.root.setPluginData('event', 'SESSION_STARTED')
   figma.clientStorage.setAsync(
     'session_count',
@@ -26,7 +30,7 @@ const startSession = async (data: Array<SessionConfiguration>) => {
   figma.timer?.start(activity.timer.minutes * 60 + activity.timer.seconds)
 
   await figma.saveVersionHistoryAsync(
-    locals[lang].activities.newSession.replace('$1', activity.name)
+    locals[lang].sessions.newSession.replace('$1', activity.name)
   )
 
   figma.ui.postMessage({

@@ -253,6 +253,16 @@ export default class Participate extends PureComponent<
       joinedSessionId: '',
       onGoingStep: 'session left',
     })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'LEAVE_SESSION',
+          sessionId: '',
+        },
+      },
+      '*'
+    )
   }
 
   // Templates

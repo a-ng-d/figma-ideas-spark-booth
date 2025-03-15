@@ -1,11 +1,16 @@
 import { ActiveParticipant } from '../../types/configurations'
 
-const updateParticipants = async (options?: {
-  hasStarted?: boolean
-  hasEnded?: boolean
-  hasFinished?: boolean
-  isBlocked?: boolean
-}): Promise<Array<ActiveParticipant>> => {
+const updateParticipants = async (
+  params = {}
+): Promise<Array<ActiveParticipant>> => {
+  const { hasStarted, hasEnded, hasFinished, isBlocked, joinedSessionId } =
+    params as {
+      hasStarted?: boolean
+      hasEnded?: boolean
+      hasFinished?: boolean
+      isBlocked?: boolean
+      joinedSessionId?: string
+    }
   let activeParticipants: Array<ActiveParticipant> = JSON.parse(
     figma.root.getPluginData('activeParticipants')
   )
@@ -26,6 +31,7 @@ const updateParticipants = async (options?: {
         hasEnded: false,
         hasFinished: false,
         isBlocked: false,
+        joinedSessionId: '',
         joinedAt: new Date().toISOString(),
       } as ActiveParticipant,
     ]
@@ -34,10 +40,11 @@ const updateParticipants = async (options?: {
       if (participant.userIdentity.id === figma.currentUser?.id)
         return {
           ...participant,
-          hasStarted: options?.hasStarted ?? participant.hasStarted,
-          hasEnded: options?.hasEnded ?? participant.hasEnded,
-          hasFinished: options?.hasFinished ?? participant.hasFinished,
-          isBlocked: options?.isBlocked ?? participant.isBlocked,
+          hasStarted: hasStarted ?? participant.hasStarted,
+          hasEnded: hasEnded ?? participant.hasEnded,
+          hasFinished: hasFinished ?? participant.hasFinished,
+          isBlocked: isBlocked ?? participant.isBlocked,
+          joinedSessionId: joinedSessionId ?? participant.joinedSessionId,
         }
 
       return participant

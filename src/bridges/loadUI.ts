@@ -147,6 +147,9 @@ const loadUI = async () => {
       REMOVE_TEMPLATE: () => removeTemplate(msg.activityId),
       DETACH_ACTIVITY: () => detachPublishedActivity(msg.data, msg.newId),
       //
+      JOIN_SESSION: () =>
+        updateParticipants({ joinedSessionId: msg.sessionId }),
+      LEAVE_SESSION: () => updateParticipants({ joinedSessionId: '' }),
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),
@@ -358,6 +361,12 @@ const loadUI = async () => {
           }
         )
 
+      
+      figma.ui.postMessage({
+        type: 'END_SESSION',
+        data: '',
+      })
+
       setTimeout(() => {
         figma.root.setPluginData('event', '')
         updateParticipants({
@@ -367,11 +376,6 @@ const loadUI = async () => {
           isBlocked: false,
         })
       }, 3000)
-
-      figma.ui.postMessage({
-        type: 'END_SESSION',
-        data: '',
-      })
     }
 
     if (

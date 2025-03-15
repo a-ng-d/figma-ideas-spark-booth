@@ -20,7 +20,7 @@ const endSession = async (data: {
   figma.root.setPluginData('sessions', JSON.stringify(data.sessions))
   figma.root.setPluginData('event', 'SESSION_ENDED')
 
-  updateParticipants({ hasEnded: true })
+  updateParticipants({ hasEnded: true, joinedSessionId: '' })
 
   if (figma.editorType === 'figjam' && Object.entries(data.ideas).length > 0)
     addSessionToBoard({

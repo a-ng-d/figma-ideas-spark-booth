@@ -427,7 +427,10 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
       {
         pluginMessage: {
           type: 'START_SESSION',
-          data: sessions,
+          data: {
+            sessions: sessions,
+            activityId: activityId,
+          },
         },
       },
       '*'
@@ -439,6 +442,16 @@ export default class Activities extends PureComponent<ActivitiesProps, Activitie
       joinedSessionId: sessionId,
       onGoingStep: 'session joined',
     })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'JOIN_SESSION',
+          sessionId: sessionId,
+        },
+      },
+      '*'
+    )
   }
 
   onDeleteSession = (sessionId: string) => {
