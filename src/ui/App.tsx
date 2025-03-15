@@ -519,7 +519,7 @@ export default class App extends PureComponent<
     ideas: Array<IdeaConfiguration>
   ) => {
     const currentSession = this.state.sessions.find(
-      (session) => session.isRunning
+      (session) => session.isRunning && session.activityId === activity.meta.id
     )
     if (currentSession) {
       currentSession.isRunning = false
