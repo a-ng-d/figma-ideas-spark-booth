@@ -382,8 +382,8 @@ export const locals: { [key: string]: any } = {
       secondaryAction: '………',
     },
     success: {
-      startSession: 'A session has been started by $1',
-      endSession: 'A session has been ended by $1',
+      startSession: 'A $1 session has been started by $2',
+      endSession: 'The $1 session has been ended by $2',
       publication: '✓ The activity has been published',
       nonPublication: '✓ The activity has been unpublished',
       synchronization: '✓ The activity has been synchronized',

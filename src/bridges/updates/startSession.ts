@@ -21,7 +21,13 @@ const startSession = async (data: {
   updateParticipants({ hasStarted: true, joinedSessionId: runningSession?.id })
 
   figma.root.setPluginData('sessions', JSON.stringify(sessions))
-  figma.root.setPluginData('event', 'SESSION_STARTED')
+  figma.root.setPluginData(
+    'event',
+    JSON.stringify({
+      name: 'SESSION_STARTED',
+      activityName: activity.name,
+    })
+  )
   figma.clientStorage.setAsync(
     'session_count',
     sessionCount !== undefined ? sessionCount + 1 : 1

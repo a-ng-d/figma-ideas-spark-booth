@@ -322,17 +322,21 @@ const loadUI = async () => {
       }
     }
 
-    if (figma.root.getPluginData('event') === 'SESSION_STARTED') {
+    if (
+      JSON.parse(figma.root.getPluginData('event')).name === 'SESSION_STARTED'
+    ) {
       const participant = JSON.parse(
         figma.root.getPluginData('activeParticipants')
       ).find((participant: ActiveParticipant) => participant.hasStarted)
 
       if (participant !== undefined)
         figma.notify(
-          locals[lang].success.startSession.replace(
-            '$1',
-            participant.userIdentity.fullName
-          )
+          locals[lang].success.startSession
+            .replace(
+              '$1',
+              JSON.parse(figma.root.getPluginData('event')).activityName
+            )
+            .replace('$2', participant.userIdentity.fullName)
         )
 
       setTimeout(() => {
@@ -345,17 +349,21 @@ const loadUI = async () => {
       }, 3000)
     }
 
-    if (figma.root.getPluginData('event') === 'SESSION_ENDED') {
+    if (
+      JSON.parse(figma.root.getPluginData('event')).name === 'SESSION_ENDED'
+    ) {
       const participant = JSON.parse(
         figma.root.getPluginData('activeParticipants')
       ).find((participant: ActiveParticipant) => participant.hasEnded)
 
       if (participant !== undefined)
         figma.notify(
-          locals[lang].success.endSession.replace(
-            '$1',
-            participant.userIdentity.fullName
-          ),
+          locals[lang].success.endSession
+            .replace(
+              '$1',
+              JSON.parse(figma.root.getPluginData('event')).activityName
+            )
+            .replace('$2', participant.userIdentity.fullName),
           {
             timeout: Infinity,
             button: {

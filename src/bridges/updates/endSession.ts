@@ -18,7 +18,13 @@ const endSession = async (data: {
   stringifiedChart: string
 }) => {
   figma.root.setPluginData('sessions', JSON.stringify(data.sessions))
-  figma.root.setPluginData('event', 'SESSION_ENDED')
+  figma.root.setPluginData(
+    'event',
+    JSON.stringify({
+      name: 'SESSION_ENDED',
+      activityName: data.activity.name,
+    })
+  )
 
   updateParticipants({ hasEnded: true, joinedSessionId: '' })
 
