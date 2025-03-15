@@ -83,7 +83,11 @@ const startSessionFromCommand = async (template: SectionNode) => {
     activityId: activity.meta.id,
   } as SessionConfiguration
 
-  if (!isSessionRunning) startSession([...existingSessions, newSession])
+  if (!isSessionRunning)
+    startSession({
+      sessions: [...existingSessions, newSession],
+      activityId: activity.meta.id,
+    })
   else figma.notify(locals[lang].info.sessionAlreadyRunning)
 }
 

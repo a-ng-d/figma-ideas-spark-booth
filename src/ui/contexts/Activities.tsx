@@ -10,6 +10,7 @@ import {
   PriorityContext,
 } from '../../types/app'
 import {
+  ActiveParticipant,
   ActivityConfiguration,
   IdeaConfiguration,
   SessionConfiguration,
@@ -32,6 +33,7 @@ interface ActivitiesProps {
   sessions: Array<SessionConfiguration>
   ideas: Array<IdeaConfiguration>
   thumbnails: Array<ThumbnailConfiguration>
+  activeParticipants: Array<ActiveParticipant>
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
