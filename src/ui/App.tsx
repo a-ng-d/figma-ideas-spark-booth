@@ -341,6 +341,11 @@ export default class App extends PureComponent<
         }
 
         const getSessions = () => {
+          const staleSessions: Array<SessionConfiguration> =
+            e.data.pluginMessage.data.filter(
+              (session: SessionConfiguration) => !session.isRunning
+            )
+
           validateSessionsStructure(e.data.pluginMessage.data)
             .then(() =>
               this.setState({
@@ -361,6 +366,12 @@ export default class App extends PureComponent<
                 }
               )
             })
+          if (
+            staleSessions.some(
+              (session) => session.id === this.state.joinedSessionId
+            )
+          )
+            this.setState({ joinedSessionId: '' })
         }
 
         const getIdeas = () => {
@@ -419,8 +430,6 @@ export default class App extends PureComponent<
           )
         }
 
-        const endSession = () => this.setState({ joinedSessionId: '' })
-
         const enableTrial = () => {
           this.setState({
             planStatus: 'PAID',
@@ -463,7 +472,6 @@ export default class App extends PureComponent<
           GET_USER: () => getUser(),
           GET_THUMBNAILS: () => getThumbnails(),
           GET_PRO_PLAN: () => getProPlan(),
-          END_SESSION: () => endSession(),
           ENABLE_TRIAL: () => enableTrial(),
           COUNT_SESSIONS: () => countSessions(),
           SIGN_OUT: () => signOut(e.data.pluginMessage?.data),

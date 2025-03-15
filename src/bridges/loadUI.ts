@@ -365,12 +365,6 @@ const loadUI = async () => {
           }
         )
 
-      
-      figma.ui.postMessage({
-        type: 'END_SESSION',
-        data: '',
-      })
-
       setTimeout(() => {
         figma.root.setPluginData('event', '')
         updateParticipants({
