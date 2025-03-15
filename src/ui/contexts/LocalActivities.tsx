@@ -8,6 +8,7 @@ import {
   Layout,
   layouts,
   List,
+  MembersList,
   SectionTitle,
   SemanticMessage,
   SimpleItem,
@@ -20,6 +21,7 @@ import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, PriorityContext } from '../../types/app'
 import {
+  ActiveParticipant,
   ActivityConfiguration,
   SessionConfiguration,
   ThumbnailConfiguration,
@@ -30,6 +32,7 @@ interface LocalActivitiesProps {
   activities: Array<ActivityConfiguration>
   sessions: Array<SessionConfiguration>
   thumbnails: Array<ThumbnailConfiguration>
+  activeParticipants: Array<ActiveParticipant>
   lang: Language
   planStatus: PlanStatus
   sessionCount: number
@@ -184,6 +187,23 @@ export default class LocalActivities extends PureComponent<
   render() {
     const runningSessions = this.props.sessions.filter(
       (session) => session.isRunning
+    )
+    const sortedParticipants = this.props.activeParticipants.reduce(
+      (acc, participant) => {
+        if (acc[participant.joinedSessionId] === undefined)
+          acc[participant.joinedSessionId] = []
+        acc[participant.joinedSessionId].push({
+          avatar: participant.userIdentity.avatar,
+          fullName: participant.userIdentity.fullName,
+        })
+        return acc
+      },
+      {} as {
+        [key: string]: Array<{
+          avatar: string
+          fullName: string
+        }>
+      }
     )
 
     return (
@@ -428,6 +448,18 @@ export default class LocalActivities extends PureComponent<
                                     this.props.planStatus
                                   ).PARTICIPATE.isActive()}
                                 >
+                                  <MembersList
+                                    members={
+                                      sortedParticipants[
+                                        runningSessions.find(
+                                          (runningSessions) =>
+                                            runningSessions.activityId ===
+                                            activity.meta.id
+                                        )?.id ?? ''
+                                      ] ?? []
+                                    }
+                                    numberOfAvatarsDisplayed={2}
+                                  />
                                   <Button
                                     type="secondary"
                                     label={

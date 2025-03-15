@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Chip,
   ColorChip,
   ConsentConfiguration,
   layouts,
@@ -16,8 +17,10 @@ import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
+  ActiveParticipant,
   ActivityConfiguration,
   FacilitatorConfiguration,
+  SessionConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { UserSession } from '../../types/user'
@@ -26,6 +29,8 @@ import Feature from '../components/Feature'
 interface ParticipantInfoProps {
   activity: ActivityConfiguration
   facilitator: FacilitatorConfiguration
+  activeParticipants: Array<ActiveParticipant>
+  session: SessionConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   userIdentity: UserConfiguration
@@ -81,6 +86,22 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                         <Avatar
                           avatar={this.props.facilitator.avatar}
                           fullName={this.props.facilitator.fullName}
+                          complementarySlot={
+                            !this.props.activeParticipants.some(
+                              (participant) =>
+                                participant.userIdentity.id ===
+                                  this.props.facilitator.id &&
+                                participant.joinedSessionId ===
+                                  this.props.session.id
+                            ) && (
+                              <Chip
+                                state="INACTIVE"
+                                isSolo
+                              >
+                                {locals[this.props.lang].participate.away}
+                              </Chip>
+                            )
+                          }
                           isAccented
                         />
                       }

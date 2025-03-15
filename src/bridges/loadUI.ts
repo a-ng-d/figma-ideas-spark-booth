@@ -148,8 +148,12 @@ const loadUI = async () => {
       DETACH_ACTIVITY: () => detachPublishedActivity(msg.data, msg.newId),
       //
       JOIN_SESSION: () =>
-        updateParticipants({ joinedSessionId: msg.sessionId }),
-      LEAVE_SESSION: () => updateParticipants({ joinedSessionId: '' }),
+        updateParticipants({
+          hasFinished: false,
+          joinedSessionId: msg.sessionId,
+        }),
+      LEAVE_SESSION: () =>
+        updateParticipants({ hasFinished: false, joinedSessionId: '' }),
       FLAG_AS_DONE: () => updateParticipants({ hasFinished: true }),
       UNFLAG_AS_DONE: () => updateParticipants({ hasFinished: false }),
       BLOCK_PARTICIPANT: () => updateParticipants({ isBlocked: true }),

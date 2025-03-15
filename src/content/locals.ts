@@ -218,6 +218,7 @@ export const locals: { [key: string]: any } = {
       ideas: 'Ideas',
       onGoing: 'Ongoing…',
       finished: 'Finished',
+      away: 'Away',
       blocked: 'Blocked',
       flagAsDone: 'Flag facilitator you are done',
       unflagAsDone: 'Remove flag',
