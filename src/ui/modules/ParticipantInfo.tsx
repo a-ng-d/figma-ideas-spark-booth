@@ -69,6 +69,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -83,6 +84,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                           isAccented
                         />
                       }
+                      alignment="CENTER"
                     />
                   </List>
                 ),
@@ -109,6 +111,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -146,6 +149,7 @@ export default class ParticipantInfo extends PureComponent<ParticipantInfoProps>
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[

@@ -87,6 +87,7 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
               </Feature>
             }
             isListItem={false}
+            alignment="CENTER"
           />
         }
         body={[
@@ -167,6 +168,7 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
               />
             }
             isListItem={false}
+            alignment="CENTER"
           />
         }
         body={[

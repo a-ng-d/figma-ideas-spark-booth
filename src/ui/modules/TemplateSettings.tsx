@@ -224,6 +224,7 @@ export default class TemplateSettings extends PureComponent<
               />
             }
             isListItem={false}
+            alignment="CENTER"
           />
         }
         body={[

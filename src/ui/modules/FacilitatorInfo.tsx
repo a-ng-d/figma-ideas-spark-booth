@@ -127,6 +127,7 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -140,7 +141,7 @@ export default class FacilitatorInfo extends PureComponent<
                       ]}
                     />
                   ) : (
-                    <ul>
+                    <List>
                       {Object.values(sortedIdeas).map((ideas, index) => (
                         <SimpleItem
                           key={index}
@@ -152,9 +153,10 @@ export default class FacilitatorInfo extends PureComponent<
                               >{`${ideas.length} ${ideas[0].type.name}`}</span>
                             </div>
                           }
+                          alignment="CENTER"
                         />
                       ))}
-                    </ul>
+                    </List>
                   ))(),
                 spacingModifier:
                   this.props.ideas.length === 0 ? 'NONE' : 'TIGHT',
@@ -185,6 +187,7 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -296,6 +299,7 @@ export default class FacilitatorInfo extends PureComponent<
                               isAccented
                             />
                           }
+                          alignment="CENTER"
                         />
                       ))}
                   </List>
@@ -323,6 +327,7 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -364,6 +369,7 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
@@ -401,12 +407,13 @@ export default class FacilitatorInfo extends PureComponent<
                   />
                 }
                 isListItem={false}
+                alignment="CENTER"
               />
             }
             body={[
               {
                 node: (
-                  <ul>
+                  <List>
                     {this.props.activity.types.map((type, index) => (
                       <SimpleItem
                         key={index}
@@ -449,7 +456,7 @@ export default class FacilitatorInfo extends PureComponent<
                         }
                       />
                     ))}
-                  </ul>
+                  </List>
                 ),
                 spacingModifier: 'TIGHT',
               },

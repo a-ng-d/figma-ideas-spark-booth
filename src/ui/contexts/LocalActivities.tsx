@@ -260,6 +260,7 @@ export default class LocalActivities extends PureComponent<
                       </div>
                     }
                     isListItem={false}
+                    alignment="CENTER"
                   />
                   <Feature
                     isActive={LocalActivities.features(
@@ -323,7 +324,7 @@ export default class LocalActivities extends PureComponent<
                       />
                     </div>
                   )}
-                  <List>
+                  <List isTopBorderEnabled>
                     {this.props.activities
                       .sort(
                         (a, b) =>
