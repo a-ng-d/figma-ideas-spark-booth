@@ -650,7 +650,10 @@ export default class History extends PureComponent<
                     border={['BOTTOM']}
                   />
                   {this.state.ideas.length > 0 ? (
-                    <List padding="var(--size-xxxsmall)">
+                    <List
+                      padding="var(--size-xxxsmall)"
+                      isAlternate
+                    >
                       {this.state.ideas.map((idea, index) => (
                         <SimpleItem
                           key={index}
