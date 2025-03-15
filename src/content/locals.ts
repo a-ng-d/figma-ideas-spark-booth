@@ -225,8 +225,8 @@ export const locals: { [key: string]: any } = {
       noParticipantIdea: 'No participant has added any idea yet',
       info: {
         sessionIdeas: 'Session ideas',
-        participants: 'Participants',
-        facilitator: 'Facilitator',
+        participants: 'Active participants',
+        facilitator: 'Current facilitator',
         types: 'Types',
         description: 'Description',
         instructions: 'Instructions',

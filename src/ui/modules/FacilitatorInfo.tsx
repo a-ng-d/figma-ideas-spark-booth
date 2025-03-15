@@ -194,27 +194,29 @@ export default class FacilitatorInfo extends PureComponent<
               {
                 node: (() =>
                   this.state.isParticipantsMessageVisible && (
-                    <SemanticMessage
-                      type="INFO"
-                      message={
-                        this.props.editorType === 'figjam'
-                          ? locals[this.props.lang].info
-                              .inviteParticipantsOnFigJam
-                          : locals[this.props.lang].info
-                              .inviteParticipantsOnSlides
-                      }
-                      actionsSlot={
-                        <Button
-                          type="icon"
-                          icon="close"
-                          action={() =>
-                            this.setState({
-                              isParticipantsMessageVisible: false,
-                            })
-                          }
-                        />
-                      }
-                    />
+                    <div style={{ padding: 'var(--size-xxxsmall) 0' }}>
+                      <SemanticMessage
+                        type="INFO"
+                        message={
+                          this.props.editorType === 'figjam'
+                            ? locals[this.props.lang].info
+                                .inviteParticipantsOnFigJam
+                            : locals[this.props.lang].info
+                                .inviteParticipantsOnSlides
+                        }
+                        actionsSlot={
+                          <Button
+                            type="icon"
+                            icon="close"
+                            action={() =>
+                              this.setState({
+                                isParticipantsMessageVisible: false,
+                              })
+                            }
+                          />
+                        }
+                      />
+                    </div>
                   ))(),
               },
               {
@@ -222,27 +224,29 @@ export default class FacilitatorInfo extends PureComponent<
                   this.props.activeParticipants.some(
                     (participant) => participant.isBlocked
                   ) && (
-                    <SemanticMessage
-                      type="WARNING"
-                      message={locals[
-                        this.props.lang
-                      ].warning.blockedParticipations.replace(
-                        '$1',
-                        (FacilitatorInfo.features(this.props.planStatus)
-                          .PARTICIPATE?.limit ?? 0) + 1
-                      )}
-                      actionsSlot={
-                        <Button
-                          type="secondary"
-                          label={locals[this.props.lang].plan.tryPro}
-                          action={() =>
-                            this.props.onGetProPlan({
-                              priorityContainerContext: 'TRY',
-                            })
-                          }
-                        />
-                      }
-                    />
+                    <div style={{ padding: 'var(--size-xxxsmall) 0' }}>
+                      <SemanticMessage
+                        type="WARNING"
+                        message={locals[
+                          this.props.lang
+                        ].warning.blockedParticipations.replace(
+                          '$1',
+                          (FacilitatorInfo.features(this.props.planStatus)
+                            .PARTICIPATE?.limit ?? 0) + 1
+                        )}
+                        actionsSlot={
+                          <Button
+                            type="secondary"
+                            label={locals[this.props.lang].plan.tryPro}
+                            action={() =>
+                              this.props.onGetProPlan({
+                                priorityContainerContext: 'TRY',
+                              })
+                            }
+                          />
+                        }
+                      />
+                    </div>
                   ))(),
               },
               {
@@ -279,7 +283,7 @@ export default class FacilitatorInfo extends PureComponent<
                                     </span>
                                   )}
                                   {participant.hasFinished && (
-                                    <Chip>
+                                    <Chip isSolo>
                                       {
                                         locals[this.props.lang].participate
                                           .finished
@@ -287,7 +291,7 @@ export default class FacilitatorInfo extends PureComponent<
                                     </Chip>
                                   )}
                                   {participant.isBlocked && (
-                                    <Chip>
+                                    <Chip isSolo>
                                       {
                                         locals[this.props.lang].participate
                                           .blocked
