@@ -790,6 +790,9 @@ export default class App extends PureComponent<
             onReOpenHighlight={() =>
               this.setState({ priorityContainerContext: 'HIGHLIGHT' })
             }
+            onReOpenOnboarding={() =>
+              this.setState({ priorityContainerContext: 'ONBOARDING' })
+            }
             onReOpenReport={() =>
               this.setState({ priorityContainerContext: 'REPORT' })
             }

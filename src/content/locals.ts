@@ -257,7 +257,8 @@ export const locals: { [key: string]: any } = {
     shortcuts: {
       documentation: 'Read the documentation',
       news: "What's new",
-      repository: 'Repository',
+      onboarding: 'Quick start',
+      repository: 'Contribute',
       request: 'Share your ideas',
       feedback: 'Submit feedback',
       email: 'Contact support',
