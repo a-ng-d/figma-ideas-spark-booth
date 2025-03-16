@@ -317,6 +317,15 @@ export default class App extends PureComponent<
           })
         }
 
+        const handleOnboarding = () => {
+          this.setState({
+            priorityContainerContext:
+              e.data.pluginMessage.data !== 'DISPLAY_ONBOARDING_DIALOG'
+                ? 'EMPTY'
+                : 'ONBOARDING',
+          })
+        }
+
         const getActivities = () => {
           validateActivitiesStructure(e.data.pluginMessage.data)
             .then(() =>
@@ -465,6 +474,7 @@ export default class App extends PureComponent<
           CHECK_COUNTS: () => checkCounts(),
           CHECK_EDITOR_TYPE: () => checkEditorType(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
+          PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
           GET_ACTIVITIES: () => getActivities(),
           GET_SESSIONS: () => getSessions(),
           GET_IDEAS: () => getIdeas(),
