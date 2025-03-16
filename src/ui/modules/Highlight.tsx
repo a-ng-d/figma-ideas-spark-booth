@@ -121,27 +121,7 @@ export default class Highlight extends PureComponent<
               ? `${this.state.position + 1} of ${this.state.announcements.length}`
               : undefined
           }
-          onClose={(e: MouseEvent) => {
-            if (
-              this.props.highlight.version !== undefined ||
-              this.props.highlight.version !== ''
-            )
-              parent.postMessage(
-                {
-                  pluginMessage: {
-                    type: 'SET_ITEMS',
-                    items: [
-                      {
-                        key: 'highlight_version',
-                        value: this.props.highlight.version,
-                      },
-                    ],
-                  },
-                },
-                '*'
-              )
-            this.props.onCloseHighlight(e)
-          }}
+          onClose={(e: MouseEvent) => this.props.onCloseHighlight(e)}
         >
           <div className="dialog__cover">
             <img
