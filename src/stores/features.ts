@@ -587,7 +587,16 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'PARTICIPATE'>> = [
     isActive: true,
     isPro: false,
     isNew: false,
-    type: 'ACTION',
+    type: 'DIVISION',
+    service: ['BROWSE', 'PARTICIPATE'],
+  },
+  {
+    name: 'SHORTCUTS_ONBOARDING',
+    description: 'Onboarding',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'DIVISION',
     service: ['BROWSE', 'PARTICIPATE'],
   },
   {

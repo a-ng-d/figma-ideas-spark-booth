@@ -36,6 +36,8 @@ export type HighlightStatus =
   | 'DISPLAY_HIGHLIGHT_NOTIFICATION'
   | 'DISPLAY_HIGHLIGHT_DIALOG'
 
+export type OnboardingStatus = 'NO_ONBOARDING' | 'DISPLAY_ONBOARDING_DIALOG'
+
 export type Language = 'en-US'
 
 export interface windowSize {
@@ -51,6 +53,7 @@ export interface HighlightDigest {
 export type PriorityContext =
   | 'EMPTY'
   | 'HIGHLIGHT'
+  | 'ONBOARDING'
   | 'TRY'
   | 'WELCOME_TO_PRO'
   | 'WELCOME_TO_TRIAL'
