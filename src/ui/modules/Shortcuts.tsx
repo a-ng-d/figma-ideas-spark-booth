@@ -56,11 +56,13 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
   static features = (planStatus: PlanStatus) => ({
+    SHORTCUTS_USER: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_USER',
+      planStatus: planStatus,
+    }),
     SHORTCUTS_HIGHLIGHT: new FeatureStatus({
       features: features,
       featureName: 'SHORTCUTS_HIGHLIGHT',
@@ -69,11 +71,6 @@ export default class Shortcuts extends PureComponent<
     SHORTCUTS_ONBOARDING: new FeatureStatus({
       features: features,
       featureName: 'SHORTCUTS_ONBOARDING',
-      planStatus: planStatus,
-    }),
-    SHORTCUTS_USER: new FeatureStatus({
-      features: features,
-      featureName: 'SHORTCUTS_USER',
       planStatus: planStatus,
     }),
     SHORTCUTS_REPOSITORY: new FeatureStatus({
