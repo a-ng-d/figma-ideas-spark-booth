@@ -40,7 +40,11 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
   // Templates
   SessionCount = () => (
     <div
-      className={`type ${texts.type} ${texts['type--secondary']} ${texts['type--truncated']}`}
+      className={doClassnames([
+        texts.type,
+        texts['type--secondary'],
+        texts['type--truncated'],
+      ])}
     >
       {(TrialControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
         0) -
