@@ -255,7 +255,6 @@ export const locals: { [key: string]: any } = {
       detach: 'Detach',
     },
     shortcuts: {
-      documentation: 'Read the documentation',
       news: "What's new",
       onboarding: 'Quick start',
       repository: 'Contribute',
@@ -265,8 +264,11 @@ export const locals: { [key: string]: any } = {
       store: 'Discover more products',
       follow: 'Support us',
       author: 'Support the author',
-      userMenu: 'User menu',
-      helpMenu: 'Help/Support menu',
+      tooltip: {
+        documentation: 'Read the documentation',
+        userMenu: 'User menu',
+        helpMenu: 'Help/Support menu',
+      },
     },
     report: {
       title: 'Report a bug',
