@@ -264,7 +264,7 @@ export const locals: { [key: string]: any } = {
       store: 'Discover more products',
       follow: 'Support us',
       author: 'Support the author',
-      tooltip: {
+      tooltips: {
         documentation: 'Read the documentation',
         userMenu: 'User menu',
         helpMenu: 'Help/Support menu',
