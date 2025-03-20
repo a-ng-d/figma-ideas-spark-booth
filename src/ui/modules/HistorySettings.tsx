@@ -142,7 +142,7 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                         />
                       }
                       alignment="CENTER"
-                      isInteractive={true}
+                      isInteractive
                       action={this.props.onOpenSessionHistory}
                     />
                   ))}

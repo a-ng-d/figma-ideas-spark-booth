@@ -755,7 +755,7 @@ export default class App extends PureComponent<
           <SemanticMessage
             type="INFO"
             message={locals[this.state.lang].beta.message}
-            isAnchored={true}
+            isAnchored
             actionsSlot={
               <div className={layouts['snackbar--medium']}>
                 <Button

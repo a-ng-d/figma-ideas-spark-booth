@@ -501,7 +501,7 @@ export default class Settings extends PureComponent<
                       locals[this.props.lang].settings.importSessionsDialog.cta
                     }
                     acceptedMimeTypes={['application/json']}
-                    isMultiple={true}
+                    isMultiple
                     isLoading={this.state.isFilesImporting}
                     onImportFiles={(files) => {
                       this.setState({ isFilesImporting: true })

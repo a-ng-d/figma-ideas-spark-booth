@@ -282,8 +282,8 @@ export default class UpdateIdeas extends PureComponent<
                           type="LONG_TEXT"
                           value={idea.text}
                           feature="UPDATE_IDEA"
-                          isGrowing={true}
-                          isFlex={true}
+                          isGrowing
+                          isFlex
                           isBlocked={UpdateIdeas.features(
                             this.props.planStatus
                           ).PARTICIPATE_UPDATE_IDEA.isBlocked()}

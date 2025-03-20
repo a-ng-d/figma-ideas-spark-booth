@@ -126,7 +126,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             isNew={GlobalSettings.features(
               this.props.planStatus
             ).SETTINGS_DESCRIPTION.isNew()}
-            isGrowing={true}
+            isGrowing
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
           />
@@ -163,7 +163,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             isNew={GlobalSettings.features(
               this.props.planStatus
             ).SETTINGS_INSTRUCTIONS.isNew()}
-            isGrowing={true}
+            isGrowing
             onFocus={this.props.onChangeActivities}
             onBlur={this.props.onChangeActivities}
           />

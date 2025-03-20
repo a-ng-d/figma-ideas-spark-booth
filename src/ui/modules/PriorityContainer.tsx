@@ -370,7 +370,7 @@ export default class PriorityContainer extends PureComponent<
                   type="TEXT"
                   id="type-fullname"
                   value={this.state.userFullName}
-                  isAutoFocus={true}
+                  isAutoFocus
                   placeholder={
                     locals[this.props.lang].report.fullName.placeholder
                   }

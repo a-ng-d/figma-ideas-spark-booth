@@ -475,7 +475,7 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                                   .description.placeholder
                               }
                               feature="UPDATE_DESCRIPTION"
-                              isGrowing={true}
+                              isGrowing
                               isBlocked={TypesSettings.features(
                                 this.props.planStatus
                               ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}

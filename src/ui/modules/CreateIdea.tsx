@@ -161,7 +161,7 @@ export default class CreateIdeas extends PureComponent<
               id="update-idea"
               type="LONG_TEXT"
               placeholder="Type your idea here"
-              isGrowing={true}
+              isGrowing
               isBlocked={CreateIdeas.features(
                 this.props.planStatus
               ).PARTICIPATE_CREATE_IDEA.isBlocked()}

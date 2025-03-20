@@ -158,7 +158,7 @@ export default class LocalActivities extends PureComponent<
                     locals[this.props.lang].activities.importSessionsDialog.cta
                   }
                   acceptedMimeTypes={['application/json']}
-                  isMultiple={true}
+                  isMultiple
                   isLoading={this.state.isFilesImporting}
                   onImportFiles={(files) => {
                     this.setState({ isFilesImporting: false })
