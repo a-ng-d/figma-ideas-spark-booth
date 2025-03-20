@@ -116,6 +116,7 @@ export const locals: { [key: string]: any } = {
         },
         newType: 'New type',
         defaultType: 'Classic yellow',
+        moreParameters: '$1 parameters',
         colors: {
           white: 'White',
           gray: 'Gray',
@@ -127,6 +128,10 @@ export const locals: { [key: string]: any } = {
           red: 'Red',
           orange: 'Orange',
           yellow: 'Yellow',
+        },
+        actions: {
+          removeType: 'Remove type',
+          moreParameters: 'More parameters',
         },
       },
       template: {

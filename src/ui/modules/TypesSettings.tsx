@@ -443,46 +443,59 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                     </Feature>
                   </>
                 ))}
-                secondarySlot={this.props.activity.types.map((type, index) => (
-                  <Feature
-                    key={index}
-                    isActive={TypesSettings.features(
-                      this.props.planStatus
-                    ).SETTINGS_TYPES_DESCRIPTION.isActive()}
-                  >
-                    <div className="draggable-item__param">
-                      <FormItem
-                        id="type-description"
-                        label={
-                          locals[this.props.lang].settings.types.description
-                            .label
-                        }
-                        isBlocked={TypesSettings.features(
+                secondarySlot={this.props.activity.types.map((type, index) => {
+                  return {
+                    title: locals[
+                      this.props.lang
+                    ].settings.types.moreParameters.replace('$1', type.name),
+                    node: (() => (
+                      <Feature
+                        key={index}
+                        isActive={TypesSettings.features(
                           this.props.planStatus
-                        ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                        ).SETTINGS_TYPES_DESCRIPTION.isActive()}
                       >
-                        <Input
-                          id="color-description"
-                          type="LONG_TEXT"
-                          value={type.description}
-                          placeholder={
-                            locals[this.props.lang].settings.types.description
-                              .placeholder
-                          }
-                          feature="UPDATE_DESCRIPTION"
-                          isGrowing={true}
-                          isBlocked={TypesSettings.features(
-                            this.props.planStatus
-                          ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
-                          isNew={TypesSettings.features(
-                            this.props.planStatus
-                          ).SETTINGS_TYPES_DESCRIPTION.isNew()}
-                          onBlur={this.typeHandler}
-                        />
-                      </FormItem>
-                    </div>
-                  </Feature>
-                ))}
+                        <div className="draggable-item__param">
+                          <FormItem
+                            id="type-description"
+                            label={
+                              locals[this.props.lang].settings.types.description
+                                .label
+                            }
+                            isBlocked={TypesSettings.features(
+                              this.props.planStatus
+                            ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                          >
+                            <Input
+                              id="color-description"
+                              type="LONG_TEXT"
+                              value={type.description}
+                              placeholder={
+                                locals[this.props.lang].settings.types
+                                  .description.placeholder
+                              }
+                              feature="UPDATE_DESCRIPTION"
+                              isGrowing={true}
+                              isBlocked={TypesSettings.features(
+                                this.props.planStatus
+                              ).SETTINGS_TYPES_DESCRIPTION.isBlocked()}
+                              isNew={TypesSettings.features(
+                                this.props.planStatus
+                              ).SETTINGS_TYPES_DESCRIPTION.isNew()}
+                              onBlur={this.typeHandler}
+                            />
+                          </FormItem>
+                        </div>
+                      </Feature>
+                    ))(),
+                  }
+                })}
+                helpers={{
+                  remove:
+                    locals[this.props.lang].settings.types.actions.removeType,
+                  more: locals[this.props.lang].settings.types.actions
+                    .moreParameters,
+                }}
                 onChangeSortableList={this.onChangeOrder}
                 onRemoveItem={this.typeHandler}
               />
