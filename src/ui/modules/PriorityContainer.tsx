@@ -493,11 +493,11 @@ export default class PriorityContainer extends PureComponent<
   render() {
     return (
       <>
+        {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
+        {this.props.context === 'ONBOARDING' && <this.OnBoarding />}
         {this.props.context === 'TRY' && <this.TryPro />}
         {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
         {this.props.context === 'WELCOME_TO_PRO' && <this.WelcomeToPro />}
-        {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
-        {this.props.context === 'ONBOARDING' && <this.OnBoarding />}
         {this.props.context === 'STORE' && <this.Store />}
         {this.props.context === 'ABOUT' && <this.About />}
         {this.props.context === 'REPORT' && <this.Report />}
