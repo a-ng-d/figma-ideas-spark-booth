@@ -539,7 +539,6 @@ export default class History extends PureComponent<
                               helper={{
                                 label:
                                   locals[this.props.lang].history.deleteSession,
-                                isSingleLine: true,
                               }}
                               isBlocked={History.features(
                                 this.props.planStatus
@@ -570,7 +569,6 @@ export default class History extends PureComponent<
                             helper={{
                               label:
                                 locals[this.props.lang].history.filter.action,
-                              isSingleLine: true,
                             }}
                             isNew={this.state.filteredBy !== 'NONE'}
                             alignment="BOTTOM_RIGHT"

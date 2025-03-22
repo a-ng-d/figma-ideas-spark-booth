@@ -249,7 +249,6 @@ export default class TypesSettings extends PureComponent<TypesSettingsProps> {
                   feature="ADD_TYPE"
                   helper={{
                     label: locals[this.props.lang].settings.types.newType,
-                    isSingleLine: true,
                   }}
                   isBlocked={TypesSettings.features(
                     this.props.planStatus

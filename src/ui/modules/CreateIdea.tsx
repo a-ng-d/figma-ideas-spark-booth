@@ -142,7 +142,6 @@ export default class CreateIdeas extends PureComponent<
               alignment="TOP_LEFT"
               helper={{
                 label: locals[this.props.lang].participate.selectType,
-                isSingleLine: true,
               }}
               isNew={CreateIdeas.features(
                 this.props.planStatus
@@ -187,7 +186,6 @@ export default class CreateIdeas extends PureComponent<
               icon="plus"
               helper={{
                 label: locals[this.props.lang].participate.addIdea,
-                isSingleLine: true,
               }}
               isDisabled={!this.state.canBeSubmitted}
               isBlocked={CreateIdeas.features(

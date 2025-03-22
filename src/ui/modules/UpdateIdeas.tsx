@@ -263,7 +263,6 @@ export default class UpdateIdeas extends PureComponent<
                           helper={{
                             label:
                               locals[this.props.lang].participate.selectType,
-                            isSingleLine: true,
                           }}
                           isNew={UpdateIdeas.features(
                             this.props.planStatus
@@ -308,7 +307,6 @@ export default class UpdateIdeas extends PureComponent<
                       feature="REMOVE_IDEA"
                       helper={{
                         label: locals[this.props.lang].participate.removeIdea,
-                        isSingleLine: true,
                       }}
                       isBlocked={UpdateIdeas.features(
                         this.props.planStatus

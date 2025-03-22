@@ -74,7 +74,6 @@ export default class HistorySettings extends PureComponent<HistorySettingsProps>
                   helper={{
                     label:
                       locals[this.props.lang].settings.actions.importSessions,
-                    isSingleLine: true,
                   }}
                   isBlocked={HistorySettings.features(
                     this.props.planStatus

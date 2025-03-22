@@ -235,7 +235,6 @@ export default class LocalActivities extends PureComponent<
                               label:
                                 locals[this.props.lang].activities
                                   .importActivities,
-                              isSingleLine: true,
                             }}
                             isBlocked={LocalActivities.features(
                               this.props.planStatus
@@ -264,7 +263,6 @@ export default class LocalActivities extends PureComponent<
                             helper={{
                               label:
                                 locals[this.props.lang].activities.newActivity,
-                              isSingleLine: true,
                             }}
                             isBlocked={LocalActivities.features(
                               this.props.planStatus
@@ -396,7 +394,6 @@ export default class LocalActivities extends PureComponent<
                                         label:
                                           locals[this.props.lang].activities
                                             .configureActivity,
-                                        isSingleLine: true,
                                       }}
                                       isBlocked={LocalActivities.features(
                                         this.props.planStatus
@@ -424,7 +421,6 @@ export default class LocalActivities extends PureComponent<
                                         label:
                                           locals[this.props.lang].activities
                                             .newSession,
-                                        isSingleLine: true,
                                       }}
                                       isBlocked={LocalActivities.features(
                                         this.props.planStatus
