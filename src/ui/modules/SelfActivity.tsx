@@ -211,10 +211,10 @@ export default class SelfActivity extends PureComponent<SelfActivityProps> {
                         i === this.props.index ? true : loading
                       )
                     )
-                    shareActivity(
-                      this.props.activity.activity_id,
-                      !this.props.activity.is_shared
-                    )
+                    shareActivity({
+                      id: this.props.activity.activity_id,
+                      isShared: !this.props.activity.is_shared,
+                    })
                       .then(() => {
                         parent.postMessage(
                           {
