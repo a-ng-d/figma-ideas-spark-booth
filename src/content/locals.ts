@@ -470,6 +470,7 @@ export const locals: { [key: string]: any } = {
       noInternetConnection:
         '✕ The connection with the remote activity is unlinked',
       announcements: 'The announcements cannot be loaded',
+      onboarding: 'The onboarding cannot be loaded',
       corruptedDataOnFigJam:
         'The data is corrupted. Please restore a previous version of the FigJam board before you have run the last session.',
       corruptedDataOnSlides:

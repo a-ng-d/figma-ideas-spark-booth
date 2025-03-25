@@ -75,7 +75,7 @@ export default class Onboarding extends PureComponent<
         >
           <SemanticMessage
             type="WARNING"
-            message={locals[this.props.lang].error.announcements}
+            message={locals[this.props.lang].error.onboarding}
           />
         </Dialog>
       )
