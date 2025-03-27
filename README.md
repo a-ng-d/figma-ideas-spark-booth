@@ -37,4 +37,4 @@ Go to the [Issues](https://isb.ylb.lt/report) section and browse the existing ti
 - _Enjoy!_
 
 ## Support
-- [Connect to my Figma resources page](https://uicp.link/author).
+- [Connect to my Figma resources page](https://isb.ylb.lt/author).
