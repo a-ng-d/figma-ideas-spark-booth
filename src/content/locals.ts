@@ -327,6 +327,7 @@ export const locals: { [key: string]: any } = {
       pro: 'Pro plan',
       free: 'Free plan',
       trial: 'Trial',
+      dev: 'Developer plan',
       trialEnded: 'Your trial has ended',
       trialTimeDays: {
         single: '1 day left in this trial',
@@ -342,7 +343,6 @@ export const locals: { [key: string]: any } = {
         single: '1 session left',
         plural: '$1 sessions left',
       },
-      dev: 'Developer plan',
     },
     proPlan: {
       welcome: {
