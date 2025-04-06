@@ -6,7 +6,7 @@ const glossary: {
   [key: string]: string
 } = {
   name: 'Ideas Spark Booth',
-  tagline: 'Private & Analyzable Brainstorming Sessions',
+  tagline: 'Private Brainstorming & Retrospective Sessions',
   url: 'www.ideas-spark-booth.com',
   author: 'Aurélien Grimaud',
   license: 'MIT',
