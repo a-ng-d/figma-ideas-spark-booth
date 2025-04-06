@@ -1,7 +1,7 @@
 {
   "name": "figma-ideas-spark-booth",
   "version": "1.2.1-beta.0",
-  "description": "Ideas Spark Booth empowers your team with a powerful FigJam and Slides plugin for conducting focused brainstorming sessions with complete participant privacy",
+  "description": "Ideas Spark Booth is a FigJam plugin that allows your large team to brainstorm secretly and anonymously.",
   "scripts": {
     "start": "npm-run-all -p start:announcements_worker start:auth_lobby start:dev",
     "clone:announcements_worker": "git clone https://github.com/a-ng-d/announcements-yelbolt-worker.git && cd announcements-yelbolt-worker && npm install",
