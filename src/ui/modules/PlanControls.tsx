@@ -7,7 +7,7 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
 import Feature from '../components/Feature'
 
-interface TrialControlsProps {
+interface PlanControlsProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
@@ -16,7 +16,7 @@ interface TrialControlsProps {
   onGetProPlan: () => void
 }
 
-export default class TrialControls extends PureComponent<TrialControlsProps> {
+export default class PlanControls extends PureComponent<PlanControlsProps> {
   static features = (planStatus: PlanStatus) => ({
     ACTIVITIES_RUN: new FeatureStatus({
       features: features,
@@ -30,7 +30,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
     }),
   })
 
-  constructor(props: TrialControlsProps) {
+  constructor(props: PlanControlsProps) {
     super(props)
     this.state = {
       isUserMenuLoading: false,
@@ -46,22 +46,22 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         texts['type--truncated'],
       ])}
     >
-      {(TrialControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
+      {(PlanControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
         0) -
         this.props.sessionCount <=
         0 && <span>{locals[this.props.lang].plan.sessionCount.none}</span>}
-      {(TrialControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
+      {(PlanControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
         0) -
         this.props.sessionCount ===
         1 && <span>{locals[this.props.lang].plan.sessionCount.single}</span>}
-      {(TrialControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
+      {(PlanControls.features(this.props.planStatus).ACTIVITIES_RUN?.limit ??
         0) -
         this.props.sessionCount >
         1 && (
         <span>
           {locals[this.props.lang].plan.sessionCount.plural.replace(
             '$1',
-            (TrialControls.features(this.props.planStatus).ACTIVITIES_RUN
+            (PlanControls.features(this.props.planStatus).ACTIVITIES_RUN
               ?.limit ?? 0) - this.props.sessionCount
           )}
         </span>
@@ -146,7 +146,7 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         <span>{locals[this.props.lang].plan.trialEnded}</span>
       </div>
       <Feature
-        isActive={TrialControls.features(
+        isActive={PlanControls.features(
           this.props.planStatus
         ).SHORTCUTS_FEEDBACK.isActive()}
       >
@@ -156,10 +156,10 @@ export default class TrialControls extends PureComponent<TrialControlsProps> {
         <Button
           type="tertiary"
           label={locals[this.props.lang].plan.trialFeedback}
-          isBlocked={TrialControls.features(
+          isBlocked={PlanControls.features(
             this.props.planStatus
           ).SHORTCUTS_FEEDBACK.isBlocked()}
-          isNew={TrialControls.features(
+          isNew={PlanControls.features(
             this.props.planStatus
           ).SHORTCUTS_FEEDBACK.isNew()}
           action={() =>

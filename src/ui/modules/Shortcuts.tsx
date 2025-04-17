@@ -31,7 +31,7 @@ import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
-import TrialControls from './TrialControls'
+import PlanControls from './PlanControls'
 
 interface ShortcutsProps {
   planStatus: PlanStatus
@@ -56,7 +56,10 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     SHORTCUTS_USER: new FeatureStatus({
       features: features,
@@ -186,7 +189,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
     let fragment = null
 
     if (isTrialEnabled || this.props.trialStatus !== 'UNUSED')
-      fragment = <TrialControls {...this.props} />
+      fragment = <PlanControls {...this.props} />
     else if (
       this.props.planStatus === 'UNPAID' &&
       this.props.trialStatus === 'UNUSED'

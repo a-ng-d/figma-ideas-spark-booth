@@ -192,6 +192,7 @@ export default class App extends PureComponent<
         }
       })
       .catch((error) => console.error(error))
+    
     supabase.auth.onAuthStateChange((event, session) => {
       const actions: ActionsList = {
         SIGNED_IN: () => {
@@ -252,6 +253,7 @@ export default class App extends PureComponent<
       // console.log(event, session)
       return actions[event]?.()
     })
+    
     onmessage = (e: MessageEvent) => {
       try {
         const checkUserAuthentication = async () => {
