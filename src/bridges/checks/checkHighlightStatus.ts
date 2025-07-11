@@ -6,17 +6,23 @@ const checkHighlightStatus = async (remoteVersion: string) => {
   if (localVersion === undefined && remoteVersion === undefined)
     return figma.ui.postMessage({
       type: 'PUSH_HIGHLIGHT_STATUS',
-      data: 'NO_HIGHLIGHT',
+      data: {
+        status: 'NO_HIGHLIGHT',
+      },
     })
   else if (localVersion === undefined && isOnboardingRead === undefined)
     return figma.ui.postMessage({
       type: 'PUSH_ONBOARDING_STATUS',
-      data: 'DISPLAY_ONBOARDING_DIALOG',
+      data: {
+        status: 'DISPLAY_ONBOARDING_DIALOG',
+      },
     })
   else if (localVersion === undefined)
     return figma.ui.postMessage({
       type: 'PUSH_HIGHLIGHT_STATUS',
-      data: 'DISPLAY_HIGHLIGHT_DIALOG',
+      data: {
+        status: 'DISPLAY_HIGHLIGHT_DIALOG',
+      },
     })
   else {
     const remoteMajorVersion = remoteVersion.split('.')[0],
@@ -28,14 +34,25 @@ const checkHighlightStatus = async (remoteVersion: string) => {
     if (remoteMajorVersion !== localMajorVersion)
       return figma.ui.postMessage({
         type: 'PUSH_HIGHLIGHT_STATUS',
-        data: 'DISPLAY_HIGHLIGHT_DIALOG',
+        data: {
+          status: 'DISPLAY_HIGHLIGHT_DIALOG',
+        },
       })
 
     if (remoteMinorVersion !== localMinorVersion)
       return figma.ui.postMessage({
         type: 'PUSH_HIGHLIGHT_STATUS',
-        data: 'DISPLAY_HIGHLIGHT_NOTIFICATION',
+        data: {
+          status: 'DISPLAY_HIGHLIGHT_NOTIFICATION',
+        },
       })
+
+    return figma.ui.postMessage({
+      type: 'PUSH_HIGHLIGHT_STATUS',
+      data: {
+        status: 'NO_HIGHLIGHT',
+      },
+    })
   }
 }
 

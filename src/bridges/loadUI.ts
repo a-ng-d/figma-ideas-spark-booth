@@ -60,14 +60,16 @@ const loadUI = async () => {
     .then(async (activeParticipants) => {
       figma.ui.postMessage({
         type: 'CHECK_USER_AUTHENTICATION',
-        id: figma.currentUser?.id,
         data: {
-          accessToken: await figma.clientStorage.getAsync(
-            'supabase_access_token'
-          ),
-          refreshToken: await figma.clientStorage.getAsync(
-            'supabase_refresh_token'
-          ),
+          id: figma.currentUser?.id,
+          tokens: {
+            accessToken: await figma.clientStorage.getAsync(
+              'supabase_access_token'
+            ),
+            refreshToken: await figma.clientStorage.getAsync(
+              'supabase_refresh_token'
+            ),
+          },
         },
       })
       figma.ui.postMessage({
@@ -96,7 +98,7 @@ const loadUI = async () => {
       })
       figma.ui.postMessage({
         type: 'GET_THUMBNAILS',
-        thumbnails: JSON.parse(figma.root.getPluginData('thumbnails')),
+        data: JSON.parse(figma.root.getPluginData('thumbnails')),
       })
     })
     .then(() => {

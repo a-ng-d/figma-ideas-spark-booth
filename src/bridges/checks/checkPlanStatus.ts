@@ -34,7 +34,7 @@ const checkPlanStatus = async (context = 'UI' as 'UI' | 'PARAMETERS') => {
   }
 
   if (context === 'UI')
-    figma.ui.postMessage({
+    return figma.ui.postMessage({
       type: 'CHECK_PLAN_STATUS',
       data: {
         planStatus:

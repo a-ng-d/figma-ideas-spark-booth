@@ -255,11 +255,13 @@ export default class App extends PureComponent<
     })
     
     onmessage = (e: MessageEvent) => {
+      const path = e.data.pluginMessage
+
       try {
         const checkUserAuthentication = async () => {
           await checkConnectionStatus(
-            e.data.pluginMessage.data.accessToken,
-            e.data.pluginMessage.data.refreshToken
+            path.data.tokens.accessToken,
+            path.data.tokens.refreshToken
           )
         }
 
@@ -272,34 +274,34 @@ export default class App extends PureComponent<
             1000
           )
           this.setState({
-            mustUserConsent: e.data.pluginMessage.mustUserConsent,
-            userConsent: e.data.pluginMessage.userConsent,
+            mustUserConsent: path.data.mustUserConsent,
+            userConsent: path.data.userConsent,
           })
         }
 
         const checkPlanStatus = () =>
           this.setState({
-            planStatus: e.data.pluginMessage.data.planStatus,
-            trialStatus: e.data.pluginMessage.data.trialStatus,
-            trialRemainingTime: e.data.pluginMessage.data.trialRemainingTime,
+            planStatus: path.data.planStatus,
+            trialStatus: path.data.trialStatus,
+            trialRemainingTime: path.data.trialRemainingTime,
           })
 
         const checkCounts = () =>
           this.setState({
-            sessionCount: e.data.pluginMessage.data.sessionCount,
+            sessionCount: path.data.sessionCount,
           })
 
         const checkEditorType = () => {
-          this.setState({ editorType: e.data.pluginMessage.data })
+          this.setState({ editorType: path.data.editor })
           setTimeout(
             () =>
               trackEditorEvent(
-                e.data.pluginMessage.id,
+                path.data.id,
                 this.state.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
                 {
-                  editor: e.data.pluginMessage.data,
+                  editor: path.data.editor,
                 }
               ),
             1000
@@ -309,12 +311,12 @@ export default class App extends PureComponent<
         const handleHighlight = () => {
           this.setState({
             priorityContainerContext:
-              e.data.pluginMessage.data !== 'DISPLAY_HIGHLIGHT_DIALOG'
+              path.data.status !== 'DISPLAY_HIGHLIGHT_DIALOG'
                 ? 'EMPTY'
                 : 'HIGHLIGHT',
             highlight: {
               version: this.state.highlight.version,
-              status: e.data.pluginMessage.data,
+              status: path.data.status,
             },
           })
         }
@@ -322,17 +324,17 @@ export default class App extends PureComponent<
         const handleOnboarding = () => {
           this.setState({
             priorityContainerContext:
-              e.data.pluginMessage.data !== 'DISPLAY_ONBOARDING_DIALOG'
+              path.data.status !== 'DISPLAY_ONBOARDING_DIALOG'
                 ? 'EMPTY'
                 : 'ONBOARDING',
           })
         }
 
         const getActivities = () => {
-          validateActivitiesStructure(e.data.pluginMessage.data)
+          validateActivitiesStructure(path.data)
             .then(() =>
               this.setState({
-                activities: e.data.pluginMessage.data,
+                activities: path.data,
               })
             )
             .catch(() => {
@@ -340,7 +342,7 @@ export default class App extends PureComponent<
                 isCorrupted: true,
               })
               trackFatalErrorEvent(
-                e.data.pluginMessage.data.id,
+                path.data.id,
                 this.state.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
@@ -352,15 +354,14 @@ export default class App extends PureComponent<
         }
 
         const getSessions = () => {
-          const staleSessions: Array<SessionConfiguration> =
-            e.data.pluginMessage.data.filter(
-              (session: SessionConfiguration) => !session.isRunning
-            )
+          const staleSessions: Array<SessionConfiguration> = path.data.filter(
+            (session: SessionConfiguration) => !session.isRunning
+          )
 
-          validateSessionsStructure(e.data.pluginMessage.data)
+          validateSessionsStructure(path.data)
             .then(() =>
               this.setState({
-                sessions: e.data.pluginMessage.data,
+                sessions: path.data,
               })
             )
             .catch(() => {
@@ -368,7 +369,7 @@ export default class App extends PureComponent<
                 isCorrupted: true,
               })
               trackFatalErrorEvent(
-                e.data.pluginMessage.data.id,
+                path.data.id,
                 this.state.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
@@ -386,10 +387,10 @@ export default class App extends PureComponent<
         }
 
         const getIdeas = () => {
-          validateIdeasStructure(e.data.pluginMessage.data)
+          validateIdeasStructure(path.data)
             .then(() =>
               this.setState({
-                ideas: e.data.pluginMessage.data,
+                ideas: path.data,
               })
             )
             .catch(() => {
@@ -397,7 +398,7 @@ export default class App extends PureComponent<
                 isCorrupted: true,
               })
               trackFatalErrorEvent(
-                e.data.pluginMessage.data.id,
+                path.data.id,
                 this.state.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
@@ -410,15 +411,15 @@ export default class App extends PureComponent<
 
         const getActiveParticipants = () =>
           this.setState({
-            activeParticipants: e.data.pluginMessage.data,
+            activeParticipants: path.data,
           })
 
         const getUser = () => {
           this.setState({
-            userIdentity: e.data.pluginMessage.data,
+            userIdentity: path.data,
           })
           trackRunningEvent(
-            e.data.pluginMessage.data.id,
+            path.data.id,
             this.state.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false
           )
@@ -426,16 +427,16 @@ export default class App extends PureComponent<
 
         const getThumbnails = () =>
           this.setState({
-            thumbnails: e.data.pluginMessage.thumbnails,
+            thumbnails: path.data,
           })
 
         const getProPlan = () => {
           this.setState({
-            planStatus: e.data.pluginMessage.data,
+            planStatus: path.data.status,
             priorityContainerContext: 'WELCOME_TO_PRO',
           })
           trackPurchaseEvent(
-            e.data.pluginMessage.id,
+            path.data.id,
             this.state.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false
           )
@@ -448,20 +449,20 @@ export default class App extends PureComponent<
             priorityContainerContext: 'WELCOME_TO_TRIAL',
           })
           trackTrialEnablementEvent(
-            e.data.pluginMessage.id,
+            path.data.id,
             this.state.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
             {
-              date: e.data.pluginMessage.date,
-              trialTime: e.data.pluginMessage.trialTime,
-              trialVersion: e.data.pluginMessage.trialVersion,
+              date: path.data.date,
+              trialTime: path.data.trialTime,
+              trialVersion: path.data.trialVersion,
             }
           )
         }
 
         const countSessions = () =>
           this.setState({
-            sessionCount: e.data.pluginMessage.data.sessionCount,
+            sessionCount: path.data.sessionCount,
           })
 
         const signOut = (data: UserSession) =>
@@ -486,11 +487,11 @@ export default class App extends PureComponent<
           GET_PRO_PLAN: () => getProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
           COUNT_SESSIONS: () => countSessions(),
-          SIGN_OUT: () => signOut(e.data.pluginMessage?.data),
+          SIGN_OUT: () => signOut(path?.data),
           DEFAULT: () => null,
         }
 
-        return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
+        return actions[path?.type ?? 'DEFAULT']?.()
       } catch (error) {
         console.error(error)
       }

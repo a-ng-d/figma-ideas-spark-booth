@@ -17,15 +17,15 @@ const checkUserConsent = async () => {
     })
   )
 
-  figma.ui.postMessage({
+  return figma.ui.postMessage({
     type: 'CHECK_USER_CONSENT',
-    mustUserConsent:
-      currentUserConsentVersion !== userConsentVersion ||
-      currentUserConsentVersion === undefined,
-    userConsent: userConsentData,
+    data: {
+      mustUserConsent:
+        currentUserConsentVersion !== userConsentVersion ||
+        currentUserConsentVersion === undefined,
+      userConsent: userConsentData,
+    },
   })
-
-  return true
 }
 
 export default checkUserConsent
