@@ -1,7 +1,7 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/a-ng-d/figma-ideas-spark-booth?color=informational) ![GitHub last commit](https://img.shields.io/github/last-commit/a-ng-d/figma-ideas-spark-booth?color=informational) ![GitHub](https://img.shields.io/github/license/a-ng-d/figma-ideas-spark-booth?color=informational)
 
 # Ideas Spark Booth
-Ideas Spark Booth empowers your team with a powerful FigJam and Slides plugin for conducting focused brainstorming sessions with complete participant privacy. Drive collective innovation through engaging, purposeful activities designed to unlock your team's creative potential.
+Ideas Spark Booth is a FigJam plugin that allows your large team to brainstorm secretly and anonymously. Drive collective innovation through engaging, purposeful activities designed to unlock your team's creative potential.
 
 This plugin will allow you to:
 - Create tailored engagement activities.
